@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Dashboard</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+
+			<div class="row" >
+				<div class="col-lg-12  " >
+					<div class="container-fluid " >
+						
+							<div class="col-xs-3 form-group " id="applicationCombo">
+								<select id="application" ng-change="validateVersions" ng-model="application" class="form-control form-group">
+									<option value="" selected=selected>Application</option>
+									<option>PMP</option>
+									<option>iwatch</option>
+									<option>CFPR</option>
+									</select>
+							</div>
+							<div class="col-xs-3 form-group " id="releaseCombo">
+							<select
+								class="form-control form-group" id="release">
+								<option value="" >Release</option>
+								<option></option>
+								<option></option>
+								<option></option>
+								<option></option>
+							</select>
+						</div>
+					
+					</div>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+
+
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							
+							<!--  <div class="btn-group  pull-right">
+								<span type="button" class="glyphicon glyphicon-export"
+									data-toggle="dropdown"><span class="caret"></span> </span>
+								<ul class="dropdown-menu" role="menu">
+									<li><a id="ExportPDF1" href="#">Export To PDF</a></li>
+									<li><a id="ExportIMG1" href="#">Export To Image</a></li>
+
+								</ul>
+							</div> 
+							<span class="glyphicon glyphicon-filter pull-right"
+								style="padding-right: 10px;"></span> -->
+
+
+
+
+						</div>
+						<!-- <div class="panel-body" >
+							<div class="flot-chart">
+								<div class="flot-chart-content" id="flot-pie-chart"></div>
+							</div>
+						</div> -->
+						<!-- /.panel-heading -->
+						<div id="flot-pie-chart" ></div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+
+				</div>
+				<div class="col-lg-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							
+							<!-- <div class="btn-group  pull-right">
+								<span type="button" class="glyphicon glyphicon-export"
+									data-toggle="dropdown"><span class="caret"></span> </span>
+								<ul class="dropdown-menu" role="menu">
+									<li><a id="ExportPDF" href="#">Export To PDF</a></li>
+									<li><a id="ExportIMG" href="#">Export To Image</a></li>
+
+								</ul>
+							</div>
+							<span class="glyphicon glyphicon-filter pull-right"
+								style="padding-right: 10px;"></span> -->
+						</div>
+						<!-- /.panel-heading -->
+						<!-- <div class="panel-body">
+							<div class="flot-chart">
+								<div class="flot-chart-content" id="flot-pie-chart2"></div>
+							</div>
+						</div> -->
+						<!-- /.panel-body -->
+						<div id="manual-pie-chart" ></div>
+					</div>
+					<!-- /.panel -->
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							
+							<!-- <div class="btn-group  pull-right">
+								<span type="button" class="glyphicon glyphicon-export"
+									data-toggle="dropdown"><span class="caret"></span> </span>
+								<ul class="dropdown-menu" role="menu">
+									<li><a id="ExportPDF" href="#">Export To PDF</a></li>
+									<li><a id="ExportIMG" href="#">Export To Image</a></li>
+
+								</ul>
+							</div>
+							<span class="glyphicon glyphicon-filter pull-right"
+								style="padding-right: 10px;"></span> -->
+						</div>
+						<!-- /.panel-heading -->
+						<!-- <div class="panel-body">
+							<div class="flot-chart">
+								<div class="flot-chart-content" id="flot-pie-chart3"></div>
+							</div>
+						</div> -->
+						<!-- /.panel-body -->
+						<div id="automation-pie-chart" ></div>
+					</div>
+					<!-- /.panel -->
+
+				</div>
+				<div class="col-lg-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							
+							<!-- <div class="btn-group  pull-right">
+								<span type="button" class="glyphicon glyphicon-export"
+									data-toggle="dropdown"><span class="caret"></span> </span>
+								<ul class="dropdown-menu" role="menu">
+									<li><a id="ExportPDF" href="#">Export To PDF</a></li>
+									<li><a id="ExportIMG" href="#">Export To Image</a></li>
+
+								</ul>
+							</div>
+							<span class="glyphicon glyphicon-filter pull-right"
+								style="padding-right: 10px;"></span> -->
+						</div>
+						<!-- /.panel-heading -->
+						<!-- <div class="panel-body">
+							<div class="flot-chart">
+								<div class="flot-chart-content" id="flot-pie-chart4"></div>
+							</div>
+						</div> -->
+						<!-- /.panel-body -->
+						<div id="opendefect-pie-chart" ></div>
+					</div>
+					<!-- /.panel -->
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+						<!-- 
+							<div class="btn-group  pull-right">
+								<span type="button" class="glyphicon glyphicon-export"
+									data-toggle="dropdown"><span class="caret"></span> </span>
+								<ul class="dropdown-menu" role="menu">
+									<li><a id="ExportPDF" href="#">Export To PDF</a></li>
+									<li><a id="ExportIMG" href="#">Export To Image</a></li>
+
+								</ul>
+							</div>
+							<span class="glyphicon glyphicon-filter pull-right"
+								style="padding-right: 10px;"></span> -->
+						</div>
+						<!-- /.panel-heading -->
+						<!-- <div class="panel-body">
+							<div class="flot-chart">
+								<div class="flot-chart-content" id="flot-pie-chart5"></div>
+							</div>
+						</div> -->
+						<!-- /.panel-body -->
+						<div id="overall-pie-chart" ></div>
+					</div>
+					<!-- /.panel -->
+
+				</div>
+			<!-- 	<div class="col-lg-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							Pie Chart Example
+							<div class="btn-group  pull-right">
+								<span type="button" class="glyphicon glyphicon-export"
+									data-toggle="dropdown"><span class="caret"></span> </span>
+								<ul class="dropdown-menu" role="menu">
+									<li><a id="ExportPDF" href="#">Export To PDF</a></li>
+									<li><a id="ExportIMG" href="#">Export To Image</a></li>
+
+								</ul>
+							</div>
+							<span class="glyphicon glyphicon-filter pull-right"
+								style="padding-right: 10px;"></span>
+						</div>
+						/.panel-heading
+						<div class="panel-body">
+							<div class="flot-chart">
+								<div class="flot-chart-content" id="flot-pie-chart6"></div>
+							</div>
+						</div>
+						/.panel-body
+					</div>
+					/.panel
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							Pie Chart Example
+							<div class="btn-group  pull-right">
+								<span type="button" class="glyphicon glyphicon-export"
+									data-toggle="dropdown"><span class="caret"></span> </span>
+								<ul class="dropdown-menu" role="menu">
+									<li><a id="ExportPDF" href="#">Export To PDF</a></li>
+									<li><a id="ExportIMG" href="#">Export To Image</a></li>
+
+								</ul>
+							</div>
+							<span class="glyphicon glyphicon-filter pull-right"
+								style="padding-right: 10px;"></span>
+						</div>
+						/.panel-heading
+						<div class="panel-body">
+							<div class="flot-chart">
+								<div class="flot-chart-content" id="flot-pie-chart7"></div>
+							</div>
+						</div>
+						/.panel-body
+					</div>
+					/.panel
+
+				</div>
+
+			</div> -->
+
+
+
+
+		</div>
+		<!-- /#page-wrapper -->
+
+
+	<!-- /#wrapper -->
+
+
+	<!--  EXPORT PDF Model Popup start -->
+
+
+
+	<!-- Model popup end-->
+
+
+
+	
+</body>
+
+</html>

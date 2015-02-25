@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Daily Status Report</title>
+	
+</head>
+<body>
+	 <div >
+   
+       
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Daily Status Report</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            
+          
+            
+<style>
+table, td  {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd)	{
+  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+</style>  
+<div ng-controller="dailystatuscontroller">
+<div id="top">
+
+<div class="tcsGrid" style="width: 50%; float: left;">
+    <br> <br><br>
+           <table class=table>
+ <thead>
+  <tr>
+     <th>Status</th>
+     <th>Count</th>
+     <th>Percentage</th>
+  </tr>
+ </thead>
+ 
+ <tbody>
+  <tr ng-repeat="user in tcstatus">
+     <td>{{user.status}}</td>
+     <td>{{user.count}}</td>
+     <td>{{user.percentage}}</td>
+  </tr>
+  <tr>
+     <td>{{user.status}}</td>
+     <td>{{user.count}}</td>
+     <td>{{user.percentage}}</td>
+  </tr>
+ </tbody>
+</table>
+</div>
+
+<div id="tcsChart" ng-init="plottcsChart()" style="float: right; width: 48%">
+</div>
+</div>
+<div id="middle">
+<div class="dsGrid" style="width: 100%;">
+    
+           <table class=table>
+ <thead>
+  <tr>
+     <th>Status/Severity</th>
+     <th>1-Urgent</th>
+     <th>2-High</th>
+     <th>3-Medium</th>
+     <th>4-Low</th>
+     <th>Total Defects</th>
+  </tr>
+ </thead>
+ 
+ <tbody>
+  <tr ng-repeat="user in names">
+     <td>{{user.statusSeverity}}</td>
+     <td>{{user.urgent}}</td>
+     <td>{{user.high}}</td>
+     <td>{{user.medium}}</td>
+     <td>{{user.low}}</td>
+     <td>{{user.total}}</td>
+  </tr>
+  <tr>
+     <td>{{user.statusSeverity}}</td>
+     <td>{{user.urgent}}</td>
+     <td>{{user.high}}</td>
+     <td>{{user.medium}}</td>
+     <td>{{user.low}}</td>
+     <td>{{user.total}}</td>
+  </tr>
+ </tbody>
+</table>
+</div>
+</div>
+<div id="bottom">
+<div id="statusWise" ng-init="plotstatusWiseChart()" style="float: left; height: 15%; width: 49%">
+
+
+</div>
+
+<div id="severityWise" ng-init="plotseverityWiseChart()" style="float: right; height: 50%; width: 50%">
+
+
+</div>
+
+        </div>
+	 </div>
+	 
+
+</body>
+</html>

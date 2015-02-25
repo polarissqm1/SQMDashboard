@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="dashboardApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>ES Guvnor</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/stylesheet.css">
+    <!-- MetisMenu CSS -->
+<link href="js/components/metisMenu/dist/metisMenu.min.css"
+	rel="stylesheet">
+
+<!-- Timeline CSS -->
+<link href="js/components/dist/css/timeline.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="js/components/dist/css/sb-admin-2.css" rel="stylesheet">
+
+<!-- Morris Charts CSS -->
+<link href="js/components/morrisjs/morris.css" rel="stylesheet">
+
+<!-- Custom Fonts -->
+<link href="js/components/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+	
+    
+    <style>
+    	
+    </style>
+</head>
+
+<body>
+
+
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0">
+		<div class="navbar-header">
+
+			<a class="navbar-brand" href="index.html">SQM - Dashboard</a>
+		</div>
+
+	</nav>
+	<div ng-controller="navigationController">
+   
+    <div class="row" style="height:100%; padding-left:15px">
+        <div class="col-xs-2 table-bordered" style="height: 800px;padding-left: 1px;
+padding-right: 1px;">
+            <tabset vertical="true" type="pills">
+                <tab ng-repeat="tab in tabList" heading="{{tab.displayLabel}}" 
+                ng-click="loadView(tab.href)" >
+				<ul class="nav nav-stacked" ng-if="tab.hasSubMenu">
+					<li ng-class="{dropdown: subMenuItems}"
+						ng-repeat="submenu in subMenuItems"><a
+						href="{{submenu.href}}" data-toggle="dropdown"
+						ng-class="{'dropdown-toggle': submenu.displayLabel}"><i
+							class="glyphicon glyphicon-chevron-right"></i> {{submenu.displayLabel}}</a>
+
+					</li>
+				</ul>
+				</tab>
+            </tabset>
+        </div>
+        <div class="col-xs-9">
+            <div class="slide-animation">
+                <ng-view autoscroll=true></ng-view>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery-2.1.1.min.js"></script>
+<!--<script src="js/bootstrap.js"></script>-->
+
+<script src="js/angular/angular.js"></script>
+<script src="js/angular/angular-animate.js"></script>
+<script src="js/angular/angular-route.js"></script>
+<script src="js/angular/ng-table.js"></script>
+<!-- Bootstrap UI -->
+<script src="js/angular/ui-bootstrap-tpls-0.11.0.js"></script>
+<!-- Bootstrap Core JavaScript -->
+	<script src="js/components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<!-- Metis Menu Plugin JavaScript -->
+	<script src="js/components/metisMenu/dist/metisMenu.min.js"></script>
+
+	
+	<!-- Flot Charts JavaScript -->
+	<script src="js/components/flot/excanvas.min.js"></script>
+	<script src="js/components/flot/jquery.flot.js"></script>
+	<script src="js/components/flot/jquery.flot.pie.js"></script>
+	<script src="js/components/flot/jquery.flot.resize.js"></script>
+	<script src="js/components/flot/jquery.flot.time.js"></script>
+	<script src="js/components/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+	<script src="js/components/highcharts.js"></script>
+	<script src="js/components/exporting.js"></script>
+	
+	
+	
+	<!-- Custom Theme JavaScript -->
+	<script src="js/components/sb-admin-2.js"></script>
+
+<!-- App Specific js files -->
+<script src="js/sqmDash/dashboard.js"></script>
+
+<!-- controllers -->
+<script src="js/sqmDash/navigation/navigationController.js"></script>
+<script src="js/sqmDash/landing/dashboardController.js"></script>
+<script src="js/sqmDash/reports/dailystatuscontroller.js"></script>
+
+
+</body></html>
