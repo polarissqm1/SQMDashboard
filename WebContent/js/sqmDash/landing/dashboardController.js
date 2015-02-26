@@ -4,9 +4,9 @@
  */
 
 	dashboardApp.controller('dashboardController', function($scope, $http, $filter, $log,$rootScope) {
-
+		
 		$log.log('dashboardController controller is initialized');
-
+		$scope.enableChart=false;
 		/**
 		 * Dashboard Controller
 		 */
@@ -36,7 +36,7 @@
 		function validateVersions(){
 
 			var appValue=$("#application").val();
-			
+						
 			var elem1 = document.getElementById('release');
 			if(appValue=="PMP"){
 				
@@ -47,15 +47,22 @@
 				elem1.options[1]=new Option("iwatchRelease1");
 		    	elem1.options[2]=new Option("iwatchRelease2");
 				
-			}else{
+			}else if(appValue=="CFPR"){
 				elem1.options[1]=new Option("cfprRelease1");
 		    	elem1.options[2]=new Option("cfprRelease2");
+			}else{
+				elem1=null;
 			}
 			
 		}
 
 		function plotCharts(){
-			
+			if($("#application").val() || $("#release").val() ){
+				$scope.enableChart=true;
+			}
+			else{
+				$scope.enableChart=false;
+			}
 			
 			var selectedProjectName = $("#application").val();
 			var selectedReleaseName = $("#release").val();
