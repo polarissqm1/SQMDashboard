@@ -89,13 +89,12 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                         type: 'pie',
                         /*name: 'Browser share',*/
                         data: [
-                            ['Passed',   parseInt($scope.tcstatus[0].count)],
-                            ['Failed',       parseInt($scope.tcstatus[1].count)],
-                            
-                            ['Not Run',   parseInt($scope.tcstatus[2].count)],
-                            ['N/A',     parseInt($scope.tcstatus[3].count)],
-                            ['Deferred',   parseInt($scope.tcstatus[4].count)],
-                            ['Blocked',   parseInt($scope.tcstatus[5].count)]
+                            [$scope.tcstatus[0].status,   parseInt($scope.tcstatus[0].percentage)],
+                            [$scope.tcstatus[1].status,       parseInt($scope.tcstatus[1].percentage)],
+                            [$scope.tcstatus[2].status,   parseInt($scope.tcstatus[2].percentage)],
+                            [$scope.tcstatus[3].status,     parseInt($scope.tcstatus[3].percentage)],
+                            [$scope.tcstatus[4].status,   parseInt($scope.tcstatus[4].percentage)],
+                            [$scope.tcstatus[5].status,   parseInt($scope.tcstatus[5].percentage)]
                            
                         ]
                     }]
@@ -128,11 +127,11 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                         type: 'pie',
                         /*name: 'Browser share',*/
                         data: [
-                            ['Open/New/Reopened/Assigned',    parseInt($scope.names[0].total)],
-                            ['Fixed/Ready for Re-test',       parseInt($scope.names[1].total)],
-                            ['Closed',    parseInt($scope.names[2].total)],
-                            ['Duplicate/Rejected',     parseInt($scope.names[3].total)],
-                            ['Deferred',  parseInt($scope.names[4].total)]
+                            [$scope.names[0].statusSeverity,    parseInt($scope.names[0].total)],
+                            [$scope.names[1].statusSeverity,       parseInt($scope.names[1].total)],
+                            [$scope.names[2].statusSeverity,    parseInt($scope.names[2].total)],
+                            [$scope.names[3].statusSeverity,     parseInt($scope.names[3].total)],
+                            [$scope.names[4].statusSeverity,  parseInt($scope.names[4].total)]
                         ]
                     }]
                 });
