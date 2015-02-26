@@ -3,11 +3,11 @@
  */
 
 dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScope) {
-	alert($rootScope.selectedProjectName +'----------------'+
-			$rootScope.selectedReleaseName );
+/*	alert($rootScope.selectedProjectName +'----------------'+
+			$rootScope.selectedReleaseName );*/
   	$scope.tcstatus ='';
 	$scope.names ='';
-        	$scope.tcstatus1 = $http.get("dash/dashboard/getLandingInfo?projectName=CFPR&releaseName=cfprRelease1").success(function(response){
+        	$scope.tcstatus1 = $http.get("dash/dashboard/getLandingInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName).success(function(response){
         		//alert(JSON.stringify(response.entity.statusAndSeverityVO));
         		$scope.tcstatus =response.entity.testCaseExecutionStatusVO;
         		$scope.names =response.entity.statusAndSeverityVO;   

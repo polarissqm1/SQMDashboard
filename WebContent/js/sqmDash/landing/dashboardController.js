@@ -107,8 +107,8 @@
 						},
 						credits : {
 							enabled : !0,
-							text : "JPMorgan",
-							href : "http://www.jpmorganchase.com/",
+							/*text : "JPMorgan",
+							href : "http://www.jpmorganchase.com/",*/
 							position : {
 								align : "right",
 								x : -10,
@@ -180,8 +180,8 @@
 						},
 						credits : {
 							enabled : !0,
-							text : "JPMorgan",
-							href : "http://www.jpmorganchase.com/",
+							/*text : "JPMorgan",
+							href : "http://www.jpmorganchase.com/",*/
 							position : {
 								align : "right",
 								x : -10,
@@ -253,8 +253,8 @@
 						},
 						credits : {
 							enabled : !0,
-							text : "JPMorgan",
-							href : "http://www.jpmorganchase.com/",
+							/*text : "JPMorgan",
+							href : "http://www.jpmorganchase.com/",*/
 							position : {
 								align : "right",
 								x : -10,
@@ -325,8 +325,8 @@
 						},
 						credits : {
 							enabled : !0,
-							text : "JPMorgan",
-							href : "http://www.jpmorganchase.com/",
+							/*text : "JPMorgan",
+							href : "http://www.jpmorganchase.com/",*/
 							position : {
 								align : "right",
 								x : -10,
@@ -395,8 +395,8 @@
 						},
 						credits : {
 							enabled : !0,
-							text : "JPMorgan",
-							href : "http://www.jpmorganchase.com/",
+							/*text : "JPMorgan",
+							href : "http://www.jpmorganchase.com/",*/
 							position : {
 								align : "right",
 								x : -10,

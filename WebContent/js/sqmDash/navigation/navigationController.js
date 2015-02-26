@@ -17,10 +17,10 @@ dashboardApp.controller('navigationController', function($scope, $location, $rou
    		{displayLabel : 'Daily Status Report', href : '/producerList', tabIndex : '', type : 'submenu'},
    		{displayLabel : 'Reporting & Metrics', href : '/producerList', tabIndex : '', type : 'submenu'}
 	]},
-	{displayLabel : 'Reports', href : '/reportsMonitoring', tabIndex : '3', hasSubMenu :   true, subMenuItems : [
+	/*{displayLabel : 'Reports', href : '/reportsMonitoring', tabIndex : '3', hasSubMenu :   true, subMenuItems : [
 			{displayLabel : 'Admin List', href : '/producerList', tabIndex : '', type : 'submenu'},
 			{displayLabel : 'User List', href : '/producerList', tabIndex : '', type : 'submenu'}
-	]},
+	]},*/
 	{displayLabel : 'Logout', href : '/generalView', tabIndex : '4', hasSubMenu : false}
 
 
