@@ -9,12 +9,15 @@ import java.util.List;
 
 
 
+
+
 import com.sqm.dashboard.VO.UserVO;
 import com.sqm.dashboard.service.DashboardService;
 import com.sqm.dashboard.service.UserService;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -33,7 +36,7 @@ import javax.ws.rs.core.Response;
 public class DashboardController {
 
 	
-	private static final Log log = LogFactory.getLog(DashboardController.class);
+	static final Logger log=Logger.getLogger(DashboardController.class);
 	@Autowired
 	private DashboardService dashboardService;
 
@@ -43,13 +46,24 @@ public class DashboardController {
 	@RequestMapping(value = "/getLandingInfo", method = RequestMethod.GET )
 	public @ResponseBody Response  getLandingInfo(@RequestParam(value="projectName") String project,
 			@RequestParam(value="releaseName") String release){
+		
+		try{
+		
 		System.out.println(project+""+release);
 		
 		System.out.println("Inside getLandingInfo method >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		
 		log.debug(dashboardService);
 		return dashboardService.getLandingInfo(project,release);
-    	
+           } 
+		
+		catch (Exception e) {
+			
+			log.error("Error ocurred in projects data: ",e);
+			project=null;
+		}
+		
+		return null;
 	}
 
 }

@@ -18,12 +18,14 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
 
-        
+        <bean id="placeholder-configurer-1" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+     <property name="location" value="classpath:db.properties"/>
+        </bean>
         <!-- MongoBD Database configuration host and port -->
-        <mongo:mongo host="172.23.16.28" port="27017" />
+        <mongo:mongo host="${db.host.url}" port="${db.port.number}" />
         
         <!-- Define the mongoDbFactory with your database Name  -->
-		<mongo:db-factory dbname="local" />
+		<mongo:db-factory dbname="${db.service.name}" />
  
  		<!-- Define the MongoTemplate  -->
 		<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">

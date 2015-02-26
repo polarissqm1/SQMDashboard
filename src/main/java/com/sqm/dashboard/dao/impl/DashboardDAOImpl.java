@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.google.gson.Gson;
@@ -14,7 +15,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-
 import com.sqm.dashboard.VO.AutomationVO;
 import com.sqm.dashboard.VO.DashboardVO;
 import com.sqm.dashboard.VO.EffortsVO;
@@ -22,13 +22,16 @@ import com.sqm.dashboard.VO.ManualVO;
 import com.sqm.dashboard.VO.SeverityVO;
 import com.sqm.dashboard.VO.StatusAndSeverityVO;
 import com.sqm.dashboard.VO.TestCaseExecutionStatusVO;
+import com.sqm.dashboard.controller.DashboardController;
 import com.sqm.dashboard.dao.DashboardDAO;
 @Repository
 public class DashboardDAOImpl implements DashboardDAO {
 
 	@Override
-	public Response getLandingInfo(String project,String release) {
+	public Response getLandingInfo(String project,String release) throws UnknownHostException {
 		// TODO Auto-generated method stub
+		
+		final Logger log=Logger.getLogger(DashboardController.class);
 		 DBCursor cursor = null;
 		 DashboardVO dashVO=new DashboardVO();
 		 Response.ResponseBuilder response = Response.ok(dashVO);
@@ -41,7 +44,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 			 System.out.println("Connect to database successfully");
 			 
 			 
-			
+			 log.info("DAO Layer");
 				
 					DBCollection table = db.getCollection("alm");
 					BasicDBObject searchQuery = new BasicDBObject();
@@ -75,7 +78,9 @@ public class DashboardDAOImpl implements DashboardDAO {
 					}
 				}catch (UnknownHostException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					
+					log.debug("DAO Layer");
+					throw e;
 				}
 			 finally {
 					cursor.close();
