@@ -77,8 +77,8 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                             showInLegend : true,
                             cursor: 'pointer',
                             dataLabels: {
-                                enabled: false,
-                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                enabled: true,
+                                format: '{point.percentage:.1f} %',
                                 style: {
                                     color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                                 }
@@ -119,7 +119,8 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                             showInLegend : true,
                             cursor: 'pointer',
                             dataLabels: {
-                                enabled: false
+                            	enabled: true,
+                                format: '{point.percentage:.1f} %',
                             }
                         }
                     },
@@ -154,7 +155,8 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                             showInLegend : true,
                             cursor: 'pointer',
                             dataLabels: {
-                                enabled: false
+                            	enabled: true,
+                                format: '{point.percentage:.1f} %',
                             }
                         }
                     },
