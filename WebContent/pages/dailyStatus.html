@@ -9,11 +9,20 @@
 	 <div >
    
        
-            <div class="row">
+           <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Daily Status Report</h1>
-                </div>
+                    <h2 class="page-header">Daily Status Report</h2>
+                    </div  >
+                 
+                 </div>
+            <div class="row"> 
+            <div class="col-lg-3">    
+            <h5><b> Date:{{getDatetime | date:'yyyy-MMM-dd'}} </b></h5>
+                 <h5 ><b> Application: {{selectedProjectName}} </b></h5>
+                 <h5 ><b> Release: {{selectedReleaseName}}</b></h5>
+                 </div>
                 <!-- /.col-lg-12 -->
+            </div>
             </div>
             
           

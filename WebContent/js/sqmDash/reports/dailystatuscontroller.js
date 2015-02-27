@@ -102,6 +102,8 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
             	
         }
             
+            $scope.getDatetime = new Date;
+            
             $scope.plotstatusWiseChart = function(){
             	$('#statusWise').highcharts({
                     chart: {
