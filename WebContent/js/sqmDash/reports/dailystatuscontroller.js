@@ -62,6 +62,9 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
         	            ];*/
            
             $scope.plottcsChart = function(){
+            	Highcharts.setOptions({
+            		colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69']
+            	});
             	$('#tcsChart').highcharts({
                     chart: {
                         plotBackgroundColor: null,
@@ -105,6 +108,9 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
             $scope.getDatetime = new Date;
             
             $scope.plotstatusWiseChart = function(){
+            	Highcharts.setOptions({
+            		colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69']
+            	});
             	$('#statusWise').highcharts({
                     chart: {
                         plotBackgroundColor: null,
@@ -141,6 +147,9 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
         }
             
             $scope.plotseverityWiseChart = function(){
+            	Highcharts.setOptions({
+            		colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69']
+            	});
             	$('#severityWise').highcharts({
                     chart: {
                         plotBackgroundColor: null,

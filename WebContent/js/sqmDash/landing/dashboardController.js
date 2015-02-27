@@ -85,11 +85,11 @@
 
 		function plotRagChart()
 		{
-
 			var arr=[["Red",20],
 			         ["Amber",30],
 			         ["Green",25]
 			];
+			
 			$('#flot-pie-chart')
 			.highcharts(
 					{
@@ -121,8 +121,7 @@
 								fontSize : "9px"
 							}
 						},
-						colors : [ '#4B610B', '#8A0829', '#084B8A', '#B45F04',
-								'#2E9AFE', '#4B088A' ],
+						colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69'],
 						title : {
 							text : 'RAG'
 							/*style: {
@@ -194,8 +193,7 @@
 								fontSize : "9px"
 							}
 						},
-						colors : [ '#4B610B', '#8A0829', '#084B8A', '#B45F04',
-								'#2E9AFE', '#4B088A' ],
+						colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69'],
 						title : {
 							text : 'Manual Execution status'
 							/*style: {
@@ -267,8 +265,7 @@
 								fontSize : "9px"
 							}
 						},
-						colors : [ '#4B610B', '#8A0829', '#084B8A', '#B45F04',
-								'#2E9AFE', '#4B088A' ],
+						colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69'],
 						title : {
 							text : 'Automated Execution status'
 							/*style: {
@@ -339,8 +336,7 @@
 								fontSize : "9px"
 							}
 						},
-						colors : [ '#4B610B', '#8A0829', '#084B8A', '#B45F04',
-								'#2E9AFE', '#4B088A' ],
+						colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69'],
 						title : {
 							text : 'Open Defect status'
 							/*style: {
@@ -409,8 +405,7 @@
 								fontSize : "9px"
 							}
 						},
-						colors : [ '#4B610B', '#8A0829', '#084B8A', '#B45F04',
-								'#2E9AFE', '#4B088A' ],
+						colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69'],
 						title : {
 							text : 'OverAll Distribution'
 							/*style: {
