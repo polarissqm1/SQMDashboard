@@ -15,7 +15,7 @@
 		$(document).ready(function() {
 
 			$("#applicationCombo").on("change", "#application", function(event) {
-				
+				$rootScope.selectedProjectName = $("#application").val();
 				validateVersions();
 				
 				
@@ -23,16 +23,30 @@
 			});
 			$("#releaseCombo").on("change", "#release", function(event) {
 				//alert("Hi");
+				$rootScope.selectedReleaseName = $("#release").val();
 				plotCharts();
 				
 			});
 			
 
-
-
-
 		});
-
+		
+		$scope.init =$http.get("dash/dashboard/getLandingInfo?projectName=" + $rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName)
+		 .success(function(response){
+			 if($("#application").val() || $("#release").val() ){
+					$scope.enableChart=true;
+				}
+				else{
+					$scope.enableChart=false;
+				}
+			 plotRagChart();
+			 plotManualChart(response.entity.manualVO);
+			 plotAutomatedChart(response.entity.automationVO);
+			 plotDefectStatusChart(response.entity.severityVO);
+			 plotDistributionChart(response.entity.effortsVO);
+			 
+		 });
+		
 		function validateVersions(){
 
 			var appValue=$("#application").val();
@@ -70,7 +84,7 @@
 			$rootScope.selectedReleaseName = $("#release").val();
 			//alert(selectedProjectName+" "+selectedReleaseName);
 			
-			 $http.get("dash/dashboard/getLandingInfo?projectName=" + selectedProjectName+"&releaseName="+selectedReleaseName)
+			 $http.get("dash/dashboard/getLandingInfo?projectName=" + $rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName)
 			 .success(function(response){
 				 plotRagChart();
 				 plotManualChart(response.entity.manualVO);

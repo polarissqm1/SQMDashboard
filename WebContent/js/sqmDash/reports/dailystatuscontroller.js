@@ -5,8 +5,37 @@
 dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScope) {
 /*	alert($rootScope.selectedProjectName +'----------------'+
 			$rootScope.selectedReleaseName );*/
+	$(document).ready(function() {
+		
+		$("#applicationCombo").on("change", "#application", function(event) {
+			$rootScope.selectedProjectName = $("#application").val();
+			
+			$scope.renderChart();
+			
+		});
+		$("#releaseCombo").on("change", "#release", function(event) {
+			//alert("Hi");
+			$rootScope.selectedReleaseName = $("#release").val();
+			
+			$scope.renderChart();
+			
+		});
+
+	});
+	$scope.tcstatus1 = $http.get("dash/dashboard/getLandingInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName).success(function(response){
+		//alert(JSON.stringify(response.entity.statusAndSeverityVO));
+		$scope.tcstatus =response.entity.testCaseExecutionStatusVO;
+		$scope.names =response.entity.statusAndSeverityVO;   
+
+		//$scope.check();
+		 $scope.plottcsChart(); 
+		 $scope.plotstatusWiseChart();
+		 $scope.plotseverityWiseChart();
+		
+	});
   	$scope.tcstatus ='';
 	$scope.names ='';
+	$scope.renderChart = function(){
         	$scope.tcstatus1 = $http.get("dash/dashboard/getLandingInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName).success(function(response){
         		//alert(JSON.stringify(response.entity.statusAndSeverityVO));
         		$scope.tcstatus =response.entity.testCaseExecutionStatusVO;
@@ -18,6 +47,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
         		 $scope.plotseverityWiseChart();
         		
         	});
+	}
             
         	/*$scope.check=function(){
         		alert(JSON.stringify($scope.names));
