@@ -12,6 +12,7 @@ public class DashboardVO implements Serializable {
 	private AutomationVO automationVO;
 	private SeverityVO severityVO;
 	private EffortsVO effortsVO;
+	private RagVO ragVO;
 	private List<StatusAndSeverityVO> statusAndSeverityVO;
 	private List<TestCaseExecutionStatusVO> testCaseExecutionStatusVO;
 	/*public String getDomain() {
@@ -69,12 +70,23 @@ public class DashboardVO implements Serializable {
 			List<TestCaseExecutionStatusVO> testCaseExecutionStatusVO) {
 		this.testCaseExecutionStatusVO = testCaseExecutionStatusVO;
 	}
+	
+	
+	
+	public RagVO getRagVO() {
+		return ragVO;
+	}
+	public void setRagVO(RagVO ragVO) {
+		this.ragVO = ragVO;
+	}
+	
 	@Override
 	public String toString() {
 		return "DashboardVO [manualVO=" + manualVO + ", automationVO="
 				+ automationVO + ", severityVO=" + severityVO + ", effortsVO="
 				+ effortsVO + ", statusAndSeverityVO=" + statusAndSeverityVO
 				+ ", testCaseExecutionStatusVO=" + testCaseExecutionStatusVO
+				+ ", ragVO=" + ragVO
 				+ "]";
 	}
 	

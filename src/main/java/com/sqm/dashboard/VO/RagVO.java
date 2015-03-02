@@ -1,15 +1,18 @@
 package com.sqm.dashboard.VO;
 
+import java.util.Date;
+
 public class RagVO {
 
-	private String status;
+	private String Status;
 	private String user;
-	private String date;
+
+	
 	public String getStatus() {
-		return status;
+		return Status;
 	}
 	public void setStatus(String status) {
-		this.status = status;
+		Status = status;
 	}
 	public String getUser() {
 		return user;
@@ -17,16 +20,11 @@ public class RagVO {
 	public void setUser(String user) {
 		this.user = user;
 	}
-	public String getDate() {
-		return date;
-	}
-	public void setDate(String date) {
-		this.date = date;
-	}
+	
 	
 	@Override
 	public String toString() {
-		return "RagVO [status=" + status + ", user=" + user
-				+ ", date=" + date + "]";
+		return "RagVO [status=" + Status + ", user=" + user
+				+ "]";
 	}
 }
