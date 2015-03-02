@@ -5,7 +5,8 @@
 	debug="true">
 
 	<appender name="rollingFileAppender" class="org.apache.log4j.RollingFileAppender"> 
-		<param name="File" value="D://Anil//Dashboard.log"/> 
+		 <param name="File" value="D://SQM//logs//Dashboard.log"/> 
+		<!-- <param name="File" value="${catalina.base}/logs/Dashboard.log"/>   -->
 		<param name="MaxBackupIndex" value="10"/> 
 		<param name="MaxFileSize" value="10MB"/> 
 		<param name="Append" value="true"/>

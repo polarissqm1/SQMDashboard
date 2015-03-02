@@ -49,21 +49,22 @@ public class DashboardController {
 		
 		try{
 		
-		System.out.println(project+""+release);
+		log.info("project :"+project);
+		log.info("Release :"+release);
 		
-		System.out.println("Inside getLandingInfo method >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		log.info("Inside getLandingInfo method :");
 		
-		log.debug(dashboardService);
+		//log.debug(dashboardService);
 		return dashboardService.getLandingInfo(project,release);
            } 
 		
 		catch (Exception e) {
 			
-			log.error("Error ocurred in projects data: ",e);
-			project=null;
+			log.error("Exception ocurred : ",e);
+			return null;
 		}
 		
-		return null;
+		
 	}
 
 }

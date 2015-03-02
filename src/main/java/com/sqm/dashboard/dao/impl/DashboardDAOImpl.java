@@ -41,17 +41,19 @@ public class DashboardDAOImpl implements DashboardDAO {
 				clientDb = new MongoClient("172.23.16.28", 27017);
 			
 		  DB db = clientDb.getDB("sqmdb");
-			 System.out.println("Connect to database successfully");
+			 /*System.out.println("Connect to database successfully");*/
 			 
-			 
+			 log.info("Connect to database successfully");
 			 log.info("DAO Layer");
 				
 					DBCollection table = db.getCollection("alm");
+					log.info("Connect to collection alm successfully");
 					BasicDBObject searchQuery = new BasicDBObject();
 				
 					searchQuery.put("domain", "posttrade");
 					searchQuery.put("projects", project);
 					searchQuery.put("release", release);
+					log.debug(searchQuery.toString());
 					cursor = table.find(searchQuery);
 					while (cursor.hasNext()) {
 						DBObject report =cursor.next();
@@ -73,7 +75,13 @@ public class DashboardDAOImpl implements DashboardDAO {
 						dashVO.setStatusAndSeverityVO(statusVO);
 						dashVO.setTestCaseExecutionStatusVO(testCaseVO);
 						
-						
+						log.debug("Response form Mongo :");
+						log.debug("manualVO :"+ dashVO.getManualVO());
+						log.debug("automationVO :"+ dashVO.getAutomationVO());
+						log.debug("effortsVO :"+ dashVO.getEffortsVO());
+						log.debug("severityVO :"+ dashVO.getSeverityVO());
+						log.debug("StatusAndSeverityVO :"+ dashVO.getStatusAndSeverityVO());
+						log.debug("TestCaseExecutionStatusVO :"+ dashVO.getTestCaseExecutionStatusVO());
 						
 					}
 				}catch (UnknownHostException e) {

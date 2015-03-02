@@ -45,14 +45,8 @@ public class DashboardServiceImpl implements DashboardService{
 	         System.out.println("Access element three :" + a[3]);*/
 			
 			
-		Gson gson=new Gson();
-		System.out.println(dashboardDAO.getLandingInfo(project,release).toString());
+			return dashboardDAO.getLandingInfo(project,release);
 		
-	Set ss=	dashboardDAO.getLandingInfo(project,release).getMetadata().keySet();
-		Iterator itr=ss.iterator();
-		while(itr.hasNext()){
-			System.out.println(itr.next());
-		}
 		}
 		
 		catch (Exception e) {
@@ -62,7 +56,7 @@ public class DashboardServiceImpl implements DashboardService{
 		}
 	
 		
-		return dashboardDAO.getLandingInfo(project,release);
+		
 	}
 
 }
