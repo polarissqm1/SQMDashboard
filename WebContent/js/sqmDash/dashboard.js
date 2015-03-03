@@ -16,6 +16,10 @@ dashboardApp.config(function($routeProvider) {
 		templateUrl : 'pages/dailyStatus.html',
 		controller : 'dailystatuscontroller'
 	});
+	$routeProvider.when('/trendreports', {
+		templateUrl : 'pages/trendReports.html',
+		controller : 'trendController'
+	});
 	/*$routeProvider.when('/login', {
 		templateUrl : 'pages/login',
 		controller : loginController

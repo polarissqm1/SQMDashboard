@@ -21,6 +21,7 @@ dashboardApp.controller('navigationController', function($scope, $location, $rou
 			{displayLabel : 'Admin List', href : '/producerList', tabIndex : '', type : 'submenu'},
 			{displayLabel : 'User List', href : '/producerList', tabIndex : '', type : 'submenu'}
 	]},*/
+	{displayLabel : 'Trend Reports', href : '/trendreports', tabIndex : '3', hasSubMenu : false},
 	{displayLabel : 'Logout', href : '/generalView', tabIndex : '4', hasSubMenu : false}
 
 
