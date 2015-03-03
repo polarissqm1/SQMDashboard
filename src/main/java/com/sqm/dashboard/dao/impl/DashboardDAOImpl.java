@@ -45,7 +45,35 @@ public class DashboardDAOImpl implements DashboardDAO {
 			 
 			 log.info("Connect to database successfully");
 			 log.info("DAO Layer");
+					/* RAG Data fetch
+					 * 
+					 DBCollection table = db.getCollection("almNew");
+					
+					BasicDBObject searchQuery = new BasicDBObject();
 				
+					searchQuery.put("domain", "posttrade");
+					searchQuery.put("projects", "PMP");
+					searchQuery.put("release", "pmpRelease1");
+					
+					cursor = table.find(searchQuery);
+					System.out.println(cursor);
+					while (cursor.hasNext()) {
+						DBObject report =cursor.next();
+						 
+						 Gson gson=new Gson();
+						
+						 System.out.println(report);
+						RagVO ragVO_system =gson.fromJson(report.get("ragStatus_System").toString(), RagVO.class);
+						RagVO ragVO_manual =gson.fromJson(report.get("ragStatus_Manual").toString(), RagVO.class);
+						if(ragVO_manual.getStatus() != null){
+							System.out.println(ragVO_manual.getStatus() );
+							dashVO.setRagVO(ragVO_manual);
+						}
+						else {
+							dashVO.setRagVO(ragVO_system);
+						} 
+					 
+					 * */
 					DBCollection table = db.getCollection("alm");
 					log.info("Connect to collection alm successfully");
 					BasicDBObject searchQuery = new BasicDBObject();

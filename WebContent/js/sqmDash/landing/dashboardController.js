@@ -39,7 +39,7 @@
 				else{
 					$scope.enableChart=false;
 				}
-			 plotRagChart();
+			 plotRagChart(response.entity.ragVO);
 			 plotManualChart(response.entity.manualVO);
 			 plotAutomatedChart(response.entity.automationVO);
 			 plotDefectStatusChart(response.entity.severityVO);
@@ -97,11 +97,27 @@
 			
 		}
 
-		function plotRagChart()
+		function plotRagChart(response)
 		{
-			var arr=[["Red",20],
-			         ["Amber",30],
-			         ["Green",25]
+			response= {"user":"user1","status":"g"};
+			if(response.status == "g"){
+				var green =20;
+				var red =0;
+				var amber =0;
+			}
+			else if(response.status == "r"){
+				var red =20;
+				var green =0;
+				var amber =0;
+			}
+			else{
+				var amber =20;
+				var green =0;
+				var red =0;
+			}
+			var arr=[["Red",red],
+			         ["Amber",amber],
+			         ["Green",green]
 			];
 			
 			$('#flot-pie-chart')
@@ -135,7 +151,7 @@
 								fontSize : "9px"
 							}
 						},
-						colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69'],
+						colors: ['Red', 'Yellow', 'Green'],
 						title : {
 							text : 'RAG'
 							/*style: {
