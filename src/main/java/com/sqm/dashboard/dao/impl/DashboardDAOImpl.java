@@ -74,7 +74,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 						} 
 					 
 					 * */
-					DBCollection table = db.getCollection("alm");
+					DBCollection table = db.getCollection("almOld");
 					log.info("Connect to collection alm successfully");
 					BasicDBObject searchQuery = new BasicDBObject();
 				

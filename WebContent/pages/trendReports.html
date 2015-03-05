@@ -21,7 +21,7 @@
 
 			<div class="row" >
 				<div class="col-lg-12" >
-								<div class="col-sm-3 form-group">
+								<!-- <div class="col-sm-3 form-group">
 									<p class="input-group">
 										<input type="text" class="form-control"
 											datepicker-popup="{{format}}" ng-model="dt" is-open="openedFromDate"
@@ -42,6 +42,44 @@
 										<input type="text" class="form-control"
 											datepicker-popup="{{format}}" ng-model="dt" is-open="openedToDate"
 											min-date="minDate" max-date="'2015-06-22'"
+											datepicker-options="dateOptions"
+											date-disabled="disabled(date, mode)" ng-required="true"
+											close-text="Close" /> <span class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="openToDate($event,'openedToDate')">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</span>
+									</p>
+									</div> 
+	
+									<div class="col-sm-3 form-group">
+										<button type="button" class="btn btn-primary" ng-click="generateCharts()">Generate Reports</button> 
+									</div> -->
+									<div class="col-sm-3 form-group">
+								<p class="input-group">
+								 <div class="radio">
+                                 <label for="weekly">
+                                   <input id="weekly" type="radio" name="weekly" value="weekly" ng-model="range" ng-change=weekly()/>
+                                 Weekly
+                                 </label>
+                                 <label for="monthly">
+                                   <input id="monthly" type="radio" name="weekly" value="monthly" ng-model="range" ng-change=monthly()/>
+                                 Monthly
+                                 </label>
+                               </div>
+                               </p>
+                               </div>
+                              
+								
+								<!-- <div>{{dt | date:'fullDate' }}</div> -->	
+								
+								
+								 <div class="col-sm-3 form-group" >
+									<p class="input-group">
+										<input type="text" id="todate" class="form-control"
+											datepicker-popup="{{format}}" ng-model="dt1" is-open="openedToDate"
+											min-date="minDate" max-date="dt1"
 											datepicker-options="dateOptions"
 											date-disabled="disabled(date, mode)" ng-required="true"
 											close-text="Close" /> <span class="input-group-btn">
