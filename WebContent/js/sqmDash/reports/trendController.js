@@ -51,7 +51,6 @@ dashboardApp
 					//** Date Picker END**//
 
 					$scope.generateCharts = function() {
-						alert($("#todate").val());
 						if ($("#todate").val() == '') {
 							if ($scope.range) {
 								if ($scope.range == 'weekly') {
