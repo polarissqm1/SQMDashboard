@@ -60,10 +60,13 @@
 			}else if(appValue=="iwatch"){
 				elem1.options[1]=new Option("iwatchRelease1");
 		    	elem1.options[2]=new Option("iwatchRelease2");
-				
+		    	
 			}else if(appValue=="CFPR"){
 				elem1.options[1]=new Option("cfprRelease1");
 		    	elem1.options[2]=new Option("cfprRelease2");
+			}else if(appValue=="CFP_POST_TRADE"){
+				elem1.options[1]=new Option("CFP Reporting: Sprint 2");
+
 			}else{
 				elem1=null;
 			}

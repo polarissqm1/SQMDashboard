@@ -323,9 +323,7 @@ dashboardApp
 											},
 
 											xAxis : {
-												categories : [ '29-oct',
-														'30-oct', '31-oct',
-														'1-Nov', '2-Nov' ]
+												categories: [response.rdate]
 											},
 
 											yAxis : {

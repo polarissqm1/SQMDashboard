@@ -15,6 +15,7 @@ public class DashboardVO implements Serializable {
 	private RagVO ragVO;
 	private List<StatusAndSeverityVO> statusAndSeverityVO;
 	private List<TestCaseExecutionStatusVO> testCaseExecutionStatusVO;
+	private String rdate;
 	/*public String getDomain() {
 		return domain;
 	}
@@ -80,6 +81,13 @@ public class DashboardVO implements Serializable {
 		this.ragVO = ragVO;
 	}
 	
+	
+	public String getRdate() {
+		return rdate;
+	}
+	public void setRdate(String rdate) {
+		this.rdate = rdate;
+	}
 	@Override
 	public String toString() {
 		return "DashboardVO [manualVO=" + manualVO + ", automationVO="
@@ -87,6 +95,7 @@ public class DashboardVO implements Serializable {
 				+ effortsVO + ", statusAndSeverityVO=" + statusAndSeverityVO
 				+ ", testCaseExecutionStatusVO=" + testCaseExecutionStatusVO
 				+ ", ragVO=" + ragVO
+				+ ", rdate=" + rdate
 				+ "]";
 	}
 	
