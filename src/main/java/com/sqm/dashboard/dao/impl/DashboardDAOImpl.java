@@ -26,12 +26,37 @@ import com.sqm.dashboard.controller.DashboardController;
 import com.sqm.dashboard.dao.DashboardDAO;
 @Repository
 public class DashboardDAOImpl implements DashboardDAO {
+	
+ final Logger log=Logger.getLogger(DashboardController.class);
+	
+	public static DBCollection getDbCollection(String sourceCollection) throws Exception{
+		DBCursor cursor = null;
+		DBCollection table=null;
+		 DashboardVO dashVO=new DashboardVO();
+		 Response.ResponseBuilder response = Response.ok(dashVO);
+		try {
+			MongoClient clientDb;
+			
+				clientDb = new MongoClient("172.23.16.28", 27017);
+			
+		  DB db = clientDb.getDB("sqmdb");
+		  
+		  table = db.getCollection(sourceCollection);
+			 /*System.out.println("Connect to database successfully");*/
+		}catch(Exception e){
+	
+			throw e;
+		}
+			 
+		
+		return table;
+	}
 
 	@Override
 	public Response getLandingInfo(String project,String release) throws UnknownHostException {
 		// TODO Auto-generated method stub
 		
-		final Logger log=Logger.getLogger(DashboardController.class);
+		
 		 DBCursor cursor = null;
 		 DashboardVO dashVO=new DashboardVO();
 		 Response.ResponseBuilder response = Response.ok(dashVO);
