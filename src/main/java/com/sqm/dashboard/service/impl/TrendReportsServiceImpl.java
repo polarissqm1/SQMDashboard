@@ -46,6 +46,7 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 				Response.ResponseBuilder response = Response.ok(trendReportsVO);
 			try{/*********************Defect Density***************************/
 				DashboardVO dashVO=trendReportsDAO.getTrendingInfo(project, release,fromDate,toDate);
+				System.out.println(dashVO);
 				String testcaseVO=(String) dashVO.getTestCaseExecutionStatusVO().get(6).getCount();
 				log.info("Inside TestCase Execution "+ testcaseVO);
 				String statusVO=(String)dashVO.getStatusAndSeverityVO().get(5).getTotal();
@@ -87,6 +88,10 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 				/************************releasedate****************/
 				String rDate=dashVO.getRdate();
 				trendReportsVO.setRdate(rDate);
+				/*************************planned VS actual**********/
+				/*String plan=dashVO.getPlan();
+				trendReportsVO.setPlan(plan);*/
+				trendReportsVO.setActual(testcaseVO);
 				
 			}
 			

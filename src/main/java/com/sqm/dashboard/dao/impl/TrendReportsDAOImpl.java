@@ -58,14 +58,13 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 					searchQuery.put("domain", "IB_TECHNOLOGY");
 					searchQuery.put("projects", project);
 					searchQuery.put("release", release);
-					searchQuery.put("release_SDate", BasicDBObjectBuilder.start("$gte", fromDate).add("$lte", toDate).get());
+					searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte", fromDate).add("$lte", toDate).get());
 					
 					
 					log.debug(searchQuery.toString());
 					cursor = table.find(searchQuery);
 					while (cursor.hasNext()) {
 						DBObject report =cursor.next();
-						 
 						 Gson gson=new Gson();
 						 ManualVO manualVO=gson.fromJson(report.get("manual").toString(), ManualVO.class);
 						 AutomationVO automationVO=gson.fromJson(report.get("automation").toString(), AutomationVO.class);
@@ -83,8 +82,10 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 						dashVO.setSeverityVO(severityVO);
 						dashVO.setStatusAndSeverityVO(statusVO);
 						dashVO.setTestCaseExecutionStatusVO(testCaseVO);
-						dashVO.setRdate(report.get("release_SDate").toString());
+						dashVO.setRdate(report.get("lastUpdationDate").toString());
+						//dashVO.setPlan(report.get("plan").toString());
 						log.debug("Response form Mongo :");
+						log.debug("Planned is"+dashVO.getPlan() );
 						log.debug("manualVO :"+ dashVO.getManualVO());
 						log.debug("automationVO :"+ dashVO.getAutomationVO());
 						log.debug("effortsVO :"+ dashVO.getEffortsVO());

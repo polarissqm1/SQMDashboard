@@ -9,7 +9,7 @@ dashboardApp
 					$scope.today = function() {
 						$scope.dt = new Date();
 					};
-					$scope.today();
+					//$scope.today();
 
 					$scope.clear = function() {
 						$scope.dt = null;
@@ -22,8 +22,12 @@ dashboardApp
 					};
 
 					$scope.toggleMin = function() {
-						$scope.minDate = $scope.minDate ? null : new Date();
+						/*$scope.minDate = $scope.minDate ? null : new Date();*/
+						$scope.minDate = "16/Feb/15";
+						$scope.maxDate = "05/Mar/15";
+						
 					};
+					
 					$scope.toggleMin();
 
 					$scope.openFromDate = function($event, openedFromDate) {
@@ -91,20 +95,10 @@ dashboardApp
 
 					$scope.plotCharts = function() {
 				
-						$scope.trendReports = $http
-								.get(
-										"dash/trendreports/getTrendingInfo?projectName="
-												+ $rootScope.selectedProjectName
-												+ "&releaseName="
-												+ $rootScope.selectedReleaseName
-												+ "&fromDate="
-												+ $scope.selectedStart
-												+ "&toDate="
-												+ $scope.selectedEnd)
-								.success(
-										function(response) {
+						$scope.trendReports = $http.get("dash/trendreports/getTrendingInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName+"&fromDate="+$scope.selectedStart+"&toDate="+$scope.selectedEnd).success(function(response) {
 
 											alert(JSON.stringify(response));
+					
 											/*alert(JSON.stringify(response));
 											
 											alert("selected Project Name"+$rootScope.selectedProjectName);
@@ -116,25 +110,23 @@ dashboardApp
 											$scope.plotDefectDensity(response.entity.statusAndSeverityVO[5].total,response.entity.testCaseExecutionStatusVO[6].count);
 											scope.plotDefectAccept(response.entity.statusAndSeverityVO[3].total,response.entity.statusAndSeverityVO[5].total);
 											$scope.plotDefectSeverityIndex();*/
-											$scope
-													.plotDefectsOpenClosed(response.entity);
-											$scope
-													.plotDefectDensity(response.entity.defectDensity);
-											$scope
-													.plotBadFix(response.entity.badFix);
-											$scope
-													.plotDefectAccept(response.entity.defectAcceptance);
-											$scope
-													.plotDefectSeverityIndex(response.entity.defectSeverityIndex);
-											$scope
-													.plotTestCaseStatChart(response.entity);
-											$scope
-													.plotDefectSeverityBreakUp(response.entity);
+											$scope.plotDefectsOpenClosed(response.entity);
+											$scope.plotDefectDensity(response.entity);
+											$scope.plotBadFix(response.entity);
+											$scope.plotDefectAccept(response.entity);
+											$scope.plotDefectSeverityIndex(response.entity);
+											$scope.plotTestCaseStatChart(response.entity);
+											$scope.plotDefectSeverityBreakUp(response.entity);
+											$scope.plotChart(response.entity);
+											$scope.plotDefectRootBreakUp();
+											$scope.plotDefectTypeBreakUp();
+											$scope.plotDefectAgeing();
 										});
+						
 					};
 					//******************** Highcharts *************************//
 
-					$scope.plotChart = function() {
+					$scope.plotChart = function(response) {
 						Highcharts.setOptions({
 							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
@@ -166,9 +158,7 @@ dashboardApp
 											},
 
 											xAxis : {
-												categories : [ '29-oct',
-														'30-oct', '31-oct',
-														'1-Nov', '2-Nov' ]
+												categories : [  $scope.selectedStart+"-"+$scope.selectedEnd ]
 											},
 
 											yAxis : {
@@ -198,15 +188,12 @@ dashboardApp
 											series : [
 													{
 														name : 'Planned',
-														data : [ 29.9, 71.5,
-																106.4, 129.2,
-																144.0 ],
+														data : [parseInt(35262) ],
 														stack : 'male'
 													},
 													{
 														name : 'Actual',
-														data : [ 135.6, 148.5,
-																216.4, 194.1, 0 ],
+														data : [parseInt(response.actual) ],
 														stack : 'female'
 													} ]
 										});
@@ -245,9 +232,7 @@ dashboardApp
 											},
 
 											xAxis : {
-												categories : [ '29-oct',
-														'30-oct', '31-oct',
-														'1-Nov', '2-Nov' ]
+												categories : [  $scope.selectedStart+"-"+$scope.selectedEnd ]
 											},
 
 											yAxis : {
@@ -323,7 +308,7 @@ dashboardApp
 											},
 
 											xAxis : {
-												categories: [response.rdate]
+												categories: [ $scope.selectedStart+"-"+$scope.selectedEnd]
 											},
 
 											yAxis : {
@@ -386,58 +371,7 @@ dashboardApp
 									},
 
 									xAxis : {
-										categories : [ '29-oct', '30-oct',
-												'31-oct', '1-Nov', '2-Nov' ]
-									},
-									yAxis : {
-										title : {
-											text : 'Defect Density'
-										}
-									},
-									plotOptions : {
-										line : {
-											dataLabels : {
-												enabled : false
-											},
-
-										}
-									},
-									tooltip : {
-										valueSuffix : '%'
-									},
-
-									series : [ {
-										name : 'Defect Density',
-										data : [ parseInt(response) ]
-									} ]
-								});
-
-					};
-					//************************ Defects Density Index  ***************************//
-					$scope.plotDefectSeverityIndex = function(response) {
-
-						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
-									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
-						});
-
-						$('#defectseverityindex').highcharts(
-								{
-									title : {
-										text : 'Defect Severity Index',
-										x : -20
-									//center
-									},
-									credits : {
-										enabled : false
-									},
-									subtitle : {
-										text : '',
-										x : -20
-									},
-									xAxis : {
-										categories : [ '29-oct', '30-oct',
-												'31-oct', '1-Nov', '2-Nov' ]
+										categories : [  $scope.selectedStart+"-"+$scope.selectedEnd]
 									},
 									yAxis : {
 										title : {
@@ -455,15 +389,59 @@ dashboardApp
 									tooltip : {
 										valueSuffix : '%'
 									},
-									legend : {
-										layout : 'vertical',
-										align : 'right',
-										verticalAlign : 'middle',
-										borderWidth : 0
+
+									series : [ {
+										name : 'Defect Density',
+										data : [ parseFloat(response.defectDensity) ]
+									} ]
+								});
+
+					};
+					//************************ Defects Density Index  ***************************//
+					$scope.plotDefectSeverityIndex = function(response) {
+
+						Highcharts.setOptions({
+							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
+									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
+						});
+
+						$('#defectdensityindex').highcharts(
+								{
+									title : {
+										text : 'Defect Severity Index',
+										x : -20
+									//center
 									},
+									credits : {
+										enabled : false
+									},
+									subtitle : {
+										text : '',
+										x : -20
+									},
+									xAxis : {
+										categories : [  $scope.selectedStart+"-"+$scope.selectedEnd ]
+									},
+									yAxis : {
+										title : {
+											text : 'Defect Severity Index'
+										}
+									},
+									plotOptions : {
+										line : {
+											dataLabels : {
+												enabled : true
+											},
+
+										}
+									},
+									tooltip : {
+										valueSuffix : '%'
+									},
+									
 									series : [ {
 										name : 'DSI',
-										data : [ parseFloat(response) ]
+										data : [ parseFloat(response.defectSeverityIndex) ]
 									} ]
 								});
 
@@ -491,12 +469,11 @@ dashboardApp
 										x : -20
 									},
 									xAxis : {
-										categories : [ '29-oct', '30-oct',
-												'31-oct', '1-Nov', '2-Nov' ]
+										categories : [ $scope.selectedStart+"-"+$scope.selectedEnd  ]
 									},
 									yAxis : {
 										title : {
-											text : 'Defect Density'
+											text : 'Re-opened Defects'
 										}
 									},
 									plotOptions : {
@@ -514,7 +491,7 @@ dashboardApp
 
 									series : [ {
 										name : 'Re-opened',
-										data : [ response ]
+										data : [ response.badFix ]
 									} ]
 								});
 
@@ -541,12 +518,11 @@ dashboardApp
 										x : -20
 									},
 									xAxis : {
-										categories : [ '29-oct', '30-oct',
-												'31-oct', '1-Nov', '2-Nov' ]
+										categories : [  $scope.selectedStart+"-"+$scope.selectedEnd ]
 									},
 									yAxis : {
 										title : {
-											text : 'Defect Density'
+											text : 'Defect Acceptance Rate'
 										}
 									},
 									plotOptions : {
@@ -564,7 +540,7 @@ dashboardApp
 
 									series : [ {
 										name : "Defect Accept",
-										data : [ parseFloat(response) ]
+										data : [ parseFloat(response.defectAcceptance) ]
 									} ]
 								});
 
@@ -604,8 +580,7 @@ dashboardApp
 											},
 											tooltip : {
 												headerFormat : '<span style="font-size:10px">{point.key}</span><table>',
-												pointFormat : '<tr><td style="color:{series.color};padding:0">{series.name}: </td>'
-														+ '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+												
 												footerFormat : '</table>',
 												shared : true,
 												useHTML : true
@@ -617,12 +592,16 @@ dashboardApp
 												}
 											},
 											series : [ {
-												name : 'Tokyo',
-												data : [ 0, 2, 2, 0 ]
-											}, {
-												name : 'New York',
-												data : [ 0, 0, 0, 0 ]
-											} ]
+												name : 'Urgent',
+												data : [2 ],
+												stack : 'male'
+											},
+											{
+												name : 'medium',
+												data : [1],
+												stack : 'female'
+											}
+											]
 										});
 					};
 					//************************ Downtime Breakup  ***************************//
@@ -692,7 +671,8 @@ dashboardApp
 											chart : {
 												plotBackgroundColor : null,
 												plotBorderWidth : 1,// null,
-												plotShadow : false
+												plotShadow : false,
+												margin : [ 0, 0, 0, 0 ]
 											/*backgroundColor: {
 											     linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
 											     stops: [
@@ -775,7 +755,7 @@ dashboardApp
 												plotBackgroundColor : null,
 												plotBorderWidth : 1,//null,
 												plotShadow : false,
-												margin : [ 0, 0, 0, 0 ],
+												margin : [ 0, 0, 0, 0 ]
 
 											},
 											title : {
@@ -799,16 +779,11 @@ dashboardApp
 											},
 											series : [ {
 												type : 'pie',
-												/*name: 'Browser share',*/
-												data : [ [ 'Firefox', 45.0 ],
-														[ 'IE', 26.8 ], {
-															name : 'Chrome',
-															y : 12.8,
-															sliced : true,
-															selected : true
-														}, [ 'Safari', 8.5 ],
-														[ 'Opera', 6.2 ],
-														[ 'Others', 0.7 ]
+												
+												data : [ [ 'Data Conversion', 45.0 ],
+														[ 'Deferred Item', 26.8 ],
+												        [ 'Enhancement', 8.5 ],
+														[ 'Functional', 6.2 ]
 
 												]
 											} ]
@@ -834,7 +809,7 @@ dashboardApp
 
 											},
 											title : {
-												text : 'Defect Type Breakup'
+												text : 'Defect Root Cause Breakup'
 											},
 											plotOptions : {
 												pie : {
@@ -855,15 +830,11 @@ dashboardApp
 											series : [ {
 												type : 'pie',
 												/*name: 'Browser share',*/
-												data : [ [ 'Firefox', 45.0 ],
-														[ 'IE', 26.8 ], {
-															name : 'Chrome',
-															y : 12.8,
-															sliced : true,
-															selected : true
-														}, [ 'Safari', 8.5 ],
-														[ 'Opera', 6.2 ],
-														[ 'Others', 0.7 ]
+												data : [ [ 'Automated Test Script', 45.0 ],
+														[ 'Coding', 26.8 ],
+														[ 'Requirements', 8.5 ],
+														[ 'Incorrect Understanding', 6.2 ],
+														
 
 												]
 											} ]

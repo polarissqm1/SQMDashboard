@@ -16,6 +16,13 @@ public class DashboardVO implements Serializable {
 	private List<StatusAndSeverityVO> statusAndSeverityVO;
 	private List<TestCaseExecutionStatusVO> testCaseExecutionStatusVO;
 	private String rdate;
+	private String plan;
+	public String getPlan() {
+		return plan;
+	}
+	public void setPlan(String plan) {
+		this.plan = plan;
+	}
 	/*public String getDomain() {
 		return domain;
 	}

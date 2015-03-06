@@ -6,6 +6,20 @@ import java.util.List;
 public class TrendReportsVO implements Serializable {
 	
 	private Float defectDensity;
+	private String plan;
+	private String actual;
+	public String getActual() {
+		return actual;
+	}
+	public void setActual(String actual) {
+		this.actual = actual;
+	}
+	public String getPlan() {
+		return plan;
+	}
+	public void setPlan(String plan) {
+		this.plan = plan;
+	}
 	public Float getDefectDensity() {
 		return defectDensity;
 	}

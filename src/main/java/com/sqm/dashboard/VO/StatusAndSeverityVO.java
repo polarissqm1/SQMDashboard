@@ -9,12 +9,12 @@ public class StatusAndSeverityVO implements Serializable {
 	private String high;
 	private String medium;
 	private String low;
-	private String Total;
+	private String total;
 public String getTotal() {
-		return Total;
+		return total;
 	}
 	public void setTotal(String total) {
-		Total = total;
+		total = total;
 	}
 	/*	private String total;
 	public String getTotal() {
