@@ -27,7 +27,10 @@ import com.sqm.dashboard.dao.DashboardDAO;
 @Repository
 public class DashboardDAOImpl implements DashboardDAO {
 	
- final Logger log=Logger.getLogger(DashboardController.class);
+ final Logger log=Logger.getLogger(DashboardDAOImpl.class);
+ 
+ 
+ 
 	
 	public static DBCollection getDbCollection(String sourceCollection) throws Exception{
 		DBCursor cursor = null;
