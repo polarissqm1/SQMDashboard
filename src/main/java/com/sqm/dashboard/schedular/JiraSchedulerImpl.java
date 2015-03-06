@@ -65,6 +65,8 @@ public class JiraSchedulerImpl implements JiraScheduler {
 	private JiraSchedulerVO jiraScVOClass;
 	@Autowired
 	private JiraSchedulerDAOImpl jiraDao;
+	
+	private JiraSchedulerDAOImpl jiraDao1=new JiraSchedulerDAOImpl();
 
 	public JiraSchedulerDAOImpl getJiraDao() {
 		return jiraDao;
@@ -155,6 +157,7 @@ public class JiraSchedulerImpl implements JiraScheduler {
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
 				if (jsonObject.has("userReleaseDate")) {
+					//System.out.println("true");
 					Date sourceDate = getDateFormat().parse(
 							jsonObject.get("userReleaseDate").toString());
 					if (jiraScheduler.dateChecker(sourceDate) < 1) {
@@ -181,7 +184,8 @@ public class JiraSchedulerImpl implements JiraScheduler {
 		 "'"+URLEncoder.encode(releaseName, "UTF-8")+"'";*/
 		 
 		try {
-			JiraSchedulerVO jiraScVO = jiraScheduler.getJiraScVOClass();
+			/*JiraSchedulerVO jiraScVO = jiraScheduler.getJiraScVOClass();*/
+			JiraSchedulerVO jiraScVO = new JiraSchedulerVO();
 			/*List<JiraIdVO> jiraIdList = jiraScheduler.getJiraIdListClass();*/
 			List<JiraIdVO> jiraIdList = new ArrayList<JiraIdVO>();
 			/*List<EffortJiraVO> effortJiraList = jiraScheduler.getEffortJiraClass();*/
@@ -204,7 +208,7 @@ public class JiraSchedulerImpl implements JiraScheduler {
 			jiraScVO.setProject(sourceProject);
 			jiraScVO.setRelease(sourceRelease);
 			JSONArray jsonArray;
-			JSONObject obj = null;
+			JSONObject obj = new JSONObject();
 			jsonArray = new JSONArray("[" + stringResponse + "]");
 			JSONArray issueArray = new JSONArray(jsonArray.getJSONObject(0)
 					.getString("issues"));
@@ -236,7 +240,8 @@ public class JiraSchedulerImpl implements JiraScheduler {
 				jiraScVO.setEffort(effortJiraList);
 				jiraScVO.setJiraids(jiraIdList);
 				System.out.println(jiraIdList.get(0).getEnv());
-				jiraScheduler.getJiraDao().insertJiraData(jiraScVO);
+				/*jiraScheduler.getJiraDao().insertJiraData(jiraScVO);*/
+				jiraDao1.insertJiraData(jiraScVO);
 			}
 		} catch (Exception e) {
 			log.error("Ëxception at Jira data Level");

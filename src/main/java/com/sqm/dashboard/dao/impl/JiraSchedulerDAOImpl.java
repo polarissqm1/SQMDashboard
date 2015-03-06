@@ -33,6 +33,8 @@ public class JiraSchedulerDAOImpl implements JiraSchedulerDAO {
 			        BasicDBObject jiracollection = new BasicDBObject();
 			        jiracollection.put("project", sourceVO.getProject());
 			        jiracollection.put("release", sourceVO.getRelease());
+			       /* jiracollection.put("project", "pppppppp");
+			        jiracollection.put("release", "rrrrrrrrr");*/
 			        jiracollection.put("docCreatedBy", "System");
 			        jiracollection.put("docCreatedDate",systemDate );
 			        	jiracollection.put("docUpdatedBy", "System");
