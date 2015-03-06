@@ -33,6 +33,7 @@
 		
 		$scope.init =$http.get("dash/dashboard/getLandingInfo?projectName=" + $rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName)
 		 .success(function(response){
+			 alert(JSON.stringify(response));
 			 if($("#application").val() || $("#release").val() ){
 					$scope.enableChart=true;
 				}
@@ -64,8 +65,8 @@
 			}else if(appValue=="CFPR"){
 				elem1.options[1]=new Option("cfprRelease1");
 		    	elem1.options[2]=new Option("cfprRelease2");
-			}else if(appValue=="CFP_POST_TRADE"){
-				elem1.options[1]=new Option("CFP Reporting: Sprint 2");
+			}else if(appValue=="CFT_POST_TRADE"){
+				elem1.options[1]=new Option("CFPReportingSprint2");
 
 			}else{
 				elem1=null;
