@@ -31,19 +31,13 @@
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd"> -->
 
 	
-	<context:component-scan base-package="com.sqm.dashboard.controller,com.sqm.dashboard.dao,com.sqm.dashboard.dao.impl,com.sqm.dashboard.service,com.sqm.dashboard.scheduler" />
-	<context:component-scan base-package="com.sqm.dashboard.service.impl,com.sqm.dashboard.VO" />
+	<context:component-scan base-package="com.sqm.dashboard.controller,com.sqm.dashboard.dao,com.sqm.dashboard.dao.impl,com.sqm.dashboard.service,com.sqm.dashboard.schedular" />
+	<context:component-scan base-package="com.sqm.dashboard.service.impl,com.sqm.dashboard.VO,com.sqm.dashboard.schedular.impl" />
 	
 	<mvc:annotation-driven/>
 
- <!-- <bean id="schedulerJob" class="com.sqm.dashboard.scheduler.CommonSchedulerImpl" >
+<!-- <bean id="schedulerJob" class="com.sqm.dashboard.schedular.CommonSchedulerImpl" >
  </bean>
- 
- 
- 
- 
- 
-
 <bean id="schedulerJobBean"
 class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 <property name="targetObject" ref="schedulerJob" />
@@ -52,7 +46,7 @@ class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
 
 <bean id="schedulerJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
 <property name="jobDetail" ref="schedulerJobBean" />
-<property name="repeatInterval" value="4L*60L*60L*1000L" />
+<property name="repeatInterval" value="100000" />
 <property name="startDelay" value="3000" />
 </bean>
 
@@ -67,8 +61,8 @@ class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
 <ref bean="schedulerJobTrigger" />
 </list>
 </property>
-</bean> 
-	 -->
+</bean>    -->
+	
 </beans>
 
 

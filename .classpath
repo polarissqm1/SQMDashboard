@@ -11,5 +11,8 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="D:/Anil/Jars/poi-3.9.jar/poi-3.9.jar"/>
 	<classpathentry kind="lib" path="D:/Anil/Jars/quartz-1.8.5.jar/quartz-1.8.5.jar"/>
+	<classpathentry kind="lib" path="D:/Anil/Jars/alm/sun.misc.BASE64Decoder.jar"/>
+	<classpathentry kind="lib" path="D:/Anil/Jars/alm/wink-json4j-1.1.2-incubating.jar"/>
+	<classpathentry kind="lib" path="D:/Anil/Jars/alm/json-20090211.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

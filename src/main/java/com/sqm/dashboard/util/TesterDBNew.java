@@ -15,7 +15,6 @@ import java.util.Set;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.sqm.dashboard.VO.AutomationVO;
-
 import com.sqm.dashboard.VO.DashboardVO;
 import com.sqm.dashboard.VO.EffortJiraVO;
 import com.sqm.dashboard.VO.EffortsVO;
@@ -25,6 +24,7 @@ import com.sqm.dashboard.VO.ManualVO;
 import com.sqm.dashboard.VO.SeverityVO;
 import com.sqm.dashboard.VO.StatusAndSeverityVO;
 import com.sqm.dashboard.VO.TestCaseExecutionStatusVO;
+import com.sqm.dashboard.schedular.AlmSchedularImpl;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -66,8 +66,13 @@ public static DBCollection getConnection() throws Exception{
 				return table;
 			}
 	DateFormat dateFormat = new SimpleDateFormat("dd/MMM/yy");
-	public static void main(String[] args) throws UnknownHostException {
-		try {
+	public static void main(String[] args) throws Exception {
+		
+		AlmSchedularImpl almObj=new AlmSchedularImpl();
+		AlmSchedularImpl almObj1=new AlmSchedularImpl();
+		almObj.startAlmInsert(almObj1);
+		
+		/*try {
 		String mainUrl="https://issuetracking.jpmchase.net/jira15/rest/api/latest/project/";
 
 		
@@ -76,9 +81,9 @@ public static DBCollection getConnection() throws Exception{
 		ClientResponse clientResponse=webResource.accept("application/json").get(
 				ClientResponse.class);
 		String stringResponse=clientResponse.getEntity(String.class);
-		/*CheckVO checker=clientResponse.getEntity(CheckVO.class);
+		CheckVO checker=clientResponse.getEntity(CheckVO.class);
 		System.out.println(checker.getReleaseDate());
-		System.out.println(stringResponse);*/
+		System.out.println(stringResponse);
 		Gson gsonObj=new Gson();
 		//gsonObj.
 		
@@ -95,7 +100,7 @@ public static DBCollection getConnection() throws Exception{
 		
 		//System.out.println("Application Name:"+ jsonObject.get("key"));
 		
-			/*releaseUrl="https://issuetracking.jpmchase.net/jira15/rest/api/latest/project/"+URLEncoder.encode(jsonObject.get("key").toString(), "UTF-8")+"/versions/";*/
+			releaseUrl="https://issuetracking.jpmchase.net/jira15/rest/api/latest/project/"+URLEncoder.encode(jsonObject.get("key").toString(), "UTF-8")+"/versions/";
 			tester.doProcess(jsonObject.get("key").toString());
 			
 			}
@@ -104,14 +109,14 @@ public static DBCollection getConnection() throws Exception{
 			}catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} /*catch (UnsupportedEncodingException e) {
+			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}*/catch(Exception e){
+			}catch(Exception e){
 				e.printStackTrace();
 			}
 		
-		
+		*/
 		
 	}
 	

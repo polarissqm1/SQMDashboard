@@ -33,7 +33,7 @@
 		
 		$scope.init =$http.get("dash/dashboard/getLandingInfo?projectName=" + $rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName)
 		 .success(function(response){
-			 alert(JSON.stringify(response));
+			 //alert(JSON.stringify(response));
 			 if($("#application").val() || $("#release").val() ){
 					$scope.enableChart=true;
 				}

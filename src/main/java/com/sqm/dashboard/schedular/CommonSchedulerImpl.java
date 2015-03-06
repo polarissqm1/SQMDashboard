@@ -9,29 +9,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CommonSchedulerImpl implements CommonScheduler {
 
 	final Logger log = Logger.getLogger(CommonSchedulerImpl.class);
-/*	@Autowired
-	private JiraSchedulerImpl jiraScheduler;*/
+
 	private JiraSchedulerImpl jiraScheduler=new JiraSchedulerImpl();
 	private JiraSchedulerImpl jiraScheduler1=new JiraSchedulerImpl();
-	/*public JiraSchedulerImpl getJiraScheduler() {
-		return jiraScheduler;
-	}
-	public void setJiraScheduler(JiraSchedulerImpl jiraScheduler) {
-		this.jiraScheduler = jiraScheduler;
-	}*/
+	private AlmSchedularImpl almObj=new AlmSchedularImpl();
+	private AlmSchedularImpl almObj1=new AlmSchedularImpl();
 	@Override
 	public void runScheduler() throws Exception {
 		
-		/*DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");*/
+	
 			try{
 				
-			/*jiraScheduler1.startJiraInsert();*/
-				jiraScheduler.startJiraInsert(jiraScheduler1);
+				
+				almObj.startAlmInsert(almObj1);
+				//jiraScheduler.startJiraInsert(jiraScheduler1);
 			}catch(Exception e){
 			log.error("Exception occured:");
 				e.printStackTrace();
 			}
-		/*System.out.println("Invoked on " + dateFormat.format(System.currentTimeMillis()));*/
+		
 
 	}
 

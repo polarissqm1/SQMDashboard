@@ -97,7 +97,7 @@ dashboardApp
 				
 						$scope.trendReports = $http.get("dash/trendreports/getTrendingInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName+"&fromDate="+$scope.selectedStart+"&toDate="+$scope.selectedEnd).success(function(response) {
 
-											alert(JSON.stringify(response));
+											//alert(JSON.stringify(response));
 					
 											/*alert(JSON.stringify(response));
 											
