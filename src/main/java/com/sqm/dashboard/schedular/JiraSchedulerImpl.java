@@ -1,4 +1,4 @@
-package com.sqm.dashboard.scheduler;
+package com.sqm.dashboard.schedular;
 
 import java.net.URLEncoder;
 import java.text.DateFormat;

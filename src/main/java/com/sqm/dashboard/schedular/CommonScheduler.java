@@ -1,4 +1,4 @@
-package com.sqm.dashboard.scheduler;
+package com.sqm.dashboard.schedular;
 
 public interface CommonScheduler  {
 

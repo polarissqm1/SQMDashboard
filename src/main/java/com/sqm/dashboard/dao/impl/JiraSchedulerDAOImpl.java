@@ -14,7 +14,7 @@ import com.sqm.dashboard.VO.EffortJiraVO;
 import com.sqm.dashboard.VO.JiraIdVO;
 import com.sqm.dashboard.VO.JiraSchedulerVO;
 import com.sqm.dashboard.dao.JiraSchedulerDAO;
-import com.sqm.dashboard.scheduler.JiraSchedulerImpl;
+import  com.sqm.dashboard.schedular.JiraSchedulerImpl;
 import com.sqm.dashboard.util.TesterDBNew;
 
 @Repository

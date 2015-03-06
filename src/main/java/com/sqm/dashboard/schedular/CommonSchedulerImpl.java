@@ -1,4 +1,4 @@
-package com.sqm.dashboard.scheduler;
+package com.sqm.dashboard.schedular;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
