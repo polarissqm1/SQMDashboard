@@ -94,6 +94,7 @@ dashboardApp
 					};
 
 					$scope.plotCharts = function() {
+						//alert("fromDate="+$scope.selectedStart+"toDate="+$scope.selectedEnd);
 				
 						$scope.trendReports = $http.get("dash/trendreports/getTrendingInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName+"&fromDate="+$scope.selectedStart+"&toDate="+$scope.selectedEnd).success(function(response) {
 
@@ -870,10 +871,10 @@ dashboardApp
 											series : [ {
 												type : 'pie',
 												/*name: 'Browser share',*/
-												data : [ [ 'Automated Test Script', 45.0 ],
-														[ 'Coding', 26.8 ],
-														[ 'Requirements', 8.5 ],
-														[ 'Incorrect Understanding', 6.2 ],
+												data : [ [ 'Automated Test Script', 53 ],
+														[ 'Coding', 14.6 ],
+														[ 'Requirements', 23.5 ],
+														[ 'Incorrect Understanding', 8.4 ],
 														
 
 												]

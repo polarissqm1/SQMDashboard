@@ -13,7 +13,9 @@ public class DashboardUtility {
 		Date date = new Date();
 		DateFormat dateFormate=new SimpleDateFormat("dd/MMM/yy");
 		Date systemDate = dateFormate.parse(dateFormate.format(date));
-
+		System.out.println(systemDate);
 		return systemDate;
 	}
+	
+
 }

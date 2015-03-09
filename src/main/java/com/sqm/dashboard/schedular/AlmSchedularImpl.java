@@ -16,14 +16,11 @@ import com.sqm.dashboard.util.RestConnectorUtility;
 import com.sqm.dashboard.util.TimeAnalyserUtility;
 
 public class AlmSchedularImpl implements AlmSchedular {
+	/*@Autowired*/
+	DashboardAuthServiceImpl dbAuthServiceImpl = new DashboardAuthServiceImpl();
 
-	@Autowired(required=true)
-	DashboardSchedularServiceImpl dbSchedularServiceImpl;
-	
-
-	
-	@Autowired
-	DashboardAuthServiceImpl dbAuthServiceImpl;
+	/*@Autowired(required=true)*/
+	DashboardSchedularServiceImpl dbSchedularServiceImpl = new DashboardSchedularServiceImpl();
 	
 	private String almHost = "ealm11.jpmchase.net";
 	private String almPort = "80";
@@ -35,7 +32,7 @@ public class AlmSchedularImpl implements AlmSchedular {
 	public void startAlmInsert(AlmSchedularImpl almSchedular) throws Exception {
 		try{
 		
-		almSchedular.almAuthentication("murlikrishnamohan.kakarla", "Welcome07$");
+		almAuthentication("murlikrishnamohan.kakarla", "Welcome07$");
 		}catch(Exception e){
 			log.error("Exception Alm Satrt level");
 			throw e;
@@ -84,6 +81,4 @@ public class AlmSchedularImpl implements AlmSchedular {
 		}
 		TimeAnalyserUtility.calculateTime(startTime, "almSchedular");
 		//return jsonDomains;
-	}
-
-}
+	}}

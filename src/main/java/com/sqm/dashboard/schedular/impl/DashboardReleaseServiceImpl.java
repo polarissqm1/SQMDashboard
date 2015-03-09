@@ -38,8 +38,7 @@ import com.sqm.dashboard.util.RestConnectorUtility;
 import com.sqm.dashboard.VO.ReleaseVO;
 
 @Service("dbReleaseServiceImpl")
-public class DashboardReleaseServiceImpl implements DashboardReleaseService{
-	
+public class DashboardReleaseServiceImpl implements DashboardReleaseService{	
 	static final Log log = LogFactory.getLog(DashboardReleaseServiceImpl.class);
 	
 	/*@Autowired
@@ -50,21 +49,34 @@ public class DashboardReleaseServiceImpl implements DashboardReleaseService{
 	private String currentDate;
 	
   	@Override
-	public List<String> getAlmReleases(RestConnectorUtility conn, String releasesUrl, Map<String, String> requestHeaders) throws Exception {
+	public List<String> getAlmReleasesIds(RestConnectorUtility conn, String releasesUrl, Map<String, String> requestHeaders) throws Exception {
 		
   		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
   		Date date = new Date();
 	    String currentDate = dateFormat.format(date);
 
-	    List<String> releaseIds = getAlmReleases(conn, requestHeaders, releasesUrl, currentDate);
+	    List<String> releaseIds = getAlmReleaseIds(conn, requestHeaders, releasesUrl, currentDate);
 	    
 	    return releaseIds;
 	}
 	
-	static List<String> getAlmReleases(RestConnectorUtility conn, Map<String, String> requestHeaders,  String releasesUrl, String currentDate) throws Exception {
+  	@Override
+	public List<String> getAlmReleasesNames(RestConnectorUtility conn, String releasesUrl, Map<String, String> requestHeaders) throws Exception {
+		
+  		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+  		Date date = new Date();
+	    String currentDate = dateFormat.format(date);
+
+	    List<String> releaseNames = getAlmReleaseNames(conn, requestHeaders, releasesUrl, currentDate);
+	    
+	    return releaseNames;
+	}
+  	
+	static List<String> getAlmReleaseIds(RestConnectorUtility conn, Map<String, String> requestHeaders,  String releasesUrl, String currentDate) throws Exception {
 		
 		StringBuilder queryAlmReleases = new StringBuilder();
 		List<String> releaseIds = new ArrayList<String>();
+		
 		Node nNode = null;
 		Element eElement = null;
 		
@@ -99,7 +111,7 @@ public class DashboardReleaseServiceImpl implements DashboardReleaseService{
 					eElement = (Element) nNode;
 					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("id")) {
 						releaseIds.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
-					}
+					} 
 				}
 			}
 			
@@ -111,4 +123,54 @@ public class DashboardReleaseServiceImpl implements DashboardReleaseService{
 		}
 	}
 
+	static List<String> getAlmReleaseNames(RestConnectorUtility conn, Map<String, String> requestHeaders,  String releasesUrl, String currentDate) throws Exception {
+		
+		StringBuilder queryAlmReleases = new StringBuilder();
+		List<String> releaseNames = new ArrayList<String>();
+		
+		Node nNode = null;
+		Element eElement = null;
+		
+		try{
+			queryAlmReleases.append("query={end-date[");
+			queryAlmReleases.append(">");
+			queryAlmReleases.append(currentDate);
+			queryAlmReleases.append("]");
+			queryAlmReleases.append("}");
+			queryAlmReleases.append("&fields=id,name,start-date,end-date");
+
+			log.info("AlmReleases Query : " + queryAlmReleases);
+
+			String listFromReleasesCollectionAsXml = conn.httpGet(releasesUrl, queryAlmReleases.toString(), requestHeaders).toString();
+			log.info("listFromReleasesCollectionAsXml : " + listFromReleasesCollectionAsXml);
+			
+			DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			InputSource is = new InputSource();
+			is.setCharacterStream(new StringReader(listFromReleasesCollectionAsXml));
+
+			Document doc = db.parse(is);
+			
+			doc.getDocumentElement().normalize();
+			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+		 
+			NodeList nList = doc.getElementsByTagName("Field");
+			System.out.println("----------------------------");
+		 
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+				nNode = nList.item(temp);
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					eElement = (Element) nNode;
+					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("name")) {
+						releaseNames.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
+					}
+				}
+			}
+			
+			return releaseNames;
+			
+		} catch (Exception e) {
+				log.error("Error in getting active releases : " + e.getMessage());
+				throw e;
+		}
+	}
 }

@@ -254,7 +254,7 @@ public class JiraSchedulerImpl implements JiraScheduler {
 
 		Date date = new Date();
 		Date systemDate = getDateFormat().parse(getDateFormat().format(date));
-
+		//System.out.println(systemDate);
 		return systemDate.compareTo(sourceDate);
 	}
 

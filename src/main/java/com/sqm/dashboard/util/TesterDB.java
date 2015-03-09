@@ -10,6 +10,7 @@ import com.sqm.dashboard.VO.ManualVO;
 import com.sqm.dashboard.VO.SeverityVO;
 import com.sqm.dashboard.VO.StatusAndSeverityVO;
 import com.sqm.dashboard.VO.TestCaseExecutionStatusVO;
+import com.sqm.dashboard.schedular.JiraSchedulerImpl;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 
@@ -23,10 +24,14 @@ import com.mongodb.MongoClient;
 
 public class TesterDB {
 
-	public static void main(String[] args) throws UnknownHostException {
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
+JiraSchedulerImpl ji=new JiraSchedulerImpl();
 
-		MongoClient clientDb=new MongoClient("172.23.16.28", 27017);
+int i =ji.dateChecker(DashboardUtility.getCurrentDate());
+		
+		
+	/*	MongoClient clientDb=new MongoClient("172.23.16.28", 27017);
 		
 		  DB db = clientDb.getDB("sqmdb");
 			 System.out.println("Connect to database successfully");
@@ -37,15 +42,15 @@ public class TesterDB {
 					DBCollection table = db.getCollection("alm");
 					BasicDBObject searchQuery = new BasicDBObject();
 					searchQuery.put("userid", "user1");
-				/*	searchQuery.put("domain", "posttrade");
+					searchQuery.put("domain", "posttrade");
 					searchQuery.put("projects", "CFPR");
-					searchQuery.put("release", "cfprRelease2");*/
+					searchQuery.put("release", "cfprRelease2");
 					cursor = table.find(searchQuery);
 					while (cursor.hasNext()) {
 						DBObject report =cursor.next();
-						 /*DBObject report =(BasicDBObject) cursor.next().get("manual");
+						 DBObject report =(BasicDBObject) cursor.next().get("manual");
 						 String passed=report.get("passed").toString();
-						 System.out.println(passed);*/
+						 System.out.println(passed);
 						// System.out.println( cursor.next().get("manual"));
 						 Gson gson=new Gson();
 						 ManualVO manualVO=gson.fromJson(report.get("manual").toString(), ManualVO.class);
@@ -56,9 +61,9 @@ public class TesterDB {
 						// gson.from
 						List<TestCaseExecutionStatusVO> testCaseVO=(List<TestCaseExecutionStatusVO>)gson.fromJson(report.get("testCaseExecutionStatus").toString(), Object.class);
 						System.out.println(manualVO.toString());
-						/*System.out.println(severityVO.toString());
+						System.out.println(severityVO.toString());
 						System.out.println(statusVO.toString());
-						System.out.println(testCaseVO.toString());*/
+						System.out.println(testCaseVO.toString());
 						System.out.println(statusVO.toString());
 						DashboardVO dashVO=new DashboardVO();
 						dashVO.setManualVO(manualVO);
@@ -76,7 +81,7 @@ public class TesterDB {
 				} finally {
 					cursor.close();
 				}
-			}
+			*/}
 	}
 
 

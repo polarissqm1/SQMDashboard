@@ -29,8 +29,8 @@ public class DashboardProjectServiceImpl implements DashboardProjectService {
 
 	static final Log log = LogFactory.getLog(DashboardProjectServiceImpl.class);
 	
-	@Autowired
-	DashboardAuthServiceImpl dbAuthServiceImpl;
+	/*@Autowired*/
+	DashboardAuthServiceImpl dbAuthServiceImpl = new DashboardAuthServiceImpl();
 	
 	/*@Value("$almBasicUrl")private String almBasicUrl;
 	@Value("$almDomains")private String almDomains;*/

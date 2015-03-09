@@ -54,7 +54,9 @@ public class JiraSchedulerDAOImpl implements JiraSchedulerDAO {
 			       }			        
 			        jiracollection.put("effort", effort);
 			        jiracollection.put("jira", jiraDbObj);			       			       
-			        collection.insert(jiracollection);													
+			        collection.insert(jiracollection);	
+			        
+			        System.out.println(" JIRA Inserted Successfully");
 		}catch(Exception e){
 			log.error("Exception Jira DAO Insertion level");
 			throw e;

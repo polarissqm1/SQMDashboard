@@ -22,7 +22,7 @@ public class CommonSchedulerImpl implements CommonScheduler {
 				
 				
 				almObj.startAlmInsert(almObj1);
-				//jiraScheduler.startJiraInsert(jiraScheduler1);
+				jiraScheduler.startJiraInsert(jiraScheduler1);
 			}catch(Exception e){
 			log.error("Exception occured:");
 				e.printStackTrace();

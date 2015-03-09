@@ -36,13 +36,21 @@
 	
 	<mvc:annotation-driven/>
 
-<!-- <bean id="schedulerJob" class="com.sqm.dashboard.schedular.CommonSchedulerImpl" >
+ <!-- <bean id="schedulerJob" class="com.sqm.dashboard.schedular.CommonSchedulerImpl" >
  </bean>
 <bean id="schedulerJobBean"
 class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 <property name="targetObject" ref="schedulerJob" />
 <property name="targetMethod" value="runScheduler" />
 </bean>
+
+<bean id="cronTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+ 
+		<property name="jobDetail" ref="schedulerJobBean" />
+		<property name="cronExpression" value="0 0 0/4 * * ?" />
+ 
+	</bean> 
 
 <bean id="schedulerJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
 <property name="jobDetail" ref="schedulerJobBean" />
@@ -61,7 +69,7 @@ class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
 <ref bean="schedulerJobTrigger" />
 </list>
 </property>
-</bean>    -->
+</bean>   -->
 	
 </beans>
 
