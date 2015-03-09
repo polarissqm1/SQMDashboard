@@ -8,6 +8,47 @@ public class TrendReportsVO implements Serializable {
 	private Float defectDensity;
 	private String plan;
 	private String actual;
+	private String defectRootCause;
+	private String defectType;
+	private String defectRaisedDate;
+	private String defectFixedDate;
+	private Float defectSeverityIndex;
+	private Float badFix;
+	private String defectAgeing;
+	private String defectSeverityBrkp;
+	private String pass;
+	private String failed;
+	private String rdate;
+	private Float defectAcceptance;
+	private String open;
+	private String closed;
+	private String urgent;
+	private String high;
+	private String medium;
+	public String getDefectRootCause() {
+		return defectRootCause;
+	}
+	public void setDefectRootCause(String defectRootCause) {
+		this.defectRootCause = defectRootCause;
+	}
+	public String getDefectType() {
+		return defectType;
+	}
+	public void setDefectType(String defectType) {
+		this.defectType = defectType;
+	}
+	public String getDefectRaisedDate() {
+		return defectRaisedDate;
+	}
+	public void setDefectRaisedDate(String defectRaisedDate) {
+		this.defectRaisedDate = defectRaisedDate;
+	}
+	public String getDefectFixedDate() {
+		return defectFixedDate;
+	}
+	public void setDefectFixedDate(String defectFixedDate) {
+		this.defectFixedDate = defectFixedDate;
+	}
 	public String getActual() {
 		return actual;
 	}
@@ -56,13 +97,7 @@ public class TrendReportsVO implements Serializable {
 	public void setDashboardVO(DashboardVO dashboardVO) {
 		this.dashboardVO = dashboardVO;
 	}
-	private Float defectSeverityIndex;
-	private Float badFix;
-	private String defectAgeing;
-	private String defectSeverityBrkp;
-	private String pass;
-	private String failed;
-	private String rdate;
+
 	public String getPass() {
 		return pass;
 	}
@@ -87,12 +122,7 @@ public class TrendReportsVO implements Serializable {
 	public void setClosed(String closed) {
 		this.closed = closed;
 	}
-	private Float defectAcceptance;
-	private String open;
-	private String closed;
-	private String urgent;
-	private String high;
-	private String medium;
+	
 	public String getUrgent() {
 		return urgent;
 	}

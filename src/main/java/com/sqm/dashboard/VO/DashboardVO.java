@@ -15,6 +15,7 @@ public class DashboardVO implements Serializable {
 	private RagVO ragVO;
 	private List<StatusAndSeverityVO> statusAndSeverityVO;
 	private List<TestCaseExecutionStatusVO> testCaseExecutionStatusVO;
+	private List<DefectIdsVO> defectVO;
 	private String rdate;
 	private String plan;
 	public String getPlan() {
@@ -81,6 +82,12 @@ public class DashboardVO implements Serializable {
 	
 	
 	
+	public List<DefectIdsVO> getDefectVO() {
+		return defectVO;
+	}
+	public void setDefectVO(List<DefectIdsVO> defectVO) {
+		this.defectVO = defectVO;
+	}
 	public RagVO getRagVO() {
 		return ragVO;
 	}

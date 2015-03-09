@@ -24,7 +24,7 @@ dashboardApp
 					$scope.toggleMin = function() {
 						/*$scope.minDate = $scope.minDate ? null : new Date();*/
 						$scope.minDate = "16/Feb/15";
-						$scope.maxDate = "05/Mar/15";
+						$scope.maxDate = new Date();
 						
 					};
 					
@@ -98,8 +98,42 @@ dashboardApp
 						$scope.trendReports = $http.get("dash/trendreports/getTrendingInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName+"&fromDate="+$scope.selectedStart+"&toDate="+$scope.selectedEnd).success(function(response) {
 
 											//alert(JSON.stringify(response));
-					
-											/*alert(JSON.stringify(response));
+					        var rdate=[];
+					        var actual=[];
+					        var passed=[];
+					        var failed=[];
+					        var open=[];
+					        var closed=[];
+					        var defectDensity=[];
+					        var defectSeverityIndex=[];
+					        var badFix=[];
+					        var defectAccept=[];
+					        var urgent=[];
+					        var high=[];
+					        var medium=[];
+					        var low=[];
+					        for(var i=0;i<response.entity.length;i++){
+					        	rdate.push(response.entity[i].rdate);
+					        	actual.push(parseInt(response.entity[i].actual));
+					        	passed.push(parseInt(response.entity[i].pass));
+					        	failed.push(parseInt(response.entity[i].failed));
+					        	open.push(parseInt(response.entity[i].open));
+					        	closed.push(parseInt(response.entity[i].closed));
+					        	defectDensity.push(Math.round(parseFloat(response.entity[i].defectDensity)*10)/10);
+					        	defectSeverityIndex.push(Math.round(parseFloat(response.entity[i].defectSeverityIndex)*10)/10);
+					        	badFix.push(Math.round(parseFloat(response.entity[i].badFix)*10)/10);
+					        	defectAccept.push(Math.round(parseFloat(response.entity[i].defectAcceptance)*10)/10);
+					        	urgent.push(parseInt(response.entity[i].urgent));
+					        	high.push(parseInt(response.entity[i].high));
+					        	medium.push(parseInt(response.entity[i].medium));
+					        	low.push(parseInt(response.entity[i].low));
+					        }
+					      /*  alert("+++++++++++"+rdate);
+					        alert("+++++++++++"+actual);
+					        alert("+++++++++++"+passed);
+					        alert("+++++++++++"+failed);
+					        alert(defectDensity);*/
+					        /*alert(JSON.stringify(response));
 											
 											alert("selected Project Name"+$rootScope.selectedProjectName);
 											alert("selected Project file"+$rootScope.selectedProjectName);*/
@@ -110,23 +144,29 @@ dashboardApp
 											$scope.plotDefectDensity(response.entity.statusAndSeverityVO[5].total,response.entity.testCaseExecutionStatusVO[6].count);
 											scope.plotDefectAccept(response.entity.statusAndSeverityVO[3].total,response.entity.statusAndSeverityVO[5].total);
 											$scope.plotDefectSeverityIndex();*/
-											$scope.plotDefectsOpenClosed(response.entity);
-											$scope.plotDefectDensity(response.entity);
-											$scope.plotBadFix(response.entity);
-											$scope.plotDefectAccept(response.entity);
-											$scope.plotDefectSeverityIndex(response.entity);
-											$scope.plotTestCaseStatChart(response.entity);
-											$scope.plotDefectSeverityBreakUp(response.entity);
-											$scope.plotChart(response.entity);
+											
+												   
+												
+											$scope.plotDefectsOpenClosed(rdate,open,closed);
+											$scope.plotDefectDensity(rdate,defectDensity);
+											$scope.plotBadFix(rdate,badFix);
+											$scope.plotDefectAccept(rdate,defectAccept);
+											$scope.plotDefectSeverityIndex(rdate,defectSeverityIndex);
+											$scope.plotTestCaseStatChart(rdate,passed,failed);
+											$scope.plotDefectSeverityBreakUp(response);
+											$scope.plotChart(actual,rdate);
 											$scope.plotDefectRootBreakUp();
 											$scope.plotDefectTypeBreakUp();
 											$scope.plotDefectAgeing();
+												
 										});
-						
+						$scope.trendReports = $http.get("dash/trendreports/getReleaseInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName+"&fromDate="+$scope.selectedStart+"&toDate="+$scope.selectedEnd).success(function(response) {
+							//alert(JSON.stringify(response));
+						});
 					};
 					//******************** Highcharts *************************//
 
-					$scope.plotChart = function(response) {
+					$scope.plotChart = function(actual,rdate) {
 						Highcharts.setOptions({
 							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
@@ -158,7 +198,7 @@ dashboardApp
 											},
 
 											xAxis : {
-												categories : [  $scope.selectedStart+"-"+$scope.selectedEnd ]
+												categories :rdate
 											},
 
 											yAxis : {
@@ -188,19 +228,19 @@ dashboardApp
 											series : [
 													{
 														name : 'Planned',
-														data : [parseInt(35262) ],
+														data : [parseInt(35262),parseInt(35262),parseInt(35262),parseInt(35262)],
 														stack : 'male'
 													},
 													{
 														name : 'Actual',
-														data : [parseInt(response.actual) ],
+														data : actual,
 														stack : 'female'
 													} ]
 										});
 					};
 
 					//***************** Test Case Status ******************//
-					$scope.plotTestCaseStatChart = function(response) {
+					$scope.plotTestCaseStatChart = function(rdate,passed,failed) {
 						Highcharts.setOptions({
 							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
@@ -232,7 +272,7 @@ dashboardApp
 											},
 
 											xAxis : {
-												categories : [  $scope.selectedStart+"-"+$scope.selectedEnd ]
+												categories : rdate
 											},
 
 											yAxis : {
@@ -263,12 +303,12 @@ dashboardApp
 											series : [
 													{
 														name : 'passed',
-														data : [ parseInt(response.pass) ],
+														data : passed,
 														stack : 'male'
 													},
 													{
 														name : 'Fail',
-														data : [ parseInt(response.failed) ],
+														data : failed,
 														stack : 'female'
 													} ]
 										});
@@ -276,7 +316,7 @@ dashboardApp
 
 					//************************ Defects Open  ***************************//
 
-					$scope.plotDefectsOpenClosed = function(response) {
+					$scope.plotDefectsOpenClosed = function(rdate,open,closed) {
 						Highcharts.setOptions({
 							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
@@ -308,7 +348,7 @@ dashboardApp
 											},
 
 											xAxis : {
-												categories: [ $scope.selectedStart+"-"+$scope.selectedEnd]
+												categories: rdate
 											},
 
 											yAxis : {
@@ -339,12 +379,12 @@ dashboardApp
 											series : [
 													{
 														name : 'Open',
-														data : [ parseInt(response.open) ],
+														data : open,
 														stack : 'male'
 													},
 													{
 														name : 'Closed',
-														data : [ parseInt(response.closed) ],
+														data : closed,
 														stack : 'female'
 													} ]
 										});
@@ -353,7 +393,7 @@ dashboardApp
 					//************************ Defects Open  ***************************//
 
 					//************************ Defect Density  ***************************//
-					$scope.plotDefectDensity = function(response) {
+					$scope.plotDefectDensity = function(rdate,defectDensity) {
 						Highcharts.setOptions({
 							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
@@ -371,7 +411,7 @@ dashboardApp
 									},
 
 									xAxis : {
-										categories : [  $scope.selectedStart+"-"+$scope.selectedEnd]
+										categories : rdate
 									},
 									yAxis : {
 										title : {
@@ -392,13 +432,13 @@ dashboardApp
 
 									series : [ {
 										name : 'Defect Density',
-										data : [ parseFloat(response.defectDensity) ]
+										data : defectDensity
 									} ]
 								});
 
 					};
 					//************************ Defects Density Index  ***************************//
-					$scope.plotDefectSeverityIndex = function(response) {
+					$scope.plotDefectSeverityIndex = function(rdate,defectSeverityIndex) {
 
 						Highcharts.setOptions({
 							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
@@ -420,7 +460,7 @@ dashboardApp
 										x : -20
 									},
 									xAxis : {
-										categories : [  $scope.selectedStart+"-"+$scope.selectedEnd ]
+										categories :rdate
 									},
 									yAxis : {
 										title : {
@@ -441,13 +481,13 @@ dashboardApp
 									
 									series : [ {
 										name : 'DSI',
-										data : [ parseFloat(response.defectSeverityIndex) ]
+										data : defectSeverityIndex
 									} ]
 								});
 
 					};
 					//************************ Bad Fix  ***************************//
-					$scope.plotBadFix = function(response) {
+					$scope.plotBadFix = function(rdate,badFix) {
 
 						Highcharts.setOptions({
 							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
@@ -469,7 +509,7 @@ dashboardApp
 										x : -20
 									},
 									xAxis : {
-										categories : [ $scope.selectedStart+"-"+$scope.selectedEnd  ]
+										categories :rdate
 									},
 									yAxis : {
 										title : {
@@ -491,13 +531,13 @@ dashboardApp
 
 									series : [ {
 										name : 'Re-opened',
-										data : [ response.badFix ]
+										data : badFix
 									} ]
 								});
 
 					};
 					//************************ Defect Acceptance Rate  ***************************//
-					$scope.plotDefectAccept = function(response) {
+					$scope.plotDefectAccept = function(rdate,defectAccept) {
 						Highcharts.setOptions({
 							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
@@ -518,7 +558,7 @@ dashboardApp
 										x : -20
 									},
 									xAxis : {
-										categories : [  $scope.selectedStart+"-"+$scope.selectedEnd ]
+										categories : rdate
 									},
 									yAxis : {
 										title : {
@@ -540,7 +580,7 @@ dashboardApp
 
 									series : [ {
 										name : "Defect Accept",
-										data : [ parseFloat(response.defectAcceptance) ]
+										data : defectAccept
 									} ]
 								});
 
@@ -729,13 +769,13 @@ dashboardApp
 												data : [
 														[
 																"urgent",
-																parseInt(response.urgent) ],
+																parseInt(response.entity[0].urgent),parseInt(response.entity[1].urgent),parseInt(response.entity[2].urgent),parseInt(response.entity[3].urgent) ],
 														[
 																"high",
-																parseInt(response.high) ],
+																parseInt(response.entity[0].high),parseInt(response.entity[1].high),parseInt(response.entity[2].high),parseInt(response.entity[3].high)],
 														[
 																"medium",
-																parseInt(response.medium) ],
+																parseInt(response.entity[0].medium),parseInt(response.entity[1].medium),parseInt(response.entity[2].medium),parseInt(response.entity[3].medium)],
 														[ "low", 22 ] ]
 											} ]
 										});

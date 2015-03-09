@@ -68,6 +68,30 @@ public class TrendReportsController {
 		
 	}
 	
+	@RequestMapping(value = "/getReleaseInfo", method = RequestMethod.GET )
+	public @ResponseBody Response  getReleaseInfo(@RequestParam(value="projectName") String project,
+			@RequestParam(value="releaseName") String release,@RequestParam(value="fromDate") String fromDate,@RequestParam(value="toDate") String toDate){
+		
+		try{
+		
+		log.info("project :"+project);
+		log.info("Release :"+release);
+		
+		log.info("Inside getTrendingInfo method :");
+		System.out.println("Inside getTrendingInfo method");
+		//log.debug(dashboardService);
+		return trendReportsService.getReleaseInfo(project,release,fromDate,toDate);
+           } 
+		
+		catch (Exception e) {
+			
+			log.error("Exception ocurred : ",e);
+			return null;
+		}
+		
+		
+	}
+	
 	
 
 }

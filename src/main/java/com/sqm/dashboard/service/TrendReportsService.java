@@ -6,4 +6,5 @@ import com.sqm.dashboard.VO.DashboardVO;
 
 public interface TrendReportsService {
 	public Response getTrendingInfo(String project,String release,String fromDate,String toDate)throws Exception;
+	public Response getReleaseInfo(String project,String release,String fromDate,String toDate)throws Exception;
 }

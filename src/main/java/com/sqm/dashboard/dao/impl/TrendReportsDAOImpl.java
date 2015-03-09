@@ -21,6 +21,7 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.sqm.dashboard.VO.AutomationVO;
 import com.sqm.dashboard.VO.DashboardVO;
+import com.sqm.dashboard.VO.DefectIdsVO;
 import com.sqm.dashboard.VO.EffortsVO;
 import com.sqm.dashboard.VO.ManualVO;
 import com.sqm.dashboard.VO.SeverityVO;
@@ -33,13 +34,13 @@ import com.sqm.dashboard.dao.TrendReportsDAO;
 public class TrendReportsDAOImpl implements TrendReportsDAO {
 	
 	@Override
-	public DashboardVO getTrendingInfo(String project,String release,String fromDate,String toDate) throws UnknownHostException {
+	public ArrayList getTrendingInfo(String project,String release,String fromDate,String toDate) throws UnknownHostException {
 		// TODO Auto-generated method stub
 		
 		final Logger log=Logger.getLogger(DashboardController.class);
 		 DBCursor cursor = null;
-		 DashboardVO dashVO=new DashboardVO();
-		 
+		 DashboardVO dashVO;
+		 ArrayList list=new ArrayList();
 		try {
 			MongoClient clientDb;
 			
@@ -75,7 +76,9 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 						 java.lang.reflect.Type listTypeTest = new TypeToken<ArrayList<TestCaseExecutionStatusVO>>() {}.getType();
 						 List<TestCaseExecutionStatusVO> testCaseVO=new Gson().fromJson(report.get("testCaseExecutionStatus").toString(), listTypeTest);
 						
-						
+						log.debug("************************************************ :");
+						log.debug(report.get("lastUpdationDate").toString());
+						dashVO=new DashboardVO();
 						dashVO.setManualVO(manualVO);
 						dashVO.setAutomationVO(automationVO);
 						dashVO.setEffortsVO(effortsVO);
@@ -84,6 +87,9 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 						dashVO.setTestCaseExecutionStatusVO(testCaseVO);
 						dashVO.setRdate(report.get("lastUpdationDate").toString());
 						//dashVO.setPlan(report.get("plan").toString());
+						
+						log.debug("************************************************ :");
+						log.debug(report.get("lastUpdationDate").toString());
 						log.debug("Response form Mongo :");
 						log.debug("Planned is"+dashVO.getPlan() );
 						log.debug("manualVO :"+ dashVO.getManualVO());
@@ -92,6 +98,7 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 						log.debug("severityVO :"+ dashVO.getSeverityVO());
 						log.debug("StatusAndSeverityVO :"+ dashVO.getStatusAndSeverityVO());
 						log.debug("TestCaseExecutionStatusVO :"+ dashVO.getTestCaseExecutionStatusVO());
+						list.add(dashVO);
 						
 					}
 				}catch (UnknownHostException e) {
@@ -103,7 +110,62 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 			 finally {
 					cursor.close();
 				}
-		return dashVO ;
+		return list ;
 	}
 
+	@Override
+	public ArrayList getReleaseInfo(String project, String release,
+			String fromDate, String toDate) throws UnknownHostException {
+		// TODO Auto-generated method stub
+		
+		DBCursor cursor = null;
+		DashboardVO dashVO;
+		ArrayList list=new ArrayList();
+		final Logger log=Logger.getLogger(DashboardController.class);
+		try {
+			MongoClient clientDb;
+			
+				clientDb = new MongoClient("172.23.16.28", 27017);
+			
+		  DB db = clientDb.getDB("sqmdb");
+			 /*System.out.println("Connect to database successfully");*/
+			 
+			 log.info("Connect to database successfully");
+			 log.info("DAO Layer");
+			 DBCollection table = db.getCollection("almOld");
+			 log.info("Connect to collection alm successfully");
+			 BasicDBObject searchQuery = new BasicDBObject();
+			 searchQuery.put("domain", "AWM");
+			 searchQuery.put("project", "ALT_INVEST");
+			 searchQuery.put("release", "QuantumWeb3.3");
+			 searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte", "13/feb/15").add("$lte", "25/feb/15").get());
+			 cursor = table.find(searchQuery);
+			 while (cursor.hasNext()){
+					DBObject report =cursor.next();
+					Gson gson=new Gson();
+					java.lang.reflect.Type listTypeTest = new TypeToken<ArrayList<DefectIdsVO>>() {}.getType();
+					List<DefectIdsVO> defectsVO=new Gson().fromJson(report.get("defects").toString(), listTypeTest);
+					
+					dashVO=new DashboardVO();
+					dashVO.setDefectVO(defectsVO);
+					list.add(dashVO);
+			 }
+			 }catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					
+					log.debug("DAO Layer");
+					throw e;
+				}
+		finally {
+			cursor.close();
+		}
+		
+		
+			 
+		return list;
+	}
+	
 }
+
+	
+
