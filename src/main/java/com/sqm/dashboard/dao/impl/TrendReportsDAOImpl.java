@@ -87,7 +87,7 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 						dashVO.setTestCaseExecutionStatusVO(testCaseVO);
 						dashVO.setRdate(report.get("lastUpdationDate").toString());
 						//dashVO.setPlan(report.get("plan").toString());
-						
+						log.debug(dashVO.toString());
 						log.debug("************************************************ :");
 						log.debug(report.get("lastUpdationDate").toString());
 						log.debug("Response form Mongo :");
