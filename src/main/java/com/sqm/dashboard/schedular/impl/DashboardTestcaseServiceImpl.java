@@ -12,12 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+
+
 import com.sqm.dashboard.schedular.DashboardTestcaseService;
 import com.sqm.dashboard.util.Constants;
 import com.sqm.dashboard.util.EntitiesUtility;
 import com.sqm.dashboard.util.MarshallingUtility;
 import com.sqm.dashboard.util.RestConnectorUtility;
+import com.sqm.dashboard.VO.AlmTestcaseVO;
+import com.sqm.dashboard.VO.SchedularManualVO;
 import com.sqm.dashboard.VO.SchedularTCExecStatusVO;
+import com.sqm.dashboard.VO.SchedularTestcaseExecVO;
 
 
 @Service("dbTestcaseServiceImpl")
@@ -25,6 +30,11 @@ public class DashboardTestcaseServiceImpl implements DashboardTestcaseService {s
 
 /*@Autowired*/
 SchedularTCExecStatusVO schedularTCExecStatusVO = new SchedularTCExecStatusVO();
+
+AlmTestcaseVO almTCVO = new AlmTestcaseVO();
+
+SchedularManualVO schedManualVO = new SchedularManualVO();
+SchedularTestcaseExecVO schedTestcaseExecVO = new SchedularTestcaseExecVO();
 
 /*	@Autowired
 DashboardSchedularDAOImpl dbSchedularDAOImpl;
@@ -48,7 +58,7 @@ private String tcBlocked;
 private Double tcTotal;
 
 @SuppressWarnings("unused")
-public SchedularTCExecStatusVO getAlmTestcases(RestConnectorUtility conn, Map<String, String> requestHeaders, String testcasesUrl, String releaseId) {
+public AlmTestcaseVO getAlmTestcases(RestConnectorUtility conn, Map<String, String> requestHeaders, String testcasesUrl, String releaseId) {
 	
 	try {
 		//tcPassed = dbTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_PASSED, releaseId);
@@ -132,29 +142,42 @@ public SchedularTCExecStatusVO getAlmTestcases(RestConnectorUtility conn, Map<St
 				"schedularTCExecStatusVO.getCount() : " + schedularTCExecStatusVO.getCount().toString() +
 				"schedularTCExecStatusVO.getPercentage() : " + schedularTCExecStatusVO.getPercentage().toString());*/
 		
+		schedTestcaseExecVO.setStatus(status);
+		schedTestcaseExecVO.setCount(count);
+		schedTestcaseExecVO.setPercentage(percentage);
+		
 		String passed = tcPassed;
 		String failed = tcFailed;
 		String noRun = tcNotRunAndNotCompleted;
 		String blocked = tcBlocked;
 		String deferred = tcDeferred;
 		
-		schedularTCExecStatusVO.setPassed(passed);
-		schedularTCExecStatusVO.setFailed(failed);
-		schedularTCExecStatusVO.setNoRun(noRun);
-		schedularTCExecStatusVO.setBlocked(blocked);
-		schedularTCExecStatusVO.setDeferred(deferred);
+		//schedularTCExecStatusVO.setPassed(passed);
+		//schedularTCExecStatusVO.setFailed(failed);
+		//schedularTCExecStatusVO.setNoRun(noRun);
+		//schedularTCExecStatusVO.setBlocked(blocked);
+		//schedularTCExecStatusVO.setDeferred(deferred);
 		
-		log.info("schedularTCExecStatusVO.getStatus() : " + schedularTCExecStatusVO.getPassed().toString() +
+		schedManualVO.setPassed(passed);
+		schedManualVO.setFailed(failed);
+		schedManualVO.setNoRun(noRun);
+		schedManualVO.setBlocked(blocked);
+		schedManualVO.setDeferred(deferred);
+		
+		/*log.info("schedularTCExecStatusVO.getStatus() : " + schedularTCExecStatusVO.getPassed().toString() +
 				"schedularTCExecStatusVO.getCount() : " + schedularTCExecStatusVO.getFailed().toString() +
 				"schedularTCExecStatusVO.getPercentage() : " + schedularTCExecStatusVO.getNoRun().toString() +
 				"schedularTCExecStatusVO.getCount() : " + schedularTCExecStatusVO.getBlocked().toString() + 
-				"schedularTCExecStatusVO.getCount() : " + schedularTCExecStatusVO.getDeferred().toString());
+				"schedularTCExecStatusVO.getCount() : " + schedularTCExecStatusVO.getDeferred().toString());*/
+		
+		almTCVO.setSchedManualVO(schedManualVO);
+		almTCVO.setSchedTestcaseExecVO(schedTestcaseExecVO);
 		
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
 	
-	return schedularTCExecStatusVO;
+	return almTCVO;
 }
 
 static String getAlmTestcases(RestConnectorUtility connection, Map<String, String> requestHeaders,  String testcasesUrl, 

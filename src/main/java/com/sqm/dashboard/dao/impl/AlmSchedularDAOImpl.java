@@ -22,39 +22,47 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 	final Logger log = Logger.getLogger(AlmSchedularDAOImpl.class);
 	public void validatorInsertion(AlmVO almVO) throws Exception{
 		
-		/* DBCursor cursor = null;
+		 DBCursor cursor = null;
 		String keyValue=almVO.getRelease()+DashboardUtility.getCurrentDate().toString();
 		 DBCollection table=DashboardDAOImpl.getDbCollection("alm");
 		try{
 			BasicDBObject searchQuery = new BasicDBObject();
 			searchQuery.put("domain", almVO.getDomain());
 			cursor = table.find(searchQuery);
-			int i=cursor.length();
-			System.out.println(i);
+		
+			
+			boolean isKeyValueMatching = false;
+			
 			while (cursor.hasNext()) {
 				DBObject report =cursor.next();
 				if(report.get("key").toString().equalsIgnoreCase(keyValue)){
-					updateAlmToDb(almVO,table,keyValue);
-				}else{
-					insertAlmToDb(almVO,table,keyValue);
+					isKeyValueMatching = true;
 				}
 			}
-			
+			if(isKeyValueMatching){
+				 System.out.println("isKeyValueMatching : " + isKeyValueMatching);
+				 System.out.println("updateAlmToDb");
+			 	 updateAlmToDb(almVO, table, keyValue);
+			 } else {
+				 System.out.println("isKeyValueMatching : " + isKeyValueMatching);
+				 System.out.println("insertAlmToDb");
+				 insertAlmToDb(almVO, table, keyValue);
+			 }
 			
 		}catch(Exception e)
 		{
 			log.info("Exception occured at Validation level");
 			throw e;
-		}*/
+		}
 	}
 
 	@Override
-	public  void insertAlmToDb(AlmVO almVO) throws Exception {
+	public  void insertAlmToDb(AlmVO almVO, DBCollection table,String keyValue) throws Exception {
 
 
 		 BasicDBObject alm = new BasicDBObject();
-		 String keyValue=almVO.getRelease()+DashboardUtility.getCurrentDate().toString();
-		 DBCollection table=DashboardDAOImpl.getDbCollection("alm");
+		/* String keyValue=almVO.getRelease()+DashboardUtility.getCurrentDate().toString();
+		 DBCollection table=DashboardDAOImpl.getDbCollection("alm");*/
 	       
 	       List<BasicDBObject> automation_TCExecutionStatus = new ArrayList<BasicDBObject>();
 	       automation_TCExecutionStatus.add(new BasicDBObject("passed", "2000"));
@@ -82,7 +90,7 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 	     
 	     //  alm.put("key", "CFPCOB 2015-03-02");
 	       alm.put("key", keyValue);
-	       alm.put("lastUpdationDate", "2015-03-02T07:47:37.676Z");
+	       alm.put("lastUpdationDate", DashboardUtility.getCurrentDate());
 	       
 	       
 	       List<BasicDBObject> manual_TCExecutionStatus = new ArrayList<BasicDBObject>();
@@ -99,12 +107,20 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 	       
  // manual_TCExecutionStatus.add(new BasicDBObject("passed", "2000"));
 	       
-	       manual_TCExecutionStatus.add(new BasicDBObject("passed", almVO.getTestcaseVO().getPassed()));
+	       /*manual_TCExecutionStatus.add(new BasicDBObject("passed", almVO.getTestcaseVO().getPassed()));
 	       
 	       manual_TCExecutionStatus.add(new BasicDBObject("failed", almVO.getTestcaseVO().getFailed()));
 	       manual_TCExecutionStatus.add(new BasicDBObject("noRun", almVO.getTestcaseVO().getNoRun()));
 	       manual_TCExecutionStatus.add(new BasicDBObject("blocked", almVO.getTestcaseVO().getBlocked()));
-	       manual_TCExecutionStatus.add(new BasicDBObject("defered", almVO.getTestcaseVO().getDeferred()));
+	       manual_TCExecutionStatus.add(new BasicDBObject("defered", almVO.getTestcaseVO().getDeferred()));*/
+	       
+	       
+	       manual_TCExecutionStatus.add(new BasicDBObject("passed", almVO.getAlmTCVO().getSchedManualVO().getPassed()));
+	       manual_TCExecutionStatus.add(new BasicDBObject("failed", almVO.getAlmTCVO().getSchedManualVO().getFailed()));
+	       manual_TCExecutionStatus.add(new BasicDBObject("noRun", almVO.getAlmTCVO().getSchedManualVO().getNoRun()));
+	       manual_TCExecutionStatus.add(new BasicDBObject("blocked", almVO.getAlmTCVO().getSchedManualVO().getBlocked()));
+	       manual_TCExecutionStatus.add(new BasicDBObject("defered", almVO.getAlmTCVO().getSchedManualVO().getDeferred()));
+	       
 	       alm.put("manual_TCExecutionStatus", manual_TCExecutionStatus);
 	      
 	       
@@ -130,7 +146,7 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 	       
 	       
 	       
-	       for(BasicDBObject dbObj: statusAndSeverity){
+	       
 	    	   
 	    	   
 	    	   statusAndSeverity.add(new BasicDBObject("statusSeverity", "Open/New/Re-Opened/Assigned"));
@@ -138,32 +154,37 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		       statusAndSeverity.add(new BasicDBObject("High", almVO.getDefectsVO().getHigh().get(0)));
 		       statusAndSeverity.add(new BasicDBObject("Medium", almVO.getDefectsVO().getMedium().get(0)));
 		       statusAndSeverity.add(new BasicDBObject("Low", almVO.getDefectsVO().getLow().get(0)));
+		       statusAndSeverity.add(new BasicDBObject("Total", almVO.getDefectsVO().getTotalDefects().get(0)));
 			
 		       statusAndSeverity.add(new BasicDBObject("statusSeverity", "Fixed/Ready for Re-test"));
 		       statusAndSeverity.add(new BasicDBObject("Urgent", almVO.getDefectsVO().getUrgent().get(1)));
 		       statusAndSeverity.add(new BasicDBObject("High", almVO.getDefectsVO().getHigh().get(1)));
 		       statusAndSeverity.add(new BasicDBObject("Medium", almVO.getDefectsVO().getMedium().get(1)));
 		       statusAndSeverity.add(new BasicDBObject("Low", almVO.getDefectsVO().getLow().get(1)));
+		       statusAndSeverity.add(new BasicDBObject("Total", almVO.getDefectsVO().getTotalDefects().get(1)));
 		       
 		       statusAndSeverity.add(new BasicDBObject("statusSeverity", "Duplicate/Rejected"));
 		       statusAndSeverity.add(new BasicDBObject("Urgent", almVO.getDefectsVO().getUrgent().get(2)));
 		       statusAndSeverity.add(new BasicDBObject("High", almVO.getDefectsVO().getHigh().get(2)));
 		       statusAndSeverity.add(new BasicDBObject("Medium", almVO.getDefectsVO().getMedium().get(2)));
 		       statusAndSeverity.add(new BasicDBObject("Low", almVO.getDefectsVO().getLow().get(2)));
+		       statusAndSeverity.add(new BasicDBObject("Total", almVO.getDefectsVO().getTotalDefects().get(2)));
 		       
 		       statusAndSeverity.add(new BasicDBObject("statusSeverity", "Deferred"));
 		       statusAndSeverity.add(new BasicDBObject("Urgent", almVO.getDefectsVO().getUrgent().get(3)));
 		       statusAndSeverity.add(new BasicDBObject("High", almVO.getDefectsVO().getHigh().get(3)));
 		       statusAndSeverity.add(new BasicDBObject("Medium", almVO.getDefectsVO().getMedium().get(3)));
 		       statusAndSeverity.add(new BasicDBObject("Low", almVO.getDefectsVO().getLow().get(3)));
+		       statusAndSeverity.add(new BasicDBObject("Total", almVO.getDefectsVO().getTotalDefects().get(3)));
 		       
 		       statusAndSeverity.add(new BasicDBObject("statusSeverity", "Closed"));
 		       statusAndSeverity.add(new BasicDBObject("Urgent", almVO.getDefectsVO().getUrgent().get(4)));
 		       statusAndSeverity.add(new BasicDBObject("High", almVO.getDefectsVO().getHigh().get(4)));
 		       statusAndSeverity.add(new BasicDBObject("Medium", almVO.getDefectsVO().getMedium().get(4)));
 		       statusAndSeverity.add(new BasicDBObject("Low", almVO.getDefectsVO().getLow().get(4)));
+		       statusAndSeverity.add(new BasicDBObject("Total", almVO.getDefectsVO().getTotalDefects().get(4)));
 	    	   
-	       }
+	       
 	       
 	       
 	       
@@ -209,28 +230,34 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		
 	}
 	
-	private static void updateAlmToDb(AlmVO almVO) throws Exception{
+	private static void updateAlmToDb(AlmVO almVO, DBCollection table,String keyValue) throws Exception{
 		
 		
-		 String keyValue=almVO.getRelease()+DashboardUtility.getCurrentDate().toString();
-		 DBCollection table=DashboardDAOImpl.getDbCollection("alm");
+		/* String keyValue=almVO.getRelease()+DashboardUtility.getCurrentDate().toString();
+		 DBCollection table=DashboardDAOImpl.getDbCollection("alm");*/
 		 //System.out.println("Update DB");
 		 Date date=DashboardUtility.getCurrentDate();
 		 BasicDBObject lastUpdateDate = new BasicDBObject();
 		 ///////////////////////////////////////////////////////
-		 lastUpdateDate.append("$set", new BasicDBObject().append("lastUpdationDate", "üpdatedddd"));
+		 lastUpdateDate.append("$set", new BasicDBObject().append("lastUpdationDate",date));
 		  
 	       
 		 BasicDBObject manual = new BasicDBObject();
 	       List<BasicDBObject> manual_TCExecutionStatus = new ArrayList<BasicDBObject>();
 	       
 	       
-	       manual_TCExecutionStatus.add(new BasicDBObject("passed", almVO.getTestcaseVO().getPassed()));
+	       manual_TCExecutionStatus.add(new BasicDBObject("passed", almVO.getAlmTCVO().getSchedManualVO().getPassed()));
+	       manual_TCExecutionStatus.add(new BasicDBObject("failed", almVO.getAlmTCVO().getSchedManualVO().getFailed()));
+	       manual_TCExecutionStatus.add(new BasicDBObject("noRun", almVO.getAlmTCVO().getSchedManualVO().getNoRun()));
+	       manual_TCExecutionStatus.add(new BasicDBObject("blocked", almVO.getAlmTCVO().getSchedManualVO().getBlocked()));
+	       manual_TCExecutionStatus.add(new BasicDBObject("defered", almVO.getAlmTCVO().getSchedManualVO().getDeferred()));
+	       
+	   /*    manual_TCExecutionStatus.add(new BasicDBObject("passed", almVO.getTestcaseVO().getPassed()));
 	       
 	       manual_TCExecutionStatus.add(new BasicDBObject("failed", almVO.getTestcaseVO().getFailed()));
 	       manual_TCExecutionStatus.add(new BasicDBObject("noRun", almVO.getTestcaseVO().getNoRun()));
 	       manual_TCExecutionStatus.add(new BasicDBObject("blocked", almVO.getTestcaseVO().getBlocked()));
-	       manual_TCExecutionStatus.add(new BasicDBObject("defered", almVO.getTestcaseVO().getDeferred()));
+	       manual_TCExecutionStatus.add(new BasicDBObject("defered", almVO.getTestcaseVO().getDeferred()));*/
 	       
 	       
 	       manual.append("$set", new BasicDBObject().append("manual_TCExecutionStatus", manual_TCExecutionStatus));
@@ -243,40 +270,47 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 	       
 	       
 	       
-	       for(BasicDBObject dbObj: statusAndSeverity){
+	       
 	    	   
+	    	   
+   
 	    	   
 	    	   statusAndSeverity.add(new BasicDBObject("statusSeverity", "Open/New/Re-Opened/Assigned"));
 		       statusAndSeverity.add(new BasicDBObject("Urgent", almVO.getDefectsVO().getUrgent().get(0)));
 		       statusAndSeverity.add(new BasicDBObject("High", almVO.getDefectsVO().getHigh().get(0)));
 		       statusAndSeverity.add(new BasicDBObject("Medium", almVO.getDefectsVO().getMedium().get(0)));
 		       statusAndSeverity.add(new BasicDBObject("Low", almVO.getDefectsVO().getLow().get(0)));
+		       statusAndSeverity.add(new BasicDBObject("Total", almVO.getDefectsVO().getTotalDefects().get(0)));
 			
 		       statusAndSeverity.add(new BasicDBObject("statusSeverity", "Fixed/Ready for Re-test"));
 		       statusAndSeverity.add(new BasicDBObject("Urgent", almVO.getDefectsVO().getUrgent().get(1)));
 		       statusAndSeverity.add(new BasicDBObject("High", almVO.getDefectsVO().getHigh().get(1)));
 		       statusAndSeverity.add(new BasicDBObject("Medium", almVO.getDefectsVO().getMedium().get(1)));
 		       statusAndSeverity.add(new BasicDBObject("Low", almVO.getDefectsVO().getLow().get(1)));
+		       statusAndSeverity.add(new BasicDBObject("Total", almVO.getDefectsVO().getTotalDefects().get(1)));
 		       
 		       statusAndSeverity.add(new BasicDBObject("statusSeverity", "Duplicate/Rejected"));
 		       statusAndSeverity.add(new BasicDBObject("Urgent", almVO.getDefectsVO().getUrgent().get(2)));
 		       statusAndSeverity.add(new BasicDBObject("High", almVO.getDefectsVO().getHigh().get(2)));
 		       statusAndSeverity.add(new BasicDBObject("Medium", almVO.getDefectsVO().getMedium().get(2)));
 		       statusAndSeverity.add(new BasicDBObject("Low", almVO.getDefectsVO().getLow().get(2)));
+		       statusAndSeverity.add(new BasicDBObject("Total", almVO.getDefectsVO().getTotalDefects().get(2)));
 		       
 		       statusAndSeverity.add(new BasicDBObject("statusSeverity", "Deferred"));
 		       statusAndSeverity.add(new BasicDBObject("Urgent", almVO.getDefectsVO().getUrgent().get(3)));
 		       statusAndSeverity.add(new BasicDBObject("High", almVO.getDefectsVO().getHigh().get(3)));
 		       statusAndSeverity.add(new BasicDBObject("Medium", almVO.getDefectsVO().getMedium().get(3)));
 		       statusAndSeverity.add(new BasicDBObject("Low", almVO.getDefectsVO().getLow().get(3)));
+		       statusAndSeverity.add(new BasicDBObject("Total", almVO.getDefectsVO().getTotalDefects().get(3)));
 		       
 		       statusAndSeverity.add(new BasicDBObject("statusSeverity", "Closed"));
 		       statusAndSeverity.add(new BasicDBObject("Urgent", almVO.getDefectsVO().getUrgent().get(4)));
 		       statusAndSeverity.add(new BasicDBObject("High", almVO.getDefectsVO().getHigh().get(4)));
 		       statusAndSeverity.add(new BasicDBObject("Medium", almVO.getDefectsVO().getMedium().get(4)));
 		       statusAndSeverity.add(new BasicDBObject("Low", almVO.getDefectsVO().getLow().get(4)));
+		       statusAndSeverity.add(new BasicDBObject("Total", almVO.getDefectsVO().getTotalDefects().get(4)));
 	    	   
-	       }
+	       
 	       
 	       
 	       statusSeverity.append("$set", new BasicDBObject().append("statusAndSeverity", statusAndSeverity));

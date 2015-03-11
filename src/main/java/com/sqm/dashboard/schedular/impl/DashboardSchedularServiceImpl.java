@@ -18,6 +18,7 @@ import com.sqm.dashboard.util.RestConnectorUtility;
 import com.sqm.dashboard.VO.AlmDomainProject;
 import com.sqm.dashboard.VO.AlmDomainProjectReleaseId;
 import com.sqm.dashboard.VO.AlmDomainProjectReleaseName;
+import com.sqm.dashboard.VO.AlmTestcaseVO;
 import com.sqm.dashboard.VO.AlmVO;
 import com.sqm.dashboard.VO.SchedularDefectsVO;
 import com.sqm.dashboard.VO.SchedularTCExecStatusVO;
@@ -63,7 +64,8 @@ public class DashboardSchedularServiceImpl implements DashboardSchedularService{
 		String defects = null;
 		String testcases = null;
 		
-		SchedularTCExecStatusVO schedTCVO = new SchedularTCExecStatusVO();
+		//SchedularTCExecStatusVO schedTCVO = new SchedularTCExecStatusVO();
+		AlmTestcaseVO almTCVO = new AlmTestcaseVO();
 		SchedularDefectsVO schedDefectsVO = new SchedularDefectsVO();
 		AlmVO almVO = new AlmVO();
 		AlmSchedularDAOImpl almDaoObj = new AlmSchedularDAOImpl();
@@ -139,18 +141,18 @@ public class DashboardSchedularServiceImpl implements DashboardSchedularService{
 						String testcasesUrl = conn.buildEntityCollectionUrl("run", almDomainProjReleaseId.get(j).getDomain(), almDomainProjReleaseId.get(j).getProject());
 						log.info("testcasesUrl : " + testcasesUrl);
 						
-						schedTCVO = dbTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, almDomainProjReleaseId.get(j).getReleaseId());
+						almTCVO = dbTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, almDomainProjReleaseId.get(j).getReleaseId());
 						
 						almVO.setDomain(almDomainProjReleaseId.get(j).getDomain());
 						almVO.setProject(almDomainProjReleaseId.get(j).getProject());
 						almVO.setRelease(almDomainProjReleaseName.get(j).getReleaseName());
 						almVO.setDefectsVO(schedDefectsVO);
-						almVO.setTestcaseVO(schedTCVO);
+						almVO.setAlmTCVO(almTCVO);
 						
 						log.info("almVO is :"+almVO.toString());
 						
-//						almDaoObj.validatorInsertion(almVO);
-						almDaoObj.insertAlmToDb(almVO);
+			almDaoObj.validatorInsertion(almVO);
+					//	almDaoObj.insertAlmToDb(almVO);
 				    }
 						
 			}

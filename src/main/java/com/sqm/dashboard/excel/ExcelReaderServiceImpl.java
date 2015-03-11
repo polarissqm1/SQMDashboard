@@ -22,7 +22,7 @@ import com.sqm.dashboard.VO.SchedularDefectsVO;
 import com.sqm.dashboard.VO.SchedularTCExecStatusVO;
 import com.sqm.dashboard.dao.impl.AlmSchedularDAOImpl;
 
-public class ExcelReaderServiceImpl {
+public class ExcelReaderServiceImpl {/*
 
 	AlmSchedularDAOImpl dbObj=new AlmSchedularDAOImpl();
 	SchedularDefectsVO defectsVO = new SchedularDefectsVO();
@@ -342,9 +342,9 @@ public class ExcelReaderServiceImpl {
 			testcaseVO.setBlocked(blocked);
 			testcaseVO.setDeferred(deferred);
 			
-			/*testcaseVO.setStatus(status);
+			testcaseVO.setStatus(status);
 			testcaseVO.setCount(count);
-			testcaseVO.setPercentage(percentage);*/
+			testcaseVO.setPercentage(percentage);
 			almVO.setDomain("CIIIB");
 			almVO.setProject("Quantam");
 			almVO.setRelease("Feb2015Release");
@@ -361,4 +361,4 @@ public class ExcelReaderServiceImpl {
 		dbObj.insertAlmToDb(almVO);
 		//return almVO;
 	}
-}
+*/}

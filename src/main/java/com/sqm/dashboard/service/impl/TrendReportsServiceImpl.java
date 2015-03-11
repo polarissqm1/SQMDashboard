@@ -69,7 +69,7 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 						trendReportsVO.setDefectDensity(defectDensity);
 						/*************************************Bad Fix*************/
 						String reopened=(String) dashVO.getStatusAndSeverityVO().get(0).getTotal();
-						Float badFix=Float.parseFloat(reopened)/Float.parseFloat(statusVO);
+						Float badFix=Float.parseFloat(reopened)*100/Float.parseFloat(statusVO);
 						log.info("Inside bad Fix "+ badFix);
 						trendReportsVO.setBadFix(badFix);
 						/*****************************Status Severity*******************************/

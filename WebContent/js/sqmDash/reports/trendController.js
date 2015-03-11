@@ -168,30 +168,19 @@ dashboardApp
 
 					$scope.plotChart = function(actual,rdate) {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
+							colors : [ '#8dd3c7','#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
 						});
 
 						$('#testcaseexec')
 								.highcharts(
 										{
-
-											chart : {
-												type : 'column',
-												options3d : {
-													enabled : true,
-													alpha : 15,
-													beta : 15,
-													viewDistance : 25,
-													depth : 40,
-
-												},
-												marginTop : 80,
-												marginRight : 40
-											},
-
 											title : {
-												text : 'Test Case Execution Rate'
+												text : 'Test Case Execution Rate',
+													style: {
+											            fontSize: 'medium',
+											            color : '#428bca'
+											        },
 											},
 											credits : {
 												enabled : false
@@ -202,29 +191,21 @@ dashboardApp
 											},
 
 											yAxis : {
-												allowDecimals : false,
-												min : 0,
 												title : {
 													text : 'Number of Testcases'
 												}
 											},
-
-											tooltip : {
-												headerFormat : '<b>{point.key}</b><br>',
-												pointFormat : '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
-											},
-
 											plotOptions : {
-												column : {
-													stacking : 'normal',
-													depth : 25,
-													colors : [ '#74C7FF' ],
+												line : {
 													dataLabels : {
 														enabled : true
-													}
+													},
+
 												}
 											},
 
+											tooltip : {
+												},
 											series : [
 													{
 														name : 'Planned',
@@ -242,33 +223,30 @@ dashboardApp
 					//***************** Test Case Status ******************//
 					$scope.plotTestCaseStatChart = function(rdate,passed,failed) {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
+							colors : [ '#8dd3c7', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
 						});
 
 						$('#testcasestat')
 								.highcharts(
 										{
-
-											chart : {
-												type : 'column',
-												options3d : {
-													enabled : true,
-													alpha : 15,
-													beta : 15,
-													viewDistance : 25,
-													depth : 40,
-
-												},
-												marginTop : 80,
-												marginRight : 40
-											},
-
 											title : {
-												text : 'Test Case Status(Pass vs Fail)'
+												text : 'Test Case Status',
+												style: {
+										            fontSize: 'medium',
+										            color : '#428bca'
+										        }
 											},
+											subtitle: {
+											    text: '(Pass vs Fail)',
+											    style: {
+										            fontSize: 'small',
+										            color : '#428bca'
+										        }
+											},
+											
 											credits : {
-												enabled : false
+												enabled : true
 											},
 
 											xAxis : {
@@ -276,38 +254,32 @@ dashboardApp
 											},
 
 											yAxis : {
-												allowDecimals : false,
-												min : 0,
 												title : {
 													text : 'Number of Testcases'
 												}
 											},
 
 											tooltip : {
-												headerFormat : '<b>{point.key}</b><br>',
-												pointFormat : '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
+												
 											},
 
 											plotOptions : {
-												column : {
-													stacking : 'normal',
-													depth : 25,
-													colors : [ '#E52325',
-															'#74C7FF' ],
+												line : {
 													dataLabels : {
 														enabled : true
-													}
+													},
+
 												}
 											},
 
 											series : [
 													{
-														name : 'passed',
+														name : 'Passed',
 														data : passed,
 														stack : 'male'
 													},
 													{
-														name : 'Fail',
+														name : 'Failed',
 														data : failed,
 														stack : 'female'
 													} ]
@@ -318,30 +290,26 @@ dashboardApp
 
 					$scope.plotDefectsOpenClosed = function(rdate,open,closed) {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
+							colors : [ '#8dd3c7', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
 						});
 
 						$('#defectsopen')
 								.highcharts(
 										{
-
-											chart : {
-												type : 'column',
-												options3d : {
-													enabled : true,
-													alpha : 15,
-													beta : 15,
-													viewDistance : 25,
-													depth : 40,
-
-												},
-												marginTop : 80,
-												marginRight : 40
-											},
-
 											title : {
-												text : 'Defects - Open Vs Closed'
+												text : 'Defects',
+												style: {
+										            fontSize: 'medium',
+										            color : '#428bca'
+										        }
+											},
+											subtitle : {
+												text : '(Open vs Closed)',
+													style: {
+											            fontSize: 'small',
+											            color : '#428bca'
+											        }
 											},
 											credits : {
 												enabled : false
@@ -360,25 +328,19 @@ dashboardApp
 											},
 
 											tooltip : {
-												headerFormat : '<b>{point.key}</b><br>',
-												pointFormat : '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
 											},
-
 											plotOptions : {
-												column : {
-													stacking : 'normal',
-													depth : 25,
-													colors : [ '#E52325',
-															'#74C7FF' ],
+												line : {
 													dataLabels : {
 														enabled : true
-													}
+													},
+
 												}
 											},
 
 											series : [
 													{
-														name : 'Open',
+														name : 'Opened',
 														data : open,
 														stack : 'male'
 													},
@@ -395,7 +357,7 @@ dashboardApp
 					//************************ Defect Density  ***************************//
 					$scope.plotDefectDensity = function(rdate,defectDensity) {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
+							colors : [ '#8dd3c7', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
 						});
 
@@ -403,6 +365,10 @@ dashboardApp
 								{
 									title : {
 										text : 'Defect Density',
+										style: {
+								            fontSize: 'medium',
+								            color : '#428bca'
+								        },
 										x : -20
 									//center
 									},
@@ -416,6 +382,7 @@ dashboardApp
 									yAxis : {
 										title : {
 											text : 'Defect Density'
+												
 										}
 									},
 									plotOptions : {
@@ -427,7 +394,7 @@ dashboardApp
 										}
 									},
 									tooltip : {
-										valueSuffix : '%'
+										
 									},
 
 									series : [ {
@@ -441,7 +408,7 @@ dashboardApp
 					$scope.plotDefectSeverityIndex = function(rdate,defectSeverityIndex) {
 
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
+							colors : [ '#8dd3c7', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
 						});
 
@@ -449,6 +416,10 @@ dashboardApp
 								{
 									title : {
 										text : 'Defect Severity Index',
+										style: {
+								            fontSize: 'medium',
+								            color : '#428bca'
+								        },
 										x : -20
 									//center
 									},
@@ -465,6 +436,7 @@ dashboardApp
 									yAxis : {
 										title : {
 											text : 'Defect Severity Index'
+											
 										}
 									},
 									plotOptions : {
@@ -476,7 +448,7 @@ dashboardApp
 										}
 									},
 									tooltip : {
-										valueSuffix : '%'
+										
 									},
 									
 									series : [ {
@@ -490,30 +462,42 @@ dashboardApp
 					$scope.plotBadFix = function(rdate,badFix) {
 
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
+							colors : [ '#8dd3c7', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
 						});
 
 						$('#badfix').highcharts(
 								{
+									
 									title : {
-										text : 'Bad Fix(Re-Opened Defects)',
-										x : -20
+										text : 'Bad Fix',
+										style: {
+								            fontSize: 'medium',
+								            color : '#428bca'
+								        },
+										//x : -20
 									//center
+									},
+									subtitle : {
+										text : '(Open vs Closed)',
+											style: {
+									            fontSize: 'small',
+									            color : '#428bca'
+									        }
 									},
 									credits : {
 										enabled : false
 									},
-									subtitle : {
+									/*subtitle : {
 										text : '',
 										x : -20
-									},
+									},*/
 									xAxis : {
 										categories :rdate
 									},
 									yAxis : {
 										title : {
-											text : 'Re-opened Defects'
+											text : 'Re-opened Defects (%)'
 										}
 									},
 									plotOptions : {
@@ -539,7 +523,7 @@ dashboardApp
 					//************************ Defect Acceptance Rate  ***************************//
 					$scope.plotDefectAccept = function(rdate,defectAccept) {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
+							colors : [ '#8dd3c7', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
 						});
 
@@ -547,6 +531,10 @@ dashboardApp
 								{
 									title : {
 										text : 'Defect Acceptance Rate',
+										style: {
+								            fontSize: 'medium',
+								            color : '#428bca'
+								        },
 										x : -20
 									//center
 									},
@@ -575,11 +563,11 @@ dashboardApp
 
 									},
 									tooltip : {
-										valueSuffix : '%'
+										
 									},
 
 									series : [ {
-										name : "Defect Accept",
+										name : "Defects Accepted",
 										data : defectAccept
 									} ]
 								});
@@ -588,7 +576,7 @@ dashboardApp
 					//************************ Defect Ageing  ***************************//
 					$scope.plotDefectAgeing = function() {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
+							colors : [ '#8dd3c7', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
 						});
 
@@ -599,7 +587,11 @@ dashboardApp
 												type : 'column'
 											},
 											title : {
-												text : 'Defect Ageing'
+												text : 'Defect Ageing',
+												style: {
+										            fontSize: 'medium',
+										            color : '#428bca'
+										        }
 											},
 											credits : {
 												enabled : false
@@ -647,7 +639,7 @@ dashboardApp
 					//************************ Downtime Breakup  ***************************//
 					$scope.plotDowntimeBreakUp = function() {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
+							colors : [ '#8dd3c7', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
 						});
 
@@ -662,7 +654,11 @@ dashboardApp
 
 											},
 											title : {
-												text : 'Downtime Breakup'
+												text : 'Downtime Breakup',
+												style: {
+										            fontSize: 'medium',
+										            color : '#428bca'
+										        }
 											},
 											plotOptions : {
 												pie : {
@@ -701,7 +697,7 @@ dashboardApp
 					//************************ Defects Severity Breakup  ***************************//
 					$scope.plotDefectSeverityBreakUp = function(response) {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
+							colors : [ '#8dd3c7', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
 						});
 
@@ -737,17 +733,16 @@ dashboardApp
 													fontSize : "9px"
 												}
 											},
-											colors : [ '#8dd3c7', '#ffffb3',
+											colors : [ '#8dd3c7',
 													'#bebada', '#fb8072',
 													'#80b1d3', '#fdb462',
 													'b3de69' ],
 											title : {
-												text : 'Defect Severity Breakup'
-											/*style: {
-											     color: '#E0E0E3',
-											     textTransform: 'uppercase',
-											     fontSize: '20px'
-											  }*/
+												text : 'Defect Severity Breakup',
+												style: {
+										            fontSize: 'medium',
+										            color : '#428bca'
+										        }
 											},
 											tooltip : {
 												pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -784,7 +779,7 @@ dashboardApp
 					//************************ Defect Type Breakup  ***************************//
 					$scope.plotDefectTypeBreakUp = function() {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
+							colors : [ '#8dd3c7', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
 						});
 
@@ -799,7 +794,11 @@ dashboardApp
 
 											},
 											title : {
-												text : 'Defect Type Breakup'
+												text : 'Defect Type Breakup',
+												style: {
+										            fontSize: 'medium',
+										            color : '#428bca'
+										        }
 											},
 											plotOptions : {
 												pie : {
@@ -834,7 +833,7 @@ dashboardApp
 					//************************ Defect Rootcause Breakup ***************************//
 					$scope.plotDefectRootBreakUp = function() {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#ffffb3', '#bebada',
+							colors : [ '#8dd3c7', '#bebada',
 									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
 						});
 
@@ -849,7 +848,11 @@ dashboardApp
 
 											},
 											title : {
-												text : 'Defect Root Cause Breakup'
+												text : 'Defect Root Cause Breakup',
+												style: {
+										            fontSize: 'medium',
+										            color : '#428bca'
+										        }
 											},
 											plotOptions : {
 												pie : {
@@ -869,7 +872,6 @@ dashboardApp
 											},
 											series : [ {
 												type : 'pie',
-												/*name: 'Browser share',*/
 												data : [ [ 'Automated Test Script', 45.0 ],
 														[ 'Coding', 26.8 ],
 														[ 'Requirements', 8.5 ],
