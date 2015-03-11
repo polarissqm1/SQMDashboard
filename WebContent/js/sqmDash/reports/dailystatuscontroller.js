@@ -26,7 +26,16 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 		//alert(JSON.stringify(response.entity.statusAndSeverityVO));
 		$scope.tcstatus =response.entity.testCaseExecutionStatusVO;
 		$scope.names =response.entity.statusAndSeverityVO;   
-
+		$scope.tcsData= [
+		                  [$scope.tcstatus[0].status,   parseInt($scope.tcstatus[0].percentage)],
+		                  [$scope.tcstatus[1].status,       parseInt($scope.tcstatus[1].percentage)],
+		                  [$scope.tcstatus[2].status,   parseInt($scope.tcstatus[2].percentage)],
+		                  [$scope.tcstatus[3].status,     parseInt($scope.tcstatus[3].percentage)],
+		                  [$scope.tcstatus[4].status,   parseInt($scope.tcstatus[4].percentage)],
+		                  [$scope.tcstatus[5].status,   parseInt($scope.tcstatus[5].percentage)]
+		                 
+		              ];
+			
 		//$scope.check();
 		 $scope.plottcsChart(); 
 		 $scope.plotstatusWiseChart();
@@ -40,7 +49,15 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
         		//alert(JSON.stringify(response.entity.statusAndSeverityVO));
         		$scope.tcstatus =response.entity.testCaseExecutionStatusVO;
         		$scope.names =response.entity.statusAndSeverityVO;   
-        
+        		$scope.tcsData= [
+       		                  [$scope.tcstatus[0].status,   parseInt($scope.tcstatus[0].percentage)],
+       		                  [$scope.tcstatus[1].status,       parseInt($scope.tcstatus[1].percentage)],
+       		                  [$scope.tcstatus[2].status,   parseInt($scope.tcstatus[2].percentage)],
+       		                  [$scope.tcstatus[3].status,     parseInt($scope.tcstatus[3].percentage)],
+       		                  [$scope.tcstatus[4].status,   parseInt($scope.tcstatus[4].percentage)],
+       		                  [$scope.tcstatus[5].status,   parseInt($scope.tcstatus[5].percentage)]
+       		                 
+       		              ];
         		//$scope.check();
         		 $scope.plottcsChart(); 
         		 $scope.plotstatusWiseChart();
@@ -49,6 +66,8 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
         	});
 	}
             
+	
+	
         	/*$scope.check=function(){
         		alert(JSON.stringify($scope.names));
         		alert($scope.tcstatus[0].count);	
@@ -121,15 +140,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                     series: [{
                         type: 'pie',
                         /*name: 'Browser share',*/
-                        data: [
-                            [$scope.tcstatus[0].status,   parseInt($scope.tcstatus[0].percentage)],
-                            [$scope.tcstatus[1].status,       parseInt($scope.tcstatus[1].percentage)],
-                            [$scope.tcstatus[2].status,   parseInt($scope.tcstatus[2].percentage)],
-                            [$scope.tcstatus[3].status,     parseInt($scope.tcstatus[3].percentage)],
-                            [$scope.tcstatus[4].status,   parseInt($scope.tcstatus[4].percentage)],
-                            [$scope.tcstatus[5].status,   parseInt($scope.tcstatus[5].percentage)]
-                           
-                        ]
+                        data:$scope.tcsData
                     }]
                 });
             	
@@ -165,11 +176,11 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                         type: 'pie',
                         /*name: 'Browser share',*/
                         data: [
-                            [$scope.names[0].statusSeverity,    parseInt($scope.names[0].total)],
-                            [$scope.names[1].statusSeverity,       parseInt($scope.names[1].total)],
-                            [$scope.names[2].statusSeverity,    parseInt($scope.names[2].total)],
-                            [$scope.names[3].statusSeverity,     parseInt($scope.names[3].total)],
-                            [$scope.names[4].statusSeverity,  parseInt($scope.names[4].total)]
+                            [$scope.names[0].statusSeverity,    parseInt($scope.names[0].Total)],
+                            [$scope.names[1].statusSeverity,       parseInt($scope.names[1].Total)],
+                            [$scope.names[2].statusSeverity,    parseInt($scope.names[2].Total)],
+                            [$scope.names[3].statusSeverity,     parseInt($scope.names[3].Total)],
+                            [$scope.names[4].statusSeverity,  parseInt($scope.names[4].Total)]
                         ]
                     }]
                 });
@@ -204,10 +215,10 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                         type: 'pie',
                         /*name: 'Browser share',*/
                         data: [
-                            ['urgent',    parseInt($scope.names[6].urgent)],
-                            ['high',        parseInt($scope.names[6].high)],
-                            ['medium',     parseInt($scope.names[6].medium)],
-                            ['low',     parseInt($scope.names[6].low)]
+                            ['urgent',    parseInt($scope.names[6].Urgent)],
+                            ['high',        parseInt($scope.names[6].High)],
+                            ['medium',     parseInt($scope.names[6].Medium)],
+                            ['low',     parseInt($scope.names[6].Low)]
                         ]
                     }]
                 });

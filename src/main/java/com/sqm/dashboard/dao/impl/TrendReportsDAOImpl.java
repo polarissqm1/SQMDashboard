@@ -1,6 +1,7 @@
 package com.sqm.dashboard.dao.impl;
 
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 		// TODO Auto-generated method stub
 		
 		final Logger log=Logger.getLogger(DashboardController.class);
+System.out.println("inside TrendReportsDAOImpl");
 		 DBCursor cursor = null;
 		 DashboardVO dashVO;
 		 ArrayList list=new ArrayList();
@@ -52,18 +54,19 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 			 log.info("Connect to database successfully");
 			 log.info("DAO Layer");
 				
-					DBCollection table = db.getCollection("almOld");
+					DBCollection table = db.getCollection("alm");
 					log.info("Connect to collection alm successfully");
 					BasicDBObject searchQuery = new BasicDBObject();
 				
 					searchQuery.put("domain", "IB_TECHNOLOGY");
 					searchQuery.put("projects", project);
 					searchQuery.put("release", release);
-					searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte", fromDate).add("$lte", toDate).get());
+					searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(fromDate)).add("$lte", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(toDate)).get());
 					
 					
 					log.debug(searchQuery.toString());
 					cursor = table.find(searchQuery);
+					log.debug(cursor);
 					while (cursor.hasNext()) {
 						DBObject report =cursor.next();
 						 Gson gson=new Gson();
@@ -106,6 +109,11 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 					
 					log.debug("DAO Layer");
 					throw e;
+				}catch (Exception e) {
+					// TODO Auto-generated catch block
+					
+					log.debug("DAO Layer",e);
+				
 				}
 			 finally {
 					cursor.close();

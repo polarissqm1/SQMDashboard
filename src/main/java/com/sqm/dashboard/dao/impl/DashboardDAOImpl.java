@@ -1,6 +1,9 @@
 package com.sqm.dashboard.dao.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Response;
@@ -9,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -24,6 +28,7 @@ import com.sqm.dashboard.VO.StatusAndSeverityVO;
 import com.sqm.dashboard.VO.TestCaseExecutionStatusVO;
 import com.sqm.dashboard.controller.DashboardController;
 import com.sqm.dashboard.dao.DashboardDAO;
+import com.sqm.dashboard.util.DashboardUtility;
 @Repository
 public class DashboardDAOImpl implements DashboardDAO {
 	
@@ -56,13 +61,14 @@ public class DashboardDAOImpl implements DashboardDAO {
 	}
 
 	@Override
-	public Response getLandingInfo(String project,String release) throws UnknownHostException {
+	public Response getLandingInfo(String project,String release) throws Exception {
 		// TODO Auto-generated method stub
 		
 		
 		 DBCursor cursor = null;
 		 DashboardVO dashVO=new DashboardVO();
-		 Response.ResponseBuilder response = Response.ok(dashVO);
+		
+		 ArrayList list=new ArrayList();
 		try {
 			MongoClient clientDb;
 			
@@ -102,17 +108,118 @@ public class DashboardDAOImpl implements DashboardDAO {
 						} 
 					 
 					 * */
-					DBCollection table = db.getCollection("almOld");
+					DBCollection table = db.getCollection("alm_1");
 					log.info("Connect to collection alm successfully");
 					BasicDBObject searchQuery = new BasicDBObject();
 				
-					searchQuery.put("domain", "posttrade");
+					searchQuery.put("domain", "IB_TECHNOLOGY");
 					searchQuery.put("projects", project);
-					searchQuery.put("release", release);
+					searchQuery.put("release", "iManage Mar 20 Rel");
+					//searchQuery.put("lastUpdationDate", DashboardUtility.getCurrentDate());
 					log.debug(searchQuery.toString());
 					cursor = table.find(searchQuery);
 					while (cursor.hasNext()) {
+						
 						DBObject report =cursor.next();
+						System.out.println(report);
+						
+						 Gson gson=new Gson();
+						 ManualVO manualVO=gson.fromJson(report.get("manual_TCExecutionStatus").toString(), ManualVO.class);
+						 AutomationVO automationVO=gson.fromJson(report.get("automation_TCExecutionStatus").toString(), AutomationVO.class);
+
+						 java.lang.reflect.Type listTypestatus = new TypeToken<ArrayList<StatusAndSeverityVO>>() {}.getType();
+						 /*List<StatusAndSeverityVO> statusVO=new Gson().fromJson(report.get("statusAndSeverity").toString(), listTypestatus);*/
+						 List<StatusAndSeverityVO> statusVO=(List<StatusAndSeverityVO>)new Gson().fromJson(report.get("statusAndSeverity").toString(), Object.class);
+						 java.lang.reflect.Type listTypeTest = new TypeToken<ArrayList<TestCaseExecutionStatusVO>>() {}.getType();
+						// List<TestCaseExecutionStatusVO> testCaseVO=new Gson().fromJson(report.get("manual_TCExecutionStatus").toString(), listTypeTest);
+						 List<TestCaseExecutionStatusVO> testCaseVO=new ArrayList<TestCaseExecutionStatusVO>();
+						 TestCaseExecutionStatusVO testVOPassed=new TestCaseExecutionStatusVO();
+						 TestCaseExecutionStatusVO testVOFailed=new TestCaseExecutionStatusVO();
+						 TestCaseExecutionStatusVO testVONoRun=new TestCaseExecutionStatusVO();
+						 TestCaseExecutionStatusVO testVOBlocked=new TestCaseExecutionStatusVO();
+						 TestCaseExecutionStatusVO testVODeffered=new TestCaseExecutionStatusVO();
+						 TestCaseExecutionStatusVO testVOTotal=new TestCaseExecutionStatusVO();
+						 int passedV=Integer.parseInt(manualVO.getPassed())+Integer.parseInt(automationVO.getPassed());
+						 int failedV=Integer.parseInt(manualVO.getFailed())+Integer.parseInt(automationVO.getFailed());
+						 int noRunV=Integer.parseInt(manualVO.getNoRun())+Integer.parseInt(automationVO.getNoRun());
+						 int blockedV=Integer.parseInt(manualVO.getBlocked())+Integer.parseInt(automationVO.getBlocked());
+						 int defferedV=Integer.parseInt(manualVO.getDefered())+Integer.parseInt(automationVO.getDefered());
+						 int totalValue=passedV+failedV+noRunV+blockedV+defferedV;
+						 String totalPercent="100";
+						 String totalValueString=""+ totalValue+"";
+						 String passedValue=""+passedV+"";
+						 String failedValue=""+failedV+"";
+						 String noRunValue=""+noRunV+"";
+						 String blockedValue=""+blockedV+"";
+						 String defferedValue=""+defferedV+"";
+						 
+						 
+						 BigDecimal passedP=new BigDecimal((Double.valueOf(passedValue)/Double.valueOf(totalValue))*100);
+						 BigDecimal failedP=new BigDecimal((Double.valueOf(failedValue)/Double.valueOf(totalValue))*100);
+						 BigDecimal noRunP=new BigDecimal((Double.valueOf(noRunValue)/Double.valueOf(totalValue))*100);
+						 BigDecimal blockedP=new BigDecimal((Double.valueOf(blockedValue)/Double.valueOf(totalValue))*100);
+						 BigDecimal defferedP=new BigDecimal((Double.valueOf(defferedValue)/Double.valueOf(totalValue))*100);
+						 
+						 
+						
+						 System.out.println(passedP);
+						 String passedPercent=passedP.setScale(2, RoundingMode.CEILING).toString();
+						 String failedPercent=failedP.setScale(2, RoundingMode.CEILING).toString();
+						 
+						 String noRunPercent=noRunP.setScale(2, RoundingMode.CEILING).toString();
+						 String blockedPercent=blockedP.setScale(2, RoundingMode.CEILING).toString();
+						 String defferedPercent=defferedP.setScale(2, RoundingMode.CEILING).toString();
+						 
+						 
+						 testVOPassed.setStatus("Passed");
+						 testVOPassed.setCount(passedValue);
+						 testVOPassed.setPercentage(passedPercent);
+						 
+						 
+						 
+						 testVOFailed.setStatus("Failed");
+						 testVOFailed.setCount(failedValue);
+						 testVOFailed.setPercentage(failedPercent);
+						 
+						 testVONoRun.setStatus("NoRun");
+						 testVONoRun.setCount(noRunValue);
+						 testVONoRun.setPercentage(noRunPercent);
+						 
+						 testVOBlocked.setStatus("Blocked");
+						 testVOBlocked.setCount(blockedValue);
+						 testVOBlocked.setPercentage(blockedPercent);
+						 
+						 testVODeffered.setStatus("Deffered");
+						 testVODeffered.setCount(defferedValue);
+						 testVODeffered.setPercentage(defferedPercent);
+						 
+						 testVOTotal.setStatus("Total");
+						 testVOTotal.setCount(totalValueString);
+						 testVOTotal.setPercentage(totalPercent);
+					
+						 testCaseVO.add(testVOPassed);
+						 testCaseVO.add(testVOFailed);
+						 testCaseVO.add(testVONoRun);
+						 testCaseVO.add(testVOBlocked);
+						 testCaseVO.add(testVODeffered);
+						 testCaseVO.add(testVOTotal);
+						 
+						 
+						dashVO=new DashboardVO();
+						dashVO.setManualVO(manualVO);
+						dashVO.setAutomationVO(automationVO);
+
+						dashVO.setStatusAndSeverityVO(statusVO);
+					dashVO.setTestCaseExecutionStatusVO(testCaseVO);
+					for(TestCaseExecutionStatusVO tr:testCaseVO){
+						System.out.println(tr.toString());
+					}
+						dashVO.setRdate(report.get("lastUpdationDate").toString());
+						//dashVO.setPlan(report.get("plan").toString());
+						list.add(dashVO);
+						System.out.println(dashVO.toString()+list);
+					
+						/*DBObject report =cursor.next();
 						 
 						 Gson gson=new Gson();
 						 ManualVO manualVO=gson.fromJson(report.get("manual").toString(), ManualVO.class);
@@ -129,7 +236,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 						dashVO.setEffortsVO(effortsVO);
 						dashVO.setSeverityVO(severityVO);
 						dashVO.setStatusAndSeverityVO(statusVO);
-						dashVO.setTestCaseExecutionStatusVO(testCaseVO);
+						dashVO.setTestCaseExecutionStatusVO(testCaseVO);*/
 						
 						log.debug("Response form Mongo :");
 						log.debug("manualVO :"+ dashVO.getManualVO());
@@ -149,6 +256,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 			 finally {
 					cursor.close();
 				}
+		 Response.ResponseBuilder response = Response.ok(dashVO);
 		return response.build();
 	}
 

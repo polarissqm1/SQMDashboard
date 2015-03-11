@@ -5,6 +5,11 @@ import java.io.Serializable;
 public class TestCaseExecutionStatusVO implements Serializable {
 
 	
+	@Override
+	public String toString() {
+		return "TestCaseExecutionStatusVO [status=" + status + ", count="
+				+ count + ", percentage=" + percentage + "]";
+	}
 	private String status;
 	private String count;
 	private String percentage;
