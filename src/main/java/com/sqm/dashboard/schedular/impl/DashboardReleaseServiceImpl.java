@@ -35,7 +35,7 @@ import com.sqm.dashboard.schedular.DashboardReleaseService;
 import com.sqm.dashboard.util.EntitiesUtility;
 import com.sqm.dashboard.util.MarshallingUtility;
 import com.sqm.dashboard.util.RestConnectorUtility;
-import com.sqm.dashboard.VO.ReleaseVO;
+import com.sqm.dashboard.VO.AlmReleaseVO;
 
 @Service("dbReleaseServiceImpl")
 public class DashboardReleaseServiceImpl implements DashboardReleaseService{	
