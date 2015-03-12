@@ -57,14 +57,14 @@ System.out.println("inside TrendReportsDAOImpl");
 			 log.info("Connect to database successfully");
 			 log.info("DAO Layer");
 				
-					DBCollection table = db.getCollection("alm_1");
+					DBCollection table = db.getCollection("alm");
 					log.info("Connect to collection alm successfully");
 					BasicDBObject searchQuery = new BasicDBObject();
 				
 					searchQuery.put("domain", "IB_TECHNOLOGY");
 					searchQuery.put("projects", project);
 					searchQuery.put("release", release);
-					searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(fromDate)).add("$lte", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(toDate)).get());
+					searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("dd/MMM/yy").parse(fromDate)).add("$lte", new SimpleDateFormat("dd/MMM/yy").parse(toDate)).get());
 					
 					
 					log.debug(searchQuery.toString());

@@ -66,19 +66,19 @@ dashboardApp
 											.setDate(weekstart));
 									var sunday = new Date(current
 											.setDate(weekend));
-									$scope.selectedStart=monday.toISOString();
-									$scope.selectedEnd=sunday.toISOString();
-									/*$scope.selectedStart=monday.toDateString().slice(8,10)+'/'+monday.toDateString().slice(4,7)+'/'+monday.toDateString().slice(13,15);
-									$scope.selectedEnd=sunday.toDateString().slice(8,10)+'/'+sunday.toDateString().slice(4,7)+'/'+sunday.toDateString().slice(13,15);*/
+									/*$scope.selectedStart=monday.toISOString();
+									$scope.selectedEnd=sunday.toISOString();*/
+									$scope.selectedStart=monday.toDateString().slice(8,10)+'/'+monday.toDateString().slice(4,7)+'/'+monday.toDateString().slice(13,15);
+									$scope.selectedEnd=sunday.toDateString().slice(8,10)+'/'+sunday.toDateString().slice(4,7)+'/'+sunday.toDateString().slice(13,15);
 								} else if ($scope.range == 'monthly') {
 									var date = new Date($("#todate").val() ), y = date
 											.getFullYear(), m = date.getMonth();
 									var firstDay = new Date(y, m, 1);
 									var lastDay = new Date(y, m + 1, 0);
-									$scope.selectedStart=firstDay.toISOString();
-									$scope.selectedEnd=lastDay.toISOString();
-									/*$scope.selectedStart=firstDay.toDateString().slice(8,10)+'/'+firstDay.toDateString().slice(4,7)+'/'+firstDay.toDateString().slice(13,15);
-									$scope.selectedEnd=lastDay.toDateString().slice(8,10)+'/'+lastDay.toDateString().slice(4,7)+'/'+lastDay.toDateString().slice(13,15);*/
+									/*$scope.selectedStart=firstDay.toISOString();
+									$scope.selectedEnd=lastDay.toISOString();*/
+									$scope.selectedStart=firstDay.toDateString().slice(8,10)+'/'+firstDay.toDateString().slice(4,7)+'/'+firstDay.toDateString().slice(13,15);
+									$scope.selectedEnd=lastDay.toDateString().slice(8,10)+'/'+lastDay.toDateString().slice(4,7)+'/'+lastDay.toDateString().slice(13,15);
 								}
 							}
 						}
