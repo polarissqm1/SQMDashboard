@@ -35,8 +35,7 @@
 	<context:component-scan base-package="com.sqm.dashboard.service.impl,com.sqm.dashboard.VO,com.sqm.dashboard.schedular.impl" />
 	
 	<mvc:annotation-driven/>
-
- <!-- <bean id="schedulerJob" class="com.sqm.dashboard.schedular.CommonSchedulerImpl" >
+<!--  <bean id="schedulerJob" class="com.sqm.dashboard.schedular.CommonSchedulerImpl" >
  </bean>
 <bean id="schedulerJobBean"
 class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -69,7 +68,7 @@ class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
 <ref bean="schedulerJobTrigger" />
 </list>
 </property>
-</bean>   -->
+</bean> -->   
 	
 </beans>
 

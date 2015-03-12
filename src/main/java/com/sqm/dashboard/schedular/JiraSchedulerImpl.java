@@ -106,7 +106,8 @@ public class JiraSchedulerImpl implements JiraScheduler {
 	@Override
 	public void startJiraInsert(JiraSchedulerImpl jiraScheduler) throws Exception {
 		try {
-			jiraScheduler.startProjectInsertion(jiraScheduler);
+			DBCollection collection=DashboardDAOImpl.getDbCollection("jira");
+			jiraScheduler.startProjectInsertion(jiraScheduler,collection);
 		} catch (Exception e) {
 			log.error("Exception in start Insertion");
 			throw e;
@@ -114,7 +115,7 @@ public class JiraSchedulerImpl implements JiraScheduler {
 
 	}
 
-	public void startProjectInsertion(JiraSchedulerImpl jiraScheduler) throws Exception {
+	public void startProjectInsertion(JiraSchedulerImpl jiraScheduler,DBCollection collection) throws Exception {
 
 		try {
 			String projectUrl="https://issuetracking.jpmchase.net/jira15/rest/api/latest/project/";
@@ -129,7 +130,7 @@ public class JiraSchedulerImpl implements JiraScheduler {
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
 				jiraScheduler.startReleaseInsertion(
-						jsonObject.get("key").toString(),jiraScheduler);
+						jsonObject.get("key").toString(),jiraScheduler,collection);
 			}
 		} catch (Exception e) {
 			log.error("Ecxeption in project level Jira Insertion");
@@ -137,7 +138,7 @@ public class JiraSchedulerImpl implements JiraScheduler {
 		}
 	}
 
-	public void startReleaseInsertion(String sourceProject,JiraSchedulerImpl jiraScheduler) throws Exception {
+	public void startReleaseInsertion(String sourceProject,JiraSchedulerImpl jiraScheduler,DBCollection collection) throws Exception {
 
 		try {
 			
@@ -162,7 +163,7 @@ public class JiraSchedulerImpl implements JiraScheduler {
 							jsonObject.get("userReleaseDate").toString());
 					if (jiraScheduler.dateChecker(sourceDate) < 1) {
 						jiraScheduler.startJiraDataInsertion(sourceProject,
-								jsonObject.get("name").toString(),jiraScheduler);
+								jsonObject.get("name").toString(),jiraScheduler,collection);
 					}
 				}
 			}
@@ -174,7 +175,7 @@ public class JiraSchedulerImpl implements JiraScheduler {
 	}
 
 	public void startJiraDataInsertion(String sourceProject,
-			String sourceRelease,JiraSchedulerImpl jiraScheduler) throws Exception {
+			String sourceRelease,JiraSchedulerImpl jiraScheduler,DBCollection collection) throws Exception {
 
 		
 		 /* String finalUrl =
@@ -241,7 +242,7 @@ public class JiraSchedulerImpl implements JiraScheduler {
 				jiraScVO.setJiraids(jiraIdList);
 				System.out.println(jiraIdList.get(0).getEnv());
 				/*jiraScheduler.getJiraDao().insertJiraData(jiraScVO);*/
-				jiraDao1.insertJiraData(jiraScVO);
+				jiraDao1.insertJiraData(jiraScVO,collection);
 			}
 		} catch (Exception e) {
 			log.error("Ëxception at Jira data Level");

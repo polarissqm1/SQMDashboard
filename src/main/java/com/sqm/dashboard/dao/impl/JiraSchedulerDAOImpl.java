@@ -21,9 +21,11 @@ import com.sqm.dashboard.util.TesterDBNew;
 public class JiraSchedulerDAOImpl implements JiraSchedulerDAO {
 
 	final Logger log = Logger.getLogger(JiraSchedulerDAOImpl.class);
+	
+	
 	@Override
-	public void insertJiraData(JiraSchedulerVO sourceVO)throws Exception {
-		DBCollection collection=DashboardDAOImpl.getDbCollection("jira");
+	public void insertJiraData(JiraSchedulerVO sourceVO,DBCollection collection)throws Exception {
+		
 		try{
 			
 			

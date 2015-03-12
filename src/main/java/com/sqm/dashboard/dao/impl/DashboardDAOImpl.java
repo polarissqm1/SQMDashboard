@@ -114,7 +114,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 				
 					searchQuery.put("domain", "IB_TECHNOLOGY");
 					searchQuery.put("projects", project);
-					searchQuery.put("release", "iManage Mar 20 Rel");
+					searchQuery.put("release", release);
 					//searchQuery.put("lastUpdationDate", DashboardUtility.getCurrentDate());
 					log.debug(searchQuery.toString());
 					cursor = table.find(searchQuery);
