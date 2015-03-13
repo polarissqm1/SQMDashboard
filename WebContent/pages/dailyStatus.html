@@ -104,24 +104,14 @@ table tr:nth-child(even) {
 
 
 <div id="middle2">
-	<div class="col-lg-12">
-		<div class="col-sm-6 form-group">
-			<div class="formulae" style="border: 1px solid black;   max-width: 50%; bolder; background-color: pink;">
-			<div>Defect Density
-			<div class="value" style="float: right; font-weight:bolder; background-color: mediumseagreen;">4.17%</div>
-			</div>
-			
-			</div>
-		</div>
-		<div class="col-sm-6 form-group">
-			<div class="formulae" style="border: 1px solid black; font-weight:bolder;   max-width: 50%; font-weight:bolder; background-color: pink;">
-			<div>Defect Severity Index
-			<div class="value" style="float: right; font-weight:bolder; background-color: mediumseagreen;">3.7%</div>
-			</div>
-			
-			</div>
-		</div>
-	</div>
+		<div class="pager form-group" style="margin: 0 0;">    
+            <li>
+                  <span> Defect Density:<b> {{ names[5].Total/tcstatus[5].count | limitTo:4}}%</b></span> 
+                 
+                 <span>Defect Severity Index: <b>{{(4*names[5].Urgent+3*names[5].High+2*names[5].Medium+names[5].Low)/names[5].Total}}%</b></span>
+                
+           </li>
+        </div>
 </div>
 
 <div id="bottom">
