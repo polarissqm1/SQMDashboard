@@ -151,54 +151,58 @@ dashboardApp
 						$scope.trendReports = $http.get("dash/trendreports/getTrendingInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName+"&fromDate="+$scope.selectedStart+"&toDate="+$scope.selectedEnd).success(function(response) {
 
 											//alert(JSON.stringify(response));
-							if(response.entity.length > 0){
-							$scope.showDiv('row1Charts');
+							if(!response.entity[0]){
+							/*$scope.showDiv('row1Charts');*/
+								
+								/*$scope.enableTrendChart=false;*/
+								$("#row1Charts").hide();
 							
-							
-							var rdate=[];
-					        var actual=[];
-					        var passed=[];
-					        var failed=[];
-					        var open=[];
-					        var closed=[];
-					        var defectDensity=[];
-					        var defectSeverityIndex=[];
-					        var badFix=[];
-					        var defectAccept=[];
-					        var total_urgent=0;
-					        var total_high=0;
-					        var total_medium=0;
-					        var total_low=0;
-					        for(var i=0;i<response.entity.length;i++){
-					        	rdate.push(response.entity[i].rdate);
-					        	actual.push(parseInt(response.entity[i].actual));
-					        	passed.push(parseInt(response.entity[i].pass));
-					        	failed.push(parseInt(response.entity[i].failed));
-					        	open.push(parseInt(response.entity[i].open));
-					        	closed.push(parseInt(response.entity[i].closed));
-					        	defectDensity.push(Math.round(parseFloat(response.entity[i].defectDensity)*10)/10);
-					        	defectSeverityIndex.push(Math.round(parseFloat(response.entity[i].defectSeverityIndex)*10)/10);
-					        	badFix.push(Math.round(parseFloat(response.entity[i].badFix)*10)/10);
-					        	defectAccept.push(Math.round(parseFloat(response.entity[i].defectAcceptance)*10)/10);
-					        	total_urgent+=parseInt(response.entity[i].urgent);
-					        	total_high+=parseInt(response.entity[i].high);
-					        	total_medium+=parseInt(response.entity[i].medium);
-					        	total_low+=parseInt(response.entity[i].low);
-					        	
-					        	$scope.plotDefectsOpenClosed(rdate,open,closed);
-								$scope.plotDefectDensity(rdate,defectDensity);
-								$scope.plotBadFix(rdate,badFix);
-								$scope.plotDefectAccept(rdate,defectAccept);
-								$scope.plotDefectSeverityIndex(rdate,defectSeverityIndex);
-								$scope.plotTestCaseStatChart(rdate,passed,failed);
-								$scope.plotDefectSeverityBreakUp(total_urgent,total_high,total_medium,total_low);
-								$scope.plotChart(actual,rdate);
-								$scope.plotDefectAgeing();
-					        }
+						
 							
 							}
 							else {
-								$scope.hideDiv('row1Charts');
+								//$scope.enableTrendChart=true;
+								$("#row1Charts").show();
+								var rdate=[];
+						        var actual=[];
+						        var passed=[];
+						        var failed=[];
+						        var open=[];
+						        var closed=[];
+						        var defectDensity=[];
+						        var defectSeverityIndex=[];
+						        var badFix=[];
+						        var defectAccept=[];
+						        var total_urgent=0;
+						        var total_high=0;
+						        var total_medium=0;
+						        var total_low=0;
+						        for(var i=0;i<response.entity.length;i++){
+						        	rdate.push(response.entity[i].rdate);
+						        	actual.push(parseInt(response.entity[i].actual));
+						        	passed.push(parseInt(response.entity[i].pass));
+						        	failed.push(parseInt(response.entity[i].failed));
+						        	open.push(parseInt(response.entity[i].open));
+						        	closed.push(parseInt(response.entity[i].closed));
+						        	defectDensity.push(Math.round(parseFloat(response.entity[i].defectDensity)*10)/10);
+						        	defectSeverityIndex.push(Math.round(parseFloat(response.entity[i].defectSeverityIndex)*10)/10);
+						        	badFix.push(Math.round(parseFloat(response.entity[i].badFix)*10)/10);
+						        	defectAccept.push(Math.round(parseFloat(response.entity[i].defectAcceptance)*10)/10);
+						        	total_urgent+=parseInt(response.entity[i].urgent);
+						        	total_high+=parseInt(response.entity[i].high);
+						        	total_medium+=parseInt(response.entity[i].medium);
+						        	total_low+=parseInt(response.entity[i].low);
+						        	
+						        	$scope.plotDefectsOpenClosed(rdate,open,closed);
+									$scope.plotDefectDensity(rdate,defectDensity);
+									$scope.plotBadFix(rdate,badFix);
+									$scope.plotDefectAccept(rdate,defectAccept);
+									$scope.plotDefectSeverityIndex(rdate,defectSeverityIndex);
+									$scope.plotTestCaseStatChart(rdate,passed,failed);
+									$scope.plotDefectSeverityBreakUp(total_urgent,total_high,total_medium,total_low);
+									$scope.plotChart(actual,rdate);
+									$scope.plotDefectAgeing();
+						        }
 							}
 					        
 					        
