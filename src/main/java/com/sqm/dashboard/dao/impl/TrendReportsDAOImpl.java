@@ -1,8 +1,11 @@
 package com.sqm.dashboard.dao.impl;
 
 import java.net.UnknownHostException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.core.Response;
@@ -61,7 +64,7 @@ System.out.println("inside TrendReportsDAOImpl");
 					searchQuery.put("domain", "IB_TECHNOLOGY");
 					searchQuery.put("projects", project);
 					searchQuery.put("release", release);
-					searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(fromDate)).add("$lte", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(toDate)).get());
+					searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("dd/MMM/yy").parse(fromDate)).add("$lte", new SimpleDateFormat("dd/MMM/yy").parse(toDate)).get());
 					
 					
 					log.debug(searchQuery.toString());
@@ -70,29 +73,31 @@ System.out.println("inside TrendReportsDAOImpl");
 					while (cursor.hasNext()) {
 						DBObject report =cursor.next();
 						 Gson gson=new Gson();
-						 ManualVO manualVO=gson.fromJson(report.get("manual").toString(), ManualVO.class);
-						 AutomationVO automationVO=gson.fromJson(report.get("automation").toString(), AutomationVO.class);
-						 EffortsVO effortsVO=gson.fromJson(report.get("efforts").toString(), EffortsVO.class);
-						 SeverityVO severityVO=gson.fromJson(report.get("severity").toString(), SeverityVO.class);
+						 ManualVO manualVO=gson.fromJson(report.get("manual_TCExecutionStatus").toString(), ManualVO.class);
+						 AutomationVO automationVO=gson.fromJson(report.get("automation_TCExecutionStatus").toString(), AutomationVO.class);
 						 java.lang.reflect.Type listTypestatus = new TypeToken<ArrayList<StatusAndSeverityVO>>() {}.getType();
-						 List<StatusAndSeverityVO> statusVO=new Gson().fromJson(report.get("statusAndSeverity").toString(), listTypestatus);
-						 java.lang.reflect.Type listTypeTest = new TypeToken<ArrayList<TestCaseExecutionStatusVO>>() {}.getType();
-						 List<TestCaseExecutionStatusVO> testCaseVO=new Gson().fromJson(report.get("testCaseExecutionStatus").toString(), listTypeTest);
-						
-						log.debug("************************************************ :");
+						 List<StatusAndSeverityVO> statusVO=(List<StatusAndSeverityVO>)new Gson().fromJson(report.get("statusAndSeverity").toString(), listTypestatus);
+						 log.debug("************************************************ :");
 						log.debug(report.get("lastUpdationDate").toString());
 						dashVO=new DashboardVO();
 						dashVO.setManualVO(manualVO);
 						dashVO.setAutomationVO(automationVO);
-						dashVO.setEffortsVO(effortsVO);
-						dashVO.setSeverityVO(severityVO);
 						dashVO.setStatusAndSeverityVO(statusVO);
-						dashVO.setTestCaseExecutionStatusVO(testCaseVO);
-						dashVO.setRdate(report.get("lastUpdationDate").toString());
+						String lastUpDate=report.get("lastUpdationDate").toString();
+						DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+						Date date = (Date)formatter.parse(lastUpDate);
+						System.out.println(date);        
+
+						Calendar cal = Calendar.getInstance();
+						cal.setTime(date);
+						System.out.println(new SimpleDateFormat("MMM").format(cal.getTime()));
+						String rdate = cal.get(Calendar.DATE) + "/" + new SimpleDateFormat("MMM").format(cal.getTime());
+						System.out.println("formatedDate : " + rdate);
+						dashVO.setRdate(rdate);
 						//dashVO.setPlan(report.get("plan").toString());
 						log.debug(dashVO.toString());
 						log.debug("************************************************ :");
-						log.debug(report.get("lastUpdationDate").toString());
+						log.debug("rdate is "+rdate);
 						log.debug("Response form Mongo :");
 						log.debug("Planned is"+dashVO.getPlan() );
 						log.debug("manualVO :"+ dashVO.getManualVO());
@@ -140,20 +145,19 @@ System.out.println("inside TrendReportsDAOImpl");
 			 
 			 log.info("Connect to database successfully");
 			 log.info("DAO Layer");
-			 DBCollection table = db.getCollection("almOld");
+			 DBCollection table = db.getCollection("alm_1");
 			 log.info("Connect to collection alm successfully");
 			 BasicDBObject searchQuery = new BasicDBObject();
-			 searchQuery.put("domain", "AWM");
-			 searchQuery.put("project", "ALT_INVEST");
-			 searchQuery.put("release", "QuantumWeb3.3");
-			 searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte", "13/feb/15").add("$lte", "25/feb/15").get());
+			 searchQuery.put("domain", "IB_TECHNOLOGY");
+			 searchQuery.put("project", project);
+			 searchQuery.put("release", release);
+			 //searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte", "13/feb/15").add("$lte", "25/feb/15").get());
 			 cursor = table.find(searchQuery);
 			 while (cursor.hasNext()){
 					DBObject report =cursor.next();
 					Gson gson=new Gson();
 					java.lang.reflect.Type listTypeTest = new TypeToken<ArrayList<DefectIdsVO>>() {}.getType();
 					List<DefectIdsVO> defectsVO=new Gson().fromJson(report.get("defects").toString(), listTypeTest);
-					
 					dashVO=new DashboardVO();
 					dashVO.setDefectVO(defectsVO);
 					list.add(dashVO);

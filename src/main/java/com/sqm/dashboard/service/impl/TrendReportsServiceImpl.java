@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.ws.rs.core.Response;
 
 import com.sqm.dashboard.VO.DashboardVO;
+import com.sqm.dashboard.VO.DefectIdsVO;
 import com.sqm.dashboard.VO.StatusAndSeverityVO;
 import com.sqm.dashboard.VO.TestCaseExecutionStatusVO;
 import com.sqm.dashboard.VO.TrendReportsVO;
@@ -48,8 +49,8 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 			
 			try{/*********************Defect Density***************************/
 				ArrayList dashVOList=trendReportsDAO.getTrendingInfo(project, release,fromDate,toDate);
-				log.info("murali size "+dashVOList.size());
-				log.info("murali  "+dashVOList);
+				log.info("DashVOList size "+dashVOList.size());
+				log.info("DashVOList  "+dashVOList);
 				ArrayList originalList=new ArrayList();
 				
 				
@@ -57,54 +58,77 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 				
 				  for (int i=0;i<dashVOList.size();i++)
 				  {
+					  Float defectDensity;
+					  Float badFix;
+					  Float accept;
+					  Float dsi;
 					  trendReportsVO=new TrendReportsVO();
 					  dashVO=(DashboardVO)dashVOList.get(i);
 					  
-					  String testcaseVO=(String) dashVO.getTestCaseExecutionStatusVO().get(6).getCount();
-						log.info("Inside TestCase Execution "+ testcaseVO);
-						String statusVO=(String)dashVO.getStatusAndSeverityVO().get(5).getTotal();
-						log.info("total for status VO"+dashVO.getStatusAndSeverityVO().get(5).getTotal());
-						Float defectDensity=Float.parseFloat(testcaseVO)/Float.parseFloat(statusVO);
-						log.info("Inside defectDensity Execution "+ defectDensity);
+					    Float passed=Float.parseFloat(dashVO.getManualVO().getPassed())+Float.parseFloat(dashVO.getAutomationVO().getPassed());
+					    Float failed=Float.parseFloat(dashVO.getManualVO().getFailed())+Float.parseFloat(dashVO.getAutomationVO().getFailed());
+						Float noRun=Float.parseFloat(dashVO.getManualVO().getNoRun())+Float.parseFloat(dashVO.getAutomationVO().getNoRun());
+						Float blocked=Float.parseFloat(dashVO.getManualVO().getBlocked())+Float.parseFloat(dashVO.getAutomationVO().getBlocked());
+						Float deffered=Float.parseFloat(dashVO.getManualVO().getDefered())+Float.parseFloat(dashVO.getAutomationVO().getDefered());
+						Float totalTC=passed+failed+noRun+blocked+deffered;
+					    Float actual=passed+failed+blocked+deffered;
+					    Float totalDefect=Float.parseFloat(dashVO.getStatusAndSeverityVO().get(5).getTotal());
+					    if(totalDefect==0){
+					    	defectDensity=(float) 0;
+					    	trendReportsVO.setDefectDensity(defectDensity);
+					    	badFix=(float) 0;
+					    	trendReportsVO.setBadFix(badFix);
+					    	accept=(float) 0;
+					    	trendReportsVO.setDefectAcceptance(accept);
+					    	dsi=(float) 0;
+					    	trendReportsVO.setDefectSeverityIndex(dsi);
+					    	
+					    }
+					    else{
+						defectDensity=(float) (totalTC/totalDefect);
 						trendReportsVO.setDefectDensity(defectDensity);
-						/*************************************Bad Fix*************/
+						/************************Reopened Defects*******************************/
 						String reopened=(String) dashVO.getStatusAndSeverityVO().get(0).getTotal();
-						Float badFix=Float.parseFloat(reopened)*100/Float.parseFloat(statusVO);
+						badFix=Float.parseFloat(reopened)*100/totalDefect;
 						log.info("Inside bad Fix "+ badFix);
 						trendReportsVO.setBadFix(badFix);
-						/*****************************Status Severity*******************************/
-						String opened=(String) dashVO.getStatusAndSeverityVO().get(0).getTotal();
-						String closed=(String) dashVO.getStatusAndSeverityVO().get(2).getTotal();
-						trendReportsVO.setClosed(closed);
-						trendReportsVO.setOpen(opened);
-						/***************************Defect Acceptance**********************************/
-						String reject=(String)dashVO.getStatusAndSeverityVO().get(3).getTotal();
-						Float accept=1-(Float.parseFloat(reject)/Float.parseFloat(statusVO));
+						/******************************Acceptance Rate**************************/
+						String reject=(String)dashVO.getStatusAndSeverityVO().get(2).getTotal();
+						accept=1-(Float.parseFloat(reject)/totalDefect);
 						trendReportsVO.setDefectAcceptance(accept);
 						/***************************Defect Severity Index*****************************/
 						Float urgent=Float.parseFloat(dashVO.getStatusAndSeverityVO().get(5).getUrgent());
 						Float high=Float.parseFloat(dashVO.getStatusAndSeverityVO().get(5).getHigh());
 						Float medium=Float.parseFloat(dashVO.getStatusAndSeverityVO().get(5).getMedium());
 						Float low=Float.parseFloat(dashVO.getStatusAndSeverityVO().get(5).getLow());
-						Float dsi=((urgent*urgent_4)+(high*high_3)+(medium*medium_2)+(low*low_1))/Float.parseFloat(statusVO);
+						dsi=((urgent*urgent_4)+(high*high_3)+(medium*medium_2)+(low*low_1))/totalDefect;
 						trendReportsVO.setDefectSeverityIndex(dsi);
+					    }
+						
+						
+						/*****************************Status Severity*******************************/
+						String opened=(String) dashVO.getStatusAndSeverityVO().get(0).getTotal();
+						String closed=(String) dashVO.getStatusAndSeverityVO().get(4).getTotal();
+						trendReportsVO.setClosed(closed);
+						trendReportsVO.setOpen(opened);
+						
+						
+						
 						/*************************Passed VS Failed**************************/
-						String pass=(String) dashVO.getTestCaseExecutionStatusVO().get(0).getCount();
-						String fail=(String) dashVO.getTestCaseExecutionStatusVO().get(1).getCount();
-						trendReportsVO.setPass(pass);
-						trendReportsVO.setFailed(fail);
+						trendReportsVO.setPass(passed);
+						trendReportsVO.setFailed(failed);
 						/*************************Defect Severity Break up******************************/
-						trendReportsVO.setUrgent(urgent.toString());
-						trendReportsVO.setHigh(high.toString());
-						trendReportsVO.setMedium(medium.toString());
-						trendReportsVO.setUrgent(low.toString());
+						trendReportsVO.setUrgent(dashVO.getStatusAndSeverityVO().get(5).getUrgent().toString());
+						trendReportsVO.setHigh(dashVO.getStatusAndSeverityVO().get(5).getHigh().toString());
+						trendReportsVO.setMedium(dashVO.getStatusAndSeverityVO().get(5).getMedium().toString());
+						trendReportsVO.setLow(dashVO.getStatusAndSeverityVO().get(5).getLow().toString());
 						/************************releasedate****************/
 						String rDate=dashVO.getRdate();
 						trendReportsVO.setRdate(rDate);
 						/*************************planned VS actual**********/
 						/*String plan=dashVO.getPlan();
 						trendReportsVO.setPlan(plan);*/
-						trendReportsVO.setActual(testcaseVO);
+						trendReportsVO.setActual(Float.toString(actual));
 						originalList.add(trendReportsVO);
 				     
 				  }
@@ -122,16 +146,16 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 			}
 			return response.build();
 		}
-			
+	@Override		
 	public Response getReleaseInfo(String project,String release,String fromDate,String toDate) throws Exception {
-		return null;
 		
-		/*Response.ResponseBuilder response =null;
+		
+		Response.ResponseBuilder response =null;
 		TrendReportsVO trendReportsVO=null;
 		try{
 			ArrayList dashVOList=trendReportsDAO.getReleaseInfo(project, release,fromDate,toDate);
-			log.info("murali size "+dashVOList.size());
-			log.info("murali  "+dashVOList);
+			log.info("DashVO List size "+dashVOList.size());
+			log.info("DashVO list  "+dashVOList);
 			ArrayList originalList=new ArrayList();
 			
 			DashboardVO dashVO=null;
@@ -139,15 +163,28 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 			  {
 				  trendReportsVO=new TrendReportsVO();
 				  dashVO=(DashboardVO)dashVOList.get(i);
-				  String 
+				  for(int j=0;j<dashVO.getDefectVO().size();j++)
+				  {
+					  DefectIdsVO defectVO=dashVO.getDefectVO().get(j);
+					  String rootCause=defectVO.getDefectRootCause();
+					  log.info("rootCause is"+rootCause);
+					  trendReportsVO.setDefectRootCause(rootCause);
+					  originalList.add(trendReportsVO);
+				  }
 				
 				
 			}
-		
-			return null;
-	*/
-	}	
+			response=Response.ok(originalList);
+	
+      	}	catch (Exception e) {
+	       log.debug("Service layer in project data Layer");
+	       throw e;
+      	}
+	       return response.build();
+	
 }
+}
+
 	
 
 		

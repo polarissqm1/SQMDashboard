@@ -5,24 +5,11 @@ import java.io.Serializable;
 public class StatusAndSeverityVO implements Serializable {
 	
 	private String statusSeverity;
-	private String urgent;
-	private String high;
-	private String medium;
-	private String low;
-	private String total;
-public String getTotal() {
-		return total;
-	}
-	public void setTotal(String total) {
-		total = total;
-	}
-	/*	private String total;
-	public String getTotal() {
-		return total;
-	}
-	public void setTotal(String total) {
-		this.total = total;
-	}*/
+	private String Urgent;
+	private String High;
+	private String Medium;
+	private String Low;
+	private String Total;
 	public String getStatusSeverity() {
 		return statusSeverity;
 	}
@@ -30,28 +17,34 @@ public String getTotal() {
 		this.statusSeverity = statusSeverity;
 	}
 	public String getUrgent() {
-		return urgent;
+		return Urgent;
 	}
 	public void setUrgent(String urgent) {
-		this.urgent = urgent;
+		Urgent = urgent;
 	}
 	public String getHigh() {
-		return high;
+		return High;
 	}
 	public void setHigh(String high) {
-		this.high = high;
+		High = high;
 	}
 	public String getMedium() {
-		return medium;
+		return Medium;
 	}
 	public void setMedium(String medium) {
-		this.medium = medium;
+		Medium = medium;
 	}
 	public String getLow() {
-		return low;
+		return Low;
 	}
 	public void setLow(String low) {
-		this.low = low;
+		Low = low;
 	}
-	
+	public String getTotal() {
+		return Total;
+	}
+	public void setTotal(String total) {
+		Total = total;
+	}
+
 }

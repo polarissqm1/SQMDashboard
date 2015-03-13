@@ -16,8 +16,8 @@ public class TrendReportsVO implements Serializable {
 	private Float badFix;
 	private String defectAgeing;
 	private String defectSeverityBrkp;
-	private String pass;
-	private String failed;
+	private Float pass;
+	private Float failed;
 	private String rdate;
 	private Float defectAcceptance;
 	private String open;
@@ -98,18 +98,7 @@ public class TrendReportsVO implements Serializable {
 		this.dashboardVO = dashboardVO;
 	}
 
-	public String getPass() {
-		return pass;
-	}
-	public void setPass(String pass) {
-		this.pass = pass;
-	}
-	public String getFailed() {
-		return failed;
-	}
-	public void setFailed(String failed) {
-		this.failed = failed;
-	}
+	
 	public String getOpen() {
 		return open;
 	}
@@ -161,6 +150,20 @@ public class TrendReportsVO implements Serializable {
 	public void setRdate(String rdate) {
 		this.rdate = rdate;
 	}
+	public Float getPass() {
+		return pass;
+	}
+	public void setPass(Float pass) {
+		this.pass = pass;
+	}
+	public Float getFailed() {
+		return failed;
+	}
+	public void setFailed(Float failed) {
+		this.failed = failed;
+	}
+	
+	
 	
 	
 
