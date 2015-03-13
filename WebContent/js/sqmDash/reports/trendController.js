@@ -46,7 +46,7 @@ dashboardApp
 					
 					$scope.toggleMin();
 					
-					$scope.minDate = new Date('2015/02/16');
+					$scope.minDate = new Date('2015/03/12');
 					$scope.maxDate = new Date();
 					
 					$scope.minStartDate = 0; //fixed date
@@ -226,7 +226,7 @@ dashboardApp
 												
 										});
 						$scope.trendReports = $http.get("dash/trendreports/getReleaseInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName+"&fromDate="+$scope.selectedStart+"&toDate="+$scope.selectedEnd).success(function(response) {
-							alert(JSON.stringify(response));
+							//alert(JSON.stringify(response));
 							$scope.plotDefectRootBreakUp(response);
 							$scope.plotDefectTypeBreakUp(response);
 						});
@@ -678,60 +678,74 @@ dashboardApp
 						$('#defectageing')
 								.highcharts(
 										{
-											chart : {
-												type : 'column'
-											},
-											title : {
-												text : 'Defect Ageing',
-												style: {
-										            fontSize: 'medium',
-										            fontWeight: 'bold',
-										            color : '#428bca'
-										        }
-											},
-											credits : {
-												enabled : false
-											},
-											
-											xAxis : {
-												categories : [ '1D-4D',
-														'5D-8D', '9D-12D',
-														'>12D', ]
-											},
-											yAxis : {
-												min : 0,
-												title : {
-													text : 'Defects',
-													style: {
-											            fontSize: 'small',
-											            color : '#428bca'
-											        }
-												}
-											},
-											tooltip : {
-												headerFormat : '<span style="font-size:10px">{point.key}</span><table>',
-												
-												footerFormat : '</table>',
-												shared : true,
-												useHTML : true
-											},
-											plotOptions : {
-												column : {
-													pointPadding : 0.2,
-													borderWidth : 0
-												}
-											},
-											series : [ {
-												name : 'Urgent',
-												data : [2 ],
-												stack : 'male'
-											},
-											{
-												name : 'medium',
-												data : [1],
-												stack : 'female'
-											}
-											]
+											 chart: {
+										            type: 'column'
+										        },
+										        title: {
+										            text: 'Defect Ageing',
+										            style: {
+													fontSize: 'medium',
+													fontWeight: 'bold',
+													color : '#428bca'
+										            }
+										        },
+										        xAxis: {
+										            categories: ['1D-4D','5D-8D', '9D-12D','>12D']
+										        },
+										        yAxis: {
+										            min: 0,
+										            title: {
+										                text: 'Defects',
+										                style: {
+														fontSize: 'small',
+														color : '#428bca'
+														}
+										            },
+										            stackLabels: {
+										                enabled: true,
+										                style: {
+										                    fontWeight: 'bold',
+										                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+										                }
+										            }
+										        },
+										        legend: {
+										            align: 'center',
+										            x: -30,
+										            verticalAlign: 'bottom',
+										            y: 25,
+										            floating: true,
+										            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+										            borderColor: '#CCC',
+										            borderWidth: 1,
+										            shadow: false
+										        },
+										        tooltip: {
+										            formatter: function () {
+										                return '<b>' + this.x + '</b><br/>' +
+										                    this.series.name + ': ' + this.y + '<br/>' +
+										                    'Total: ' + this.point.stackTotal;
+										            }
+										        },
+										        plotOptions: {
+										            column: {
+										                stacking: 'normal',
+										                dataLabels: {
+										                    enabled: true,
+										                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+										                    style: {
+										                        textShadow: '0 0 3px black'
+										                    }
+										                }
+										            }
+										        },
+										        series: [{
+										            name : 'Urgent',
+										            data : [2 ]
+										        }, {
+										            name : 'medium',
+										            data: [1]
+										        }]
 										});
 					};
 					//************************ Downtime Breakup  ***************************//
