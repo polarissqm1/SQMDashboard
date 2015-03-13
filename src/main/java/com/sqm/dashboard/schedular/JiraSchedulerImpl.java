@@ -129,8 +129,10 @@ public class JiraSchedulerImpl implements JiraScheduler {
 			jsonArray = new JSONArray(stringResponse);
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				if(jsonObject.get("key").toString().contains("CFP") || jsonObject.get("key").toString().contains("CFT")){
 				jiraScheduler.startReleaseInsertion(
 						jsonObject.get("key").toString(),jiraScheduler,collection);
+				}
 			}
 		} catch (Exception e) {
 			log.error("Ecxeption in project level Jira Insertion");
@@ -210,6 +212,7 @@ public class JiraSchedulerImpl implements JiraScheduler {
 			jiraScVO.setRelease(sourceRelease);
 			JSONArray jsonArray;
 			JSONObject obj = new JSONObject();
+			
 			jsonArray = new JSONArray("[" + stringResponse + "]");
 			JSONArray issueArray = new JSONArray(jsonArray.getJSONObject(0)
 					.getString("issues"));

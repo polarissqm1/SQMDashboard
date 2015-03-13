@@ -25,6 +25,7 @@ import com.sqm.dashboard.VO.SeverityVO;
 import com.sqm.dashboard.VO.StatusAndSeverityVO;
 import com.sqm.dashboard.VO.TestCaseExecutionStatusVO;
 import com.sqm.dashboard.schedular.AlmSchedularImpl;
+import com.sqm.dashboard.schedular.JiraSchedulerImpl;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -68,11 +69,45 @@ public static DBCollection getConnection() throws Exception{
 	DateFormat dateFormat = new SimpleDateFormat("dd/MMM/yy");
 	public static void main(String[] args) throws Exception {
 		
+JiraSchedulerImpl jiraScheduler=new JiraSchedulerImpl();
+		try {
+			
+			
+			String projectUrl="https://issuetracking.jpmchase.net/jira15/rest/api/latest/project/";
+			//log.info("Hiting Url at project level: " + projectUrl);
+			Client client = Client.create();
+			WebResource webResource = client.resource(projectUrl);
+			ClientResponse clientResponse = webResource.accept(
+					"application/json").get(ClientResponse.class);
+			String stringResponse = clientResponse.getEntity(String.class);
+			JSONArray jsonArray;
+			jsonArray = new JSONArray(stringResponse);
+			for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				if(jsonObject.get("key").toString().contains("CFP") || jsonObject.get("key").toString().contains("CFT")){
+					System.out.println(jsonObject.get("key").toString());
+					System.out.println(jsonObject.get("id").toString());
+				}
+				
+				
+				
+			
+						
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		/*
+		
 		AlmSchedularImpl almObj=new AlmSchedularImpl();
 		AlmSchedularImpl almObj1=new AlmSchedularImpl();
 		almObj.startAlmInsert(almObj1);
 		
-		/*try {
+		try {
 		String mainUrl="https://issuetracking.jpmchase.net/jira15/rest/api/latest/project/";
 
 		
@@ -116,9 +151,9 @@ public static DBCollection getConnection() throws Exception{
 				e.printStackTrace();
 			}
 		
-		*/
 		
-	}
+		
+	*/}
 	
 	public  void doProcess(String applicationName) throws Exception{
 		
