@@ -9,10 +9,7 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,17 +17,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-
-import com.sqm.dashboard.schedular.DashboardProjectService;
+import com.sqm.dashboard.schedular.AlmSchedProjectService;
 import com.sqm.dashboard.util.RestConnectorUtility;
 
-@Service("dbProjectServiceImpl")
-public class DashboardProjectServiceImpl implements DashboardProjectService {
+@Service("almSchedProjectServiceImpl")
+public class AlmSchedProjectServiceImpl implements AlmSchedProjectService {
 
-	static final Log log = LogFactory.getLog(DashboardProjectServiceImpl.class);
-	
-	/*@Autowired*/
-	DashboardAuthServiceImpl dbAuthServiceImpl = new DashboardAuthServiceImpl();
+	final Logger log = Logger.getLogger(AlmSchedProjectServiceImpl.class);
 	
 	/*@Value("$almBasicUrl")private String almBasicUrl;
 	@Value("$almDomains")private String almDomains;*/
@@ -96,10 +89,6 @@ public class DashboardProjectServiceImpl implements DashboardProjectService {
 			log.error("Error in getting listOfProjects ", e);
 			throw e;
 		} finally {
-			//dbAuthServiceImpl.logout(connection);
 		}
 	}
-	
-	
-
 }

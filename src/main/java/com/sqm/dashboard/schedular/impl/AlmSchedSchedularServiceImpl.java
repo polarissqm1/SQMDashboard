@@ -6,42 +6,39 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.ws.Response;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sqm.dashboard.schedular.DashboardSchedularService;
-import com.sqm.dashboard.util.RestConnectorUtility;
+import com.mongodb.DBCollection;
 import com.sqm.dashboard.VO.AlmDomainProject;
 import com.sqm.dashboard.VO.AlmDomainProjectReleaseId;
 import com.sqm.dashboard.VO.AlmDomainProjectReleaseName;
 import com.sqm.dashboard.VO.AlmTestcaseVO;
 import com.sqm.dashboard.VO.AlmVO;
 import com.sqm.dashboard.VO.SchedularDefectsVO;
-import com.sqm.dashboard.VO.SchedularTCExecStatusVO;
 import com.sqm.dashboard.dao.impl.AlmSchedularDAOImpl;
+import com.sqm.dashboard.schedular.AlmSchedularService;
+import com.sqm.dashboard.util.RestConnectorUtility;
 
-@Service("dbSchedularServiceImpl")
-public class DashboardSchedularServiceImpl implements DashboardSchedularService{	
-	static final Log log = LogFactory.getLog(DashboardSchedularServiceImpl.class);
+@Service("almSchedSchedularServiceImpl")
+public class AlmSchedSchedularServiceImpl implements AlmSchedularService{	
+	static final Log log = LogFactory.getLog(AlmSchedSchedularServiceImpl.class);
 	
 	/*@Autowired*/
-	DashboardDomainServiceImpl dbDomainServiceImpl = new DashboardDomainServiceImpl();
+	AlmSchedDomainServiceImpl almSchedDomainServiceImpl = new AlmSchedDomainServiceImpl();
 	
 	/*@Autowired*/
-	DashboardProjectServiceImpl dbProjectServiceImpl = new DashboardProjectServiceImpl();
+	AlmSchedProjectServiceImpl almSchedProjectServiceImpl = new AlmSchedProjectServiceImpl();
 	
 	/*@Autowired*/
-	DashboardReleaseServiceImpl dbReleaseServiceImpl = new DashboardReleaseServiceImpl();
+	AlmSchedReleaseServiceImpl almSchedReleaseServiceImpl = new AlmSchedReleaseServiceImpl();
 	
 	/*@Autowired*/
-	DashboardDefectServiceImpl dbDefectServiceImpl = new DashboardDefectServiceImpl();
+	AlmSchedDefectServiceImpl almSchedDefectServiceImpl = new AlmSchedDefectServiceImpl();
 	
 	/*@Autowired*/
-	DashboardTestcaseServiceImpl dbTestcaseServiceImpl = new DashboardTestcaseServiceImpl();
+	AlmSchedTestcaseServiceImpl almSchedTestcaseServiceImpl = new AlmSchedTestcaseServiceImpl();
 	
 	/*@Autowired*/
 	AlmDomainProject almDomainProject = new AlmDomainProject();
@@ -49,30 +46,26 @@ public class DashboardSchedularServiceImpl implements DashboardSchedularService{
 	/*@Autowired*/
 	AlmDomainProjectReleaseId almDomainProjectReleaseId = new AlmDomainProjectReleaseId();
 	
+	/*@Autowired*/
 	AlmDomainProjectReleaseName almDomainProjectReleaseName = new AlmDomainProjectReleaseName();
-	public String saveAlmDetails(RestConnectorUtility conn, Map<String, String> requestHeaders, 
-									String username, String password) throws Exception {
+	
+	public void saveAlmDetails(RestConnectorUtility conn, Map<String, String> requestHeaders, 
+									String username, String password, DBCollection collection) throws Exception {
 		
-		Response jsonDomains = null;
 		HashMap<String,String> jsonDomainsMap = new HashMap<String,String>();
 		HashMap<String,String> jsonProjectsMap = null;
-		HashMap<String,String> jsonNo = new HashMap<String,String>();
 		ArrayList<AlmDomainProject> almDomainProj = new ArrayList<AlmDomainProject>();
 		ArrayList<AlmDomainProjectReleaseId> almDomainProjReleaseId = new ArrayList<AlmDomainProjectReleaseId>();
 		ArrayList<AlmDomainProjectReleaseName> almDomainProjReleaseName = new ArrayList<AlmDomainProjectReleaseName>();
 		
-		String defects = null;
-		String testcases = null;
-		
-		//SchedularTCExecStatusVO schedTCVO = new SchedularTCExecStatusVO();
 		AlmTestcaseVO almTCVO = new AlmTestcaseVO();
 		SchedularDefectsVO schedDefectsVO = new SchedularDefectsVO();
 		AlmVO almVO = new AlmVO();
-		AlmSchedularDAOImpl almDaoObj = new AlmSchedularDAOImpl();
+		AlmSchedularDAOImpl almSchedularDAOImpl = new AlmSchedularDAOImpl();
 		
 		try {
 		
-			jsonDomainsMap = dbDomainServiceImpl.getAlmDomains(conn, requestHeaders);
+			jsonDomainsMap = almSchedDomainServiceImpl.getAlmDomains(conn, requestHeaders);
 			log.info("###jsonDomainsMap### : "  + jsonDomainsMap);
 			
 			Set<String> domains = jsonDomainsMap.keySet();
@@ -85,7 +78,7 @@ public class DashboardSchedularServiceImpl implements DashboardSchedularService{
 				log.info("Value of "+ domain +" is: "+ jsonDomainsMap.get(domain));
 				domainName = jsonDomainsMap.get(domain);
 				
-				jsonProjectsMap = dbProjectServiceImpl.getAlmProjects(conn, requestHeaders, domainName);
+				jsonProjectsMap = almSchedProjectServiceImpl.getAlmProjects(conn, requestHeaders, domainName);
 				log.info("###jsonProjectsMap### : "  + jsonProjectsMap);
 				
 				Set<String> projects = jsonProjectsMap.keySet();
@@ -94,8 +87,8 @@ public class DashboardSchedularServiceImpl implements DashboardSchedularService{
 				for(String project : projects){ 
 					log.info("domainName : " + domainName);
 					projectName = jsonProjectsMap.get(project);
-					log.info("Value of "+ project +" is: "+ jsonProjectsMap.get(project));
 
+					log.info("Value of "+ project +" is: "+ jsonProjectsMap.get(project));
 					log.info("domainName : " + domainName + "##" + "projectName : " + projectName);
 					
 					almDomainProj.add(new AlmDomainProject(domainName, projectName));
@@ -112,14 +105,14 @@ public class DashboardSchedularServiceImpl implements DashboardSchedularService{
 				    String releasesUrl = conn.buildEntityCollectionUrl("release", almDomainProj.get(i).getDomain(), almDomainProj.get(i).getProject());
 				    log.info("releasesUrl : " + releasesUrl);
 					
-				    List<String> releaseIds = dbReleaseServiceImpl.getAlmReleasesIds(conn, releasesUrl, requestHeaders);
+				    List<String> releaseIds = almSchedReleaseServiceImpl.getAlmReleasesIds(conn, releasesUrl, requestHeaders);
 				    log.info("ALM Release Ids : " + releaseIds.toString());
 				    
 				    for (String releaseId : releaseIds) {
 				    	almDomainProjReleaseId.add(new AlmDomainProjectReleaseId(domainName, projectName, releaseId));
 					}
 				    
-				    List<String> releaseNames = dbReleaseServiceImpl.getAlmReleasesNames(conn, releasesUrl, requestHeaders);
+				    List<String> releaseNames = almSchedReleaseServiceImpl.getAlmReleasesNames(conn, releasesUrl, requestHeaders);
 				    log.info("ALM Release Names : " + releaseNames.toString());
 				    
 				    for (String releaseName : releaseNames) {
@@ -136,12 +129,12 @@ public class DashboardSchedularServiceImpl implements DashboardSchedularService{
 						String defectsUrl = conn.buildEntityCollectionUrl("defect", almDomainProjReleaseId.get(j).getDomain(), almDomainProjReleaseId.get(j).getProject());
 						log.info("defectsUrl : " + defectsUrl);
 					
-						schedDefectsVO = dbDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, almDomainProjReleaseId.get(j).getReleaseId());
+						schedDefectsVO = almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, almDomainProjReleaseId.get(j).getReleaseId());
 						
 						String testcasesUrl = conn.buildEntityCollectionUrl("run", almDomainProjReleaseId.get(j).getDomain(), almDomainProjReleaseId.get(j).getProject());
 						log.info("testcasesUrl : " + testcasesUrl);
 						
-						almTCVO = dbTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, almDomainProjReleaseId.get(j).getReleaseId());
+						almTCVO = almSchedTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, almDomainProjReleaseId.get(j).getReleaseId());
 						
 						almVO.setDomain(almDomainProjReleaseId.get(j).getDomain());
 						almVO.setProject(almDomainProjReleaseId.get(j).getProject());
@@ -149,16 +142,12 @@ public class DashboardSchedularServiceImpl implements DashboardSchedularService{
 						almVO.setDefectsVO(schedDefectsVO);
 						almVO.setAlmTCVO(almTCVO);
 						
-						log.info("almVO is :"+almVO.toString());
-						
-			almDaoObj.validatorInsertion(almVO);
-					//	almDaoObj.insertAlmToDb(almVO);
+						almSchedularDAOImpl.validatorInsertion(almVO, collection);
 				    }
-						
 			}
 		} catch (Exception e) {
 			log.error("Error in schedular : " + e.getMessage());
 			throw e;
 		}
-		return null;
-	}}
+	}
+}

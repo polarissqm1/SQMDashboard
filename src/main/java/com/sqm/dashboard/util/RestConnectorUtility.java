@@ -158,8 +158,7 @@ public class RestConnectorUtility {
 			Map<String, String> cookies) throws Exception {
 		if ((queryString != null) && !queryString.isEmpty()) {
 			url += "?" + queryString;
-			
-			System.out.println("url : " + url);
+			System.out.println("URL : " + url);
 		}
 		HttpURLConnection con = (HttpURLConnection) new URL(url)
 				.openConnection();

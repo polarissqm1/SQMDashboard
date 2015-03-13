@@ -4,23 +4,19 @@ import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import Decoder.BASE64Encoder;
 
-import com.sqm.dashboard.schedular.DashboardAuthService;
+import com.sqm.dashboard.schedular.AlmSchedAuthService;
 import com.sqm.dashboard.util.ResponseUtility;
 import com.sqm.dashboard.util.RestConnectorUtility;
-import com.sun.jersey.core.util.Base64;
 
-
-
-@Service("dbAuthServiceImpl")
-public class DashboardAuthServiceImpl implements DashboardAuthService{
+@Service("almSchedAuthServiceImpl")
+public class AlmSchedAuthServiceImpl implements AlmSchedAuthService{
 	
-	static final Log log = LogFactory.getLog(DashboardAuthServiceImpl.class);
+	final Logger log = Logger.getLogger(AlmSchedAuthServiceImpl.class);
 
 	/**
 	 * @param connection
@@ -38,8 +34,7 @@ public class DashboardAuthServiceImpl implements DashboardAuthService{
 			authenticationPoint = this.isAuthenticated(conn);
 			log.info("authenticationPoint : " + authenticationPoint);
 			if (authenticationPoint != null) {
-				return this
-						.login(conn, authenticationPoint, username, password);
+				return this.login(conn, authenticationPoint, username, password);
 			}
 			return "500";
 		} catch (Exception e) {
@@ -141,12 +136,11 @@ public class DashboardAuthServiceImpl implements DashboardAuthService{
 
 			log.info("The Encoded credentails are : " + new String(credEncodedString));
 
-			String[] splited = credEncodedString.split("\\s");
+			//String[] splited = credEncodedString.split("\\s");
 
-			String str = splited[1];
-			byte[] byteArray = Base64.decode(str.getBytes());
-
-			String credDecodedString = new String(byteArray);
+			//String str = splited[1];
+			//byte[] byteArray = Base64.decode(str.getBytes());
+			//String credDecodedString = new String(byteArray);
 
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("Authorization", credEncodedString);

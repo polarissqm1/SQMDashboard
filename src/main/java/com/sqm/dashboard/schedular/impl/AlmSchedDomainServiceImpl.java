@@ -9,9 +9,7 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -19,28 +17,22 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-
-import com.sqm.dashboard.schedular.DashboardDomainService;
+import com.sqm.dashboard.schedular.AlmSchedDomainService;
 import com.sqm.dashboard.util.RestConnectorUtility;
 
-@Service("dbDomainServiceImpl")
-public class DashboardDomainServiceImpl implements DashboardDomainService {
+@Service("almSchedDomainServiceImpl")
+public class AlmSchedDomainServiceImpl implements AlmSchedDomainService {
 
-	static final Log log = LogFactory.getLog(DashboardDomainServiceImpl.class);
+	final Logger log = Logger.getLogger(AlmSchedDomainServiceImpl.class);
 
-	/*
-	 * @Value("$almBasicUrl")private String almBasicUrl;
-	 * 
-	 * @Value("$almDomains")private String almDomains;
-	 */
+	//@Value("$almBasicUrl")private String almBasicUrl;
+	//@Value("$almDomains")private String almDomains;
 
 	private String almBasicUrl = "http://ealm11.jpmchase.net/qcbin/rest/";
 	private String almDomains = "domains";
 
 	@SuppressWarnings("unused")
-	public HashMap<String, String> getAlmDomains(
-			RestConnectorUtility connection, Map<String, String> requestHeaders)
-			throws Exception {
+	public HashMap<String, String> getAlmDomains(RestConnectorUtility connection, Map<String, String> requestHeaders) throws Exception {
 
 		HashMap<String, String> jsonDomains = null;
 
@@ -51,15 +43,12 @@ public class DashboardDomainServiceImpl implements DashboardDomainService {
 
 		String listOfDomains;
 		try {
-			
 			listOfDomains = connection.httpGet(domainsUrl, null, requestHeaders).toString();
 			log.info(" listOfDomains : " + listOfDomains);
 
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(new InputSource(new StringReader(
-					listOfDomains)));
+			Document document = builder.parse(new InputSource(new StringReader(listOfDomains)));
 			Node nodes = document.getDocumentElement();
 			String root = nodes.getNodeName();
 			log.info("Domains XML Root Node: " + root);
@@ -97,9 +86,6 @@ public class DashboardDomainServiceImpl implements DashboardDomainService {
 			log.error("Error in getting domains ", e);
 			throw e;
 		} finally {
-			// dbAuthServiceImpl.logout(connection);
 		}
-
 	}
-	
 }

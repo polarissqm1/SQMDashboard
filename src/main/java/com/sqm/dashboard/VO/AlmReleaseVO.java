@@ -1,13 +1,19 @@
 package com.sqm.dashboard.VO;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class AlmReleaseVO implements Serializable {
 
 	private String domain;
 	private String project;
-	private String id;
-
+	private String releaseId;
+	private String releaseName;
+	private String plannedTestcases;
+	private ArrayList<String> cycleNames;
+	private SchedularReleaseDefectsVO schedReleaseDefectsVO;
+	private String status;
+	
 	public String getDomain() {
 		return domain;
 	}
@@ -20,17 +26,50 @@ public class AlmReleaseVO implements Serializable {
 	public void setProject(String project) {
 		this.project = project;
 	}
-	public String getId() {
-		return id;
+	public String getReleaseId() {
+		return releaseId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setReleaseId(String releaseId) {
+		this.releaseId = releaseId;
 	}
-
+	public String getReleaseName() {
+		return releaseName;
+	}
+	public void setReleaseName(String releaseName) {
+		this.releaseName = releaseName;
+	}
+	public String getPlannedTestcases() {
+		return plannedTestcases;
+	}
+	public void setPlannedTestcases(String plannedTestcases) {
+		this.plannedTestcases = plannedTestcases;
+	}
+	public ArrayList<String> getCycleNames() {
+		return cycleNames;
+	}
+	public void setCycleNames(ArrayList<String> cycleNames) {
+		this.cycleNames = cycleNames;
+	}
+	public SchedularReleaseDefectsVO getSchedReleaseDefectsVO() {
+		return schedReleaseDefectsVO;
+	}
+	public void setSchedReleaseDefectsVO(
+			SchedularReleaseDefectsVO schedReleaseDefectsVO) {
+		this.schedReleaseDefectsVO = schedReleaseDefectsVO;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	@Override
 	public String toString() {
-		return "ReleaseVO [domain=" + domain + ", project=" + project + ", id="
-				+ id + "]";
+		return "AlmReleaseVO [domain=" + domain + ", project=" + project
+				+ ", releaseId=" + releaseId + ", releaseName=" + releaseName
+				+ ", plannedTestcases=" + plannedTestcases + ", cycleNames="
+				+ cycleNames + ", schedReleaseDefectsVO="
+				+ schedReleaseDefectsVO + ", status=" + status + "]";
 	}
 	
 }

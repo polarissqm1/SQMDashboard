@@ -2,7 +2,7 @@ package com.sqm.dashboard.schedular;
 
 import com.sqm.dashboard.util.RestConnectorUtility;
 
-public interface DashboardAuthService {
+public interface AlmSchedAuthService {
 	
 	public String login(RestConnectorUtility conn, String username, String password) throws Exception;
 	

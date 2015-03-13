@@ -12,19 +12,17 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.sqm.dashboard.VO.AlmVO;
 import com.sqm.dashboard.dao.AlmSchedularDAO;
-import com.sqm.dashboard.schedular.AlmSchedular;
-import com.sqm.dashboard.schedular.AlmSchedularImpl;
-import com.sqm.dashboard.schedular.JiraSchedulerImpl;
 import com.sqm.dashboard.util.DashboardUtility;
 
 public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 	
-	final Logger log = Logger.getLogger(AlmSchedularDAOImpl.class);
-	public void validatorInsertion(AlmVO almVO) throws Exception{
-		DBCursor cursor = null;
-		String keyValue = almVO.getRelease() + DashboardUtility.getCurrentDate().toString();
-		DBCollection table=DashboardDAOImpl.getDbCollection("alm");
+	final static Logger log = Logger.getLogger(AlmSchedularDAOImpl.class);
+	
+	public void validatorInsertion(AlmVO almVO, DBCollection table) throws Exception {
 		
+		DBCursor cursor = null;
+		String keyValue = almVO.getRelease() + "|" + DashboardUtility.getCurrentDate().toString();
+
 		try{
 			BasicDBObject searchQuery = new BasicDBObject();
 			searchQuery.put("domain", almVO.getDomain());
@@ -33,7 +31,7 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 			boolean isKeyValueMatching = false;
 			
 			while (cursor.hasNext()) {
-				DBObject report =cursor.next();
+				DBObject report = cursor.next();
 				if(report.get("key").toString().equalsIgnoreCase(keyValue)){
 					isKeyValueMatching = true;
 				}
@@ -41,24 +39,23 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 			if(isKeyValueMatching){
 				 log.info("isKeyValueMatching : " + isKeyValueMatching);
 				 updateAlmToDb(almVO, table, keyValue);
-				 log.info("updateAlmToDb");
+				 log.info("Updated record to alm collection");
 			 } else {
 				 log.info("isKeyValueMatching : " + isKeyValueMatching);
 				 insertAlmToDb(almVO, table, keyValue);
-				 log.info("insertAlmToDb");
+				 log.info("Inserted record to alm collection");
 			 }
 		} catch(Exception e) {
-			log.info("Exception occured at Validation level");
+			log.info("Exception occured at Update/Insert to alm collection");
 			throw e;
 		}
 	}
 
-	@Override
-	public  void insertAlmToDb(AlmVO almVO, DBCollection table,String keyValue) throws Exception {
+	public  void insertAlmToDb(AlmVO almVO, DBCollection table, String keyValue) throws Exception {
 		
 		BasicDBObject alm = new BasicDBObject();
 		
-		alm.put("userid", "user555");
+		alm.put("userid", "admin");
 		alm.put("domain", almVO.getDomain());
 		alm.put("projects", almVO.getProject());
 		alm.put("release", almVO.getRelease());
@@ -74,16 +71,16 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		alm.put("manual_TCExecutionStatus", manual_TCExecutionStatus);
 		
 		DBObject automation_TCExecutionStatus = new BasicDBObject();
-	    automation_TCExecutionStatus.put("passed", "2000");
-	    automation_TCExecutionStatus.put("failed", "1000");
-	    automation_TCExecutionStatus.put("noRun", "500");
-	    automation_TCExecutionStatus.put("blocked", "150");
-	    automation_TCExecutionStatus.put("defered", "20");
+	    automation_TCExecutionStatus.put("passed", "0");
+	    automation_TCExecutionStatus.put("failed", "0");
+	    automation_TCExecutionStatus.put("noRun", "0");
+	    automation_TCExecutionStatus.put("blocked", "0");
+	    automation_TCExecutionStatus.put("defered", "0");
 	    alm.put("automation_TCExecutionStatus", automation_TCExecutionStatus);
 	    
 	    ArrayList<Integer> defectId = new ArrayList<Integer>();
-	    defectId.add(8956);
-	    defectId.add(8955);
+	    /*defectId.add(8956);
+	    defectId.add(8955);*/
 	    alm.put("defectId", defectId);
 	    
 	    DBObject statusAndSeverity1 = new BasicDBObject();
@@ -169,30 +166,39 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		       
 		DBObject ragStatus_System = new BasicDBObject();
 		ragStatus_System.put("Status", "r");
-		ragStatus_System.put("user", "system");
+		ragStatus_System.put("user", "System");
 		ragStatus_System.put("date", "2015-03-02T07:47:37.676Z");
 		
-	    alm.put("docCreatedBy", "System");
+	   /* alm.put("docCreatedBy", "System");
 	    alm.put("docCreatedDate", "2015-03-02T07:47:37.676Z");
 	    alm.put("docUpdatedBy", "user666");
-	    alm.put("lastUpdationDate", DashboardUtility.getCurrentDate());
+	    alm.put("lastUpdationDate", DashboardUtility.getCurrentDate());*/
 	    
+		alm.put("CreatedOn", DashboardUtility.getCurrentDate()); 
+		alm.put("CreatedBy", "System");
+		alm.put("UpdatedOn", DashboardUtility.getCurrentDate());
+		alm.put("UpdatedBy", "System");
+		alm.put("lastUpdationDate", DashboardUtility.getCurrentDate());
+		    
 	    ArrayList<String> jiraId = new ArrayList<String>();
-	    jiraId.add("jira1");
-	    jiraId.add("jira2");
+	    /*jiraId.add("jira1");
+	    jiraId.add("jira2");*/
 	    alm.put("jiraId", jiraId);
 	     
 	    alm.put("key", keyValue);
-	   
-	   table.insert(alm);
-	   log.info("ALM Inserted Successfully");
+	    
+	    table.insert(alm);
+	    log.info("ALM Inserted Successfully");
 	}
 	
-	private static void updateAlmToDb(AlmVO almVO, DBCollection table,String keyValue) throws Exception{
+	public void updateAlmToDb(AlmVO almVO, DBCollection table,String keyValue) throws Exception {
 		
 		Date date = DashboardUtility.getCurrentDate();
 		BasicDBObject lastUpdateDate = new BasicDBObject();
 		lastUpdateDate.append("$set", new BasicDBObject().append("lastUpdationDate", date));
+		
+		BasicDBObject updatedOn = new BasicDBObject();
+		updatedOn.append("$set", new BasicDBObject().append("UpdatedOn", date));
 		  
 		BasicDBObject manual = new BasicDBObject();
 		DBObject manual_TCExecutionStatus = new BasicDBObject();
@@ -276,19 +282,22 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 	    BasicDBObject automation = new BasicDBObject();
 		
 	    DBObject automation_TCExecutionStatus = new BasicDBObject();
-	    automation_TCExecutionStatus.put("passed", "2000");
-	    automation_TCExecutionStatus.put("failed", "1000");
-	    automation_TCExecutionStatus.put("noRun", "500");
-	    automation_TCExecutionStatus.put("blocked", "150");
-	    automation_TCExecutionStatus.put("defered", "20");
+	    automation_TCExecutionStatus.put("passed", "0");
+	    automation_TCExecutionStatus.put("failed", "0");
+	    automation_TCExecutionStatus.put("noRun", "0");
+	    automation_TCExecutionStatus.put("blocked", "0");
+	    automation_TCExecutionStatus.put("defered", "0");
 	    
 	    automation.append("$set", new BasicDBObject().append("automation_TCExecutionStatus", automation_TCExecutionStatus));
 			
-		BasicDBObject searchQuery = new BasicDBObject().append("key",keyValue);
+		BasicDBObject searchQuery = new BasicDBObject().append("key", keyValue);
 			 
 		table.update(searchQuery, manual);
 		table.update(searchQuery, automation);
 		table.update(searchQuery, statusSeverity);
 		table.update(searchQuery, lastUpdateDate);
+		table.update(searchQuery, updatedOn);
+		
+		log.info("ALM updated successfully");
 	 }
 }
