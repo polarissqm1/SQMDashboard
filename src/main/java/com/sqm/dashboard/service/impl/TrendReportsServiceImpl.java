@@ -3,6 +3,7 @@ package com.sqm.dashboard.service.impl;
 import java.net.UnknownHostException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,7 @@ import com.sqm.dashboard.VO.DashboardVO;
 import com.sqm.dashboard.VO.DefectIdsVO;
 import com.sqm.dashboard.VO.StatusAndSeverityVO;
 import com.sqm.dashboard.VO.TestCaseExecutionStatusVO;
+import com.sqm.dashboard.VO.TrendReportsReleaseVO;
 import com.sqm.dashboard.VO.TrendReportsVO;
 import com.sqm.dashboard.controller.DashboardController;
 import com.sqm.dashboard.dao.DashboardDAO;
@@ -147,11 +149,39 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 			return response.build();
 		}
 	@Override		
-	public Response getReleaseInfo(String project,String release,String fromDate,String toDate) throws Exception {
+public Response getReleaseInfo(String project,String release,String fromDate,String toDate) throws Exception {
 		
 		
 		Response.ResponseBuilder response =null;
-		TrendReportsVO trendReportsVO=null;
+		TrendReportsReleaseVO trendReportsReleaseVO=null;
+		/***************************Defect RootCause******************************/
+		int count_incorrectUnderstanding=0;
+		int count_implementation=0;
+		int count_automatedTestScript=0;
+		int count_coding=0;
+		int count_data=0;
+		int count_datatable=0;
+		int count_design=0;
+		int count_hardwareDesign=0;
+		int count_interface=0;
+		int count_JCL=0;
+		int count_manualTestScript=0;
+		int count_requirements=0;
+		/***************************Defect Type******************************/
+		int count_Performance=0;
+		int count_DataConversion=0;
+		int count_deferresItem=0;
+		int count_documentationReview=0;
+		int count_Enhancement=0;
+		int count_Environment=0;
+		int count_functional=0;
+		int count_testExecution=0;
+		int count_unknown=0;
+		
+		
+		
+		HashMap rootCauseMap=new HashMap();
+		HashMap defectTypeMap=new HashMap();
 		try{
 			ArrayList dashVOList=trendReportsDAO.getReleaseInfo(project, release,fromDate,toDate);
 			log.info("DashVO List size "+dashVOList.size());
@@ -161,16 +191,62 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 			DashboardVO dashVO=null;
 			for (int i=0;i<dashVOList.size();i++)
 			  {
-				  trendReportsVO=new TrendReportsVO();
+				  
 				  dashVO=(DashboardVO)dashVOList.get(i);
 				  for(int j=0;j<dashVO.getDefectVO().size();j++)
 				  {
+					  trendReportsReleaseVO=new TrendReportsReleaseVO();
 					  DefectIdsVO defectVO=dashVO.getDefectVO().get(j);
 					  String rootCause=defectVO.getDefectRootCause();
 					  log.info("rootCause is"+rootCause);
-					  trendReportsVO.setDefectRootCause(rootCause);
-					  originalList.add(trendReportsVO);
+                       if(rootCause.equals("incorrectUnderstanding")){
+                    	   count_incorrectUnderstanding++;
+                       }                          
+                    	   else if(rootCause.equals("implementation")){                               
+					                   count_implementation++;
+					     }
+                    	   else if(rootCause.equals("coding")){
+                    		           count_coding++;   
+                    	   }
+                           
+                       String defectType=defectVO.getDefectType();
+                       
+                           if(defectType.equals("Performance")){
+                    	           count_Performance++;
+                           }
+					                                 
+                    	   else if(defectType.equals("DataConversion")){                               
+                    		   count_DataConversion++;
+					     }
+                       
+                      String defectId=defectVO.getDefectId();
+                      trendReportsReleaseVO.setDefectId(defectId);
+                      rootCauseMap.put("incorrectUnderstanding",count_incorrectUnderstanding);
+     				  rootCauseMap.put("implementation", count_implementation); 
+     				 rootCauseMap.put("coding", count_coding);
+     				    
+     				  
+     				  defectTypeMap.put("Performance", count_Performance);
+					  defectTypeMap.put("DataConversion", count_DataConversion);
+					  
+					  /*String defectRaisedDate=defectVO.getDefectFixedDate();
+					  String defectFixedDate=defectVO.getDefectFixedDate();
+					  
+					  Date d1 = new SimpleDateFormat("yyyy-M-dd").parse(defectRaisedDate);
+					  Date d2 = new SimpleDateFormat("yyyy-M-dd").parse(defectFixedDate);
+					  
+					  long diff = Math.abs(d1.getTime() - d2.getTime());
+					  long diffDays = diff / (24 * 60 * 60 * 1000);*/
+					
+					  
+					  
+     				  trendReportsReleaseVO.setDefectRootCause(rootCauseMap);
+     				  trendReportsReleaseVO.setDefectType(defectTypeMap);
+     				  originalList.add(trendReportsReleaseVO);
+                      
 				  }
+				  
+				  
 				
 				
 			}

@@ -145,7 +145,7 @@ System.out.println("inside TrendReportsDAOImpl");
 			 
 			 log.info("Connect to database successfully");
 			 log.info("DAO Layer");
-			 DBCollection table = db.getCollection("alm_1");
+			 DBCollection table = db.getCollection("release");
 			 log.info("Connect to collection alm successfully");
 			 BasicDBObject searchQuery = new BasicDBObject();
 			 searchQuery.put("domain", "IB_TECHNOLOGY");
