@@ -5,6 +5,21 @@ dashboardApp
 					$scope.plotCharts = null;
 					$scope.selectedStart=null;
 					$scope.selectedEnd=null;
+					
+					$scope.onInit = function() {
+						alert("in init function");
+						
+					};
+					
+					$scope.showDiv = function(element) {
+						document.getElementById(element).style.display='block';
+					};
+					
+					$scope.hideDiv = function(element) {
+						document.getElementById(element).style.display='none';
+					};
+					
+					
 					//** DatePicker **//
 					$scope.today = function() {
 						$scope.dt = new Date();
@@ -55,6 +70,7 @@ dashboardApp
 					//** Date Picker END**//
 
 					$scope.generateCharts = function() {
+						
 						if ($("#todate").val()) {
 							if ($scope.range) {
 								if ($scope.range == 'weekly') {
@@ -102,7 +118,11 @@ dashboardApp
 						$scope.trendReports = $http.get("dash/trendreports/getTrendingInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName+"&fromDate="+$scope.selectedStart+"&toDate="+$scope.selectedEnd).success(function(response) {
 
 											//alert(JSON.stringify(response));
-					        var rdate=[];
+							if(response.entity.length > 0){
+							$scope.showDiv('row1Charts');
+							
+							
+							var rdate=[];
 					        var actual=[];
 					        var passed=[];
 					        var failed=[];
@@ -131,7 +151,27 @@ dashboardApp
 					        	high.push(parseInt(response.entity[i].high));
 					        	medium.push(parseInt(response.entity[i].medium));
 					        	low.push(parseInt(response.entity[i].low));
+					        	
+					        	$scope.plotDefectsOpenClosed(rdate,open,closed);
+								$scope.plotDefectDensity(rdate,defectDensity);
+								$scope.plotBadFix(rdate,badFix);
+								$scope.plotDefectAccept(rdate,defectAccept);
+								$scope.plotDefectSeverityIndex(rdate,defectSeverityIndex);
+								$scope.plotTestCaseStatChart(rdate,passed,failed);
+								$scope.plotDefectSeverityBreakUp(response);
+								$scope.plotChart(actual,rdate);
+								$scope.plotDefectRootBreakUp();
+								$scope.plotDefectTypeBreakUp();
+								$scope.plotDefectAgeing();
 					        }
+							
+							}
+							else {
+								$scope.hideDiv('row1Charts');
+							}
+					        
+					        
+					        
 					        /*alert("+++++++++++"+rdate);
 					        alert("+++++++++++"+actual);
 					        alert("+++++++++++"+passed);
@@ -151,17 +191,7 @@ dashboardApp
 											
 												   
 												
-											$scope.plotDefectsOpenClosed(rdate,open,closed);
-											$scope.plotDefectDensity(rdate,defectDensity);
-											$scope.plotBadFix(rdate,badFix);
-											$scope.plotDefectAccept(rdate,defectAccept);
-											$scope.plotDefectSeverityIndex(rdate,defectSeverityIndex);
-											$scope.plotTestCaseStatChart(rdate,passed,failed);
-											$scope.plotDefectSeverityBreakUp(response);
-											$scope.plotChart(actual,rdate);
-											$scope.plotDefectRootBreakUp();
-											$scope.plotDefectTypeBreakUp();
-											$scope.plotDefectAgeing();
+											
 												
 										});
 						$scope.trendReports = $http.get("dash/trendreports/getReleaseInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName+"&fromDate="+$scope.selectedStart+"&toDate="+$scope.selectedEnd).success(function(response) {
@@ -172,8 +202,7 @@ dashboardApp
 
 					$scope.plotChart = function(actual,rdate) {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7','#bebada',
-									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#testcaseexec')
@@ -183,6 +212,7 @@ dashboardApp
 												text : 'Test Case Execution Rate',
 													style: {
 											            fontSize: 'medium',
+											            fontWeight: 'bold',
 											            color : '#428bca'
 											        },
 											},
@@ -196,7 +226,11 @@ dashboardApp
 
 											yAxis : {
 												title : {
-													text : 'Number of Testcases'
+													text : 'Number of Testcases',
+													style: {
+											            fontSize: 'small',
+											            color : '#428bca'
+											        }
 												}
 											},
 											plotOptions : {
@@ -213,7 +247,7 @@ dashboardApp
 											series : [
 													{
 														name : 'Planned',
-														data : [parseInt(35262),parseInt(35262),parseInt(35262),parseInt(35262)],
+														data : [parseInt(35262),parseInt(35262)],
 														stack : 'male'
 													},
 													{
@@ -227,8 +261,7 @@ dashboardApp
 					//***************** Test Case Status ******************//
 					$scope.plotTestCaseStatChart = function(rdate,passed,failed) {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#bebada',
-									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
+							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#testcasestat')
@@ -238,6 +271,7 @@ dashboardApp
 												text : 'Test Case Status',
 												style: {
 										            fontSize: 'medium',
+										            fontWeight: 'bold',
 										            color : '#428bca'
 										        }
 											},
@@ -255,11 +289,16 @@ dashboardApp
 
 											xAxis : {
 												categories : rdate
+										        
 											},
 
 											yAxis : {
 												title : {
-													text : 'Number of Testcases'
+													text : 'Number of Testcases',
+													style: {
+											            fontSize: 'small',
+											            color : '#428bca'
+											        }
 												}
 											},
 
@@ -294,8 +333,7 @@ dashboardApp
 
 					$scope.plotDefectsOpenClosed = function(rdate,open,closed) {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#bebada',
-									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
+							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defectsopen')
@@ -305,6 +343,7 @@ dashboardApp
 												text : 'Defects',
 												style: {
 										            fontSize: 'medium',
+										            fontWeight: 'bold',
 										            color : '#428bca'
 										        }
 											},
@@ -327,7 +366,11 @@ dashboardApp
 												allowDecimals : false,
 												min : 0,
 												title : {
-													text : 'Number of Testcases'
+													text : 'Number of Testcases',
+													style: {
+											            fontSize: 'small',
+											            color : '#428bca'
+											        }
 												}
 											},
 
@@ -361,8 +404,7 @@ dashboardApp
 					//************************ Defect Density  ***************************//
 					$scope.plotDefectDensity = function(rdate,defectDensity) {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#bebada',
-									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
+							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defectdensity').highcharts(
@@ -371,6 +413,7 @@ dashboardApp
 										text : 'Defect Density',
 										style: {
 								            fontSize: 'medium',
+								            fontWeight: 'bold',
 								            color : '#428bca'
 								        },
 										x : -20
@@ -385,7 +428,11 @@ dashboardApp
 									},
 									yAxis : {
 										title : {
-											text : 'Defect Density'
+											text : 'Defect Density',
+											style: {
+									            fontSize: 'small',
+									            color : '#428bca'
+									        }
 												
 										}
 									},
@@ -412,8 +459,7 @@ dashboardApp
 					$scope.plotDefectSeverityIndex = function(rdate,defectSeverityIndex) {
 
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#bebada',
-									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
+							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defectdensityindex').highcharts(
@@ -422,6 +468,7 @@ dashboardApp
 										text : 'Defect Severity Index',
 										style: {
 								            fontSize: 'medium',
+								            fontWeight: 'bold',
 								            color : '#428bca'
 								        },
 										x : -20
@@ -439,7 +486,11 @@ dashboardApp
 									},
 									yAxis : {
 										title : {
-											text : 'Defect Severity Index'
+											text : 'Defect Severity Index',
+											style: {
+									            fontSize: 'small',
+									            color : '#428bca'
+									        }
 											
 										}
 									},
@@ -456,7 +507,7 @@ dashboardApp
 									},
 									
 									series : [ {
-										name : 'DSI',
+										name : 'Defect Severity Index',
 										data : defectSeverityIndex
 									} ]
 								});
@@ -466,8 +517,7 @@ dashboardApp
 					$scope.plotBadFix = function(rdate,badFix) {
 
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#bebada',
-									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
+							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#badfix').highcharts(
@@ -477,13 +527,14 @@ dashboardApp
 										text : 'Bad Fix',
 										style: {
 								            fontSize: 'medium',
+								            fontWeight: 'bold',
 								            color : '#428bca'
 								        },
 										//x : -20
 									//center
 									},
 									subtitle : {
-										text : '(Open vs Closed)',
+										text : '(Re-opened)',
 											style: {
 									            fontSize: 'small',
 									            color : '#428bca'
@@ -501,7 +552,11 @@ dashboardApp
 									},
 									yAxis : {
 										title : {
-											text : 'Re-opened Defects (%)'
+											text : 'Re-opened Defects (%)',
+											style: {
+									            fontSize: 'small',
+									            color : '#428bca'
+									        }
 										}
 									},
 									plotOptions : {
@@ -527,8 +582,7 @@ dashboardApp
 					//************************ Defect Acceptance Rate  ***************************//
 					$scope.plotDefectAccept = function(rdate,defectAccept) {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#bebada',
-									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
+							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defectaccept').highcharts(
@@ -537,6 +591,7 @@ dashboardApp
 										text : 'Defect Acceptance Rate',
 										style: {
 								            fontSize: 'medium',
+								            fontWeight: 'bold',
 								            color : '#428bca'
 								        },
 										x : -20
@@ -554,7 +609,11 @@ dashboardApp
 									},
 									yAxis : {
 										title : {
-											text : 'Defect Acceptance Rate'
+											text : 'Defect Acceptance Rate',
+											style: {
+									            fontSize: 'small',
+									            color : '#428bca'
+									        }
 										}
 									},
 									plotOptions : {
@@ -580,8 +639,7 @@ dashboardApp
 					//************************ Defect Ageing  ***************************//
 					$scope.plotDefectAgeing = function() {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#bebada',
-									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
+							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defectageing')
@@ -594,15 +652,14 @@ dashboardApp
 												text : 'Defect Ageing',
 												style: {
 										            fontSize: 'medium',
+										            fontWeight: 'bold',
 										            color : '#428bca'
 										        }
 											},
 											credits : {
 												enabled : false
 											},
-											subtitle : {
-												text : ''
-											},
+											
 											xAxis : {
 												categories : [ '1D-4D',
 														'5D-8D', '9D-12D',
@@ -611,7 +668,11 @@ dashboardApp
 											yAxis : {
 												min : 0,
 												title : {
-													text : 'Defects'
+													text : 'Defects',
+													style: {
+											            fontSize: 'small',
+											            color : '#428bca'
+											        }
 												}
 											},
 											tooltip : {
@@ -643,8 +704,7 @@ dashboardApp
 					//************************ Downtime Breakup  ***************************//
 					$scope.plotDowntimeBreakUp = function() {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#bebada',
-									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
+							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#downtimebreak')
@@ -661,6 +721,7 @@ dashboardApp
 												text : 'Downtime Breakup',
 												style: {
 										            fontSize: 'medium',
+										            fontWeight: 'bold',
 										            color : '#428bca'
 										        }
 											},
@@ -701,8 +762,7 @@ dashboardApp
 					//************************ Defects Severity Breakup  ***************************//
 					$scope.plotDefectSeverityBreakUp = function(response) {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#bebada',
-									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
+							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defectseveritybreak')
@@ -745,6 +805,7 @@ dashboardApp
 												text : 'Defect Severity Breakup',
 												style: {
 										            fontSize: 'medium',
+										            fontWeight: 'bold',
 										            color : '#428bca'
 										        }
 											},
@@ -768,13 +829,13 @@ dashboardApp
 												data : [
 														[
 																"urgent",
-																parseInt(response.entity[0].urgent),parseInt(response.entity[1].urgent),parseInt(response.entity[2].urgent),parseInt(response.entity[3].urgent) ],
+																parseInt(response.entity[0].urgent) ],
 														[
 																"high",
-																parseInt(response.entity[0].high),parseInt(response.entity[1].high),parseInt(response.entity[2].high),parseInt(response.entity[3].high)],
+																parseInt(response.entity[0].high)],
 														[
 																"medium",
-																parseInt(response.entity[0].medium),parseInt(response.entity[1].medium),parseInt(response.entity[2].medium),parseInt(response.entity[3].medium)],
+																parseInt(response.entity[0].medium)],
 														[ "low", 22 ] ]
 											} ]
 										});
@@ -783,8 +844,7 @@ dashboardApp
 					//************************ Defect Type Breakup  ***************************//
 					$scope.plotDefectTypeBreakUp = function() {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#bebada',
-									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
+							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defecttypebreak')
@@ -801,6 +861,7 @@ dashboardApp
 												text : 'Defect Type Breakup',
 												style: {
 										            fontSize: 'medium',
+										            fontWeight: 'bold',
 										            color : '#428bca'
 										        }
 											},
@@ -837,8 +898,7 @@ dashboardApp
 					//************************ Defect Rootcause Breakup ***************************//
 					$scope.plotDefectRootBreakUp = function() {
 						Highcharts.setOptions({
-							colors : [ '#8dd3c7', '#bebada',
-									'#fb8072', '#80b1d3', '#fdb462', 'b3de69' ]
+							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defectRootbreak')
@@ -855,6 +915,7 @@ dashboardApp
 												text : 'Defect Root Cause Breakup',
 												style: {
 										            fontSize: 'medium',
+										            fontWeight: 'bold',
 										            color : '#428bca'
 										        }
 											},
