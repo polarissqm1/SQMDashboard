@@ -904,9 +904,7 @@ dashboardApp
 											chart : {
 												plotBackgroundColor : null,
 												plotBorderWidth : 1,//null,
-												plotShadow : false,
-												margin : [ 0, 0, 0, 0 ]
-
+												plotShadow : false
 											},
 											title : {
 												text : 'Defect Type Breakup',
@@ -935,9 +933,19 @@ dashboardApp
 											series : [ {
 												type : 'pie',
 												
-												data : [ [ 'Data Conversion', response.entity[0].defectType.DataConversion ],
-															[ 'Performance', response.entity[0].defectType.Performance ]
-
+												data : [[ 'Test Execution', response.entity[0].defectType.TestExecution ],
+														[ 'Performance', response.entity[0].defectType.Performance ],
+														[ 'Environment', response.entity[0].defectType.Environment ],
+														[ 'Documentation Review', response.entity[0].defectType.DocumentationReview ],
+														[ 'Data Conversion', response.entity[0].defectType.DataConversion ],
+														[ 'Functional', response.entity[0].defectType.Functional ],
+														[ 'Enhancement', response.entity[0].defectType.Enhancement ],
+														[ 'Inquiry', response.entity[0].defectType.Inquiry ],
+														[ 'UI', response.entity[0].defectType.UI ],
+														[ 'ID', response.entity[0].defectType.ID ],
+														[ 'DeferredItem', response.entity[0].defectType.DeferredItem ],
+														[ 'Unknown', response.entity[0].defectType.Unknown ]
+														
 												]
 											} ]
 										});
@@ -956,8 +964,7 @@ dashboardApp
 											chart : {
 												plotBackgroundColor : null,
 												plotBorderWidth : 1,//null,
-												plotShadow : false,
-												margin : [ 0, 0, 0, 0 ],
+												plotShadow : false
 
 											},
 											title : {
@@ -988,8 +995,18 @@ dashboardApp
 												type : 'pie',
 												data : [ [ "implementation", response.entity[0].defectRootCause.implementation ],
 												         [ "incorrectUnderstanding", response.entity[0].defectRootCause.incorrectUnderstanding ],
-												         ["coding",response.entity[0].defectRootCause.coding]
-														
+												         ["coding",response.entity[0].defectRootCause.coding],
+												         [ "Environment", response.entity[0].defectRootCause.Environment ],
+												         [ "Manual Test Script", response.entity[0].defectRootCause.ManualTestScript ],
+												         [ "Automated Test Script", response.entity[0].defectRootCause.AutomatedTestScript ],
+												         [ "User Error", response.entity[0].defectRootCause.UserError_NotaDefect ],
+												         [ "Requirements", response.entity[0].defectRootCause.Requirements ],
+												         [ "Data Table", response.entity[0].defectRootCause.DataTable ],
+												         [ "Design", response.entity[0].defectRootCause.Design ],
+												         [ "HardWare/Infrastructure", response.entity[0].defectRootCause.Hardware_Infrastructure ],
+												         [ "Interface", response.entity[0].defectRootCause.Interface ],
+												         [ "JCL", response.entity[0].defectRootCause.JCL ],
+												         [ "Data", response.entity[0].defectRootCause.Data ]
 
 												]
 											} ]

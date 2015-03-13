@@ -87,7 +87,7 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 					    	
 					    }
 					    else{
-						defectDensity=(float) (totalTC/totalDefect);
+						defectDensity=(float) (totalDefect/totalTC);
 						trendReportsVO.setDefectDensity(defectDensity);
 						/************************Reopened Defects*******************************/
 						String reopened=(String) dashVO.getStatusAndSeverityVO().get(0).getTotal();
@@ -167,6 +167,8 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 		int count_JCL=0;
 		int count_manualTestScript=0;
 		int count_requirements=0;
+		int count_Environment_root=0;
+		int count_userError=0;
 		/***************************Defect Type******************************/
 		int count_Performance=0;
 		int count_DataConversion=0;
@@ -176,7 +178,10 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 		int count_Environment=0;
 		int count_functional=0;
 		int count_testExecution=0;
+		int count_inquiry=0;
 		int count_unknown=0;
+		int count_ID=0;
+		int count_UI=0;
 		
 		
 		
@@ -199,35 +204,131 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 					  DefectIdsVO defectVO=dashVO.getDefectVO().get(j);
 					  String rootCause=defectVO.getDefectRootCause();
 					  log.info("rootCause is"+rootCause);
-                       if(rootCause.equals("incorrectUnderstanding")){
+					  if(defectVO.getDefectStatus().equalsIgnoreCase("Closed")){
+							 
+                       if(rootCause.equalsIgnoreCase("Incorrect Understanding")){
                     	   count_incorrectUnderstanding++;
-                       }                          
-                    	   else if(rootCause.equals("implementation")){                               
+                           }                          
+                    	   else if(rootCause.equalsIgnoreCase("Implementation")){                               
 					                   count_implementation++;
-					     }
-                    	   else if(rootCause.equals("coding")){
+					        }
+                    	   else if(rootCause.equalsIgnoreCase("Coding")){
                     		           count_coding++;   
                     	   }
+                    	   else if(rootCause.equalsIgnoreCase("Automated Test Script")){
+                    		   count_automatedTestScript++;   
+            	            }
+                    	   else if(rootCause.equalsIgnoreCase("Data")){
+                    		   count_data++;   
+            	               }
+                    	   else if(rootCause.equalsIgnoreCase("Data Table")){
+                    		   count_datatable++;   
+            	               }
+                    	   else if(rootCause.equalsIgnoreCase("Design")){
+                    		   count_design++;   
+            	               }
+                    	   else if(rootCause.equalsIgnoreCase("Hardware/Infrastructure")){
+                    		   count_hardwareDesign++;   
+            	               }
+                    	   else if(rootCause.equalsIgnoreCase("Interface")){
+                    		   count_interface++;   
+            	               }
+                    	   else if(rootCause.equalsIgnoreCase("JCL")){
+                    		   count_JCL++;   
+            	               }
+                    	   else if(rootCause.equalsIgnoreCase("Manual Test Script")){
+                    		   count_manualTestScript++;   
+            	               }
+                    	   else if(rootCause.equalsIgnoreCase("Requirements")){
+                    		   count_requirements++;   
+            	               }
+                    	   else if(rootCause.equalsIgnoreCase("Environment")){
+                    		   count_Environment_root++;
+                    		   
+                    	   }
+                    	   else if(rootCause.equalsIgnoreCase("User Error/Not a Defect")){
+                    		   count_userError++;
+                    	   }
+                    	   		
+					  }
+                       
+                       
                            
                        String defectType=defectVO.getDefectType();
                        
-                           if(defectType.equals("Performance")){
+                           if(defectType.equalsIgnoreCase("Performance")){
                     	           count_Performance++;
                            }
 					                                 
-                    	   else if(defectType.equals("DataConversion")){                               
+                    	   else if(defectType.equalsIgnoreCase("Data Conversion")){                               
                     		   count_DataConversion++;
-					     }
+					          }
+                           
+                    	   else if(defectType.equalsIgnoreCase("Deferred Item")){                               
+                    		   count_deferresItem++;
+					          }
+                    	   else if(defectType.equalsIgnoreCase("Documentation Review")){                               
+                    		   count_documentationReview++;
+					          }
+                    	   else if(defectType.equals("Enhancement")){                               
+                    		   count_Enhancement++;
+					          }
+                    	   else if(defectType.equals("Environment")){                               
+                    		   count_Environment++;
+					          }
+                    	   else if(defectType.equals("Functional")){                               
+                    		   count_functional++;
+					          }
+                    	   else if(defectType.equals("Inquiry")){                               
+                    		   count_inquiry++;
+					          }
+                    	   else if(defectType.equals("Test Execution")){                               
+                    		   count_testExecution++;
+					          }
+                    	   else if(defectType.equals("Unknown")){                               
+                    		   count_unknown++;
+					          }
+                    	   else if(defectType.equals("ID")){                               
+                    		   count_ID++;
+					          }
+                    	   else if(defectType.equals("UI")){                               
+                    		   count_UI++;
+					          }
+                           
+                           
+                           
                        
                       String defectId=defectVO.getDefectId();
                       trendReportsReleaseVO.setDefectId(defectId);
                       rootCauseMap.put("incorrectUnderstanding",count_incorrectUnderstanding);
      				  rootCauseMap.put("implementation", count_implementation); 
-     				 rootCauseMap.put("coding", count_coding);
+     				  rootCauseMap.put("coding", count_coding);
+     				  rootCauseMap.put("AutomatedTestScript", count_automatedTestScript);
+     				  rootCauseMap.put("Data", count_data);
+     				  rootCauseMap.put("DataTable", count_datatable);
+     				  rootCauseMap.put("Design", count_design);
+     				  rootCauseMap.put("Hardware_Infrastructure", count_hardwareDesign);
+     				  rootCauseMap.put("Interface", count_interface);
+     				  rootCauseMap.put("JCL", count_JCL);
+     				  rootCauseMap.put("ManualTestScript", count_manualTestScript);
+     				  rootCauseMap.put("Requirements", count_requirements);
+     				  rootCauseMap.put("Environment", count_Environment_root);
+     				  rootCauseMap.put("UserError_NotaDefect", count_userError);
+     				
      				    
      				  
      				  defectTypeMap.put("Performance", count_Performance);
 					  defectTypeMap.put("DataConversion", count_DataConversion);
+					  defectTypeMap.put("DeferredItem", count_deferresItem);
+					  defectTypeMap.put("DocumentationReview", count_documentationReview);
+					  defectTypeMap.put("Enhancement", count_Enhancement);
+					  defectTypeMap.put("Environment", count_Environment);
+					  defectTypeMap.put("Functional", count_functional);
+					  defectTypeMap.put("Inquiry", count_inquiry);
+					  defectTypeMap.put("TestExecution", count_testExecution);
+					  defectTypeMap.put("Unknown", count_unknown);
+					  defectTypeMap.put("ID", count_ID);
+					  defectTypeMap.put("UI", count_UI);
 					  
 					  /*String defectRaisedDate=defectVO.getDefectFixedDate();
 					  String defectFixedDate=defectVO.getDefectFixedDate();
