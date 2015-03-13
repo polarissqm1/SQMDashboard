@@ -1,7 +1,7 @@
 dashboardApp
 		.controller(
 				'trendController',
-				function($scope,$http,$rootScope, $filter, $log) {
+				function($scope,$http,$rootScope, $filter, $log, $timeout) {
 					$scope.plotCharts = null;
 					$scope.selectedStart=null;
 					$scope.selectedEnd=null;
@@ -38,40 +38,73 @@ dashboardApp
 
 					$scope.toggleMin = function() {
 						/*$scope.minDate = $scope.minDate ? null : new Date();*/
-						$scope.minDate = "16/Feb/15";
+						//$scope.minDate = "16/Feb/15";
+						$scope.minDate = new Date('2015/02/16');
 						$scope.maxDate = new Date();
 						
 					};
 					
 					$scope.toggleMin();
+					
+					$scope.minDate = new Date('2015/02/16');
+					$scope.maxDate = new Date();
+					
+					$scope.minStartDate = 0; //fixed date
+					  $scope.maxStartDate = $scope.maxDate; //init value
+					  $scope.minEndDate = $scope.minDate; //init value
+					  $scope.maxEndDate = $scope.maxDate; //fixed date same as $scope.maxStartDate init value
+					  
+					  $scope.$watch('minDate', function(v){
+						    $scope.minEndDate = v;
+						  });
+						  $scope.$watch('maxDate', function(v){
+						    $scope.maxStartDate = v;
+						  });
+						  
+						  $scope.openFromDate = function() {
+							    
+							    $timeout(function() {
+							      
+							      $scope.startOpened = true;
+							    });
+							  };
 
-					$scope.openFromDate = function($event, openedFromDate) {
+							  $scope.openToDate = function() {
+							    $timeout(function() {
+							      $scope.endOpened = true;
+							    });
+							  };
+
+					/*$scope.openFromDate = function() {
 						$event.preventDefault();
 						$event.stopPropagation();
 
-						$scope.openedFromDate = true;
+						$scope.startOpened = true;
 					};
 
-					$scope.openToDate = function($event, openedToDate) {
+					$scope.openToDate = function() {
 						$event.preventDefault();
 						$event.stopPropagation();
 
-						$scope.openedToDate = true;
-					};
+						$scope.endOpened = true;
+					};*/
 
 					$scope.dateOptions = {
 						formatYear : 'yy',
 						startingDay : 1
 					};
 
-					$scope.formats = [ 'dd/MMM/yy' ];
+					$scope.formats = [ 'dd-MMM-yyyy' ];
+					//$scope.formats = [ 'dd/MMM/yy' ];
 					$scope.format = $scope.formats[0];
 
 					//** Date Picker END**//
 
 					$scope.generateCharts = function() {
-						
+						//$scope.todate = $("#todate").val();
+						//alert("selected todate is "+$scope.todate);
 						if ($("#todate").val()) {
+							
 							if ($scope.range) {
 								if ($scope.range == 'weekly') {
 									var current = new Date($("#todate").val() ); // get current date    
