@@ -59,7 +59,7 @@ table tr:nth-child(even) {
  </thead>
  
  <tbody>
-  <tr ng-repeat="user in tcstatus">
+  <tr ng-repeat="user in tcstatus"  ng-style="{'font-style': boldValue}">
      <td>{{user.status}}</td>
      <td>{{user.count}}</td>
      <td>{{user.percentage}}</td>

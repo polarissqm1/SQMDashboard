@@ -108,6 +108,7 @@ public class JiraSchedulerImpl implements JiraScheduler {
 		try {
 			DBCollection collection=DashboardDAOImpl.getDbCollection("jira");
 			jiraScheduler.startProjectInsertion(jiraScheduler,collection);
+			System.out.println("Task Done");
 		} catch (Exception e) {
 			log.error("Exception in start Insertion");
 			throw e;
@@ -130,8 +131,12 @@ public class JiraSchedulerImpl implements JiraScheduler {
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
 				if(jsonObject.get("key").toString().contains("CFP") || jsonObject.get("key").toString().contains("CFT")){
+					System.out.println(jsonObject.get("key").toString());
 				jiraScheduler.startReleaseInsertion(
 						jsonObject.get("key").toString(),jiraScheduler,collection);
+				}
+				else{
+					System.out.println("Not CFP");
 				}
 			}
 		} catch (Exception e) {

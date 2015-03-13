@@ -24,6 +24,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 	});
 	$scope.tcstatus1 = $http.get("dash/dashboard/getLandingInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName).success(function(response){
 		//alert(JSON.stringify(response.entity.statusAndSeverityVO));
+		$scope.boldValue="bold";
 		$scope.tcstatus =response.entity.testCaseExecutionStatusVO;
 		$scope.names =response.entity.statusAndSeverityVO;   
 		$scope.tcsData= [

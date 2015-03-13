@@ -1217,6 +1217,7 @@ a.bg-danger:hover {
   padding-bottom: 9px;
   margin: 10px 0 20px;
   border-bottom: 1px solid #eee;
+  font-family:calibri;
 }
 ul,
 ol {
@@ -4402,7 +4403,8 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 }
 .pager {
   padding-left: 0;
-  margin: 20px 0;
+   margin: 20px 0; 
+  
   text-align: center;
   list-style: none;
 }
@@ -4412,7 +4414,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pager li > a,
 .pager li > span {
   display: inline-block;
-  padding: 5px 14px;
+   padding: 5px 14px; 
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 15px;
