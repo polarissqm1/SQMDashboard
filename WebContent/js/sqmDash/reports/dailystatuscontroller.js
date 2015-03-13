@@ -24,7 +24,26 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 	});
 	$scope.tcstatus1 = $http.get("dash/dashboard/getLandingInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName).success(function(response){
 		//alert(JSON.stringify(response.entity.statusAndSeverityVO));
-		$scope.boldValue="bold";
+		if(!response.entity.testCaseExecutionStatusVO){
+			$("#tcsChart").hide();
+			$("#statusWise").hide();
+			$("#severityWise").hide();
+			$("#topGrid").hide();
+			$("#bottomGrid").hide();
+		}
+		else if(!response.entity.statusAndSeverityVO){
+			$("#tcsChart").hide();
+			$("#statusWise").hide();
+			$("#severityWise").hide();
+			$("#topGrid").hide();
+			$("#bottomGrid").hide();
+		}else {
+			$("#topGrid").show();
+			$("#bottomGrid").show();
+			$("#tcsChart").show();
+			$("#statusWise").show();
+			$("#severityWise").show();
+			
 		$scope.tcstatus =response.entity.testCaseExecutionStatusVO;
 		$scope.names =response.entity.statusAndSeverityVO;   
 		$scope.tcsData= [
@@ -41,13 +60,33 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 		 $scope.plottcsChart(); 
 		 $scope.plotstatusWiseChart();
 		 $scope.plotseverityWiseChart();
-		
+		}	
 	});
+	
   	$scope.tcstatus ='';
 	$scope.names ='';
 	$scope.renderChart = function(){
         	$scope.tcstatus1 = $http.get("dash/dashboard/getLandingInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName).success(function(response){
         		//alert(JSON.stringify(response.entity.statusAndSeverityVO));
+        		if(!response.entity.testCaseExecutionStatusVO){
+        			$("#tcsChart").hide();
+        			$("#statusWise").hide();
+        			$("#severityWise").hide();
+        			$("#topGrid").hide();
+        			$("#bottomGrid").hide();
+        		}
+        		else if(!response.entity.statusAndSeverityVO){
+        			$("#tcsChart").hide();
+        			$("#statusWise").hide();
+        			$("#severityWise").hide();
+        			$("#topGrid").hide();
+        			$("#bottomGrid").hide();
+        		}else{
+        			$("#topGrid").show();
+        			$("#bottomGrid").show();
+        			$("#tcsChart").show();
+        			$("#statusWise").show();
+        			$("#severityWise").show();
         		$scope.tcstatus =response.entity.testCaseExecutionStatusVO;
         		$scope.names =response.entity.statusAndSeverityVO;   
         		$scope.tcsData= [
@@ -63,7 +102,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
         		 $scope.plottcsChart(); 
         		 $scope.plotstatusWiseChart();
         		 $scope.plotseverityWiseChart();
-        		
+        		}
         	});
 	}
             

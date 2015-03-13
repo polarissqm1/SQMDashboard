@@ -34,19 +34,20 @@
 		$scope.init =$http.get("dash/dashboard/getLandingInfo?projectName=" + $rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName)
 		 .success(function(response){
 			 //alert(JSON.stringify(response));
-			 if($("#application").val() || $("#release").val() ){
+			if($("#application").val() && $("#release").val() ){
 					$scope.enableChart=true;
 				}
 				else{
 					$scope.enableChart=false;
 				}
+				
 			 plotRagChart(response.entity.ragVO);
 			 plotManualChart(response.entity.manualVO);
 			 
 			 plotAutomatedChart(response.entity.automationVO);
 			 plotDefectStatusChart(response.entity.severityVO);
 			 plotDistributionChart(response.entity.effortsVO);
-			 
+				
 		 });
 		
 		function validateVersions(){
@@ -87,7 +88,7 @@
 		}
 
 		function plotCharts(){
-			if($("#application").val() || $("#release").val() ){
+			if($("#application").val() && $("#release").val() ){
 				$scope.enableChart=true;
 			}
 			else{
@@ -102,13 +103,14 @@
 			
 			 $http.get("dash/dashboard/getLandingInfo?projectName=" + $rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName)
 			 .success(function(response){
+				
 				 plotRagChart();
 				 plotManualChart(JSON.stringify(response.entity.manualVO));
 				 plotAutomatedChart(response.entity.automationVO);
 				 /*plotDefectStatusChart(response.entity.severityVO);*/
 				 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
 				 plotDistributionChart(response.entity.effortsVO);
-				 
+					
 			 });
 			
 			
