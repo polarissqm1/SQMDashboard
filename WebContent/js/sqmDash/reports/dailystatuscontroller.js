@@ -30,6 +30,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 			$("#severityWise").hide();
 			$("#topGrid").hide();
 			$("#bottomGrid").hide();
+			$("#middle2").hide();
 		}
 		else if(!response.entity.statusAndSeverityVO){
 			$("#tcsChart").hide();
@@ -37,8 +38,10 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 			$("#severityWise").hide();
 			$("#topGrid").hide();
 			$("#bottomGrid").hide();
+			$("#middle2").hide();
 		}else {
 			$("#topGrid").show();
+			$("#middle2").show();
 			$("#bottomGrid").show();
 			$("#tcsChart").show();
 			$("#statusWise").show();
@@ -74,6 +77,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
         			$("#severityWise").hide();
         			$("#topGrid").hide();
         			$("#bottomGrid").hide();
+        			$("#middle2").hide();
         		}
         		else if(!response.entity.statusAndSeverityVO){
         			$("#tcsChart").hide();
@@ -81,8 +85,10 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
         			$("#severityWise").hide();
         			$("#topGrid").hide();
         			$("#bottomGrid").hide();
+        			$("#middle2").hide();
         		}else{
         			$("#topGrid").show();
+        			$("#middle2").show();
         			$("#bottomGrid").show();
         			$("#tcsChart").show();
         			$("#statusWise").show();
