@@ -250,7 +250,8 @@ public class JiraSchedulerImpl implements JiraScheduler {
 				jiraScVO.setJiraids(jiraIdList);
 				System.out.println(jiraIdList.get(0).getEnv());
 				/*jiraScheduler.getJiraDao().insertJiraData(jiraScVO);*/
-				jiraDao1.insertJiraData(jiraScVO,collection);
+				/*jiraDao1.insertJiraData(jiraScVO,collection);*/
+				jiraDao1.validatorInsertion(jiraScVO, collection);
 			}
 		} catch (Exception e) {
 			log.error("Ëxception at Jira data Level");

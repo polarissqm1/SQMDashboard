@@ -35,7 +35,7 @@
 	<context:component-scan base-package="com.sqm.dashboard.service.impl,com.sqm.dashboard.VO,com.sqm.dashboard.schedular.impl" />
 	
 	<mvc:annotation-driven/>
-<!-- <bean id="schedulerJob" class="com.sqm.dashboard.schedular.CommonSchedulerImpl" >
+ <!--  <bean id="schedulerJob" class="com.sqm.dashboard.schedular.CommonSchedulerImpl" >
  </bean>
 <bean id="schedulerJobBean"
 class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -43,13 +43,13 @@ class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
 <property name="targetMethod" value="runScheduler" />
 </bean>
 
-<bean id="cronTrigger"
+ <bean id="cronTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerBean">
  
 		<property name="jobDetail" ref="schedulerJobBean" />
 		<property name="cronExpression" value="0 0 0/4 * * ?" />
  
-	</bean> 
+	</bean>  
 
 <bean id="schedulerJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
 <property name="jobDetail" ref="schedulerJobBean" />
@@ -68,8 +68,8 @@ class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
 <ref bean="schedulerJobTrigger" />
 </list>
 </property> 
-</bean>   -->
-	 
+</bean>    -->
+	  
 </beans>
 
 
