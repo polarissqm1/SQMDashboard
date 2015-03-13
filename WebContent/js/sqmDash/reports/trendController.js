@@ -261,7 +261,7 @@ dashboardApp
 					//***************** Test Case Status ******************//
 					$scope.plotTestCaseStatChart = function(rdate,passed,failed) {
 						Highcharts.setOptions({
-							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#testcasestat')
@@ -333,7 +333,7 @@ dashboardApp
 
 					$scope.plotDefectsOpenClosed = function(rdate,open,closed) {
 						Highcharts.setOptions({
-							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defectsopen')
@@ -404,7 +404,7 @@ dashboardApp
 					//************************ Defect Density  ***************************//
 					$scope.plotDefectDensity = function(rdate,defectDensity) {
 						Highcharts.setOptions({
-							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defectdensity').highcharts(
@@ -459,7 +459,7 @@ dashboardApp
 					$scope.plotDefectSeverityIndex = function(rdate,defectSeverityIndex) {
 
 						Highcharts.setOptions({
-							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defectdensityindex').highcharts(
@@ -517,7 +517,7 @@ dashboardApp
 					$scope.plotBadFix = function(rdate,badFix) {
 
 						Highcharts.setOptions({
-							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#badfix').highcharts(
@@ -582,7 +582,7 @@ dashboardApp
 					//************************ Defect Acceptance Rate  ***************************//
 					$scope.plotDefectAccept = function(rdate,defectAccept) {
 						Highcharts.setOptions({
-							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defectaccept').highcharts(
@@ -639,7 +639,7 @@ dashboardApp
 					//************************ Defect Ageing  ***************************//
 					$scope.plotDefectAgeing = function() {
 						Highcharts.setOptions({
-							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defectageing')
@@ -704,7 +704,7 @@ dashboardApp
 					//************************ Downtime Breakup  ***************************//
 					$scope.plotDowntimeBreakUp = function() {
 						Highcharts.setOptions({
-							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#downtimebreak')
@@ -762,7 +762,7 @@ dashboardApp
 					//************************ Defects Severity Breakup  ***************************//
 					$scope.plotDefectSeverityBreakUp = function(response) {
 						Highcharts.setOptions({
-							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defectseveritybreak')
@@ -844,7 +844,7 @@ dashboardApp
 					//************************ Defect Type Breakup  ***************************//
 					$scope.plotDefectTypeBreakUp = function() {
 						Highcharts.setOptions({
-							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defecttypebreak')
@@ -898,7 +898,7 @@ dashboardApp
 					//************************ Defect Rootcause Breakup ***************************//
 					$scope.plotDefectRootBreakUp = function() {
 						Highcharts.setOptions({
-							colors : [ '#f45b5b','#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
 
 						$('#defectRootbreak')
