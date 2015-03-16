@@ -152,17 +152,25 @@ dashboardApp
 
 											//alert(JSON.stringify(response));
 							if(!response.entity[0]){
+								/*$scope.showDiv('row1Charts');
+								$scope.showDiv('pagers');*/
 							/*$scope.showDiv('row1Charts');*/
 								
 								/*$scope.enableTrendChart=false;*/
 								$("#row1Charts").hide();
-							
+								$("#pagers").hide();
+								
 						
 							
 							}
 							else {
+								/*$scope.hideDiv('row1Charts');
+								$scope.hideDiv('pagers');*/
 								//$scope.enableTrendChart=true;
 								$("#row1Charts").show();
+								$("#pagers").show();
+								
+								
 								var rdate=[];
 						        var actual=[];
 						        var passed=[];
