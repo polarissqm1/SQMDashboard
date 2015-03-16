@@ -106,9 +106,9 @@ table tr:nth-child(even) {
 <div id="middle2">
 		<div class="pager form-group" style="margin: 0 0;">    
             <li>
-                  <span> Defect Density:<b> {{ names[5].Total/tcstatus[5].count | limitTo:4}}%</b></span> 
+                  <span> Defect Density:<b> {{ dd | limitTo:4}}</b></span> 
                  
-                 <span>Defect Severity Index: <b>{{(4*names[5].Urgent+3*names[5].High+2*names[5].Medium+names[5].Low)/names[5].Total}}%</b></span>
+                 <span>Defect Severity Index: <b>{{ dsi | limitTo:4}}</b></span>
                 
            </li>
         </div>
