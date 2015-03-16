@@ -153,6 +153,7 @@ System.out.println("inside TrendReportsDAOImpl");
 			 searchQuery.put("release", release);
 			 //searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte", "13/feb/15").add("$lte", "25/feb/15").get());
 			 cursor = table.find(searchQuery);
+			 log.info("searchQuery for release"+searchQuery);
 			 while (cursor.hasNext()){
 					DBObject report =cursor.next();
 					Gson gson=new Gson();

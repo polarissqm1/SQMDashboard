@@ -76,8 +76,6 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 					    Float actual=passed+failed+blocked+deffered;
 					    Float totalDefect=Float.parseFloat(dashVO.getStatusAndSeverityVO().get(5).getTotal());
 					    if(totalDefect==0){
-					    	defectDensity=(float) 0;
-					    	trendReportsVO.setDefectDensity(defectDensity);
 					    	badFix=(float) 0;
 					    	trendReportsVO.setBadFix(badFix);
 					    	accept=(float) 0;
@@ -87,8 +85,7 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 					    	
 					    }
 					    else{
-						defectDensity=(float) (totalDefect/totalTC);
-						trendReportsVO.setDefectDensity(defectDensity);
+						
 						/************************Reopened Defects*******************************/
 						String reopened=(String) dashVO.getStatusAndSeverityVO().get(0).getTotal();
 						badFix=Float.parseFloat(reopened)*100/totalDefect;
@@ -105,6 +102,16 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 						Float low=Float.parseFloat(dashVO.getStatusAndSeverityVO().get(5).getLow());
 						dsi=((urgent*urgent_4)+(high*high_3)+(medium*medium_2)+(low*low_1))/totalDefect;
 						trendReportsVO.setDefectSeverityIndex(dsi);
+					    }
+					    
+					    if(totalTC==0){
+					    	defectDensity=(float) 0;
+					    	trendReportsVO.setDefectDensity(defectDensity);
+					    	
+					    }
+					    else{
+					    	defectDensity=(float) (totalDefect/totalTC);
+							trendReportsVO.setDefectDensity(defectDensity);
 					    }
 						
 						
@@ -182,11 +189,28 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 		int count_unknown=0;
 		int count_ID=0;
 		int count_UI=0;
+		/**********************************Defect Ageing*************************/
+		int urgent_1D=0;
+		int high_1D=0;
+		int medium_1D=0;
+		int low_1D=0;
 		
+		int urgent_4D=0;
+		int high_4D=0;
+		int medium_4D=0;
+		int low_4D=0;
+		
+		int urgent_final=0;
+		int high_final=0;
+		int medium_final=0;
+		int low_final=0;
 		
 		
 		HashMap rootCauseMap=new HashMap();
 		HashMap defectTypeMap=new HashMap();
+		HashMap oneDayToFour=new HashMap();
+		HashMap fourToEight=new HashMap();
+		HashMap greaterEight=new HashMap();
 		try{
 			ArrayList dashVOList=trendReportsDAO.getReleaseInfo(project, release,fromDate,toDate);
 			log.info("DashVO List size "+dashVOList.size());
@@ -205,6 +229,59 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 					  String rootCause=defectVO.getDefectRootCause();
 					  log.info("rootCause is"+rootCause);
 					  if(defectVO.getDefectStatus().equalsIgnoreCase("Closed")){
+						  int fixTime=Integer.parseInt(defectVO.getDefectFixTime());
+						  if(((1<fixTime)&&(fixTime<4))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("1 - Urgent")){
+							  urgent_1D++;
+						  }
+						  else if(((1<fixTime)&&(fixTime<4))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("2 - High")){
+							  high_1D++;
+						  }
+						  else if(((1<fixTime)&&(fixTime<4))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("3 - Medium")){
+							  
+							  medium_1D++;
+						  }
+                              else if(((1<fixTime)&&(fixTime<4))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("4 - Low")){
+							  
+                            	  low_1D++;
+						  }
+                              else if(((5<fixTime)&&(fixTime<9))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("1 - Urgent")){
+    							  
+                            	  urgent_4D++;
+						  }
+                                else if(((5<fixTime)&&(fixTime<9))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("2 - High")){
+    							  
+                                	high_4D++;
+						  }
+                                else if(((5<fixTime)&&(fixTime<9))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("3 - Medium")){
+      							  
+                                	medium_4D++;
+  						  }
+                                else if(((5<fixTime)&&(fixTime<9))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("4 - Low")){
+        							  
+                                	low_4D++;
+  						  }
+						  
+                                else if(defectVO.getDefectSeverity().equalsIgnoreCase("4 - Low")){
+                                	
+                                	low_final++;
+                                	
+                                }
+						  
+                                else if(defectVO.getDefectSeverity().equalsIgnoreCase("3 - Medium")){
+                                	
+                                	medium_final++;
+                                	
+                                }
+                               else if(defectVO.getDefectSeverity().equalsIgnoreCase("2 - High")){
+                                	
+                            	   high_final++;
+                                	
+                                }
+                               else if(defectVO.getDefectSeverity().equalsIgnoreCase("1 - Urgent")){
+ 	
+                            	   urgent_final++;
+ 	
+                                     }
 							 
                        if(rootCause.equalsIgnoreCase("Incorrect Understanding")){
                     	   count_incorrectUnderstanding++;
@@ -330,6 +407,24 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 					  defectTypeMap.put("ID", count_ID);
 					  defectTypeMap.put("UI", count_UI);
 					  
+					  
+					  oneDayToFour.put("Urgent", urgent_1D);
+					  oneDayToFour.put("High", high_1D);
+					  oneDayToFour.put("Medium", medium_1D);
+					  oneDayToFour.put("Low", low_1D);
+					  
+					  
+					  fourToEight.put("Urgent", urgent_4D);
+					  fourToEight.put("High", high_4D);
+					  fourToEight.put("Medium", medium_4D);
+					  fourToEight.put("Low", low_4D);
+					  
+					  greaterEight.put("Urgent", urgent_final);
+					  greaterEight.put("Medium", medium_final);
+					  greaterEight.put("High", high_final);
+					  greaterEight.put("Low", low_final);
+					  
+					
 					  /*String defectRaisedDate=defectVO.getDefectFixedDate();
 					  String defectFixedDate=defectVO.getDefectFixedDate();
 					  
@@ -340,7 +435,9 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 					  long diffDays = diff / (24 * 60 * 60 * 1000);*/
 					
 					  
-					  
+					  trendReportsReleaseVO.setOneDayToFour(oneDayToFour);
+					  trendReportsReleaseVO.setFourToEight(fourToEight);
+					  trendReportsReleaseVO.setGreaterEight(greaterEight);
      				  trendReportsReleaseVO.setDefectRootCause(rootCauseMap);
      				  trendReportsReleaseVO.setDefectType(defectTypeMap);
      				  originalList.add(trendReportsReleaseVO);

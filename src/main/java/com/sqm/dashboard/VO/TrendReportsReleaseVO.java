@@ -11,23 +11,32 @@ public class TrendReportsReleaseVO {
 	private HashMap defectRootCause;
 	private String defectRaisedDate;
 	private String defectFixedDate;
-	private String defectAgeingVO;
+	private HashMap oneDayToFour;
+	private HashMap FourToEight;
+	private HashMap greaterEight;
 	public String getDefectId() {
 		return defectId;
 	}
 	public void setDefectId(String defectId) {
 		this.defectId = defectId;
 	}
-	
-	
-	
-	
-	
-	public String getDefectAgeingVO() {
-		return defectAgeingVO;
+	public HashMap getGreaterEight() {
+		return greaterEight;
 	}
-	public void setDefectAgeingVO(String defectAgeingVO) {
-		this.defectAgeingVO = defectAgeingVO;
+	public void setGreaterEight(HashMap greaterEight) {
+		this.greaterEight = greaterEight;
+	}
+	public HashMap getFourToEight() {
+		return FourToEight;
+	}
+	public void setFourToEight(HashMap fourToEight) {
+		FourToEight = fourToEight;
+	}
+	public HashMap getOneDayToFour() {
+		return oneDayToFour;
+	}
+	public void setOneDayToFour(HashMap oneDayToFour) {
+		this.oneDayToFour = oneDayToFour;
 	}
 	public HashMap getDefectType() {
 		return defectType;

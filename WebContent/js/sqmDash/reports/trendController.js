@@ -184,7 +184,7 @@ dashboardApp
 						        	failed.push(parseInt(response.entity[i].failed));
 						        	open.push(parseInt(response.entity[i].open));
 						        	closed.push(parseInt(response.entity[i].closed));
-						        	defectDensity.push(Math.round(parseFloat(response.entity[i].defectDensity)*10)/10);
+						        	defectDensity.push(Math.round(parseFloat(response.entity[i].defectDensity)*1000)/1000);
 						        	defectSeverityIndex.push(Math.round(parseFloat(response.entity[i].defectSeverityIndex)*10)/10);
 						        	badFix.push(Math.round(parseFloat(response.entity[i].badFix)*10)/10);
 						        	defectAccept.push(Math.round(parseFloat(response.entity[i].defectAcceptance)*10)/10);
@@ -201,28 +201,13 @@ dashboardApp
 									$scope.plotTestCaseStatChart(rdate,passed,failed);
 									$scope.plotDefectSeverityBreakUp(total_urgent,total_high,total_medium,total_low);
 									$scope.plotChart(actual,rdate);
-									$scope.plotDefectAgeing();
+									
 						        }
 							}
 					        
 					        
 					        
-					        /*alert("+++++++++++"+rdate);
-					        alert("+++++++++++"+actual);
-					        alert("+++++++++++"+passed);
-					        alert("+++++++++++"+failed);
-					        alert(defectDensity);*/
-					        /*alert(JSON.stringify(response));
-											
-											alert("selected Project Name"+$rootScope.selectedProjectName);
-											alert("selected Project file"+$rootScope.selectedProjectName);*/
-											/* 
-											$scope.plotTestCaseStatChart(response.entity.manualVO,response.entity.automationVO);
-											$scope.plotDefectsOpenClosed(response.entity.statusAndSeverityVO[0].total, response.entity.statusAndSeverityVO[2].total);
-											$scope.plotBadFix(response.entity.statusAndSeverityVO[0].total,response.entity.statusAndSeverityVO[5].total);
-											$scope.plotDefectDensity(response.entity.statusAndSeverityVO[5].total,response.entity.testCaseExecutionStatusVO[6].count);
-											scope.plotDefectAccept(response.entity.statusAndSeverityVO[3].total,response.entity.statusAndSeverityVO[5].total);
-											$scope.plotDefectSeverityIndex();*/
+					       
 											
 												   
 												
@@ -233,6 +218,7 @@ dashboardApp
 							//alert(JSON.stringify(response));
 							$scope.plotDefectRootBreakUp(response);
 							$scope.plotDefectTypeBreakUp(response);
+							$scope.plotDefectAgeing(response);
 						});
 					};
 					//******************** Highcharts *************************//
@@ -674,7 +660,7 @@ dashboardApp
 
 					};
 					//************************ Defect Ageing  ***************************//
-					$scope.plotDefectAgeing = function() {
+					$scope.plotDefectAgeing = function(response) {
 						Highcharts.setOptions({
 							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072' ]
 						});
@@ -694,7 +680,7 @@ dashboardApp
 										            }
 										        },
 										        xAxis: {
-										            categories: ['1D-4D','5D-8D', '9D-12D','>12D']
+										            categories: ['1D-4D','5D-8D','>9D']
 										        },
 										        yAxis: {
 										            min: 0,
@@ -745,11 +731,18 @@ dashboardApp
 										        },
 										        series: [{
 										            name : 'Urgent',
-										            data : [2 ]
+										            data : [response.entity[0].oneDayToFour.Urgent,response.entity[0].fourToEight.Urgent,response.entity[0].greaterEight.Urgen ]
 										        }, {
-										            name : 'medium',
-										            data: [1]
-										        }]
+										            name : 'High',
+										            data: [response.entity[0].oneDayToFour.High,response.entity[0].fourToEight.High,response.entity[0].greaterEight.High]
+										        },{
+										            name : 'Medium',
+										            data: [response.entity[0].oneDayToFour.Medium,response.entity[0].fourToEight.Medium,response.entity[0].greaterEight.Medium]
+										        },{
+										            name : 'Low',
+										            data: [response.entity[0].oneDayToFour.Low,response.entity[0].fourToEight.Low,response.entity[0].greaterEight.Low]
+										        }
+										        ]
 										});
 					};
 					//************************ Downtime Breakup  ***************************//
@@ -823,7 +816,7 @@ dashboardApp
 												plotBackgroundColor : null,
 												plotBorderWidth : 1,// null,
 												plotShadow : false,
-												margin : [ 0, 0, 0, 0 ]
+												/*margin : [ 0, 0, 0, 0 ]*/
 											/*backgroundColor: {
 											     linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
 											     stops: [
