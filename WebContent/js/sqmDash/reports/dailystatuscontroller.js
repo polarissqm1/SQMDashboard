@@ -171,7 +171,12 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                         plotShadow: false
                     },
                     title: {
-                        text: 'Overall Testcase Excecution'
+                        text: 'Overall Testcase Excecution',
+                        style: {
+				            fontSize: 'medium',
+				            fontWeight: 'bold',
+				            color : '#428bca'
+				        },
                     },
                     tooltip : {
 						pointFormat : '<b>{point.percentage:.1f}%</b>'
@@ -191,7 +196,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                             }
                         }
                     },
-                    /*legend: {
+                    legend: {
                         enabled: true,
                         layout: 'vertical',
                         align: 'right',
@@ -199,7 +204,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
         				labelFormatter: function() {
         					return this.name + ' ' + this.y + '%';
         				}
-                    },*/
+                    },
                     series: [{
                         type: 'pie',
                         data:$scope.tcsData
@@ -221,7 +226,12 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                         plotShadow: false
                     },
                     title: {
-                        text: 'Overall Defects - Status Wise'
+                        text: 'Overall Defects - Status Wise',
+                        style: {
+				            fontSize: 'medium',
+				            fontWeight: 'bold',
+				            color : '#428bca'
+				        },
                     },
                     tooltip : {
 						pointFormat : '<b>{point.percentage:.1f}%</b>'
@@ -275,7 +285,12 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                         plotShadow: false
                     },
                     title: {
-                        text: 'Overall Defects - Severity Wise'
+                        text: 'Overall Defects - Severity Wise',
+                        style: {
+				            fontSize: 'medium',
+				            fontWeight: 'bold',
+				            color : '#428bca'
+				        },
                     },
                     tooltip : {
 						pointFormat : '<b>{point.percentage:.1f}%</b>'

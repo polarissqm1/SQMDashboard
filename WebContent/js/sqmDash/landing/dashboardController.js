@@ -145,7 +145,7 @@
 					{
 						chart : {
 							plotBackgroundColor : null,
-							plotBorderWidth : 1,// null,
+							plotBorderWidth : null,
 							plotShadow : false
 							/*backgroundColor: {
 						         linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
@@ -173,15 +173,15 @@
 						},
 						colors: ['Red', 'Yellow', 'Green'],
 						title : {
-							text : 'RAG'
-							/*style: {
-						         color: '#E0E0E3',
-						         textTransform: 'uppercase',
-						         fontSize: '20px'
-						      }*/
+							text : 'RAG Status',
+								style: {
+						            fontSize: 'medium',
+						            fontWeight: 'bold',
+						            color : '#428bca'
+						        },
 						},
 						tooltip : {
-							pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
+							pointFormat : '<b>{point.percentage:.1f}%</b>'
 						},
 						plotOptions : {
 							pie : {
@@ -208,11 +208,11 @@
 
 			
 			var manual = [
-			              ["passed",parseInt(response.passed)],
-			              ["failed",parseInt(response.failed)],
-			              ["noRun",parseInt(response.noRun)],
-			              ["blocked",parseInt(response.blocked)],
-			              ["deferred",parseInt(response.defered)]
+			              ["Passed",parseInt(response.passed)],
+			              ["Failed",parseInt(response.failed)],
+			              ["No Run",parseInt(response.noRun)],
+			              ["Blocked",parseInt(response.blocked)],
+			              ["Deferred",parseInt(response.defered)]
 			              ];
 			
 			
@@ -221,7 +221,7 @@
 					{
 						chart : {
 							plotBackgroundColor : null,
-							plotBorderWidth : 1,// null,
+							plotBorderWidth : null,
 							plotShadow : false
 							/*backgroundColor: {
 						         linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
@@ -250,15 +250,15 @@
 						colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ],
 						
 						title : {
-							text : 'Manual Execution status'
-							/*style: {
-						         color: '#E0E0E3',
-						         textTransform: 'uppercase',
-						         fontSize: '20px'
-						      }*/
+							text : 'Manual Execution status',
+								style: {
+						            fontSize: 'medium',
+						            fontWeight: 'bold',
+						            color : '#428bca'
+						        },
 						},
 						tooltip : {
-							pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
+							pointFormat :'<b>{point.percentage:.1f}%</b>'
 						},
 						plotOptions : {
 							pie : {
@@ -286,11 +286,11 @@
 		function plotAutomatedChart(response){
 
 			var auto = [
-			              ["passed",parseInt(response.passed)],
-			              ["failed",parseInt(response.failed)],
-			              ["noRun",parseInt(response.noRun)],
-			              ["blocked",parseInt(response.blocked)],
-			              ["deferred",parseInt(response.defered)]
+			              ["Passed",parseInt(response.passed)],
+			              ["Failed",parseInt(response.failed)],
+			              ["No Run",parseInt(response.noRun)],
+			              ["Blocked",parseInt(response.blocked)],
+			              ["Deferred",parseInt(response.defered)]
 			              ];
 			
 			$('#automation-pie-chart')
@@ -298,7 +298,7 @@
 					{
 						chart : {
 							plotBackgroundColor : null,
-							plotBorderWidth : 1,// null,
+							plotBorderWidth : null,
 							plotShadow : false
 							/*backgroundColor: {
 						         linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
@@ -327,15 +327,15 @@
 						colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ],
 						
 						title : {
-							text : 'Automated Execution status'
-							/*style: {
-						         color: '#E0E0E3',
-						         textTransform: 'uppercase',
-						         fontSize: '20px'
-						      }*/
+							text : 'Automated Execution status',
+								style: {
+						            fontSize: 'medium',
+						            fontWeight: 'bold',
+						            color : '#428bca'
+						        },
 						},
 						tooltip : {
-							pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
+							pointFormat : '<b>{point.percentage:.1f}%</b>'
 						},
 						plotOptions : {
 							pie : {
@@ -362,10 +362,10 @@
 
 		function plotDefectStatusChart(response){
 			var defect = [
-			              ["urgent",parseInt(response.Urgent)],
-			              ["high",parseInt(response.High)],
-			              ["low",parseInt(response.Low)],
-			              ["medium",parseInt(response.Medium)]
+			              ["Urgent",parseInt(response.Urgent)],
+			              ["High",parseInt(response.High)],
+			              ["Low",parseInt(response.Low)],
+			              ["Medium",parseInt(response.Medium)]
 			             
 			              ];
 			$('#opendefect-pie-chart')
@@ -373,7 +373,7 @@
 					{
 						chart : {
 							plotBackgroundColor : null,
-							plotBorderWidth : 1,// null,
+							plotBorderWidth : null,
 							plotShadow : false
 							/*backgroundColor: {
 						         linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
@@ -402,15 +402,15 @@
 						colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
 						,
 						title : {
-							text : 'Open Defect status'
-							/*style: {
-						         color: '#E0E0E3',
-						         textTransform: 'uppercase',
-						         fontSize: '20px'
-						      }*/
+							text : 'Open Defect status',
+							style: {
+					            fontSize: 'medium',
+					            fontWeight: 'bold',
+					            color : '#428bca'
+					        },
 						},
 						tooltip : {
-							pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
+							pointFormat : ' <b>{point.percentage:.1f}%</b>'
 						},
 						plotOptions : {
 							pie : {
@@ -437,8 +437,8 @@
 
 		function plotDistributionChart(response){
 			var distribution = [
-			              ["sqm",60],
-			              ["non_sqm",40]
+			              ["SQM",60],
+			              ["Non_SQM",40]
 			             
 			              ];
 			$('#overall-pie-chart')
@@ -446,7 +446,7 @@
 					{
 						chart : {
 							plotBackgroundColor : null,
-							plotBorderWidth : 1,// null,
+							plotBorderWidth : null,
 							plotShadow : false
 							/*backgroundColor: {
 						         linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
@@ -475,15 +475,15 @@
 						colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
 						,
 						title : {
-							text : 'OverAll Distribution'
-							/*style: {
-						         color: '#E0E0E3',
-						         textTransform: 'uppercase',
-						         fontSize: '20px'
-						      }*/
+							text : 'Overall Distribution',
+							style: {
+					            fontSize: 'medium',
+					            fontWeight: 'bold',
+					            color : '#428bca'
+					        },
 						},
 						tooltip : {
-							pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
+							pointFormat : '<b>{point.percentage:.1f}%</b>'
 						},
 						plotOptions : {
 							pie : {
