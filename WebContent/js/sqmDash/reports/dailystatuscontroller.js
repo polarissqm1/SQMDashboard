@@ -162,17 +162,20 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
            
             $scope.plottcsChart = function(){
             	Highcharts.setOptions({
-            		colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69']
-            	});
+					colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+				});
             	$('#tcsChart').highcharts({
                     chart: {
                         plotBackgroundColor: null,
-                        plotBorderWidth: 1,//null,
+                        plotBorderWidth: null,
                         plotShadow: false
                     },
                     title: {
                         text: 'Overall Testcase Excecution'
                     },
+                    tooltip : {
+						pointFormat : '<b>{point.percentage:.1f}%</b>'
+					},
                     plotOptions: {
                         pie: {
                             allowPointSelect: true,
@@ -180,16 +183,25 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                             cursor: 'pointer',
                             dataLabels: {
                                 enabled: true,
-                                format: '{point.percentage:.1f} %',
-                                style: {
-                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                                }
+                               // format: '{point.percentage:.1f} %'
+                                formatter: function() {
+			                        return Math.round(this.percentage*100)/100 + ' %';
+			                    },
+			                    distance: -30
                             }
                         }
                     },
+                    /*legend: {
+                        enabled: true,
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+        				labelFormatter: function() {
+        					return this.name + ' ' + this.y + '%';
+        				}
+                    },*/
                     series: [{
                         type: 'pie',
-                        /*name: 'Browser share',*/
                         data:$scope.tcsData
                     }]
                 });
@@ -200,17 +212,20 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
             
             $scope.plotstatusWiseChart = function(){
             	Highcharts.setOptions({
-            		colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69']
-            	});
+					colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+				});
             	$('#statusWise').highcharts({
                     chart: {
                         plotBackgroundColor: null,
-                        plotBorderWidth: 1,//null,
+                        plotBorderWidth: null,
                         plotShadow: false
                     },
                     title: {
-                        text: 'Overall Defects- Status Wise'
+                        text: 'Overall Defects - Status Wise'
                     },
+                    tooltip : {
+						pointFormat : '<b>{point.percentage:.1f}%</b>'
+					},
                     plotOptions: {
                         pie: {
                             allowPointSelect: true,
@@ -218,17 +233,29 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                             cursor: 'pointer',
                             dataLabels: {
                             	enabled: true,
-                                format: '{point.percentage:.1f} %',
+                                //format: '{point.percentage:.1f} %',
+                            	formatter: function() {
+			                        return Math.round(this.percentage*100)/100 + ' %';
+			                    },
+			                    distance: -30
                             }
                         }
                     },
+                    legend: {
+                        enabled: true,
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+        				labelFormatter: function() {
+        					return this.name + ' ' + this.y + '%';
+        				}
+                    },
                     series: [{
                         type: 'pie',
-                        /*name: 'Browser share',*/
                         data: [
-                            [$scope.names[0].statusSeverity,    parseInt($scope.names[0].Total)],
-                            [$scope.names[1].statusSeverity,       parseInt($scope.names[1].Total)],
-                            [$scope.names[2].statusSeverity,    parseInt($scope.names[2].Total)],
+                            [$scope.names[0].statusSeverity.slice(0,4),    parseInt($scope.names[0].Total)],
+                            [$scope.names[1].statusSeverity.slice(0,5),       parseInt($scope.names[1].Total)],
+                            [$scope.names[2].statusSeverity.slice(0,9),    parseInt($scope.names[2].Total)],
                             [$scope.names[3].statusSeverity,     parseInt($scope.names[3].Total)],
                             [$scope.names[4].statusSeverity,  parseInt($scope.names[4].Total)]
                         ]
@@ -239,17 +266,20 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
             
             $scope.plotseverityWiseChart = function(){
             	Highcharts.setOptions({
-            		colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69']
-            	});
+					colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+				});
             	$('#severityWise').highcharts({
                     chart: {
                         plotBackgroundColor: null,
-                        plotBorderWidth: 1,//null,
+                        plotBorderWidth: null,
                         plotShadow: false
                     },
                     title: {
-                        text: 'Overall Defects- Severity Wise'
+                        text: 'Overall Defects - Severity Wise'
                     },
+                    tooltip : {
+						pointFormat : '<b>{point.percentage:.1f}%</b>'
+					},
                     plotOptions: {
                         pie: {
                             allowPointSelect: true,
@@ -257,18 +287,31 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                             cursor: 'pointer',
                             dataLabels: {
                             	enabled: true,
-                                format: '{point.percentage:.1f} %',
+                                //format: '{point.percentage:.1f} %',
+                            	formatter: function() {
+			                        return Math.round(this.percentage*100)/100 + ' %';
+			                    },
+			                    distance: -30
                             }
                         }
+                    },
+                    legend: {
+                        enabled: true,
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+        				labelFormatter: function() {
+        					return this.name + ' ' + this.y + '%';
+        				}
                     },
                     series: [{
                         type: 'pie',
                         /*name: 'Browser share',*/
                         data: [
-                            ['urgent',    parseInt($scope.names[6].Urgent)],
-                            ['high',        parseInt($scope.names[6].High)],
-                            ['medium',     parseInt($scope.names[6].Medium)],
-                            ['low',     parseInt($scope.names[6].Low)]
+                            ['Urgent',    parseInt($scope.names[6].Urgent)],
+                            ['High',        parseInt($scope.names[6].High)],
+                            ['Medium',     parseInt($scope.names[6].Medium)],
+                            ['Low',     parseInt($scope.names[6].Low)]
                         ]
                     }]
                 });

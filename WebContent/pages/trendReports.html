@@ -133,15 +133,19 @@
 									<div class="col-sm-3 form-group">
 										<button type="button" class="btn btn-primary" ng-click="generateCharts()">Generate Reports</button> 
 									</div>
-									   <div id="pagers" class="pager form-group" style="margin: 0 0; display: none;">    
+									
+									<div class="col-lg-12" id="pagers" style="display: none;">
+		<div class="col-sm-6 form-group pager" style="margin: 0 0; ">    
             <li>
-                  <span> From: {{minDate | date}} </span> 
-                 
-                 <span>To: {{maxDate | date}}</span>
-                
+                  <span> Selected From Date: {{minDate | date}} </span> 
            </li>
             </div>
-									
+            <div class="col-sm-6 form-group pager" style="margin: 0 0;">    
+            <li>
+                  <span> Selected To Date: {{maxDate | date}} </span> 
+           </li>
+            </div>
+            </div><br> <br> <br> <br><br> <br>
 			<!-- Trend Charts -->
 	
 				<!-- Row 1 -->

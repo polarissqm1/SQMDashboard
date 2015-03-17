@@ -69,7 +69,7 @@ table tr:nth-child(even) {
 </table>
 </div>
 
-<div id="tcsChart" ng-init="plottcsChart()" style="float: right; width: 48%">
+<div id="tcsChart" ng-init="plottcsChart()" style="float: right; width: 48%; border: 1px gray; border-style: dotted;">
 </div>
 </div>
 <div id="middle">
@@ -106,7 +106,7 @@ table tr:nth-child(even) {
 <div id="middle2">
 		<div class="pager form-group" style="margin: 0 0;">    
             <li>
-                  <span> Defect Density:<b> {{ dd | limitTo:4}}</b></span> 
+                  <span> Defect Density:<b> {{ dd | limitTo:3}}</b></span> 
                  
                  <span>Defect Severity Index: <b>{{ dsi | limitTo:4}}</b></span>
                 
@@ -115,12 +115,12 @@ table tr:nth-child(even) {
 </div>
 
 <div id="bottom">
-<div id="statusWise" ng-init="plotstatusWiseChart()" style="float: left; height: 15%; width: 49%">
+<div id="statusWise" ng-init="plotstatusWiseChart()" style="float: left; height: 15%; width: 49%; border: 1px gray; border-style: dotted;">
 
 
 </div>
 
-<div id="severityWise" ng-init="plotseverityWiseChart()" style="float: right; height: 50%; width: 50%">
+<div id="severityWise" ng-init="plotseverityWiseChart()" style="float: right; height: 50%; width: 50%; border: 1px gray; border-style: dotted;">
 
 
 </div>

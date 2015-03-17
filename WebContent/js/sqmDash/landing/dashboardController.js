@@ -139,6 +139,7 @@
 			         ["Green",green]
 			];
 			
+			
 			$('#flot-pie-chart')
 			.highcharts(
 					{
@@ -188,7 +189,10 @@
 								cursor : 'pointer',
 								dataLabels : {
 									enabled: true,
-				                    format: '{point.percentage:.1f} %'
+									formatter: function() {
+				                        return Math.round(this.percentage*100)/100 + ' %';
+				                    },
+				                    distance: -30
 								},
 								showInLegend : true
 							}
@@ -210,6 +214,7 @@
 			              ["blocked",parseInt(response.blocked)],
 			              ["deferred",parseInt(response.defered)]
 			              ];
+			
 			
 			$('#manual-pie-chart')
 			.highcharts(
@@ -242,7 +247,8 @@
 								fontSize : "9px"
 							}
 						},
-						colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69'],
+						colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ],
+						
 						title : {
 							text : 'Manual Execution status'
 							/*style: {
@@ -260,7 +266,10 @@
 								cursor : 'pointer',
 								dataLabels : {
 									enabled: true,
-				                    format: '{point.percentage:.1f} %'
+									formatter: function() {
+				                        return Math.round(this.percentage*100)/100 + ' %';
+				                    },
+				                    distance: -30
 								},
 								showInLegend : true
 							}
@@ -283,6 +292,7 @@
 			              ["blocked",parseInt(response.blocked)],
 			              ["deferred",parseInt(response.defered)]
 			              ];
+			
 			$('#automation-pie-chart')
 			.highcharts(
 					{
@@ -314,7 +324,8 @@
 								fontSize : "9px"
 							}
 						},
-						colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69'],
+						colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ],
+						
 						title : {
 							text : 'Automated Execution status'
 							/*style: {
@@ -332,7 +343,10 @@
 								cursor : 'pointer',
 								dataLabels : {
 									enabled: true,
-				                    format: '{point.percentage:.1f} %'
+									formatter: function() {
+				                        return Math.round(this.percentage*100)/100 + ' %';
+				                    },
+				                    distance: -30
 								},
 								showInLegend : true
 							}
@@ -385,7 +399,8 @@
 								fontSize : "9px"
 							}
 						},
-						colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69'],
+						colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+						,
 						title : {
 							text : 'Open Defect status'
 							/*style: {
@@ -403,7 +418,10 @@
 								cursor : 'pointer',
 								dataLabels : {
 									enabled: true,
-				                    format: '{point.percentage:.1f} %'
+									formatter: function() {
+				                        return Math.round(this.percentage*100)/100 + ' %';
+				                    },
+				                    distance: -30
 								},
 								showInLegend : true
 							}
@@ -454,7 +472,8 @@
 								fontSize : "9px"
 							}
 						},
-						colors: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', 'b3de69'],
+						colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+						,
 						title : {
 							text : 'OverAll Distribution'
 							/*style: {
@@ -472,7 +491,10 @@
 								cursor : 'pointer',
 								dataLabels : {
 									enabled: true,
-				                    format: '{point.percentage:.1f} %'
+									formatter: function() {
+				                        return Math.round(this.percentage*100)/100 + ' %';
+				                    },
+				                    distance: -30
 								},
 								showInLegend : true
 							}
