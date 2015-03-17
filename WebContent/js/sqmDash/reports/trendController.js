@@ -7,7 +7,7 @@ dashboardApp
 					$scope.selectedEnd=null;
 					
 					$scope.onInit = function() {
-						alert("in init function");
+						//alert("in init function");
 						
 					};
 					
@@ -120,8 +120,8 @@ dashboardApp
 									$scope.selectedEnd=sunday.toISOString();*/
 									$scope.selectedStart=monday.toDateString().slice(8,10)+'/'+monday.toDateString().slice(4,7)+'/'+monday.toDateString().slice(13,15);
 									$scope.selectedEnd=sunday.toDateString().slice(8,10)+'/'+sunday.toDateString().slice(4,7)+'/'+sunday.toDateString().slice(13,15);
-									alert($scope.selectedStart);
-									alert($scope.selectedEnd);
+								//	alert($scope.selectedStart);
+								//	alert($scope.selectedEnd);
 								} else if ($scope.range == 'monthly') {
 									//console.log(date);
 									d = date.slice(0,2);
@@ -161,10 +161,17 @@ dashboardApp
 
 					$scope.plotCharts = function() {
 				
-						$scope.trendReports = $http.get("dash/trendreports/getTrendingInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName+"&fromDate="+$scope.selectedStart+"&toDate="+$scope.selectedEnd).success(function(response) {
-
+						$scope.trendReports = $http.get("dash/trendreports/getTrendingInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName+"&fromDate="+$scope.selectedStart+"&toDate="+$scope.selectedEnd).success(function(response1) {
+							$scope.trendReportsRelease = $http.get("dash/trendreports/getReleaseInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName+"&fromDate="+$scope.selectedStart+"&toDate="+$scope.selectedEnd).success(function(response2) {
 											//alert(JSON.stringify(response));
-							if(!response.entity[0]){
+								
+								//alert("response1 is ------------------"+JSON.stringify(response1));
+								//alert("response2 is ------------------"+JSON.stringify(response2));
+								
+								$scope.plotDefectRootBreakUp(response2);
+								$scope.plotDefectTypeBreakUp(response2);
+								$scope.plotDefectAgeing(response2);
+							if(!response1.entity[0]){
 								/*$scope.showDiv('row1Charts');
 								$scope.showDiv('pagers');*/
 							/*$scope.showDiv('row1Charts');*/
@@ -198,32 +205,37 @@ dashboardApp
 						        var total_high=0;
 						        var total_medium=0;
 						        var total_low=0;
-						        for(var i=0;i<response.entity.length;i++){
-						        	rdate.push(response.entity[i].rdate);
-						        	actual.push(parseInt(response.entity[i].actual));
-						        	passed.push(parseInt(response.entity[i].pass));
-						        	failed.push(parseInt(response.entity[i].failed));
-						        	open.push(parseInt(response.entity[i].open));
-						        	closed.push(parseInt(response.entity[i].closed));
-						        	defectDensity.push(Math.round(parseFloat(response.entity[i].defectDensity)*100)/100);
-						        	defectSeverityIndex.push(Math.round(parseFloat(response.entity[i].defectSeverityIndex)*10)/10);
-						        	badFix.push(Math.round(parseFloat(response.entity[i].badFix)*10)/10);
-						        	defectAccept.push(Math.round(parseFloat(response.entity[i].defectAcceptance)*10)/10);
-						        	total_urgent+=parseInt(response.entity[i].urgent);
-						        	total_high+=parseInt(response.entity[i].high);
-						        	total_medium+=parseInt(response.entity[i].medium);
-						        	total_low+=parseInt(response.entity[i].low);
+						        for(var i=0;i<response1.entity.length;i++){
+						        	rdate.push(response1.entity[i].rdate);
+						        	actual.push(parseInt(response1.entity[i].actual));
+						        	passed.push(parseInt(response1.entity[i].pass));
+						        	failed.push(parseInt(response1.entity[i].failed));
+						        	open.push(parseInt(response1.entity[i].open));
+						        	closed.push(parseInt(response1.entity[i].closed));
+						        	defectDensity.push(Math.round(parseFloat(response1.entity[i].defectDensity)*100)/100);
+						        	defectSeverityIndex.push(Math.round(parseFloat(response1.entity[i].defectSeverityIndex)*10)/10);
+						        	badFix.push(Math.round(parseFloat(response1.entity[i].badFix)*10)/10);
+						        	defectAccept.push(Math.round(parseFloat(response1.entity[i].defectAcceptance)*10)/10);
+						        	total_urgent+=parseInt(response1.entity[i].urgent);
+						        	total_high+=parseInt(response1.entity[i].high);
+						        	total_medium+=parseInt(response1.entity[i].medium);
+						        	total_low+=parseInt(response1.entity[i].low);
 						        	
-						        	$scope.plotDefectsOpenClosed(rdate,open,closed);
-									$scope.plotDefectDensity(rdate,defectDensity);
-									$scope.plotBadFix(rdate,badFix);
-									$scope.plotDefectAccept(rdate,defectAccept);
-									$scope.plotDefectSeverityIndex(rdate,defectSeverityIndex);
-									$scope.plotTestCaseStatChart(rdate,passed,failed);
-									$scope.plotDefectSeverityBreakUp(total_urgent,total_high,total_medium,total_low);
-									$scope.plotChart(actual,rdate);
+						        	
 									
 						        }
+						        	
+						        	
+									
+						        $scope.plotDefectsOpenClosed(rdate,open,closed);
+								$scope.plotDefectDensity(rdate,defectDensity);
+								$scope.plotBadFix(rdate,badFix);
+								$scope.plotDefectAccept(rdate,defectAccept);
+								$scope.plotDefectSeverityIndex(rdate,defectSeverityIndex);
+								$scope.plotTestCaseStatChart(rdate,passed,failed);
+								$scope.plotDefectSeverityBreakUp(total_urgent,total_high,total_medium,total_low);
+								var plan=parseInt(response2.entity[0].planned);
+								$scope.plotChart(actual,rdate,plan);
 							}
 					        
 					        
@@ -232,19 +244,19 @@ dashboardApp
 											
 												   
 												
-											
+							});		
 												
 										});
-						$scope.trendReports = $http.get("dash/trendreports/getReleaseInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName+"&fromDate="+$scope.selectedStart+"&toDate="+$scope.selectedEnd).success(function(response) {
+						/*$scope.trendReports = $http.get("dash/trendreports/getReleaseInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName+"&fromDate="+$scope.selectedStart+"&toDate="+$scope.selectedEnd).success(function(response) {
 							//alert(JSON.stringify(response));
 							$scope.plotDefectRootBreakUp(response);
 							$scope.plotDefectTypeBreakUp(response);
 							$scope.plotDefectAgeing(response);
-						});
+						});*/
 					};
 					//******************** Highcharts *************************//
 
-					$scope.plotChart = function(actual,rdate) {
+					$scope.plotChart = function(actual,rdate,plan) {
 						Highcharts.setOptions({
 							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
 						});
@@ -291,7 +303,7 @@ dashboardApp
 											series : [
 													{
 														name : 'Planned',
-														data : [35262, 35262, 35262],
+														data : [plan],
 														stack : 'male'
 													},
 													{
@@ -696,7 +708,7 @@ dashboardApp
 										            }
 										        },
 										        xAxis: {
-										            categories: ['1D-4D','5D-8D','>9D']
+										            categories: ['1D-5D','6D-10D','>10D']
 										        },
 										        yAxis: {
 										            min: 0,

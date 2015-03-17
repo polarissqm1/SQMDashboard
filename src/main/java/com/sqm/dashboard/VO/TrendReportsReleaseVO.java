@@ -14,6 +14,7 @@ public class TrendReportsReleaseVO {
 	private HashMap oneDayToFour;
 	private HashMap FourToEight;
 	private HashMap greaterEight;
+	private String planned;
 	public String getDefectId() {
 		return defectId;
 	}
@@ -62,6 +63,13 @@ public class TrendReportsReleaseVO {
 	public void setDefectFixedDate(String defectFixedDate) {
 		this.defectFixedDate = defectFixedDate;
 	}
+	public String getPlanned() {
+		return planned;
+	}
+	public void setPlanned(String planned) {
+		this.planned = planned;
+	}
+	
 
 	
 }

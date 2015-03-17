@@ -230,33 +230,33 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 					  log.info("rootCause is"+rootCause);
 					  if(defectVO.getDefectStatus().equalsIgnoreCase("Closed")){
 						  int fixTime=Integer.parseInt(defectVO.getDefectFixTime());
-						  if(((1<fixTime)&&(fixTime<4))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("1 - Urgent")){
+						  if(((1<fixTime)&&(fixTime<6))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("1 - Urgent")){
 							  urgent_1D++;
 						  }
-						  else if(((1<fixTime)&&(fixTime<4))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("2 - High")){
+						  else if(((1<fixTime)&&(fixTime<6))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("2 - High")){
 							  high_1D++;
 						  }
-						  else if(((1<fixTime)&&(fixTime<4))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("3 - Medium")){
+						  else if(((1<fixTime)&&(fixTime<6))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("3 - Medium")){
 							  
 							  medium_1D++;
 						  }
-                              else if(((1<fixTime)&&(fixTime<4))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("4 - Low")){
+                              else if(((1<fixTime)&&(fixTime<6))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("4 - Low")){
 							  
                             	  low_1D++;
 						  }
-                              else if(((5<fixTime)&&(fixTime<9))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("1 - Urgent")){
+                              else if(((6<fixTime)&&(fixTime<11))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("1 - Urgent")){
     							  
                             	  urgent_4D++;
 						  }
-                                else if(((5<fixTime)&&(fixTime<9))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("2 - High")){
+                                else if(((6<fixTime)&&(fixTime<11))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("2 - High")){
     							  
                                 	high_4D++;
 						  }
-                                else if(((5<fixTime)&&(fixTime<9))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("3 - Medium")){
+                                else if(((6<fixTime)&&(fixTime<11))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("3 - Medium")){
       							  
                                 	medium_4D++;
   						  }
-                                else if(((5<fixTime)&&(fixTime<9))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("4 - Low")){
+                                else if(((6<fixTime)&&(fixTime<11))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("4 - Low")){
         							  
                                 	low_4D++;
   						  }
@@ -440,6 +440,7 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 					  trendReportsReleaseVO.setGreaterEight(greaterEight);
      				  trendReportsReleaseVO.setDefectRootCause(rootCauseMap);
      				  trendReportsReleaseVO.setDefectType(defectTypeMap);
+     				 trendReportsReleaseVO.setPlanned("1200");
      				  originalList.add(trendReportsReleaseVO);
                       
 				  }
