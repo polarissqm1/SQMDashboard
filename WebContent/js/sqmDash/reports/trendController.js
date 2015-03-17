@@ -101,6 +101,7 @@ dashboardApp
 					//** Date Picker END**//
 
 					$scope.generateCharts = function() {
+						var date = $("#todate").val();
 						//$scope.todate = $("#todate").val();
 						//alert("selected todate is "+$scope.todate);
 						if ($("#todate").val()) {
@@ -119,15 +120,27 @@ dashboardApp
 									$scope.selectedEnd=sunday.toISOString();*/
 									$scope.selectedStart=monday.toDateString().slice(8,10)+'/'+monday.toDateString().slice(4,7)+'/'+monday.toDateString().slice(13,15);
 									$scope.selectedEnd=sunday.toDateString().slice(8,10)+'/'+sunday.toDateString().slice(4,7)+'/'+sunday.toDateString().slice(13,15);
+									alert($scope.selectedStart);
+									alert($scope.selectedEnd);
 								} else if ($scope.range == 'monthly') {
-									var date = new Date($("#todate").val() ), y = date
+									//console.log(date);
+									d = date.slice(0,2);
+									m = date.slice(3,6);
+									y = date.slice(9,11);
+									
+									$scope.selectedStart = 1+'/'+m+'/'+y;
+									$scope.selectedEnd = 31+'/'+m+'/'+y;
+									
+									/*var date = new Date($("#todate").val() ), y = date
 											.getFullYear(), m = date.getMonth();
 									var firstDay = new Date(y, m, 1);
 									var lastDay = new Date(y, m + 1, 0);
-									/*$scope.selectedStart=firstDay.toISOString();
-									$scope.selectedEnd=lastDay.toISOString();*/
+									
 									$scope.selectedStart=firstDay.toDateString().slice(8,10)+'/'+firstDay.toDateString().slice(4,7)+'/'+firstDay.toDateString().slice(13,15);
 									$scope.selectedEnd=lastDay.toDateString().slice(8,10)+'/'+lastDay.toDateString().slice(4,7)+'/'+lastDay.toDateString().slice(13,15);
+									*/
+									/*alert($scope.selectedStart);
+									alert($scope.selectedEnd);*/
 								}
 							}
 						}
@@ -233,7 +246,7 @@ dashboardApp
 
 					$scope.plotChart = function(actual,rdate) {
 						Highcharts.setOptions({
-							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
 						});
 
 						$('#testcaseexec')
@@ -292,7 +305,7 @@ dashboardApp
 					//***************** Test Case Status ******************//
 					$scope.plotTestCaseStatChart = function(rdate,passed,failed) {
 						Highcharts.setOptions({
-							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+							colors : [ '#8085e9', '#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
 						});
 
 						$('#testcasestat')
@@ -365,7 +378,7 @@ dashboardApp
 
 					$scope.plotDefectsOpenClosed = function(rdate,open,closed) {
 						Highcharts.setOptions({
-							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
 						});
 
 						$('#defectsopen')
@@ -434,7 +447,7 @@ dashboardApp
 					//************************ Defect Density  ***************************//
 					$scope.plotDefectDensity = function(rdate,defectDensity) {
 						Highcharts.setOptions({
-							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
 						});
 
 						$('#defectdensity').highcharts(
@@ -489,7 +502,7 @@ dashboardApp
 					$scope.plotDefectSeverityIndex = function(rdate,defectSeverityIndex) {
 
 						Highcharts.setOptions({
-							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
 						});
 
 						$('#defectdensityindex').highcharts(
@@ -543,7 +556,7 @@ dashboardApp
 					$scope.plotBadFix = function(rdate,badFix) {
 
 						Highcharts.setOptions({
-							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
 						});
 
 						$('#badfix').highcharts(
@@ -608,7 +621,7 @@ dashboardApp
 					//************************ Defect Acceptance Rate  ***************************//
 					$scope.plotDefectAccept = function(rdate,defectAccept) {
 						Highcharts.setOptions({
-							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
 						});
 
 						$('#defectaccept').highcharts(
@@ -665,7 +678,7 @@ dashboardApp
 					//************************ Defect Ageing  ***************************//
 					$scope.plotDefectAgeing = function(response) {
 						Highcharts.setOptions({
-							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
 						});
 
 						$('#defectageing')
@@ -752,7 +765,7 @@ dashboardApp
 					//************************ Defects Severity Breakup  ***************************//
 					$scope.plotDefectSeverityBreakUp = function(total_urgent,total_high,total_medium,total_low) {
 						Highcharts.setOptions({
-							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
 						});
 
 						$('#defectseveritybreak')
@@ -828,7 +841,7 @@ dashboardApp
 					//************************ Defect Type Breakup  ***************************//
 					$scope.plotDefectTypeBreakUp = function(response) {
 						Highcharts.setOptions({
-							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
 						});
 
 						$('#defecttypebreak')
@@ -887,7 +900,7 @@ dashboardApp
 					//************************ Defect Rootcause Breakup ***************************//
 					$scope.plotDefectRootBreakUp = function(response) {
 						Highcharts.setOptions({
-							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69', '#7CFC00', '#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
 						});
 
 						$('#defectRootbreak')
