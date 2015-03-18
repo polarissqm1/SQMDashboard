@@ -163,12 +163,12 @@ public class DashboardDAOImpl implements DashboardDAO {
 						 
 						
 						 System.out.println(passedP);
-						 String passedPercent=passedP.setScale(2, RoundingMode.CEILING).toString();
-						 String failedPercent=failedP.setScale(2, RoundingMode.CEILING).toString();
+						 String passedPercent=passedP.setScale(2, RoundingMode.CEILING).toString()+"%";
+						 String failedPercent=failedP.setScale(2, RoundingMode.CEILING).toString()+"%";
 						 
-						 String noRunPercent=noRunP.setScale(2, RoundingMode.CEILING).toString();
-						 String blockedPercent=blockedP.setScale(2, RoundingMode.CEILING).toString();
-						 String defferedPercent=defferedP.setScale(2, RoundingMode.CEILING).toString();
+						 String noRunPercent=noRunP.setScale(2, RoundingMode.CEILING).toString()+"%";
+						 String blockedPercent=blockedP.setScale(2, RoundingMode.CEILING).toString()+"%";
+						 String defferedPercent=defferedP.setScale(2, RoundingMode.CEILING).toString()+"%";
 						 
 						 
 						 testVOPassed.setStatus("Passed");

@@ -71,7 +71,8 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 					    Float failed=Float.parseFloat(dashVO.getManualVO().getFailed())+Float.parseFloat(dashVO.getAutomationVO().getFailed());
 						Float noRun=Float.parseFloat(dashVO.getManualVO().getNoRun())+Float.parseFloat(dashVO.getAutomationVO().getNoRun());
 						Float blocked=Float.parseFloat(dashVO.getManualVO().getBlocked())+Float.parseFloat(dashVO.getAutomationVO().getBlocked());
-						Float deffered=Float.parseFloat(dashVO.getManualVO().getDefered())+Float.parseFloat(dashVO.getAutomationVO().getDefered());
+						/*Float deffered=Float.parseFloat(dashVO.getManualVO().getDefered())+Float.parseFloat(dashVO.getAutomationVO().getDefered());*/
+						Float deffered=Float.parseFloat(dashVO.getManualVO().getDefered());
 						Float totalTC=passed+failed+noRun+blocked+deffered;
 					    Float actual=passed+failed+blocked+deffered;
 					    Float totalDefect=Float.parseFloat(dashVO.getStatusAndSeverityVO().get(5).getTotal());

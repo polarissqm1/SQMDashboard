@@ -31,6 +31,7 @@ public class JiraSchedulerDAOImpl implements JiraSchedulerDAO {
 public void validatorInsertion(JiraSchedulerVO sourceVO, DBCollection table) throws Exception {
 		
 		DBCursor cursor = null;
+		
 		String keyValue = sourceVO.getRelease() + "|" + DashboardUtility.getCurrentDate().toString();
 
 		try{
