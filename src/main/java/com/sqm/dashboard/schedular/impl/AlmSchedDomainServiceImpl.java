@@ -85,7 +85,6 @@ public class AlmSchedDomainServiceImpl implements AlmSchedDomainService {
 		} catch (Exception e) {
 			log.error("Error in getting domains ", e);
 			throw e;
-		} finally {
 		}
 	}
 }

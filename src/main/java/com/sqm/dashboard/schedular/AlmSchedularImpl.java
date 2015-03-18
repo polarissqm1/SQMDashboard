@@ -8,20 +8,24 @@ import org.apache.log4j.Logger;
 import com.mongodb.DBCollection;
 import com.sqm.dashboard.dao.impl.DashboardDAOImpl;
 import com.sqm.dashboard.schedular.impl.AlmSchedAuthServiceImpl;
-import com.sqm.dashboard.schedular.impl.AlmSchedSchedularServiceImpl;
+import com.sqm.dashboard.schedular.impl.AlmSchedularServiceImpl;
 import com.sqm.dashboard.util.RestConnectorUtility;
 import com.sqm.dashboard.util.TimeAnalyserUtility;
 
 public class AlmSchedularImpl implements AlmSchedular {
 	
 	final Logger log = Logger.getLogger(AlmSchedularImpl.class);
-	//final Log log = LogFactory.getLog(AlmSchedularImpl.class);
+	
+	public static void main(String args[]) throws Exception {
+		AlmSchedularImpl almSched = new AlmSchedularImpl();
+		almSched.startAlmInsert(almSched);
+	}
 	
 	/*@Autowired*/
 	AlmSchedAuthServiceImpl almSchedAuthServiceImpl = new AlmSchedAuthServiceImpl();
 
 	/*@Autowired(required=true)*/
-	AlmSchedSchedularServiceImpl almSchedSchedularServiceImpl = new AlmSchedSchedularServiceImpl();
+	AlmSchedularServiceImpl almSchedSchedularServiceImpl = new AlmSchedularServiceImpl();
 	
 	private String almHost = "ealm11.jpmchase.net";
 	private String almPort = "80";
@@ -31,13 +35,12 @@ public class AlmSchedularImpl implements AlmSchedular {
 	@Override
 	public void startAlmInsert(AlmSchedularImpl almSchedular) throws Exception {
 		try{
+			log.info("Inside startAlmInsert");
 			almAuthentication("murlikrishnamohan.kakarla", "Welcome07$");
 		}catch(Exception e){
-			log.error("Exception Alm Satrt level");
+			log.error("Exception Alm Start level");
 			throw e;
 		}
-		
-
 	}
 	
 	public void almAuthentication(String username, String password) throws Exception{
@@ -59,7 +62,7 @@ public class AlmSchedularImpl implements AlmSchedular {
 			log.info("Cookies that contain LWSSO_COOKIE_KEY):" + conn.getCookieString());
 
 			if (response.equals("200")) {
-				DBCollection collection = DashboardDAOImpl.getDbCollection("alm");
+				DBCollection collection = DashboardDAOImpl.getDbCollection("alm_mar18");
 				almSchedSchedularServiceImpl.saveAlmDetails(conn, requestHeaders, username, password, collection);
 			} else if (response.equals("500")) {
 				log.info("Login failed");
@@ -70,4 +73,5 @@ public class AlmSchedularImpl implements AlmSchedular {
 		}
 		TimeAnalyserUtility.calculateTime(startTime, "almSchedular");
 	}
+
 }

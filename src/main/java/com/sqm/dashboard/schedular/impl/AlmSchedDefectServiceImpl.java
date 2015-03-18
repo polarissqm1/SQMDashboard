@@ -77,6 +77,19 @@ public class AlmSchedDefectServiceImpl implements AlmSchedDefectService {
 	
 	private Double totDefects;
 	
+	private Integer totalDefectsOpenNewReopenedAssigned;
+	private Integer totalDefectsFixedReadyforretest;
+	private Integer totalDefectsClosed;
+	private Integer totalDefectsDuplicateRejected;
+	private Integer totalDefectsDeferred;
+	
+	private Integer totalDefectsUrgent;
+	private Integer totalDefectsHigh;
+	private Integer totalDefectsMedium;
+	private Integer totalDefectsLow;
+	
+	private Integer total;
+	
 	public SchedularDefectsVO getAlmDefects(RestConnectorUtility conn, Map<String, String> requestHeaders, String defectsUrl, String releaseId) {
 	
 			//AlmSchedDefectServiceImpl almSchedDefectServiceImpl = new AlmSchedDefectServiceImpl();
@@ -248,11 +261,21 @@ public class AlmSchedDefectServiceImpl implements AlmSchedDefectService {
 						"#totDefectsMedium : " + totDefectsMedium +
 						"#totDefectsLow : " + totDefectsLow);
 		
+				totalDefectsUrgent = totDefectsUrgent.intValue();
+				totalDefectsHigh = totDefectsHigh.intValue();
+				totalDefectsMedium = totDefectsMedium.intValue();
+				totalDefectsLow = totDefectsLow.intValue();
+				
+				log.info("totalDefectsUrgent : " + totalDefectsUrgent +
+						"#totalDefectsHigh : " + totalDefectsHigh +
+						"#totalDefectsMedium : " + totalDefectsMedium +
+						"#totalDefectsLow : " + totalDefectsLow);
+				
 				statusSeverity.add(5, Constants.DEFECT_STATUS_TOTAL);
-				urgent.add(5, totDefectsUrgent.toString());
-				high.add(5, totDefectsHigh.toString());
-				medium.add(5, totDefectsMedium.toString());
-				low.add(5, totDefectsLow.toString());
+				urgent.add(5, totalDefectsUrgent.toString());
+				high.add(5, totalDefectsHigh.toString());
+				medium.add(5, totalDefectsMedium.toString());
+				low.add(5, totalDefectsLow.toString());
 		
 				totDefectsOpenNewReopenedAssigned = Double.valueOf(dOpenNewReopenedAssignedUrgent) + Double.valueOf(dOpenNewReopenedAssignedHigh) + 
 											Double.valueOf(dOpenNewReopenedAssignedMedium) + Double.valueOf(dOpenNewReopenedAssignedLow);
@@ -279,14 +302,29 @@ public class AlmSchedDefectServiceImpl implements AlmSchedDefectService {
 						"#totDefectsDeferred : " + totDefectsDeferred + 
 						"#totDefects : " + totDefects);
 		
-				totalDefects.add(0, totDefectsOpenNewReopenedAssigned.toString());
-				totalDefects.add(1, totDefectsFixedReadyforretest.toString());
-				totalDefects.add(2, totDefectsClosed.toString());
-				totalDefects.add(3, totDefectsDuplicateRejected.toString());
-				totalDefects.add(4, totDefectsDeferred.toString());
-				totalDefects.add(5, totDefects.toString());
+				totalDefectsOpenNewReopenedAssigned = totDefectsOpenNewReopenedAssigned.intValue();
+				totalDefectsFixedReadyforretest = totDefectsFixedReadyforretest.intValue();
+				totalDefectsClosed = totDefectsClosed.intValue();
+				totalDefectsDuplicateRejected = totDefectsDuplicateRejected.intValue();
+				totalDefectsDeferred = totDefectsDeferred.intValue();
+				
+				total = totDefects.intValue();
+				
+				log.info("totalDefectsOpenNewReopenedAssigned : " + totalDefectsOpenNewReopenedAssigned +
+						"#totalDefectsFixedReadyforretest : " + totalDefectsFixedReadyforretest +
+						"#totalDefectsClosed : " + totalDefectsClosed +
+						"#totalDefectsDuplicateRejected : " + totalDefectsDuplicateRejected +
+						"#totalDefectsDeferred : " + totalDefectsDeferred + 
+						"#total : " + total);
+				
+				totalDefects.add(0, totalDefectsOpenNewReopenedAssigned.toString());
+				totalDefects.add(1, totalDefectsFixedReadyforretest.toString());
+				totalDefects.add(2, totalDefectsClosed.toString());
+				totalDefects.add(3, totalDefectsDuplicateRejected.toString());
+				totalDefects.add(4, totalDefectsDeferred.toString());
+				totalDefects.add(5, total.toString());
 		
-				if(totDefects > 0.0) {
+				if(total > 0) {
 					BigDecimal percentUrgent = new BigDecimal((totDefectsUrgent/totDefects) * 100);
 					BigDecimal percentHigh = new BigDecimal((totDefectsHigh/totDefects) * 100);
 					BigDecimal percentMedium = new BigDecimal((totDefectsMedium/totDefects) * 100);
@@ -299,7 +337,6 @@ public class AlmSchedDefectServiceImpl implements AlmSchedDefectService {
 
 					log.info("percentageUrgent : " + percentageUrgent +
 						"#percentageHigh : " + percentageHigh +
-						"#totDefectsClosed : " + totDefectsClosed +
 						"#percentageMedium : " + percentageMedium + 
 						"#percentageLow : " + percentageLow);
 		
@@ -310,6 +347,7 @@ public class AlmSchedDefectServiceImpl implements AlmSchedDefectService {
 					low.add(6, percentageLow);
 			
 					totalDefects.add(6, "100.00");
+					
 				} else {
 					statusSeverity.add(6, Constants.DEFECT_STATUS_PERCENTAGE);
 					urgent.add(6, "0.00");
