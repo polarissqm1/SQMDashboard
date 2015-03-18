@@ -41,14 +41,16 @@ public class AlmSchedTestcaseServiceImpl implements AlmSchedTestcaseService {
 	private String tcBlocked;
 	
 	private Double tcTotal;
+	private Integer total;
 
 	public AlmTestcaseVO getAlmTestcases(RestConnectorUtility conn, Map<String, String> requestHeaders, String testcasesUrl, String releaseId) {
-	
+		System.out.println("testcasesUrl : " + testcasesUrl);
 		try {
 			
 			//AlmSchedTestcaseServiceImpl almSchedTestcaseServiceImpl = new AlmSchedTestcaseServiceImpl();
 			//tcPassed = almSchedTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_PASSED, releaseId);
 			tcPassed = getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_PASSED, releaseId);
+			
 			status.add(0, Constants.TESTCASES_STATUS_PASSED);
 			count.add(0, tcPassed);
 		
@@ -81,10 +83,13 @@ public class AlmSchedTestcaseServiceImpl implements AlmSchedTestcaseService {
 						Double.valueOf(tcNA) + Double.valueOf(tcDeferred) + Double.valueOf(tcBlocked);
 		
 			log.info("tcTotal : " + tcTotal);
-		
+			
+			total = tcTotal.intValue();
+			log.info("total : " + total);
+			
 			status.add(6, "Total");
-			count.add(6, tcTotal.toString());
-			if(tcTotal > 0.0){
+			count.add(6, total.toString());
+			if(total > 0){
 				BigDecimal percentPassed = new BigDecimal((Double.valueOf(tcPassed)/tcTotal) * 100);
 				BigDecimal percentFailed = new BigDecimal((Double.valueOf(tcFailed)/tcTotal) * 100);
 				BigDecimal percentNotRunAndNotCompleted = new BigDecimal((Double.valueOf(tcNotRunAndNotCompleted)/tcTotal) * 100);
@@ -117,14 +122,6 @@ public class AlmSchedTestcaseServiceImpl implements AlmSchedTestcaseService {
 				percentage.add(6, "0.00");
 			}
 		
-			/*schedularTCExecStatusVO.setStatus(status);
-			schedularTCExecStatusVO.setCount(count);
-			schedularTCExecStatusVO.setPercentage(percentage);
-		
-			log.info("schedularTCExecStatusVO.getStatus() : " + schedularTCExecStatusVO.getStatus().toString() +
-				"schedularTCExecStatusVO.getCount() : " + schedularTCExecStatusVO.getCount().toString() +
-				"schedularTCExecStatusVO.getPercentage() : " + schedularTCExecStatusVO.getPercentage().toString());*/
-		
 			schedTestcaseExecVO.setStatus(status);
 			schedTestcaseExecVO.setCount(count);
 			schedTestcaseExecVO.setPercentage(percentage);
@@ -135,23 +132,11 @@ public class AlmSchedTestcaseServiceImpl implements AlmSchedTestcaseService {
 			String blocked = tcBlocked;
 			String deferred = tcDeferred;
 		
-			//schedularTCExecStatusVO.setPassed(passed);
-			//schedularTCExecStatusVO.setFailed(failed);
-			//schedularTCExecStatusVO.setNoRun(noRun);
-			//schedularTCExecStatusVO.setBlocked(blocked);
-			//schedularTCExecStatusVO.setDeferred(deferred);
-		
 			schedManualVO.setPassed(passed);
 			schedManualVO.setFailed(failed);
 			schedManualVO.setNoRun(noRun);
 			schedManualVO.setBlocked(blocked);
 			schedManualVO.setDeferred(deferred);
-		
-			/*log.info("schedularTCExecStatusVO.getStatus() : " + schedularTCExecStatusVO.getPassed().toString() +
-				"schedularTCExecStatusVO.getCount() : " + schedularTCExecStatusVO.getFailed().toString() +
-				"schedularTCExecStatusVO.getPercentage() : " + schedularTCExecStatusVO.getNoRun().toString() +
-				"schedularTCExecStatusVO.getCount() : " + schedularTCExecStatusVO.getBlocked().toString() + 
-				"schedularTCExecStatusVO.getCount() : " + schedularTCExecStatusVO.getDeferred().toString());*/
 		
 			almTCVO.setSchedManualVO(schedManualVO);
 			almTCVO.setSchedTestcaseExecVO(schedTestcaseExecVO);
@@ -177,14 +162,19 @@ public class AlmSchedTestcaseServiceImpl implements AlmSchedTestcaseService {
 			queryAlmTestcases.append("&fields=id");
 
 			log.info("AlmTestcases Query : " + queryAlmTestcases);
-
+			System.out.println("queryAlmTestcases : " + queryAlmTestcases);
+			
 			String listFromTestcasesCollectionAsXml = connection.httpGet(testcasesUrl, queryAlmTestcases.toString(), requestHeaders).toString();
 			log.info("listFromTestcasesCollectionAsXml : " + listFromTestcasesCollectionAsXml);
+			System.out.println("listFromTestcasesCollectionAsXml : " + listFromTestcasesCollectionAsXml);
 
 			EntitiesUtility entitiesTestcases = MarshallingUtility.marshal(EntitiesUtility.class, listFromTestcasesCollectionAsXml);
 			log.info("Testcases Entities : " + entitiesTestcases);
 			log.info(testcaseStatus + "#" + "Count : " + entitiesTestcases.getTotalResults());
 
+			log.info("Testcases Entities : " + entitiesTestcases);
+			log.info(testcaseStatus + "#" + "Count : " + entitiesTestcases.getTotalResults());
+			
 			return entitiesTestcases.getTotalResults();
 		} catch (Exception e) {
 			log.error("Error in getting testcases count : " + e.getMessage());

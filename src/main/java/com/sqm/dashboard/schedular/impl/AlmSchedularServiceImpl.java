@@ -8,22 +8,28 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.DBCollection;
 import com.sqm.dashboard.VO.AlmDomainProject;
+import com.sqm.dashboard.VO.AlmDomainProjectRelease;
 import com.sqm.dashboard.VO.AlmDomainProjectReleaseId;
 import com.sqm.dashboard.VO.AlmDomainProjectReleaseName;
+import com.sqm.dashboard.VO.AlmReleaseDetails;
 import com.sqm.dashboard.VO.AlmTestcaseVO;
 import com.sqm.dashboard.VO.AlmVO;
 import com.sqm.dashboard.VO.SchedularDefectsVO;
+import com.sqm.dashboard.VO.SchedularReleaseDefectsVO;
 import com.sqm.dashboard.dao.impl.AlmSchedularDAOImpl;
+import com.sqm.dashboard.dao.impl.JiraSchedulerDAOImpl;
 import com.sqm.dashboard.schedular.AlmSchedularService;
 import com.sqm.dashboard.util.RestConnectorUtility;
 
 @Service("almSchedSchedularServiceImpl")
-public class AlmSchedSchedularServiceImpl implements AlmSchedularService{	
-	static final Log log = LogFactory.getLog(AlmSchedSchedularServiceImpl.class);
+public class AlmSchedularServiceImpl implements AlmSchedularService {
+	
+	final Logger log = Logger.getLogger(AlmSchedularServiceImpl.class);
 	
 	/*@Autowired*/
 	AlmSchedDomainServiceImpl almSchedDomainServiceImpl = new AlmSchedDomainServiceImpl();
@@ -57,6 +63,8 @@ public class AlmSchedSchedularServiceImpl implements AlmSchedularService{
 		ArrayList<AlmDomainProject> almDomainProj = new ArrayList<AlmDomainProject>();
 		ArrayList<AlmDomainProjectReleaseId> almDomainProjReleaseId = new ArrayList<AlmDomainProjectReleaseId>();
 		ArrayList<AlmDomainProjectReleaseName> almDomainProjReleaseName = new ArrayList<AlmDomainProjectReleaseName>();
+		
+		ArrayList<AlmDomainProjectRelease> almDomainProjRelease = new ArrayList<AlmDomainProjectRelease>();
 		
 		AlmTestcaseVO almTCVO = new AlmTestcaseVO();
 		SchedularDefectsVO schedDefectsVO = new SchedularDefectsVO();
@@ -99,13 +107,19 @@ public class AlmSchedSchedularServiceImpl implements AlmSchedularService{
 			
 			for(int i=0; i<almDomainProj.size(); i++) {
 					
-					log.info("**Domain #" + i + "##" + almDomainProj.get(i).getDomain());
-					log.info("**Project #" + i + "##" + almDomainProj.get(i).getProject());
-		    
-				    String releasesUrl = conn.buildEntityCollectionUrl("release", almDomainProj.get(i).getDomain(), almDomainProj.get(i).getProject());
+					log.info("Domain #" + i + "##" + almDomainProj.get(i).getDomain());
+					log.info("Project #" + i + "##" + almDomainProj.get(i).getProject());
+					
+					String domain = almDomainProj.get(i).getDomain();
+					String project = almDomainProj.get(i).getProject();
+					
+					log.info("domain : " + domain);
+					log.info("project : " + project);
+					
+				    String releasesUrl = conn.buildEntityCollectionUrl("release", domain, project);
 				    log.info("releasesUrl : " + releasesUrl);
 					
-				    List<String> releaseIds = almSchedReleaseServiceImpl.getAlmReleasesIds(conn, releasesUrl, requestHeaders);
+				    /*List<String> releaseIds = almSchedReleaseServiceImpl.getAlmReleasesIds(conn, releasesUrl, requestHeaders);
 				    log.info("ALM Release Ids : " + releaseIds.toString());
 				    
 				    for (String releaseId : releaseIds) {
@@ -117,9 +131,61 @@ public class AlmSchedSchedularServiceImpl implements AlmSchedularService{
 				    
 				    for (String releaseName : releaseNames) {
 				    	almDomainProjReleaseName.add(new AlmDomainProjectReleaseName(domainName, projectName, releaseName));
+					}*/
+				    
+				    ArrayList<AlmReleaseDetails> releaseDetails = almSchedReleaseServiceImpl.getAlmReleasesDetails(conn, releasesUrl, requestHeaders);
+				    log.info("ALM Release Details : " + releaseDetails.toString());
+				    
+				    for (int j=0; j<releaseDetails.size(); j++) {
+				    	almDomainProjRelease.add(new AlmDomainProjectRelease(domain, project, releaseDetails.get(j)));
 					}
 				    
-				    for(int j=0; j<almDomainProjReleaseId.size(); j++) {
+				    for(int k=0; k<almDomainProjRelease.size(); k++) {
+						
+						log.info("Domain#" + k + "##" + almDomainProjRelease.get(k).getDomain());
+						log.info("Project#" + k + "##" + almDomainProjRelease.get(k).getProject());
+						log.info("Release Id#" + k + "##" + almDomainProjRelease.get(k).getReleaseDetails().getReleaseId());
+						log.info("Release Name#" + k + "##" + almDomainProjRelease.get(k).getReleaseDetails().getReleaseName());
+						log.info("Release Start Date#" + k + "##" + almDomainProjRelease.get(k).getReleaseDetails().getRelStartDate());
+						log.info("Release End Date#" + k + "##" + almDomainProjRelease.get(k).getReleaseDetails().getRelEndDate());
+			    
+						String defectsUrl = conn.buildEntityCollectionUrl("defect", almDomainProjRelease.get(k).getDomain(), almDomainProjRelease.get(k).getProject());
+						log.info("defectsUrl : " + defectsUrl);
+					
+						schedDefectsVO = almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, almDomainProjRelease.get(k).getReleaseDetails().getReleaseId());
+						
+						String testcasesUrl = conn.buildEntityCollectionUrl("run", almDomainProjRelease.get(k).getDomain(), almDomainProjRelease.get(k).getProject());
+						log.info("testcasesUrl : " + testcasesUrl);
+						
+						almTCVO = almSchedTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, almDomainProjRelease.get(k).getReleaseDetails().getReleaseId());
+						
+						String releaseDefectsUrl = conn.buildEntityCollectionUrl("defect", almDomainProjRelease.get(k).getDomain(), almDomainProjRelease.get(k).getProject());
+						log.info("releaseDefectsUrl : " + releaseDefectsUrl);
+						
+						ArrayList<String> defectIds = almSchedReleaseServiceImpl.getAlmReleaseDefectIds(conn, requestHeaders, releaseDefectsUrl, almDomainProjRelease.get(k).getReleaseDetails().getReleaseId());
+						
+						almVO.setDomain(almDomainProjRelease.get(k).getDomain());
+						almVO.setProject(almDomainProjRelease.get(k).getProject());
+						almVO.setRelease(almDomainProjRelease.get(k).getReleaseDetails().getReleaseName());
+						almVO.setRelStartDate(almDomainProjRelease.get(k).getReleaseDetails().getRelStartDate());
+						almVO.setRelEndDate(almDomainProjRelease.get(k).getReleaseDetails().getRelEndDate());
+						almVO.setDefectIds(defectIds);
+						almVO.setDefectsVO(schedDefectsVO);
+						almVO.setAlmTCVO(almTCVO);
+						
+						log.info(almVO.getDomain() + "|" + 
+											almVO.getProject() + "|" + 
+											almVO.getRelease() + "|" + 
+											almVO.getRelStartDate() + "|" + 
+											almVO.getRelEndDate() + "|" + 
+											almVO.getDefectIds() + "|" +
+											almVO.getDefectsVO() + "|" + 
+											almVO.getAlmTCVO());
+						
+						almSchedularDAOImpl.validatorInsertion(almVO, collection);
+				    }
+
+				    /*for(int j=0; j<almDomainProjReleaseId.size(); j++) {
 						
 						log.info("Domain #" + j + "##" + almDomainProjReleaseId.get(j).getDomain());
 						log.info("Project #" + j + "##" + almDomainProjReleaseId.get(j).getProject());
@@ -134,6 +200,10 @@ public class AlmSchedSchedularServiceImpl implements AlmSchedularService{
 						String testcasesUrl = conn.buildEntityCollectionUrl("run", almDomainProjReleaseId.get(j).getDomain(), almDomainProjReleaseId.get(j).getProject());
 						log.info("testcasesUrl : " + testcasesUrl);
 						
+						System.out.println("Domain #" + j + "##" + almDomainProjReleaseId.get(j).getDomain());
+						System.out.println("Project #" + j + "##" + almDomainProjReleaseId.get(j).getProject());
+						System.out.println("ReleaseId #" + j + "##" + almDomainProjReleaseId.get(j).getReleaseId());
+						System.out.println("ReleaseName #" + j + "##" + almDomainProjReleaseName.get(j).getReleaseName());
 						almTCVO = almSchedTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, almDomainProjReleaseId.get(j).getReleaseId());
 						
 						almVO.setDomain(almDomainProjReleaseId.get(j).getDomain());
@@ -143,7 +213,7 @@ public class AlmSchedSchedularServiceImpl implements AlmSchedularService{
 						almVO.setAlmTCVO(almTCVO);
 						
 						almSchedularDAOImpl.validatorInsertion(almVO, collection);
-				    }
+				    }*/
 			}
 		} catch (Exception e) {
 			log.error("Error in schedular : " + e.getMessage());

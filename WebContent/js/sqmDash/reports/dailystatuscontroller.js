@@ -200,10 +200,10 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                         enabled: true,
                         layout: 'vertical',
                         align: 'right',
-                        verticalAlign: 'middle',
-        				labelFormatter: function() {
+                        verticalAlign: 'middle'
+        				/*labelFormatter: function() {
         					return this.name + ' ' + this.y + '%';
-        				}
+        				}*/
                     },
                     series: [{
                         type: 'pie',
@@ -245,7 +245,8 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                             	enabled: true,
                                 //format: '{point.percentage:.1f} %',
                             	formatter: function() {
-			                        return Math.round(this.percentage*100)/100 + ' %';
+                            		$scope.percent = Math.round(this.percentage*100)/100 + ' %'
+			                        return $scope.percent;
 			                    },
 			                    distance: -30
                             }
@@ -255,10 +256,10 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                         enabled: true,
                         layout: 'vertical',
                         align: 'right',
-                        verticalAlign: 'middle',
-        				labelFormatter: function() {
-        					return this.name + ' ' + this.y + '%';
-        				}
+                        verticalAlign: 'middle'
+        				/*labelFormatter: function() {
+        					return this.name + ' ' + $scope.percent;
+        				}*/
                     },
                     series: [{
                         type: 'pie',
@@ -314,10 +315,10 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                         enabled: true,
                         layout: 'vertical',
                         align: 'right',
-                        verticalAlign: 'middle',
-        				labelFormatter: function() {
+                        verticalAlign: 'middle'
+        				/*labelFormatter: function() {
         					return this.name + ' ' + this.y + '%';
-        				}
+        				}*/
                     },
                     series: [{
                         type: 'pie',

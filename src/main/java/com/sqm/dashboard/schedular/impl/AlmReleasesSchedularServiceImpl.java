@@ -121,6 +121,14 @@ public class AlmReleasesSchedularServiceImpl implements AlmReleasesSchedularServ
 						String releaseDefectsUrl = connection.buildEntityCollectionUrl("defect", almDomainProj.get(i).getDomain(), almDomainProj.get(i).getProject());
 						log.info("releaseDefectsUrl : " + releaseDefectsUrl);
 						
+						log.info("Domain# : " + almDomainProjReleaseId.get(j).getDomain());
+						log.info("Project# : " + almDomainProjReleaseId.get(j).getProject());
+						log.info("Release# : " + almDomainProjectReleaseName.get(j).getReleaseName());
+						
+						System.out.println("Domain# : " + almDomainProjReleaseId.get(j).getDomain());
+						System.out.println("Project# : " + almDomainProjReleaseId.get(j).getProject());
+						System.out.println("Release# : " + almDomainProjectReleaseName.get(j).getReleaseName());
+						
 						SchedularReleaseDefectsVO schedReleaseDefectsVO = almSchedReleaseServiceImpl.getAlmReleaseDefectsData(connection, requestHeaders, releaseDefectsUrl, almDomainProjReleaseId.get(j).getReleaseId());
 						almReleaseVO.setSchedReleaseDefectsVO(schedReleaseDefectsVO);
 

@@ -69,6 +69,8 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 		}
 		almRelease.put("cycleName", cycleName);
 		
+		almRelease.put("plannedTestcases", "0");
+		
 		final List<DBObject> defects = new ArrayList<DBObject>();
 
 		DBObject defectData = null;
@@ -85,12 +87,6 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 			defectData.put("defectFixTime", almReleaseVO.getSchedReleaseDefectsVO().getDefectFixTime().get(j));
 			defectData.put("defectStatus", almReleaseVO.getSchedReleaseDefectsVO().getDefectStatus().get(j));
 			defects.add(j, defectData);
-			//defectData = null;
-		}
-		
-		for(int k=0; k<defects.size(); k++) {
-			log.info("*****" + defects.size());
-			log.info("*****" + defects.get(k));
 		}
 		
 		almRelease.put("defects", defects);
@@ -112,6 +108,8 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 		}
 		updateCycleNames.append("$set", new BasicDBObject().append("cycleName", cycleName));
 		
+		BasicDBObject plannedTC = new BasicDBObject();
+		plannedTC.append("$set", new BasicDBObject().append("plannedTestcases", "0"));
 		
 		BasicDBObject updateDefects = new BasicDBObject();
 		List<DBObject> defects = new ArrayList<DBObject>();
@@ -128,12 +126,6 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 			defectData.put("defectFixTime", almReleaseVO.getSchedReleaseDefectsVO().getDefectFixTime().get(j));
 			defectData.put("defectStatus", almReleaseVO.getSchedReleaseDefectsVO().getDefectStatus().get(j));
 			defects.add(j, defectData);
-			//defectData = null;
-		}
-		
-		for(int k=0; k<defects.size(); k++) {
-			log.info("*****" + defects.size());
-			log.info("*****" + defects.get(k));
 		}
 		
 		updateDefects.append("$set", new BasicDBObject().append("defects", defects));
@@ -141,6 +133,7 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 		BasicDBObject searchQuery = new BasicDBObject().append("key", keyValue);
 		 
 		table.update(searchQuery, updateCycleNames);
+		table.update(searchQuery, plannedTC);
 		table.update(searchQuery, updateDefects);
 
 		log.info("Alm Release collection updated successfully");

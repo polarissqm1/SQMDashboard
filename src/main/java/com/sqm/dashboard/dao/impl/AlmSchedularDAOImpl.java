@@ -59,8 +59,14 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		alm.put("domain", almVO.getDomain());
 		alm.put("projects", almVO.getProject());
 		alm.put("release", almVO.getRelease());
-		alm.put("release_EDate", "2015-03-02T07:47:37.676Z");
-		alm.put("release_SDate", "2015-03-02T07:47:37.676Z");
+		alm.put("release_SDate", almVO.getRelStartDate());
+		alm.put("release_EDate", almVO.getRelEndDate());
+		
+		ArrayList<String> defectId = new ArrayList<String>();
+		for(int i=0; i<almVO.getDefectIds().size(); i++) {
+			defectId.add(almVO.getDefectIds().get(i));
+		}
+		alm.put("defectId", defectId);
 		
 		DBObject manual_TCExecutionStatus = new BasicDBObject();
 		manual_TCExecutionStatus.put("passed", almVO.getAlmTCVO().getSchedManualVO().getPassed());
@@ -77,11 +83,6 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 	    automation_TCExecutionStatus.put("blocked", "0");
 	    automation_TCExecutionStatus.put("defered", "0");
 	    alm.put("automation_TCExecutionStatus", automation_TCExecutionStatus);
-	    
-	    ArrayList<Integer> defectId = new ArrayList<Integer>();
-	    /*defectId.add(8956);
-	    defectId.add(8955);*/
-	    alm.put("defectId", defectId);
 	    
 	    DBObject statusAndSeverity1 = new BasicDBObject();
 	    DBObject statusAndSeverity2 = new BasicDBObject();
@@ -157,23 +158,18 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		statusAndSeverity.add(statusAndSeverity7);
 			   
 		alm.put("statusAndSeverity", statusAndSeverity);
-		   
+		
+		DBObject ragStatus_System = new BasicDBObject();
+		ragStatus_System.put("Status", "g");
+		ragStatus_System.put("user", "System");
+		ragStatus_System.put("date", "");
+		
 	    DBObject ragStatus_Manual = new BasicDBObject();
 		ragStatus_Manual.put("Status", "g");
 		ragStatus_Manual.put("user", "user1");
-		ragStatus_Manual.put("date", "2015-03-02T07:47:37.676Z");
+		ragStatus_Manual.put("date", "");
 		alm.put("ragStatus_Manual", ragStatus_Manual);
 		       
-		DBObject ragStatus_System = new BasicDBObject();
-		ragStatus_System.put("Status", "r");
-		ragStatus_System.put("user", "System");
-		ragStatus_System.put("date", "2015-03-02T07:47:37.676Z");
-		
-	   /* alm.put("docCreatedBy", "System");
-	    alm.put("docCreatedDate", "2015-03-02T07:47:37.676Z");
-	    alm.put("docUpdatedBy", "user666");
-	    alm.put("lastUpdationDate", DashboardUtility.getCurrentDate());*/
-	    
 		alm.put("CreatedOn", DashboardUtility.getCurrentDate()); 
 		alm.put("CreatedBy", "System");
 		alm.put("UpdatedOn", DashboardUtility.getCurrentDate());
@@ -181,8 +177,6 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		alm.put("lastUpdationDate", DashboardUtility.getCurrentDate());
 		    
 	    ArrayList<String> jiraId = new ArrayList<String>();
-	    /*jiraId.add("jira1");
-	    jiraId.add("jira2");*/
 	    alm.put("jiraId", jiraId);
 	     
 	    alm.put("key", keyValue);
@@ -191,7 +185,7 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 	    log.info("ALM Inserted Successfully");
 	}
 	
-	public void updateAlmToDb(AlmVO almVO, DBCollection table,String keyValue) throws Exception {
+	public void updateAlmToDb(AlmVO almVO, DBCollection table, String keyValue) throws Exception {
 		
 		Date date = DashboardUtility.getCurrentDate();
 		BasicDBObject lastUpdateDate = new BasicDBObject();
@@ -199,7 +193,20 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		
 		BasicDBObject updatedOn = new BasicDBObject();
 		updatedOn.append("$set", new BasicDBObject().append("UpdatedOn", date));
-		  
+		
+		BasicDBObject relStartDate = new BasicDBObject();
+		relStartDate.append("$set", new BasicDBObject().append("release_SDate", almVO.getRelStartDate()));
+		
+		BasicDBObject relEndDate = new BasicDBObject();
+		relEndDate.append("$set", new BasicDBObject().append("release_EDate", almVO.getRelEndDate()));
+		
+		BasicDBObject defectIds = new BasicDBObject();
+		ArrayList<String> defectId = new ArrayList<String>();
+		for(int i=0; i<almVO.getDefectIds().size(); i++) {
+			defectId.add(almVO.getDefectIds().get(i));
+		}
+		defectIds.append("$set", new BasicDBObject().append("defectId", defectId));
+		
 		BasicDBObject manual = new BasicDBObject();
 		DBObject manual_TCExecutionStatus = new BasicDBObject();
 		manual_TCExecutionStatus.put("passed", almVO.getAlmTCVO().getSchedManualVO().getPassed());
@@ -279,24 +286,27 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 	       
 	    statusSeverity.append("$set", new BasicDBObject().append("statusAndSeverity", statusAndSeverity));
 		 
-	    BasicDBObject automation = new BasicDBObject();
+	    /*BasicDBObject automation = new BasicDBObject();
 		
 	    DBObject automation_TCExecutionStatus = new BasicDBObject();
 	    automation_TCExecutionStatus.put("passed", "0");
 	    automation_TCExecutionStatus.put("failed", "0");
 	    automation_TCExecutionStatus.put("noRun", "0");
 	    automation_TCExecutionStatus.put("blocked", "0");
-	    automation_TCExecutionStatus.put("defered", "0");
+	    automation_TCExecutionStatus.put("deferred", "0");
 	    
-	    automation.append("$set", new BasicDBObject().append("automation_TCExecutionStatus", automation_TCExecutionStatus));
+	    automation.append("$set", new BasicDBObject().append("automation_TCExecutionStatus", automation_TCExecutionStatus));*/
 			
 		BasicDBObject searchQuery = new BasicDBObject().append("key", keyValue);
 			 
-		table.update(searchQuery, manual);
-		table.update(searchQuery, automation);
-		table.update(searchQuery, statusSeverity);
 		table.update(searchQuery, lastUpdateDate);
 		table.update(searchQuery, updatedOn);
+		table.update(searchQuery, relStartDate);
+		table.update(searchQuery, relEndDate);
+		table.update(searchQuery, defectIds);
+		table.update(searchQuery, manual);
+		//table.update(searchQuery, automation);
+		table.update(searchQuery, statusSeverity);
 		
 		log.info("ALM updated successfully");
 	 }
