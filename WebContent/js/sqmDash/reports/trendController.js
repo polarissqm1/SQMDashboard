@@ -101,6 +101,8 @@ dashboardApp
 					//** Date Picker END**//
 
 					$scope.generateCharts = function() {
+						$rootScope.fromdate = $("#fromdate").val();
+						$rootScope.todate = $("#todate").val();
 						var date = $("#todate").val();
 						//$scope.todate = $("#todate").val();
 						//alert("selected todate is "+$scope.todate);
@@ -708,7 +710,7 @@ dashboardApp
 										            }
 										        },
 										        xAxis: {
-										            categories: ['1D-5D','6D-10D','>10D']
+										            categories: ['<5D','6D-10D','>10D']
 										        },
 										        yAxis: {
 										            min: 0,
