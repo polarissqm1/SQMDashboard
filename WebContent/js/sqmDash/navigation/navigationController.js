@@ -59,6 +59,13 @@ dashboardApp.controller('navigationController', function($scope, $location, $rou
 	}
 
 	initApp();
+	
+	$scope.toggle = true;
+	$scope.$watch('toggle', function(){
+        $scope.buttonText = $scope.toggle ? 'show Less' : 'Show More';
+        $('#toggles').css();
+    
+	 })
 
 
 });

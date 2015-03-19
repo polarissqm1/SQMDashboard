@@ -75,8 +75,12 @@ padding-right: 1px;">
       
         <div class="col-xs-9">
             <div class="slide-animation">
-              <div class="row" >
-				<div class="col-lg-12  " >
+          
+            <button id="toggles" style="float: right;" class="btn btn-default" ng-click="toggle = !toggle">{{buttonText}}</button>
+            
+            
+              <div class="row" ng-show="toggle"  collapse="isCollapsed">
+				<div class="col-lg-12 " class="well well-lg">
 					<div class="container-fluid " style=" padding-top: 17px; padding-left: 11px; ">
 						
 							<div class="col-xs-3 form-group " id="applicationCombo">
