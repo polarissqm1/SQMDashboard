@@ -577,7 +577,7 @@ dashboardApp
 								{
 									
 									title : {
-										text : 'Bad Fix',
+										text : 'Bad Fixes',
 										style: {
 								            fontSize: 'medium',
 								            fontWeight: 'bold',

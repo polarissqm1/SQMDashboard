@@ -30,7 +30,69 @@ public class JiraSchedulerDAOImpl implements JiraSchedulerDAO {
 	
 public void validatorInsertion(JiraSchedulerVO sourceVO, DBCollection table) throws Exception {
 		
-		DBCursor cursor = null;
+	DBCursor cursor = null;
+	String key="";
+	String keyValue="";
+	
+	if(sourceVO.getProject().equalsIgnoreCase("CFPCOB")){
+		
+		key="CFP Reporting: March Release";
+		keyValue = key + "|" + DashboardUtility.getCurrentDate().toString();
+		
+	}
+	else if(sourceVO.getProject().equalsIgnoreCase("CFPR"))
+	{
+		key="ReMit Mar 20th release";
+		keyValue = key + "|" + DashboardUtility.getCurrentDate().toString();
+	}
+	else if(sourceVO.getProject().equalsIgnoreCase("PBCFT"))
+	{
+		key="iManage Mar 20 Rel";
+		keyValue = key + "|" + DashboardUtility.getCurrentDate().toString();
+	}
+	else if(sourceVO.getProject().equalsIgnoreCase("CFTPOSTTRADE"))
+	{
+		key="OTCC - Mar 27 release";
+		keyValue = key + "|" + DashboardUtility.getCurrentDate().toString();
+	}
+	else if(sourceVO.getProject().equalsIgnoreCase("CFPIWATCH"))
+	{
+		key="Plexus 5.2 upgrade April release";
+		keyValue = key + "|" + DashboardUtility.getCurrentDate().toString();
+	}
+	
+	System.out.println(keyValue);
+
+	try{
+		BasicDBObject searchQuery = new BasicDBObject();
+		searchQuery.put("project", sourceVO.getProject());
+		cursor = table.find(searchQuery);
+		
+		
+		boolean isKeyValueMatching = false;
+		
+		
+		while (cursor.hasNext()) {
+			DBObject report = cursor.next();
+			if(report.get("key").toString().equalsIgnoreCase(keyValue)){
+				isKeyValueMatching = true;
+			}
+		}
+		if(isKeyValueMatching){
+			 log.info("isKeyValueMatching : " + isKeyValueMatching);
+			 System.out.println("###########################################Updating %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+			 updateJiraData(sourceVO, table, keyValue);
+			 log.info("Updated record to alm collection");
+		 } else {
+			 log.info("isKeyValueMatching : " + isKeyValueMatching);
+			 insertJiraData(sourceVO, table, keyValue);
+			 log.info("Inserted record to alm collection");
+		 }
+	}catch(Exception e) {
+		log.info("Exception occured at Update/Insert to alm collection");
+		throw e;
+	}
+		/*DBCursor cursor = null;
 		
 		String keyValue = sourceVO.getRelease() + "|" + DashboardUtility.getCurrentDate().toString();
 
@@ -60,7 +122,7 @@ public void validatorInsertion(JiraSchedulerVO sourceVO, DBCollection table) thr
 		} catch(Exception e) {
 			log.info("Exception occured at Update/Insert to alm collection");
 			throw e;
-		}
+		}*/
 	}
 	
 	
