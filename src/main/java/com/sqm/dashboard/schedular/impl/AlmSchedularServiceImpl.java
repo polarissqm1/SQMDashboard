@@ -61,8 +61,6 @@ public class AlmSchedularServiceImpl implements AlmSchedularService {
 		HashMap<String,String> jsonDomainsMap = new HashMap<String,String>();
 		HashMap<String,String> jsonProjectsMap = null;
 		ArrayList<AlmDomainProject> almDomainProj = new ArrayList<AlmDomainProject>();
-		ArrayList<AlmDomainProjectReleaseId> almDomainProjReleaseId = new ArrayList<AlmDomainProjectReleaseId>();
-		ArrayList<AlmDomainProjectReleaseName> almDomainProjReleaseName = new ArrayList<AlmDomainProjectReleaseName>();
 		
 		ArrayList<AlmDomainProjectRelease> almDomainProjRelease = new ArrayList<AlmDomainProjectRelease>();
 		
@@ -119,20 +117,6 @@ public class AlmSchedularServiceImpl implements AlmSchedularService {
 				    String releasesUrl = conn.buildEntityCollectionUrl("release", domain, project);
 				    log.info("releasesUrl : " + releasesUrl);
 					
-				    /*List<String> releaseIds = almSchedReleaseServiceImpl.getAlmReleasesIds(conn, releasesUrl, requestHeaders);
-				    log.info("ALM Release Ids : " + releaseIds.toString());
-				    
-				    for (String releaseId : releaseIds) {
-				    	almDomainProjReleaseId.add(new AlmDomainProjectReleaseId(domainName, projectName, releaseId));
-					}
-				    
-				    List<String> releaseNames = almSchedReleaseServiceImpl.getAlmReleasesNames(conn, releasesUrl, requestHeaders);
-				    log.info("ALM Release Names : " + releaseNames.toString());
-				    
-				    for (String releaseName : releaseNames) {
-				    	almDomainProjReleaseName.add(new AlmDomainProjectReleaseName(domainName, projectName, releaseName));
-					}*/
-				    
 				    ArrayList<AlmReleaseDetails> releaseDetails = almSchedReleaseServiceImpl.getAlmReleasesDetails(conn, releasesUrl, requestHeaders);
 				    log.info("ALM Release Details : " + releaseDetails.toString());
 				    
@@ -184,39 +168,9 @@ public class AlmSchedularServiceImpl implements AlmSchedularService {
 						
 						almSchedularDAOImpl.validatorInsertion(almVO, collection);
 				    }
-
-				    /*for(int j=0; j<almDomainProjReleaseId.size(); j++) {
-						
-						log.info("Domain #" + j + "##" + almDomainProjReleaseId.get(j).getDomain());
-						log.info("Project #" + j + "##" + almDomainProjReleaseId.get(j).getProject());
-						log.info("ReleaseId #" + j + "##" + almDomainProjReleaseId.get(j).getReleaseId());
-						log.info("ReleaseName #" + j + "##" + almDomainProjReleaseName.get(j).getReleaseName());
-			    
-						String defectsUrl = conn.buildEntityCollectionUrl("defect", almDomainProjReleaseId.get(j).getDomain(), almDomainProjReleaseId.get(j).getProject());
-						log.info("defectsUrl : " + defectsUrl);
-					
-						schedDefectsVO = almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, almDomainProjReleaseId.get(j).getReleaseId());
-						
-						String testcasesUrl = conn.buildEntityCollectionUrl("run", almDomainProjReleaseId.get(j).getDomain(), almDomainProjReleaseId.get(j).getProject());
-						log.info("testcasesUrl : " + testcasesUrl);
-						
-						System.out.println("Domain #" + j + "##" + almDomainProjReleaseId.get(j).getDomain());
-						System.out.println("Project #" + j + "##" + almDomainProjReleaseId.get(j).getProject());
-						System.out.println("ReleaseId #" + j + "##" + almDomainProjReleaseId.get(j).getReleaseId());
-						System.out.println("ReleaseName #" + j + "##" + almDomainProjReleaseName.get(j).getReleaseName());
-						almTCVO = almSchedTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, almDomainProjReleaseId.get(j).getReleaseId());
-						
-						almVO.setDomain(almDomainProjReleaseId.get(j).getDomain());
-						almVO.setProject(almDomainProjReleaseId.get(j).getProject());
-						almVO.setRelease(almDomainProjReleaseName.get(j).getReleaseName());
-						almVO.setDefectsVO(schedDefectsVO);
-						almVO.setAlmTCVO(almTCVO);
-						
-						almSchedularDAOImpl.validatorInsertion(almVO, collection);
-				    }*/
 			}
 		} catch (Exception e) {
-			log.error("Error in schedular : " + e.getMessage());
+			log.error("Error in Alm Schedular saveAlmDetails method : " + e.getMessage());
 			throw e;
 		}
 	}

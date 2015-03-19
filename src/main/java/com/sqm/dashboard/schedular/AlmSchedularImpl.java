@@ -45,7 +45,7 @@ public class AlmSchedularImpl implements AlmSchedular {
 	
 	public void almAuthentication(String username, String password) throws Exception{
 		
-		long startTime=System.currentTimeMillis();
+		long startTime = System.currentTimeMillis();
 		try{
 			log.info("##almSchedular##");
 			log.info("almHost : " + almHost + " ## almPort : " + almPort);

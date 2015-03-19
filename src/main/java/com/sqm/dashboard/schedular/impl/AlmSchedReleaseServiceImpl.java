@@ -120,7 +120,7 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 		
 		try{
 			queryAlmReleasesDetails.append("query={end-date[");
-			queryAlmReleasesDetails.append(">");
+			queryAlmReleasesDetails.append(">=");
 			queryAlmReleasesDetails.append(currentDate);
 			queryAlmReleasesDetails.append("]");
 			queryAlmReleasesDetails.append("}");
@@ -186,7 +186,7 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 		
 		try{
 			queryAlmReleases.append("query={end-date[");
-			queryAlmReleases.append(">");
+			queryAlmReleases.append(">=");
 			queryAlmReleases.append(currentDate);
 			queryAlmReleases.append("]");
 			queryAlmReleases.append("}");
@@ -237,7 +237,7 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 		
 		try{
 			queryAlmReleases.append("query={end-date[");
-			queryAlmReleases.append(">");
+			queryAlmReleases.append(">=");
 			queryAlmReleases.append(currentDate);
 			queryAlmReleases.append("]");
 			queryAlmReleases.append("}");
