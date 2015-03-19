@@ -59,8 +59,8 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		alm.put("domain", almVO.getDomain());
 		alm.put("projects", almVO.getProject());
 		alm.put("release", almVO.getRelease());
-		alm.put("release_SDate", almVO.getRelStartDate());
-		alm.put("release_EDate", almVO.getRelEndDate());
+		alm.put("releaseStartDate", almVO.getRelStartDate());
+		alm.put("releaseEndDate", almVO.getRelEndDate());
 		
 		ArrayList<String> defectId = new ArrayList<String>();
 		for(int i=0; i<almVO.getDefectIds().size(); i++) {
@@ -174,7 +174,7 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		alm.put("CreatedBy", "System");
 		alm.put("UpdatedOn", DashboardUtility.getCurrentDate());
 		alm.put("UpdatedBy", "System");
-		alm.put("lastUpdationDate", DashboardUtility.getCurrentDate());
+		//alm.put("lastUpdationDate", DashboardUtility.getCurrentDate());
 		    
 	    ArrayList<String> jiraId = new ArrayList<String>();
 	    alm.put("jiraId", jiraId);
@@ -188,17 +188,20 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 	public void updateAlmToDb(AlmVO almVO, DBCollection table, String keyValue) throws Exception {
 		
 		Date date = DashboardUtility.getCurrentDate();
-		BasicDBObject lastUpdateDate = new BasicDBObject();
-		lastUpdateDate.append("$set", new BasicDBObject().append("lastUpdationDate", date));
+		/*BasicDBObject lastUpdateDate = new BasicDBObject();
+		lastUpdateDate.append("$set", new BasicDBObject().append("lastUpdationDate", date));*/
+		
+		BasicDBObject updatedBy = new BasicDBObject();
+		updatedBy.append("$set", new BasicDBObject().append("UpdatedBy", "System"));
 		
 		BasicDBObject updatedOn = new BasicDBObject();
 		updatedOn.append("$set", new BasicDBObject().append("UpdatedOn", date));
 		
 		BasicDBObject relStartDate = new BasicDBObject();
-		relStartDate.append("$set", new BasicDBObject().append("release_SDate", almVO.getRelStartDate()));
+		relStartDate.append("$set", new BasicDBObject().append("releaseStartDate", almVO.getRelStartDate()));
 		
 		BasicDBObject relEndDate = new BasicDBObject();
-		relEndDate.append("$set", new BasicDBObject().append("release_EDate", almVO.getRelEndDate()));
+		relEndDate.append("$set", new BasicDBObject().append("releaseEndDate", almVO.getRelEndDate()));
 		
 		BasicDBObject defectIds = new BasicDBObject();
 		ArrayList<String> defectId = new ArrayList<String>();
@@ -216,7 +219,7 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		manual_TCExecutionStatus.put("defered", almVO.getAlmTCVO().getSchedManualVO().getDeferred());
 		
 	    manual.append("$set", new BasicDBObject().append("manual_TCExecutionStatus", manual_TCExecutionStatus));
-	       
+	    
 	    BasicDBObject statusSeverity = new BasicDBObject();
 	    DBObject statusAndSeverity1 = new BasicDBObject();
 	    DBObject statusAndSeverity2 = new BasicDBObject();
@@ -286,26 +289,27 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 	       
 	    statusSeverity.append("$set", new BasicDBObject().append("statusAndSeverity", statusAndSeverity));
 		 
-	    /*BasicDBObject automation = new BasicDBObject();
+	    BasicDBObject automation = new BasicDBObject();
 		
 	    DBObject automation_TCExecutionStatus = new BasicDBObject();
 	    automation_TCExecutionStatus.put("passed", "0");
 	    automation_TCExecutionStatus.put("failed", "0");
 	    automation_TCExecutionStatus.put("noRun", "0");
 	    automation_TCExecutionStatus.put("blocked", "0");
-	    automation_TCExecutionStatus.put("deferred", "0");
+	    automation_TCExecutionStatus.put("defered", "0");
 	    
-	    automation.append("$set", new BasicDBObject().append("automation_TCExecutionStatus", automation_TCExecutionStatus));*/
+	    automation.append("$set", new BasicDBObject().append("automation_TCExecutionStatus", automation_TCExecutionStatus));
 			
 		BasicDBObject searchQuery = new BasicDBObject().append("key", keyValue);
 			 
-		table.update(searchQuery, lastUpdateDate);
+		//table.update(searchQuery, lastUpdateDate);
+		table.update(searchQuery, updatedBy);
 		table.update(searchQuery, updatedOn);
 		table.update(searchQuery, relStartDate);
 		table.update(searchQuery, relEndDate);
 		table.update(searchQuery, defectIds);
 		table.update(searchQuery, manual);
-		//table.update(searchQuery, automation);
+		table.update(searchQuery, automation);
 		table.update(searchQuery, statusSeverity);
 		
 		log.info("ALM updated successfully");

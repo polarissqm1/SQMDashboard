@@ -62,7 +62,7 @@ public class AlmSchedularImpl implements AlmSchedular {
 			log.info("Cookies that contain LWSSO_COOKIE_KEY):" + conn.getCookieString());
 
 			if (response.equals("200")) {
-				DBCollection collection = DashboardDAOImpl.getDbCollection("alm_mar18");
+				DBCollection collection = DashboardDAOImpl.getDbCollection("alm");
 				almSchedSchedularServiceImpl.saveAlmDetails(conn, requestHeaders, username, password, collection);
 			} else if (response.equals("500")) {
 				log.info("Login failed");

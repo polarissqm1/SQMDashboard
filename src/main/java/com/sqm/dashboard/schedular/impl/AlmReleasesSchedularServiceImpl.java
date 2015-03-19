@@ -2,7 +2,6 @@ package com.sqm.dashboard.schedular.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,10 +9,15 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.DBCollection;
+import com.sqm.dashboard.VO.AlmDomProjRelCycleDetails;
 import com.sqm.dashboard.VO.AlmDomainProject;
+import com.sqm.dashboard.VO.AlmDomainProjectRelease;
 import com.sqm.dashboard.VO.AlmDomainProjectReleaseId;
 import com.sqm.dashboard.VO.AlmDomainProjectReleaseName;
+import com.sqm.dashboard.VO.AlmReleaseCycleDetails;
+import com.sqm.dashboard.VO.AlmReleaseDetails;
 import com.sqm.dashboard.VO.AlmReleaseVO;
+import com.sqm.dashboard.VO.SchedularReleaseCyclesVO;
 import com.sqm.dashboard.VO.SchedularReleaseDefectsVO;
 import com.sqm.dashboard.dao.impl.AlmReleaseSchedularDAOImpl;
 import com.sqm.dashboard.schedular.AlmReleasesSchedularService;
@@ -48,12 +52,15 @@ public class AlmReleasesSchedularServiceImpl implements AlmReleasesSchedularServ
 		log.info("##AlmReleasesSchedularServiceImpl saveReleasesDetails##");
 		HashMap<String,String> jsonDomainsMap = new HashMap<String,String>();
 		HashMap<String,String> jsonProjectsMap = null;
+		
 		ArrayList<AlmDomainProject> almDomainProj = new ArrayList<AlmDomainProject>();
-		ArrayList<AlmDomainProjectReleaseId> almDomainProjReleaseId = new ArrayList<AlmDomainProjectReleaseId>();
-		ArrayList<AlmDomainProjectReleaseName> almDomainProjectReleaseName = new ArrayList<AlmDomainProjectReleaseName>();
+		ArrayList<AlmDomainProjectRelease> almDomainProjRelease = new ArrayList<AlmDomainProjectRelease>();
+		ArrayList<AlmDomProjRelCycleDetails> almDomProjRelCycleDetails = new ArrayList<AlmDomProjRelCycleDetails>();
 		
 		AlmReleaseSchedularDAOImpl almReleaseSchedularDaoImpl = new AlmReleaseSchedularDAOImpl();
 		AlmReleaseVO almReleaseVO = new AlmReleaseVO();
+		SchedularReleaseCyclesVO schedReleaseCyclesVO = new SchedularReleaseCyclesVO();
+		SchedularReleaseDefectsVO schedReleaseDefectsVO = new SchedularReleaseDefectsVO(); 
 		
 		try {
 			jsonDomainsMap = almSchedDomainServiceImpl.getAlmDomains(connection, requestHeaders);
@@ -88,51 +95,77 @@ public class AlmReleasesSchedularServiceImpl implements AlmReleasesSchedularServ
 			
 			for(int i=0; i<almDomainProj.size(); i++) {
 					
+					log.info("Domain #" + i + "##" + almDomainProj.get(i).getDomain());
+					log.info("Project #" + i + "##" + almDomainProj.get(i).getProject());
+				
+					String domain = almDomainProj.get(i).getDomain();
+					String project = almDomainProj.get(i).getProject();
+				
+					log.info("domain : " + domain);
+					log.info("project : " + project);
+				
 				    String releasesUrl = connection.buildEntityCollectionUrl("release", almDomainProj.get(i).getDomain(), almDomainProj.get(i).getProject());
 				    log.info("releasesUrl : " + releasesUrl);
 					
-				    List<String> releaseIds = almSchedReleaseServiceImpl.getAlmReleasesIds(connection, releasesUrl, requestHeaders);
-				    log.info("ALM Release Ids : " + releaseIds.toString());
+				    ArrayList<AlmReleaseDetails> releaseDetails = almSchedReleaseServiceImpl.getAlmReleasesDetails(connection, releasesUrl, requestHeaders);
+				    log.info("ALM Release Details : " + releaseDetails.toString());
 				    
-				    List<String> releaseNames = almSchedReleaseServiceImpl.getAlmReleasesNames(connection, releasesUrl, requestHeaders);
-				    log.info("ALM Release Names : " + releaseNames.toString());
-				    
-				    for (String releaseId : releaseIds) {
-				    	almDomainProjReleaseId.add(new AlmDomainProjectReleaseId(domainName, projectName, releaseId));
-					}
-				   
-				    for (String releaseName : releaseNames) {
-				    	almDomainProjectReleaseName.add(new AlmDomainProjectReleaseName(domainName, projectName, releaseName));
+				    for (int j=0; j<releaseDetails.size(); j++) {
+				    	almDomainProjRelease.add(new AlmDomainProjectRelease(domain, project, releaseDetails.get(j)));
 					}
 				    
-				    for(int j=0; j<almDomainProjReleaseId.size(); j++) {
+				    for(int k=0; k<almDomainProjRelease.size(); k++) {
 						
-						almReleaseVO.setDomain(almDomainProjReleaseId.get(j).getDomain());
-						almReleaseVO.setProject(almDomainProjReleaseId.get(j).getProject());
-						almReleaseVO.setReleaseName(almDomainProjectReleaseName.get(j).getReleaseName());
+				    	log.info("Domain#" + k + "##" + almDomainProjRelease.get(k).getDomain());
+						log.info("Project#" + k + "##" + almDomainProjRelease.get(k).getProject());
+						log.info("Release Id#" + k + "##" + almDomainProjRelease.get(k).getReleaseDetails().getReleaseId());
+						log.info("Release Name#" + k + "##" + almDomainProjRelease.get(k).getReleaseDetails().getReleaseName());
+						log.info("Release Start Date#" + k + "##" + almDomainProjRelease.get(k).getReleaseDetails().getRelStartDate());
+						log.info("Release End Date#" + k + "##" + almDomainProjRelease.get(k).getReleaseDetails().getRelEndDate());
 						
-						String releaseCyclesUrl = connection.buildEntityCollectionUrl("release-cycle", almDomainProj.get(i).getDomain(), almDomainProj.get(i).getProject());
+						almReleaseVO.setDomain(almDomainProjRelease.get(k).getDomain());
+						almReleaseVO.setProject(almDomainProjRelease.get(k).getProject());
+						almReleaseVO.setReleaseId(almDomainProjRelease.get(k).getReleaseDetails().getReleaseId());
+						almReleaseVO.setReleaseName(almDomainProjRelease.get(k).getReleaseDetails().getReleaseName());
+						almReleaseVO.setReleaseStartDate(almDomainProjRelease.get(k).getReleaseDetails().getRelStartDate());
+						almReleaseVO.setReleaseEndDate(almDomainProjRelease.get(k).getReleaseDetails().getRelEndDate());
+						almReleaseVO.setReleaseFolder("");
+						
+						String releaseCyclesUrl = connection.buildEntityCollectionUrl("release-cycle", almDomainProjRelease.get(k).getDomain(), almDomainProjRelease.get(k).getProject());
 						log.info("releaseCyclesUrl : " + releaseCyclesUrl);
 						    
-						ArrayList<String> cycleNames = almSchedReleaseServiceImpl.getAlmReleaseCycleNames(connection, releaseCyclesUrl, requestHeaders, almDomainProjReleaseId.get(j).getReleaseId());
-						log.info("ALM Release cycleNames : " + cycleNames.toString());
-						almReleaseVO.setCycleNames(cycleNames);
-						
-						String releaseDefectsUrl = connection.buildEntityCollectionUrl("defect", almDomainProj.get(i).getDomain(), almDomainProj.get(i).getProject());
+						ArrayList<AlmReleaseCycleDetails> relCycleDetails = almSchedReleaseServiceImpl.getAlmReleaseCyclesDetails(connection, requestHeaders, releaseCyclesUrl, almDomainProjRelease.get(k).getReleaseDetails().getReleaseId());
+					    log.info("ALM Release Cycle Details : " + relCycleDetails.toString());
+					    
+					    for (int l=0; l<relCycleDetails.size(); l++) {
+					    	almDomProjRelCycleDetails.add(new AlmDomProjRelCycleDetails(almDomainProjRelease.get(k).getDomain(), 
+					    															almDomainProjRelease.get(k).getProject(),
+					    															almDomainProjRelease.get(k).getReleaseDetails(),
+					    															relCycleDetails.get(l)));
+					    	
+					    	log.info("Release Cycle Details : " + l + almDomProjRelCycleDetails.get(l));
+						}
+					    
+						String releaseDefectsUrl = connection.buildEntityCollectionUrl("defect", almDomainProjRelease.get(k).getDomain(), almDomainProjRelease.get(k).getProject());
 						log.info("releaseDefectsUrl : " + releaseDefectsUrl);
 						
-						log.info("Domain# : " + almDomainProjReleaseId.get(j).getDomain());
-						log.info("Project# : " + almDomainProjReleaseId.get(j).getProject());
-						log.info("Release# : " + almDomainProjectReleaseName.get(j).getReleaseName());
+						schedReleaseCyclesVO = almSchedReleaseServiceImpl.getAlmReleaseCyclesData(connection, requestHeaders, releaseCyclesUrl, almDomainProjRelease.get(k).getReleaseDetails().getReleaseId());
+						almReleaseVO.setSchedReleaseCyclesVO(schedReleaseCyclesVO);
 						
-						System.out.println("Domain# : " + almDomainProjReleaseId.get(j).getDomain());
-						System.out.println("Project# : " + almDomainProjReleaseId.get(j).getProject());
-						System.out.println("Release# : " + almDomainProjectReleaseName.get(j).getReleaseName());
-						
-						SchedularReleaseDefectsVO schedReleaseDefectsVO = almSchedReleaseServiceImpl.getAlmReleaseDefectsData(connection, requestHeaders, releaseDefectsUrl, almDomainProjReleaseId.get(j).getReleaseId());
+						schedReleaseDefectsVO = almSchedReleaseServiceImpl.getAlmReleaseDefectsData(connection, requestHeaders, releaseDefectsUrl, almDomainProjRelease.get(k).getReleaseDetails().getReleaseId());
 						almReleaseVO.setSchedReleaseDefectsVO(schedReleaseDefectsVO);
 
 						//almReleaseVO.setStatus(status);
+						
+						log.info(almReleaseVO.getDomain() + "|" + 
+									almReleaseVO.getProject() + "|" + 
+									almReleaseVO.getReleaseName() + "|" + 
+									almReleaseVO.getReleaseStartDate() + "|" + 
+									almReleaseVO.getReleaseEndDate() + "|" + 
+									almReleaseVO.getReleaseFolder() + "|" + 
+									almReleaseVO.getSchedReleaseCyclesVO() + "|" + 
+									almReleaseVO.getSchedReleaseDefectsVO());
+						
 						almReleaseSchedularDaoImpl.storeAlmReleasesToDb(almReleaseVO, collection);
 				    }
 			}

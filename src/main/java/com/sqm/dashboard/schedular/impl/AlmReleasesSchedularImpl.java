@@ -3,14 +3,11 @@ package com.sqm.dashboard.schedular.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.core.Response;
-
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.DBCollection;
 import com.sqm.dashboard.dao.impl.DashboardDAOImpl;
-import com.sqm.dashboard.dao.impl.JiraSchedulerDAOImpl;
 import com.sqm.dashboard.schedular.AlmReleasesSchedular;
 import com.sqm.dashboard.util.RestConnectorUtility;
 import com.sqm.dashboard.util.TimeAnalyserUtility;

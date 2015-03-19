@@ -1,6 +1,7 @@
 package com.sqm.dashboard.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -10,7 +11,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.sqm.dashboard.VO.AlmReleaseVO;
-import com.sqm.dashboard.VO.AlmVO;
 import com.sqm.dashboard.dao.AlmReleaseSchedularDAO;
 import com.sqm.dashboard.util.DashboardUtility;
 
@@ -62,21 +62,29 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 		almRelease.put("domain", almReleaseVO.getDomain());
 		almRelease.put("project", almReleaseVO.getProject());
 		almRelease.put("release", almReleaseVO.getReleaseName());
+		almRelease.put("release_SDate", almReleaseVO.getReleaseStartDate());
+		almRelease.put("release_EDate", almReleaseVO.getReleaseEndDate());
+		almRelease.put("releaseFolder", almReleaseVO.getReleaseFolder());
 		
-		ArrayList<String> cycleName = new ArrayList<String>();
-		for(int i=0; i<almReleaseVO.getCycleNames().size(); i++) {
-			cycleName.add(almReleaseVO.getCycleNames().get(i));
+		List<DBObject> cycles = new ArrayList<DBObject>();
+
+		DBObject cycleData = null;
+		
+		for(int i=0; i<almReleaseVO.getSchedReleaseCyclesVO().getCycleName().size(); i++) {
+			cycleData = new BasicDBObject();
+			cycleData.put("cycleName", almReleaseVO.getSchedReleaseCyclesVO().getCycleName().get(i));
+			cycleData.put("cycle_SDate", almReleaseVO.getSchedReleaseCyclesVO().getCycleStartDate().get(i));
+			cycleData.put("cycle_EDate", almReleaseVO.getSchedReleaseCyclesVO().getCycleEndDate().get(i));
+			cycles.add(i, cycleData);
 		}
-		almRelease.put("cycleName", cycleName);
+		
+		almRelease.put("cycles", cycles);
 		
 		almRelease.put("plannedTestcases", "0");
 		
-		final List<DBObject> defects = new ArrayList<DBObject>();
-
+		List<DBObject> defects = new ArrayList<DBObject>();
 		DBObject defectData = null;
-		
 		for(int j=0; j<almReleaseVO.getSchedReleaseDefectsVO().getDefectId().size(); j++) {
-			
 			defectData = new BasicDBObject();
 			defectData.put("defectId", almReleaseVO.getSchedReleaseDefectsVO().getDefectId().get(j));
 			defectData.put("defectType", almReleaseVO.getSchedReleaseDefectsVO().getDefectType().get(j));
@@ -93,6 +101,12 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 		
 		almRelease.put("status", "");
 		almRelease.put("envDates", "");
+		
+		almRelease.put("CreatedOn", DashboardUtility.getCurrentDate()); 
+		almRelease.put("CreatedBy", "System");
+		almRelease.put("UpdatedOn", DashboardUtility.getCurrentDate());
+		almRelease.put("UpdatedBy", "System");
+		
 		almRelease.put("key", keyValue);
 	    
 		table.insert(almRelease);
@@ -101,12 +115,21 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 	
 	public void updateAlmReleasesToDb(AlmReleaseVO almReleaseVO, DBCollection table, String keyValue) throws Exception {
 		
-		BasicDBObject updateCycleNames = new BasicDBObject();
-		ArrayList<String> cycleName = new ArrayList<String>();
-		for(int i=0; i<almReleaseVO.getCycleNames().size(); i++) {
-			cycleName.add(almReleaseVO.getCycleNames().get(i));
+		Date date = DashboardUtility.getCurrentDate();
+		
+		BasicDBObject updateCycles = new BasicDBObject();
+		List<DBObject> cycles = new ArrayList<DBObject>();
+		DBObject cycleData = null;
+
+		for(int i=0; i<almReleaseVO.getSchedReleaseCyclesVO().getCycleName().size(); i++) {
+			cycleData = new BasicDBObject();
+			cycleData.put("cycleName", almReleaseVO.getSchedReleaseCyclesVO().getCycleName().get(i));
+			cycleData.put("cycle_SDate", almReleaseVO.getSchedReleaseCyclesVO().getCycleStartDate().get(i));
+			cycleData.put("cycle_EDate", almReleaseVO.getSchedReleaseCyclesVO().getCycleEndDate().get(i));
+			cycles.add(i, cycleData);
 		}
-		updateCycleNames.append("$set", new BasicDBObject().append("cycleName", cycleName));
+		
+		updateCycles.append("$set", new BasicDBObject().append("cycles", cycles));
 		
 		BasicDBObject plannedTC = new BasicDBObject();
 		plannedTC.append("$set", new BasicDBObject().append("plannedTestcases", "0"));
@@ -114,7 +137,6 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 		BasicDBObject updateDefects = new BasicDBObject();
 		List<DBObject> defects = new ArrayList<DBObject>();
 		DBObject defectData = null;
-		
 		for(int j=0; j<almReleaseVO.getSchedReleaseDefectsVO().getDefectId().size(); j++) {
 			defectData = new BasicDBObject();
 			defectData.put("defectId", almReleaseVO.getSchedReleaseDefectsVO().getDefectId().get(j));
@@ -130,12 +152,20 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 		
 		updateDefects.append("$set", new BasicDBObject().append("defects", defects));
 		
+		BasicDBObject updatedBy = new BasicDBObject();
+		updatedBy.append("$set", new BasicDBObject().append("UpdatedBy", "System"));
+		
+		BasicDBObject updatedOn = new BasicDBObject();
+		updatedOn.append("$set", new BasicDBObject().append("UpdatedOn", date));
+		
 		BasicDBObject searchQuery = new BasicDBObject().append("key", keyValue);
-		 
-		table.update(searchQuery, updateCycleNames);
+		
+		table.update(searchQuery, updateCycles);
 		table.update(searchQuery, plannedTC);
 		table.update(searchQuery, updateDefects);
-
+		table.update(searchQuery, updatedBy);
+		table.update(searchQuery, updatedOn);
+		
 		log.info("Alm Release collection updated successfully");
 		
 	}

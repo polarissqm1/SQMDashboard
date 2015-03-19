@@ -18,7 +18,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import com.sqm.dashboard.VO.AlmReleaseCycleDetails;
 import com.sqm.dashboard.VO.AlmReleaseDetails;
+import com.sqm.dashboard.VO.SchedularReleaseCyclesVO;
 import com.sqm.dashboard.VO.SchedularReleaseDefectsVO;
 import com.sqm.dashboard.schedular.AlmSchedReleaseService;
 import com.sqm.dashboard.util.RestConnectorUtility;
@@ -38,6 +40,22 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 	    ArrayList<AlmReleaseDetails> releaseDetails = getAlmReleaseDetails(conn, requestHeaders, releasesUrl, currentDate);
 	    
 	    return releaseDetails;
+	}
+	
+	@Override
+	public ArrayList<AlmReleaseCycleDetails> getAlmReleaseCyclesDetails(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseCyclesUrl, String releaseId) throws Exception {
+
+  		ArrayList<AlmReleaseCycleDetails> releaseCycleDetails = getAlmReleasesCycleDetails(conn, requestHeaders, releaseCyclesUrl, releaseId);
+	    return releaseCycleDetails;
+
+	}
+	
+	@Override
+	public SchedularReleaseCyclesVO getAlmReleaseCyclesData(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseCyclesUrl, String releaseId) throws Exception {
+
+		SchedularReleaseCyclesVO releaseCyclesData = getAlmReleaseCycleData(conn, requestHeaders, releaseCyclesUrl, releaseId);
+	    return releaseCyclesData;
+
 	}
 	
   	@Override
@@ -260,6 +278,146 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 		}
 	}
 	
+	public ArrayList<AlmReleaseCycleDetails> getAlmReleasesCycleDetails(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseCyclesUrl, String releaseId) throws Exception {
+		
+		StringBuilder queryAlmRelCycleDetails = new StringBuilder();
+		ArrayList<AlmReleaseCycleDetails> almReleaseCycleDetails = new ArrayList<AlmReleaseCycleDetails>();
+		
+		Node nNode = null;
+		Element eElement = null;
+		
+		ArrayList<String> cycleIds = new ArrayList<String>();
+		ArrayList<String> cycleNames = new ArrayList<String>();
+		ArrayList<String> cycleStartDates = new ArrayList<String>();
+		ArrayList<String> cycleEndDates = new ArrayList<String>();
+
+		try{
+			queryAlmRelCycleDetails.append("query={parent-id[");
+			queryAlmRelCycleDetails.append(releaseId);
+			queryAlmRelCycleDetails.append("]}");
+			queryAlmRelCycleDetails.append("&fields=id,name,start-date,end-date");
+
+			log.info("AlmReleaseCycleDetails Query : " + queryAlmRelCycleDetails);
+
+			String listFromReleaseCycleDetailsCollectionAsXml = conn.httpGet(releaseCyclesUrl, queryAlmRelCycleDetails.toString(), requestHeaders).toString();
+			log.info("listFromReleaseCycleDetailsCollectionAsXml : " + listFromReleaseCycleDetailsCollectionAsXml);
+			
+			DocumentBuilder db4 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			InputSource is4 = new InputSource();
+			is4.setCharacterStream(new StringReader(listFromReleaseCycleDetailsCollectionAsXml));
+
+			Document doc4 = db4.parse(is4);
+			
+			doc4.getDocumentElement().normalize();
+			log.info("Root element :" + doc4.getDocumentElement().getNodeName());
+		 
+			NodeList nList = doc4.getElementsByTagName("Field");
+
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+				nNode = nList.item(temp);
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					eElement = (Element) nNode;
+					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("id")) {
+						cycleIds.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
+					}
+					
+					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("name")) {
+						cycleNames.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
+					}
+					
+					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("start-date")) {
+						cycleStartDates.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
+					}
+					
+					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("end-date")) {
+						cycleEndDates.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
+					}
+				}
+			}
+			
+			for(int i=0; i<cycleIds.size(); i++) {
+				almReleaseCycleDetails.add(new AlmReleaseCycleDetails(cycleIds.get(i), cycleNames.get(i), cycleStartDates.get(i), cycleEndDates.get(i)));
+			}
+			
+			return almReleaseCycleDetails;
+			
+		} catch (Exception e) {
+				log.error("Error in getting Alm Releases Cycle Details : " + e.getMessage());
+				throw e;
+		}
+	}
+
+	public SchedularReleaseCyclesVO getAlmReleaseCycleData(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseCyclesUrl, String releaseId) throws Exception {
+		
+		StringBuilder queryAlmRelCycleDetails = new StringBuilder();
+		
+		Node nNode = null;
+		Element eElement = null;
+		
+		SchedularReleaseCyclesVO schedReleaseCyclesVO = new SchedularReleaseCyclesVO();
+		
+		ArrayList<String> cycleIds = new ArrayList<String>();
+		ArrayList<String> cycleNames = new ArrayList<String>();
+		ArrayList<String> cycleStartDates = new ArrayList<String>();
+		ArrayList<String> cycleEndDates = new ArrayList<String>();
+
+		try{
+			queryAlmRelCycleDetails.append("query={parent-id[");
+			queryAlmRelCycleDetails.append(releaseId);
+			queryAlmRelCycleDetails.append("]}");
+			queryAlmRelCycleDetails.append("&fields=id,name,start-date,end-date");
+
+			log.info("AlmReleaseCycleDetails Query : " + queryAlmRelCycleDetails);
+
+			String listFromReleaseCycleDetailsCollectionAsXml = conn.httpGet(releaseCyclesUrl, queryAlmRelCycleDetails.toString(), requestHeaders).toString();
+			log.info("listFromReleaseCycleDetailsCollectionAsXml : " + listFromReleaseCycleDetailsCollectionAsXml);
+			
+			DocumentBuilder db4 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			InputSource is4 = new InputSource();
+			is4.setCharacterStream(new StringReader(listFromReleaseCycleDetailsCollectionAsXml));
+
+			Document doc4 = db4.parse(is4);
+			
+			doc4.getDocumentElement().normalize();
+			log.info("Root element :" + doc4.getDocumentElement().getNodeName());
+		 
+			NodeList nList = doc4.getElementsByTagName("Field");
+
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+				nNode = nList.item(temp);
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					eElement = (Element) nNode;
+					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("id")) {
+						cycleIds.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
+					}
+					
+					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("name")) {
+						cycleNames.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
+					}
+					
+					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("start-date")) {
+						cycleStartDates.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
+					}
+					
+					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("end-date")) {
+						cycleEndDates.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
+					}
+				}
+			}
+			
+			schedReleaseCyclesVO.setCycleId(cycleIds);
+			schedReleaseCyclesVO.setCycleName(cycleNames);
+			schedReleaseCyclesVO.setCycleStartDate(cycleStartDates);
+			schedReleaseCyclesVO.setCycleEndDate(cycleEndDates);
+			
+			return schedReleaseCyclesVO;
+			
+		} catch (Exception e) {
+				log.error("Error in getting Alm Releases Cycle Data : " + e.getMessage());
+				throw e;
+		}
+	}
+
 	public ArrayList<String> getAlmReleasesCycleNames(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseCyclesUrl, String releaseId) throws Exception {
 		
 		//http://ealm11.jpmchase.net/qcbin/rest/domains/IB_TECHNOLOGY/projects/CFT_POST_TRADE/release-cycles?query={parent-id[1326]}&fields=name,start-date,end-date
@@ -274,7 +432,7 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 			queryAlmReleaseCycleNames.append("query={parent-id[");
 			queryAlmReleaseCycleNames.append(releaseId);
 			queryAlmReleaseCycleNames.append("]}");
-			queryAlmReleaseCycleNames.append("&fields=name,start-date,end-date");
+			queryAlmReleaseCycleNames.append("&fields=id,name,start-date,end-date");
 
 			log.info("AlmReleaseCycleNames Query : " + queryAlmReleaseCycleNames);
 

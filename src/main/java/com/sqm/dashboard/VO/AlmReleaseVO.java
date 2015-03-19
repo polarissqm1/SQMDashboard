@@ -1,16 +1,19 @@
 package com.sqm.dashboard.VO;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
+@SuppressWarnings("serial")
 public class AlmReleaseVO implements Serializable {
 
 	private String domain;
 	private String project;
 	private String releaseId;
 	private String releaseName;
+	private String releaseStartDate;
+	private String releaseEndDate;
+	private String releaseFolder;
+	private SchedularReleaseCyclesVO schedReleaseCyclesVO;
 	private String plannedTestcases;
-	private ArrayList<String> cycleNames;
 	private SchedularReleaseDefectsVO schedReleaseDefectsVO;
 	private String status;
 	
@@ -38,17 +41,36 @@ public class AlmReleaseVO implements Serializable {
 	public void setReleaseName(String releaseName) {
 		this.releaseName = releaseName;
 	}
+	public String getReleaseStartDate() {
+		return releaseStartDate;
+	}
+	public void setReleaseStartDate(String releaseStartDate) {
+		this.releaseStartDate = releaseStartDate;
+	}
+	public String getReleaseEndDate() {
+		return releaseEndDate;
+	}
+	public void setReleaseEndDate(String releaseEndDate) {
+		this.releaseEndDate = releaseEndDate;
+	}
+	public String getReleaseFolder() {
+		return releaseFolder;
+	}
+	public void setReleaseFolder(String releaseFolder) {
+		this.releaseFolder = releaseFolder;
+	}
+	public SchedularReleaseCyclesVO getSchedReleaseCyclesVO() {
+		return schedReleaseCyclesVO;
+	}
+	public void setSchedReleaseCyclesVO(
+			SchedularReleaseCyclesVO schedReleaseCyclesVO) {
+		this.schedReleaseCyclesVO = schedReleaseCyclesVO;
+	}
 	public String getPlannedTestcases() {
 		return plannedTestcases;
 	}
 	public void setPlannedTestcases(String plannedTestcases) {
 		this.plannedTestcases = plannedTestcases;
-	}
-	public ArrayList<String> getCycleNames() {
-		return cycleNames;
-	}
-	public void setCycleNames(ArrayList<String> cycleNames) {
-		this.cycleNames = cycleNames;
 	}
 	public SchedularReleaseDefectsVO getSchedReleaseDefectsVO() {
 		return schedReleaseDefectsVO;
@@ -67,30 +89,12 @@ public class AlmReleaseVO implements Serializable {
 	public String toString() {
 		return "AlmReleaseVO [domain=" + domain + ", project=" + project
 				+ ", releaseId=" + releaseId + ", releaseName=" + releaseName
-				+ ", plannedTestcases=" + plannedTestcases + ", cycleNames="
-				+ cycleNames + ", schedReleaseDefectsVO="
+				+ ", releaseStartDate=" + releaseStartDate
+				+ ", releaseEndDate=" + releaseEndDate + ", releaseFolder="
+				+ releaseFolder + ", schedReleaseCyclesVO="
+				+ schedReleaseCyclesVO + ", plannedTestcases="
+				+ plannedTestcases + ", schedReleaseDefectsVO="
 				+ schedReleaseDefectsVO + ", status=" + status + "]";
 	}
 	
 }
-	/*private String release;
-	private String release_sdate;
-	private String release_edate;
-	public String getRelease() {
-		return release;
-	}
-	public void setRelease(String release) {
-		this.release = release;
-	}
-	public String getRelease_sdate() {
-		return release_sdate;
-	}
-	public void setRelease_sdate(String release_sdate) {
-		this.release_sdate = release_sdate;
-	}
-	public String getRelease_edate() {
-		return release_edate;
-	}
-	public void setRelease_edate(String release_edate) {
-		this.release_edate = release_edate;
-	}*/
