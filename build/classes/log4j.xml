@@ -16,9 +16,25 @@
 				value="%d : %t : %-5p [%C{2}] - %m%n" />
 		</layout>
 	</appender> 
+	<appender name="schedularAppender" class="org.apache.log4j.RollingFileAppender"> 
+		 <param name="File" value="D://SQM//logs//Schedular.log"/> 
+		<!-- <param name="File" value="${catalina.base}/logs/Dashboard.log"/>   -->
+		<param name="MaxBackupIndex" value="10"/> 
+		<param name="MaxFileSize" value="10MB"/> 
+		<param name="Append" value="true"/>
+		<param name="ImmediateFlush" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d : %t : %-5p [%C{2}] - %m%n" />
+		</layout>
+	</appender> 
 	<logger name="com.sqm.dashboard">
 		<level value="TRACE" />
 		<appender-ref ref="rollingFileAppender"/>
+	</logger>	
+	<logger name="com.sqm.dashboard.schedular.impl">
+		<level value="TRACE" />
+		<appender-ref ref="schedularAppender"/>
 	</logger>	
 	<root>
 		<level value="TRACE"/>	
