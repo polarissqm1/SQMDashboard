@@ -10,7 +10,11 @@
 		/**
 		 * Dashboard Controller
 		 */
-
+		
+		$scope.onLpLoad = function() {
+			$('#pagers').hide();
+		};
+		
 		//Flot Pie Chart
 		$(document).ready(function() {
 
