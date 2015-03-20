@@ -1,0 +1,1 @@
+{ "options" : { "create" : "persons", "capped" : { "$undefined" : true }, "size" : { "$undefined" : true } }, "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "sqmdb.persons", "name" : "_id_" } ] }

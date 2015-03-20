@@ -1,0 +1,1 @@
+{ "options" : { "create" : "alm_vara", "capped" : { "$undefined" : true }, "size" : { "$undefined" : true } }, "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "sqmdb.alm_vara", "name" : "_id_" } ] }

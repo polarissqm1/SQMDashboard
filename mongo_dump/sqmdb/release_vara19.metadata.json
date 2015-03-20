@@ -1,0 +1,1 @@
+{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "sqmdb.release_vara19", "name" : "_id_" } ] }

@@ -1,0 +1,1 @@
+{ "options" : { "create" : "updateTest" }, "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "sqmdb.updateTest", "name" : "_id_" } ] }

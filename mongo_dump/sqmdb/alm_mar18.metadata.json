@@ -1,0 +1,1 @@
+{ "options" : { "create" : "alm_mar18", "capped" : { "$undefined" : true }, "size" : { "$undefined" : true } }, "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "sqmdb.alm_mar18", "name" : "_id_" } ] }
