@@ -91,8 +91,8 @@ public class TesterDB {
 					searchQuery.put("projects", "CFT_POST_TRADE");
 					searchQuery.put("release", "CFP Reporting: Sprint 2");
 					//searchQuery.put("lastUpdationDate", "Thu Mar 12 00:00:00 IST 2015");
-					/*searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("dd/MMM/yy").parse(formatedDate)).add("$lt", new SimpleDateFormat("dd/MMM/yy").parse(plusOneformatedDate)).get());*/
-					searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("dd/MMM/yy").parse("18/Mar/15")).add("$lt", new SimpleDateFormat("dd/MMM/yy").parse("19/Mar/15")).get());
+					/*searchQuery.put("UpdatedOn", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("dd/MMM/yy").parse(formatedDate)).add("$lt", new SimpleDateFormat("dd/MMM/yy").parse(plusOneformatedDate)).get());*/
+					searchQuery.put("UpdatedOn", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("dd/MMM/yy").parse("18/Mar/15")).add("$lt", new SimpleDateFormat("dd/MMM/yy").parse("19/Mar/15")).get());
 					cursor = table.find(searchQuery);
 					while (cursor.hasNext()) {
 						DBObject report =cursor.next();
@@ -216,8 +216,9 @@ public class TesterDB {
 						list.add(dashVO);
 						System.out.println(dashVO.toString()+list);			
 					}
-				} finally {
-					
+					System.out.println("Hi");
+				} catch(Exception e) {
+					e.printStackTrace();
 				}
 			}
 	}

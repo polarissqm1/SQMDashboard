@@ -153,8 +153,8 @@ public class DailyReportsDAOImpl implements DailyReportsDAO {
 					searchQuery.put("projects", "CFT_POST_TRADE");
 					searchQuery.put("release", release);
 					//searchQuery.put("lastUpdationDate", "Thu Mar 12 00:00:00 IST 2015");
-					searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("dd/MMM/yy").parse(formatedDate)).add("$lt", new SimpleDateFormat("dd/MMM/yy").parse(plusOneformatedDate)).get());
-					/*searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("dd/MMM/yy").parse("18/Mar/15")).add("$lt", new SimpleDateFormat("dd/MMM/yy").parse("19/Mar/15")).get());*/
+					/*searchQuery.put("UpdatedOn", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("dd/MMM/yy").parse(formatedDate)).add("$lt", new SimpleDateFormat("dd/MMM/yy").parse(plusOneformatedDate)).get());*/
+					searchQuery.put("UpdatedOn", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("dd/MMM/yy").parse("18/Mar/15")).add("$lt", new SimpleDateFormat("dd/MMM/yy").parse("19/Mar/15")).get());
 					//searchQuery.put("lastUpdationDate", DashboardUtility.getCurrentDate());
 					log.debug(searchQuery.toString());
 					cursor = table.find(searchQuery);

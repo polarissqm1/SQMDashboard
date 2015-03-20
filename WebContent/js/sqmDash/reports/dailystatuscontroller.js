@@ -23,7 +23,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 
 	});
 	$scope.tcstatus1 = $http.get("dash/dailyreports/getDailyReportsInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName).success(function(response){
-		alert(JSON.stringify(response));
+	//	alert(JSON.stringify(response));
 		if(!response.entity.testCaseExecutionStatusVO){
 			$("#tcsChart").hide();
 			$("#statusWise").hide();
@@ -72,7 +72,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 	$scope.names ='';
 	$scope.renderChart = function(){
         	$scope.tcstatus1 = $http.get("dash/dailyreports/getDailyReportsInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName).success(function(response){
-        		alert(JSON.stringify(response));
+        	//	alert(JSON.stringify(response));
         		if(!response.entity.testCaseExecutionStatusVO){
         			$("#tcsChart").hide();
         			$("#statusWise").hide();
