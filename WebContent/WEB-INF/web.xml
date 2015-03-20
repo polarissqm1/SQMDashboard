@@ -21,7 +21,7 @@
     <param-value>
         /WEB-INF/dash-servlet.xml
         /WEB-INF/mongo-config.xml
-        /WEB-INF/quartz_schedular.xml
+    <!--     /WEB-INF/quartz_schedular.xml -->
     </param-value>
   </context-param>
   

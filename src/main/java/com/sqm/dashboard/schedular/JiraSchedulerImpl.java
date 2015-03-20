@@ -128,6 +128,7 @@ public class JiraSchedulerImpl implements JiraScheduler {
 			String stringResponse = clientResponse.getEntity(String.class);
 			JSONArray jsonArray;
 			jsonArray = new JSONArray(stringResponse);
+			
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
 				if(jsonObject.get("key").toString().contains("CFP") || jsonObject.get("key").toString().contains("CFT")){
