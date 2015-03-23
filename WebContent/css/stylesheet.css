@@ -62,15 +62,12 @@ table tr:nth-child(odd) {
 
 /* Highlight Total Start*/
 
-table tr:last-child {
-
-
-background:#FF9900; 
- 
-  font-weight: bold;
+#topGrid table tr:last-child {
+background:#FF9900;
+font-weight: bold;
 }
 
-table tr:last-child td {
+#topGrid table tr:last-child td {
 	font-weight: bold;
 	background:#FF9900; 
   border-bottom-right-radius: 5px;
