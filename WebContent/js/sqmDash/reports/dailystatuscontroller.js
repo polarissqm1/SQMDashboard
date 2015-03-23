@@ -7,6 +7,10 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 			$rootScope.selectedReleaseName );*/
 	$(document).ready(function() {
 		
+		$scope.onDsrLoad = function() {
+			$('#pagers').hide();
+		};
+		
 		$("#applicationCombo").on("change", "#application", function(event) {
 			$rootScope.selectedProjectName = $("#application").val();
 			
