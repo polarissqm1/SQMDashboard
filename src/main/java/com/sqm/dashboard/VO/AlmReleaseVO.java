@@ -2,7 +2,10 @@ package com.sqm.dashboard.VO;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
 @SuppressWarnings("serial")
+@Component
 public class AlmReleaseVO implements Serializable {
 
 	private String domain;

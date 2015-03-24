@@ -1,8 +1,13 @@
 package com.sqm.dashboard.VO;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SchedularTestcaseExecVO {
+import org.springframework.stereotype.Component;
+
+@SuppressWarnings("serial")
+@Component
+public class SchedularTestcaseExecVO implements Serializable {
 
 	private List<String> status;
 	private List<String> count;

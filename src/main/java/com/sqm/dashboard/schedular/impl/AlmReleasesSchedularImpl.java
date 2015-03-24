@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.DBCollection;
@@ -17,22 +19,32 @@ public class AlmReleasesSchedularImpl implements AlmReleasesSchedular {
 
 	final Logger log = Logger.getLogger(AlmReleasesSchedularImpl.class);
 	
-	/*@Autowired*/
-	AlmSchedAuthServiceImpl almSchedAuthServiceImpl = new AlmSchedAuthServiceImpl();
+	@Autowired
+	private AlmSchedAuthServiceImpl almSchedAuthServiceImpl;
 
-	/*@Autowired*/
-	AlmReleasesSchedularServiceImpl almReleasesSchedularServiceImpl = new AlmReleasesSchedularServiceImpl();
+	@Autowired
+	private AlmReleasesSchedularServiceImpl almReleasesSchedularServiceImpl;
 	
-	private String almHost = "ealm11.jpmchase.net";
-	private String almPort = "80";
+	@Value("${almHost}")
+	private String almHost;
 	
-	public final RestConnectorUtility conn = RestConnectorUtility.getInstance().init(new HashMap<String, String>(), almHost, almPort);
+	@Value("${almPort}")
+	private String almPort;
 	
-	public void startAlmReleasesInsert(AlmReleasesSchedularImpl releasesSchedularImpl) throws Exception {
+	@Value("${almUser}")
+	private String almUser;
+	
+	@Value("${almPwd}")
+	private String almPwd;
+	
+	@Value("${almCollectionRelease}")
+	private String almCollectionRelease;
+	
+	public void startAlmReleasesInsert(AlmReleasesSchedularImpl almReleasesSchedularImpl) throws Exception {
 		try{
-			releasesSchedularImpl.almReleasesAuthentication("murlikrishnamohan.kakarla", "Welcome07$");
+			almReleasesSchedularImpl.almReleasesAuthentication(almUser, almPwd);
 		}catch(Exception e){
-			log.error("Exception Alm Satrt level");
+			log.error("Exception Alm Start level");
 			throw e;
 		}
 	}
@@ -40,6 +52,7 @@ public class AlmReleasesSchedularImpl implements AlmReleasesSchedular {
 	public void almReleasesAuthentication(String username, String password) throws Exception {
 		
 		long startTime = System.currentTimeMillis();
+		final RestConnectorUtility conn = RestConnectorUtility.getInstance().init(new HashMap<String, String>(), almHost, almPort);
 		try {
 			log.info("##AlmReleasesSchedular##");
 			log.info("almHost : " + almHost + " ## almPort : " + almPort);
@@ -53,7 +66,7 @@ public class AlmReleasesSchedularImpl implements AlmReleasesSchedular {
 			requestHeaders.put("Accept","application/xml");
 			
 			if (response.equals("200")) {
-				DBCollection collection = DashboardDAOImpl.getDbCollection("release");
+				DBCollection collection = DashboardDAOImpl.getDbCollection(almCollectionRelease);
 				almReleasesSchedularServiceImpl.saveReleasesDetails(conn, requestHeaders, username, password, collection);
 			} else if (response.equals("500")) {
 				log.info("Authentication failed");

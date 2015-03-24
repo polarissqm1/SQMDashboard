@@ -1,8 +1,13 @@
 package com.sqm.dashboard.VO;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SchedularReleaseCyclesVO {
+import org.springframework.stereotype.Component;
+
+@SuppressWarnings("serial")
+@Component
+public class SchedularReleaseCyclesVO implements Serializable {
 	
 	private List<String> cycleId;
 	private List<String> cycleName;

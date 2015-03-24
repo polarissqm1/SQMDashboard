@@ -1,6 +1,12 @@
 package com.sqm.dashboard.VO;
 
-public class AlmTestcaseVO {
+import java.io.Serializable;
+
+import org.springframework.stereotype.Component;
+
+@SuppressWarnings("serial")
+@Component
+public class AlmTestcaseVO implements Serializable {
 
 	SchedularManualVO schedManualVO;
 	SchedularTestcaseExecVO schedTestcaseExecVO;

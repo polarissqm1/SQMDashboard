@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sqm.dashboard.VO.SchedularDefectsVO;
@@ -21,18 +22,9 @@ public class AlmSchedDefectServiceImpl implements AlmSchedDefectService {
 
 	static final Logger log = Logger.getLogger(AlmSchedDefectServiceImpl.class);
 	
-	/*@Autowired*/
-	SchedularDefectsVO schedularDefectsVO = new SchedularDefectsVO();
+	@Autowired
+	private SchedularDefectsVO schedularDefectsVO;
 	
-	/*private List<String> statusSeverity, urgent, high, medium, low, totalDefects = new ArrayList<String>();
-	private String dOpenNewReopenedAssignedUrgent, dFixedReadyforretestUrgent, dClosedUrgent, dDuplicateRejectedUrgent, dDeferredUrgent;
-	private String dOpenNewReopenedAssignedHigh, dFixedReadyforretestHigh, dClosedHigh, dDuplicateRejectedHigh, dDeferredHigh;
-	private String dOpenNewReopenedAssignedMedium, dFixedReadyforretestMedium, dClosedMedium, dDuplicateRejectedMedium, dDeferredMedium;
-	private String dOpenNewReopenedAssignedLow, dFixedReadyforretestLow, dClosedLow, dDuplicateRejectedLow, dDeferredLow;
-	private Double totDefectsOpenNewReopenedAssigned, totDefectsFixedReadyforretest, totDefectsClosed, totDefectsDuplicateRejected, totDefectsDeferred;
-	private Double totDefectsUrgent, totDefectsHigh, totDefectsMedium, totDefectsLow;
-	private Double totDefects;*/
-
 	private List<String> statusSeverity = new ArrayList<String>();
 	private List<String> urgent = new ArrayList<String>();
 	private List<String> high = new ArrayList<String>();
@@ -92,20 +84,9 @@ public class AlmSchedDefectServiceImpl implements AlmSchedDefectService {
 	
 	public SchedularDefectsVO getAlmDefects(RestConnectorUtility conn, Map<String, String> requestHeaders, String defectsUrl, String releaseId) {
 	
-			//AlmSchedDefectServiceImpl almSchedDefectServiceImpl = new AlmSchedDefectServiceImpl();
 			log.info("AlmSchedDefectServiceImpl almSchedDefectServiceImpl.getAlmDefects");
 	
 			try {
-		
-				/*dOpenNewReopenedAssignedUrgent = dbDefectServiceImpl.almSchedDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl,
-																			Constants.DEFECT_STATUS_OPEN_NEW_REOPENED_ASSIGNED, Constants.DEFECT_SEVERITY_1_URGENT, releaseId);
-				dOpenNewReopenedAssignedHigh = dbDefectServiceImpl.almSchedDefectServiceImpl.almSchedDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-																		Constants.DEFECT_STATUS_OPEN_NEW_REOPENED_ASSIGNED, Constants.DEFECT_SEVERITY_2_HIGH, releaseId);
-				dOpenNewReopenedAssignedMedium = dbDefectServiceImpl.almSchedDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-																		Constants.DEFECT_STATUS_OPEN_NEW_REOPENED_ASSIGNED, Constants.DEFECT_SEVERITY_3_MEDIUM, releaseId);
-				dOpenNewReopenedAssignedLow = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-																		Constants.DEFECT_STATUS_OPEN_NEW_REOPENED_ASSIGNED, Constants.DEFECT_SEVERITY_4_LOW, releaseId);
-				 */
 		
 				dOpenNewReopenedAssignedUrgent = getAlmDefects(conn, requestHeaders, defectsUrl,
 												Constants.DEFECT_STATUS_OPEN_NEW_REOPENED_ASSIGNED, Constants.DEFECT_SEVERITY_1_URGENT, releaseId);
@@ -128,15 +109,6 @@ public class AlmSchedDefectServiceImpl implements AlmSchedDefectService {
 				medium.add(0, dOpenNewReopenedAssignedMedium);
 				low.add(0, dOpenNewReopenedAssignedLow);
 		
-				/*dFixedReadyforretestUrgent = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl,
-																Constants.DEFECT_STATUS_FIXED_READYFORRETEST, Constants.DEFECT_SEVERITY_1_URGENT, releaseId);
-				dFixedReadyforretestHigh = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-																Constants.DEFECT_STATUS_FIXED_READYFORRETEST, Constants.DEFECT_SEVERITY_2_HIGH, releaseId);
-				dFixedReadyforretestMedium = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-																Constants.DEFECT_STATUS_FIXED_READYFORRETEST, Constants.DEFECT_SEVERITY_3_MEDIUM, releaseId);
-				dFixedReadyforretestLow = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-																Constants.DEFECT_STATUS_FIXED_READYFORRETEST, Constants.DEFECT_SEVERITY_4_LOW, releaseId);*/
-
 				dFixedReadyforretestUrgent = getAlmDefects(conn, requestHeaders, defectsUrl,
 										Constants.DEFECT_STATUS_FIXED_READYFORRETEST, Constants.DEFECT_SEVERITY_1_URGENT, releaseId);
 				dFixedReadyforretestHigh = getAlmDefects(conn, requestHeaders, defectsUrl, 
@@ -156,15 +128,6 @@ public class AlmSchedDefectServiceImpl implements AlmSchedDefectService {
 				high.add(1, dFixedReadyforretestHigh);
 				medium.add(1, dFixedReadyforretestMedium);
 				low.add(1, dFixedReadyforretestLow);
-		
-				/*dClosedUrgent = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl,
-														Constants.DEFECT_STATUS_CLOSED, Constants.DEFECT_SEVERITY_1_URGENT, releaseId);
-				dClosedHigh = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-														Constants.DEFECT_STATUS_CLOSED, Constants.DEFECT_SEVERITY_2_HIGH, releaseId);
-				dClosedMedium = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-														Constants.DEFECT_STATUS_CLOSED, Constants.DEFECT_SEVERITY_3_MEDIUM, releaseId);
-				dClosedLow = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-														Constants.DEFECT_STATUS_CLOSED, Constants.DEFECT_SEVERITY_4_LOW, releaseId);*/
 		
 				dClosedUrgent = getAlmDefects(conn, requestHeaders, defectsUrl,
 						Constants.DEFECT_STATUS_CLOSED, Constants.DEFECT_SEVERITY_1_URGENT, releaseId);
@@ -186,15 +149,6 @@ public class AlmSchedDefectServiceImpl implements AlmSchedDefectService {
 				medium.add(2, dClosedMedium);
 				low.add(2, dClosedLow);
 
-				/*dDuplicateRejectedUrgent = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl,
-																	Constants.DEFECT_STATUS_DUPLICATE_REJECTED, Constants.DEFECT_SEVERITY_1_URGENT, releaseId);
-				dDuplicateRejectedHigh = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-																	Constants.DEFECT_STATUS_DUPLICATE_REJECTED, Constants.DEFECT_SEVERITY_2_HIGH, releaseId);
-				dDuplicateRejectedMedium = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-																	Constants.DEFECT_STATUS_DUPLICATE_REJECTED, Constants.DEFECT_SEVERITY_3_MEDIUM, releaseId);
-				dDuplicateRejectedLow = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-																	Constants.DEFECT_STATUS_DUPLICATE_REJECTED, Constants.DEFECT_SEVERITY_4_LOW, releaseId);*/
-
 				dDuplicateRejectedUrgent = getAlmDefects(conn, requestHeaders, defectsUrl,
 						Constants.DEFECT_STATUS_DUPLICATE_REJECTED, Constants.DEFECT_SEVERITY_1_URGENT, releaseId);
 				dDuplicateRejectedHigh = getAlmDefects(conn, requestHeaders, defectsUrl, 
@@ -215,15 +169,6 @@ public class AlmSchedDefectServiceImpl implements AlmSchedDefectService {
 				medium.add(3, dDuplicateRejectedMedium);
 				low.add(3, dDuplicateRejectedLow);
 		
-				/*dDeferredUrgent = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl,
-															Constants.DEFECT_STATUS_DEFERRED, Constants.DEFECT_SEVERITY_1_URGENT, releaseId);
-				dDeferredHigh = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-															Constants.DEFECT_STATUS_DEFERRED, Constants.DEFECT_SEVERITY_2_HIGH, releaseId);
-				dDeferredMedium = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-															Constants.DEFECT_STATUS_DEFERRED, Constants.DEFECT_SEVERITY_3_MEDIUM, releaseId);
-				dDeferredLow = dbDefectServiceImpl.almSchedDefectServiceImpl.getAlmDefects(conn, requestHeaders, defectsUrl, 
-															Constants.DEFECT_STATUS_DEFERRED, Constants.DEFECT_SEVERITY_4_LOW, releaseId);*/
-
 				dDeferredUrgent = getAlmDefects(conn, requestHeaders, defectsUrl,
 						Constants.DEFECT_STATUS_DEFERRED, Constants.DEFECT_SEVERITY_1_URGENT, releaseId);
 				dDeferredHigh = getAlmDefects(conn, requestHeaders, defectsUrl, 
@@ -384,17 +329,6 @@ public class AlmSchedDefectServiceImpl implements AlmSchedDefectService {
 
 		StringBuilder queryAlmDefects = new StringBuilder();
 		try{
-			/*queryAlmDefects.append("query={status[");
-			queryAlmDefects.append(defectStatus.replace(" ", "%20"));
-			queryAlmDefects.append("]");
-			queryAlmDefects.append(";severity[\"");
-			queryAlmDefects.append(defectSeverity.replace(" ", "%20"));
-			queryAlmDefects.append("\"];");
-			queryAlmDefects.append("id[");
-			queryAlmDefects.append(releaseId);
-			queryAlmDefects.append("]}");
-			queryAlmDefects.append("&fields=id");*/
-
 			queryAlmDefects.append("query={status[");
 			queryAlmDefects.append(defectStatus.replace(" ", "%20"));
 			queryAlmDefects.append("]");

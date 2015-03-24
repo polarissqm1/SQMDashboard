@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sqm.dashboard.VO.AlmTestcaseVO;
@@ -24,11 +25,18 @@ public class AlmSchedTestcaseServiceImpl implements AlmSchedTestcaseService {
 	
 	static final Logger log = Logger.getLogger(AlmSchedTestcaseServiceImpl.class);
 
-	SchedularTCExecStatusVO schedularTCExecStatusVO = new SchedularTCExecStatusVO();
-	AlmTestcaseVO almTCVO = new AlmTestcaseVO();
-	SchedularManualVO schedManualVO = new SchedularManualVO();
-	SchedularTestcaseExecVO schedTestcaseExecVO = new SchedularTestcaseExecVO();
-
+	@Autowired
+	private SchedularTCExecStatusVO schedularTCExecStatusVO;
+	
+	@Autowired
+	private AlmTestcaseVO almTCVO;
+	
+	@Autowired
+	private SchedularManualVO schedManualVO;
+	
+	@Autowired
+	private SchedularTestcaseExecVO schedTestcaseExecVO;
+	
 	private List<String> status = new ArrayList<String>();
 	private List<String> count = new ArrayList<String>();
 	private List<String> percentage = new ArrayList<String>();
@@ -47,34 +55,27 @@ public class AlmSchedTestcaseServiceImpl implements AlmSchedTestcaseService {
 		System.out.println("testcasesUrl : " + testcasesUrl);
 		try {
 			
-			//AlmSchedTestcaseServiceImpl almSchedTestcaseServiceImpl = new AlmSchedTestcaseServiceImpl();
-			//tcPassed = almSchedTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_PASSED, releaseId);
 			tcPassed = getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_PASSED, releaseId);
 			
 			status.add(0, Constants.TESTCASES_STATUS_PASSED);
 			count.add(0, tcPassed);
 		
-			//tcFailed = almSchedTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_FAILED, releaseId);
 			tcFailed = getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_FAILED, releaseId);
 			status.add(1, Constants.TESTCASES_STATUS_FAILED);
 			count.add(1, tcFailed);
 		
-			//tcNotRunAndNotCompleted = almSchedTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_NORUNANDNOTCOMPLETED, releaseId);
 			tcNotRunAndNotCompleted = getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_NORUNANDNOTCOMPLETED, releaseId);
 			status.add(2, Constants.TESTCASES_STATUS_NORUNANDNOTCOMPLETED);
 			count.add(2, tcNotRunAndNotCompleted);
 		
-			//tcNA = almSchedTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_NOTAPPLICABLE, releaseId);
 			tcNA = getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_NOTAPPLICABLE, releaseId);
 			status.add(3, Constants.TESTCASES_STATUS_NOTAPPLICABLE);
 			count.add(3, tcNA);
 		
-			//tcDeferred = almSchedTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_DEFERRED, releaseId);
 			tcDeferred = getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_DEFERRED, releaseId);
 			status.add(4, Constants.TESTCASES_STATUS_DEFERRED);
 			count.add(4, tcDeferred);
 		
-			//tcBlocked = almSchedTestcaseServiceImpl.getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_BLOCKED, releaseId);
 			tcBlocked = getAlmTestcases(conn, requestHeaders, testcasesUrl, Constants.TESTCASES_STATUS_BLOCKED, releaseId);
 			status.add(5, Constants.TESTCASES_STATUS_BLOCKED);
 			count.add(5, tcBlocked);
@@ -162,11 +163,9 @@ public class AlmSchedTestcaseServiceImpl implements AlmSchedTestcaseService {
 			queryAlmTestcases.append("&fields=id");
 
 			log.info("AlmTestcases Query : " + queryAlmTestcases);
-			System.out.println("queryAlmTestcases : " + queryAlmTestcases);
 			
 			String listFromTestcasesCollectionAsXml = connection.httpGet(testcasesUrl, queryAlmTestcases.toString(), requestHeaders).toString();
 			log.info("listFromTestcasesCollectionAsXml : " + listFromTestcasesCollectionAsXml);
-			System.out.println("listFromTestcasesCollectionAsXml : " + listFromTestcasesCollectionAsXml);
 
 			EntitiesUtility entitiesTestcases = MarshallingUtility.marshal(EntitiesUtility.class, listFromTestcasesCollectionAsXml);
 			log.info("Testcases Entities : " + entitiesTestcases);

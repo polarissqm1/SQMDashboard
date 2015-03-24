@@ -1,6 +1,6 @@
 package com.sqm.dashboard.schedular;
 
-public interface CommonScheduler  {
+public interface CommonSchedular  {
 
 	public void runScheduler() throws Exception;
 	

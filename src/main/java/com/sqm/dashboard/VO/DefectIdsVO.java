@@ -1,6 +1,12 @@
 package com.sqm.dashboard.VO;
 
-public class DefectIdsVO {
+import java.io.Serializable;
+
+import org.springframework.stereotype.Component;
+
+@SuppressWarnings("serial")
+@Component
+public class DefectIdsVO implements Serializable{
 	
 	private String defectId;
 	private String defectType;

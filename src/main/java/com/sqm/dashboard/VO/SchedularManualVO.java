@@ -1,12 +1,20 @@
 package com.sqm.dashboard.VO;
 
-public class SchedularManualVO {
+import java.io.Serializable;
+
+import org.springframework.stereotype.Component;
+
+
+@SuppressWarnings("serial")
+@Component
+public class SchedularManualVO implements Serializable {
 
 	private String passed;
 	private String failed;
 	private String noRun;
 	private String blocked;
 	private String deferred;
+	
 	public String getPassed() {
 		return passed;
 	}

@@ -1,10 +1,10 @@
 package com.sqm.dashboard.VO;
 
 import java.io.Serializable;
-import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+@SuppressWarnings("serial")
 @Component
 public class SchedularTCExecStatusVO implements Serializable {
 

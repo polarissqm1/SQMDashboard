@@ -8,7 +8,7 @@ public class AutomationVO implements Serializable {
 	private String failed;
 	private String noRun;
 	private String blocked;
-	private String defered;
+	private String deferred;
 	public String getPassed() {
 		return passed;
 	}
@@ -19,7 +19,7 @@ public class AutomationVO implements Serializable {
 	public String toString() {
 		return "AutomationVO [passed=" + passed + ", failed=" + failed
 				+ ", noRun=" + noRun + ", blocked=" + blocked + ", defered="
-				+ defered + "]";
+				+ deferred + "]";
 	}
 	public String getFailed() {
 		return failed;
@@ -39,11 +39,12 @@ public class AutomationVO implements Serializable {
 	public void setBlocked(String blocked) {
 		this.blocked = blocked;
 	}
-	public String getDefered() {
-		return defered;
+	public String getDeferred() {
+		return deferred;
 	}
-	public void setDefered(String defered) {
-		this.defered = defered;
+	public void setDeferred(String deferred) {
+		this.deferred = deferred;
 	}
+	
 	
 }

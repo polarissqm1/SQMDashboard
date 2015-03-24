@@ -1,8 +1,13 @@
 package com.sqm.dashboard.VO;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SchedularReleaseDefectsVO {
+import org.springframework.stereotype.Component;
+
+@SuppressWarnings("serial")
+@Component
+public class SchedularReleaseDefectsVO implements Serializable {
 	
 	private List<String> defectId;
 	private List<String> defectType;

@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 
 @SuppressWarnings("serial")
 @Component
-public class AlmVO implements Serializable {	
+public class AlmVO implements Serializable {
+	
 	private String domain;
 	private String project;
 	private String release;

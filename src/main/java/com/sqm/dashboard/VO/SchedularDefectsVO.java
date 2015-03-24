@@ -5,8 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-
-
+@SuppressWarnings("serial")
 @Component
 public class SchedularDefectsVO implements Serializable {
 
