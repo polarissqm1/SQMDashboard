@@ -21,8 +21,8 @@ public class CommonSchedularImpl implements CommonSchedular {
 	@Override
 	public void runScheduler() throws Exception {
 			try{
-				//almReleasesSchedularImpl.startAlmReleasesInsert(almReleasesSchedularImpl);
-				almSchedularImpl.startAlmInsert(almSchedularImpl);
+				almReleasesSchedularImpl.startAlmReleasesInsert(almReleasesSchedularImpl);
+				//almSchedularImpl.startAlmInsert(almSchedularImpl);
 				//jiraScheduler.startJiraInsert(jiraScheduler1);
 			}catch(Exception e){
 				log.error("Exception occured:");
