@@ -42,7 +42,7 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 		// TODO Auto-generated method stub
 		
 		final Logger log=Logger.getLogger(DashboardController.class);
-System.out.println("inside TrendReportsDAOImpl");
+       
 		 DBCursor cursor = null;
 		 DashboardVO dashVO;
 		 ArrayList list=new ArrayList();
@@ -64,10 +64,10 @@ System.out.println("inside TrendReportsDAOImpl");
 					searchQuery.put("domain", "IB_TECHNOLOGY");
 					searchQuery.put("projects", project);
 					searchQuery.put("release", release);
-					searchQuery.put("lastUpdationDate", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("dd/MMM/yy").parse(fromDate)).add("$lte", new SimpleDateFormat("dd/MMM/yy").parse(toDate)).get());
-					
-					
+					searchQuery.put("UpdatedOn", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("dd/MMM/yy").parse(fromDate)).add("$lte", new SimpleDateFormat("dd/MMM/yy").parse(toDate)).get());
 					log.debug(searchQuery.toString());
+					log.debug("From Date is ++++++++++++++++++"+fromDate);
+					log.debug("To Date is ++++++++++++++++++"+toDate);
 					cursor = table.find(searchQuery);
 					log.debug(cursor);
 					while (cursor.hasNext()) {
@@ -78,12 +78,12 @@ System.out.println("inside TrendReportsDAOImpl");
 						 java.lang.reflect.Type listTypestatus = new TypeToken<ArrayList<StatusAndSeverityVO>>() {}.getType();
 						 List<StatusAndSeverityVO> statusVO=(List<StatusAndSeverityVO>)new Gson().fromJson(report.get("statusAndSeverity").toString(), listTypestatus);
 						 log.debug("************************************************ :");
-						log.debug(report.get("lastUpdationDate").toString());
+						log.debug(report.get("UpdatedOn").toString());
 						dashVO=new DashboardVO();
 						dashVO.setManualVO(manualVO);
 						dashVO.setAutomationVO(automationVO);
 						dashVO.setStatusAndSeverityVO(statusVO);
-						String lastUpDate=report.get("lastUpdationDate").toString();
+						String lastUpDate=report.get("UpdatedOn").toString();
 						DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
 						Date date = (Date)formatter.parse(lastUpDate);
 						System.out.println(date);        
