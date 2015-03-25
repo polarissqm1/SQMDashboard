@@ -61,14 +61,14 @@
 			var elem1 = document.getElementById('release');
 			//elem1.options[1]=new Option("CFP Reporting: Sprint 2");
 			//elem1.options[2]=new Option("CFP Reporting: Sprint 3");
-			elem1.options[1]=new Option("Cleint On Boarding Dashboard March 27 2015 release");
+			//elem1.options[1]=new Option("Cleint On Boarding Dashboard March 27 2015 release");
 			elem1.options[2]=new Option("Plexus 5.2 upgrade April release");
-			elem1.options[3]=new Option("Cleint On Boarding Doc Mgmt March 27 2015 release");
+			/*elem1.options[3]=new Option("Cleint On Boarding Doc Mgmt March 27 2015 release");
 			elem1.options[4]=new Option("CFP Reporting: March Release");
-			elem1.options[5]=new Option("ReMit Mar 20th release");
+			elem1.options[5]=new Option("ReMit Mar 20th release");*/
 			/*elem1.options[8]=new Option("iWatch: March release");*/
 			elem1.options[6]=new Option("iManage Mar 20 Rel");
-			elem1.options[7]=new Option("OTCC - Mar 27 release");
+			//elem1.options[7]=new Option("OTCC - Mar 27 release");
 			
 			/*if(appValue=="PMP"){
 				
