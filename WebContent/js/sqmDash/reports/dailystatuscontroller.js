@@ -5,11 +5,14 @@
 dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScope) {
 /*	alert($rootScope.selectedProjectName +'----------------'+
 			$rootScope.selectedReleaseName );*/
+	
+	$scope.onDsrLoad = function() {
+		$('#pagers').hide();
+	};
+	
 	$(document).ready(function() {
 		
-		$scope.onDsrLoad = function() {
-			$('#pagers').hide();
-		};
+		//$('#topchart').setHeight('200');
 		
 		$("#applicationCombo").on("change", "#application", function(event) {
 			$rootScope.selectedProjectName = $("#application").val();
@@ -23,8 +26,10 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 			
 			$scope.renderChart();
 			
+			
+			
 		});
-
+		
 	});
 	$scope.tcstatus1 = $http.get("dash/dailyreports/getDailyReportsInfo?projectName="+$rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName).success(function(response){
 	//	alert(JSON.stringify(response));
@@ -120,56 +125,13 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
         	});
 	}
             
-	
-	
-        	/*$scope.check=function(){
-        		alert(JSON.stringify($scope.names));
-        		alert($scope.tcstatus[0].count);	
-        	}
-        	*/
-           /*	$scope.names = [
-           	                {status: "Open/New/Reopened/Assigned", urgent: 121 , high: 192, medium: 142, low: 40, total: 379},
-           	                {status: "Fixed/Ready for Re-test", urgent: 50, high: 76, medium: 67, low: 21, total: 172},
-           	                {status: "Closed", urgent: 250, high: 3514, medium: 3054, low: 1495, total: 8683},
-           	                {status: "Duplicate/Rejected", urgent: 76, high: 282, medium: 299, low: 62, total: 672},
-           	                {status: "Deferred", urgent: 2, high: 90, medium: 93, low: 40, total: 225},
-           	                {status: "Total", urgent: 664, high: 4154, medium: 3655, low: 1658, total: 10191},
-           	                {status: "Percentage(%)", urgent: 6.56, high: 41.01, medium: 36.08, low: 16.37, total: 100.00}
-           	            ];
-        	
-        	
-           	$scope.tcstatus = [{status: "Passed", count: 24493, percentage: "78.35%"},
-                               {status: "Failed", count: 3753, percentage: "50%"},
-                               {status: "Not Run", count: 2028, percentage: "10%"},
-                               {status: "N/A", count: 72, percentage: "50%"},
-                               {status: "Deferred", count: 268, percentage: "15%"},
-                   			{status: "Blocked", count: 648, percentage: "58%"},
-                   			{status: "Total", count: 31262, percentage: "85%"}];
-        	
-        	$scope.tcstatus = [{status: "Passed", count: 24493, percentage: "78.35%"},
-                            {status: "Failed", count: 3753, percentage: "50%"},
-                            {status: "Not Run", count: 2028, percentage: "10%"},
-                            {status: "N/A", count: 72, percentage: "50%"},
-                            {status: "Deferred", count: 268, percentage: "15%"},
-                			{status: "Blocked", count: 648, percentage: "58%"},
-                			{status: "Total", count: 31262, percentage: "85%"}];*/
-            
-        	/*$scope.names = [
-        	                {status: "Open/New/Reopened/Assigned", urgent: 121 , high: 192, medium: 142, low: 40, total: 379},
-        	                {status: "Fixed/Ready for Re-test", urgent: 50, high: 76, medium: 67, low: 21, total: 172},
-        	                {status: "Closed", urgent: 250, high: 3514, medium: 3054, low: 1495, total: 8683},
-        	                {status: "Duplicate/Rejected", urgent: 76, high: 282, medium: 299, low: 62, total: 672},
-        	                {status: "Deferred", urgent: 2, high: 90, medium: 93, low: 40, total: 225},
-        	                {status: "Total", urgent: 664, high: 4154, medium: 3655, low: 1658, total: 10191},
-        	                {status: "Percentage(%)", urgent: 6.56, high: 41.01, medium: 36.08, low: 16.37, total: 100.00}
-        	            ];*/
-           
             $scope.plottcsChart = function(){
             	Highcharts.setOptions({
 					colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
 				});
             	$('#tcsChart').highcharts({
                     chart: {
+                    	height: 165,
                         plotBackgroundColor: null,
                         plotBorderWidth: null,
                         plotShadow: false
@@ -194,9 +156,9 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                                 enabled: true,
                                // format: '{point.percentage:.1f} %'
                                 formatter: function() {
-			                        return Math.round(this.percentage*100)/100 + ' %';
+			                        return this.y + ' %';
 			                    },
-			                    distance: -30
+			                    distance: -20
                             }
                         }
                     },
@@ -204,10 +166,10 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                         enabled: true,
                         layout: 'vertical',
                         align: 'right',
-                        verticalAlign: 'middle'
-        				/*labelFormatter: function() {
-        					return this.name + ' ' + this.y + '%';
-        				}*/
+                        verticalAlign: 'middle',
+        				labelFormatter: function() {
+        					return this.name;
+        				}
                     },
                     series: [{
                         type: 'pie',
@@ -225,6 +187,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 				});
             	$('#statusWise').highcharts({
                     chart: {
+                    	height: 185,
                         plotBackgroundColor: null,
                         plotBorderWidth: null,
                         plotShadow: false
@@ -249,7 +212,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                             	enabled: true,
                                 //format: '{point.percentage:.1f} %',
                             	formatter: function() {
-                            		$scope.percent = Math.round(this.percentage*100)/100 + ' %'
+                            		$scope.percent = this.y + ' %'
 			                        return $scope.percent;
 			                    },
 			                    distance: -30
@@ -285,6 +248,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 				});
             	$('#severityWise').highcharts({
                     chart: {
+                    	height: 185,
                         plotBackgroundColor: null,
                         plotBorderWidth: null,
                         plotShadow: false
@@ -309,7 +273,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                             	enabled: true,
                                 //format: '{point.percentage:.1f} %',
                             	formatter: function() {
-			                        return Math.round(this.percentage*100)/100 + ' %';
+			                        return this.y + ' %';
 			                    },
 			                    distance: -30
                             }

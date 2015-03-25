@@ -56,26 +56,34 @@ table tr:nth-child(even) {
 
 }
 table tr:nth-child(odd) {
-    background-color: #ffffff;
+    background-color: #FFFFFF;
     height : 21px;
 }
 
 /* Highlight Total Start*/
 
 #topGrid table tr:last-child {
-background:#FF9900;
+background:#FFFFFF;
 font-weight: bold;
 }
 
 #topGrid table tr:last-child td {
 	font-weight: bold;
-	background:#FF9900; 
+	background:#FFFFFF; 
   border-bottom-right-radius: 5px;
 }
 
 #bottomGrid tr:nth-last-child(2){
 
-   background:#FF9900; 
+   background:#FFFFFF; 
+  border-bottom-right-radius: 5px;
+  font-weight: bold;
+
+}
+
+#bottomGrid tr:last-child{
+
+   background:#FFFFFF; 
   border-bottom-right-radius: 5px;
   font-weight: bold;
 
@@ -84,10 +92,11 @@ font-weight: bold;
 #bottomGrid tr:nth-last-child(2) td{
 
 
-  background:#FF9900; 
+  background:#FFFFFF; 
   border-bottom-right-radius: 5px;
 
 }
+
 
 table td:last-child{
 	font-weight: bold;
@@ -104,6 +113,15 @@ table td:last-child{
   background-color: lightsteelblue;
 }
 
+/* Daily status screen headers */
+ #headers{
+ background: -webkit-linear-gradient(lightsteelblue, white); 
+    background: -o-linear-gradient(lightsteelblue, white); 
+    background: -moz-linear-gradient(lightsteelblue, white);
+    background: linear-gradient(lightsteelblue, white);
+     
+} 
+    
 .navcontainer {
   float:left
 }
