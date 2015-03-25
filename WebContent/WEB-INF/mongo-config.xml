@@ -18,9 +18,15 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
 
-        <bean id="placeholder-configurer-1" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-     <property name="location" value="classpath:db.properties"/>
+        <bean id="placeholder-configurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+     		<property name="locations">
+        		<list>
+            		<value>classpath:db.properties</value>
+            		<value>classpath:application.properties</value>
+        		</list>
+    		</property>
         </bean>
+        
         <!-- MongoBD Database configuration host and port -->
         <mongo:mongo host="${db.host.url}" port="${db.port.number}" />
         
@@ -34,6 +40,5 @@
  		
  		<!-- Base package to scan the mongo repositories, where we create de DAOS to access data and domain objects -->
         <mongo:repositories base-package="main.com.sqm.dashboard.security.repository" />
-       
 
 </beans>

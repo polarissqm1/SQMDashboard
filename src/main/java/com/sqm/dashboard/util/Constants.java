@@ -2,6 +2,7 @@ package com.sqm.dashboard.util;
 
 public class Constants {
 	
+	public static final String DB_JIRA_PROJECT = "project";
 	/*alm Collection Fields*/
 	public static final String DB_ALM_USERID = "userId";
 	public static final String DB_ALM_DEFECT_IDS = "defectIds";

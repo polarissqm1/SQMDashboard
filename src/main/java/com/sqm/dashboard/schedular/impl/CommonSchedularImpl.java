@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sqm.dashboard.schedular.CommonSchedular;
+import com.sqm.dashboard.schedular.JiraSchedulerImpl;
 
 public class CommonSchedularImpl implements CommonSchedular {
 
@@ -15,15 +16,18 @@ public class CommonSchedularImpl implements CommonSchedular {
 	@Autowired
 	private AlmSchedularImpl almSchedularImpl;
 	
-	/*private JiraSchedulerImpl jiraScheduler=new JiraSchedulerImpl();
-	private JiraSchedulerImpl jiraScheduler1=new JiraSchedulerImpl();*/
+	/*@Autowired
+	private JiraSchedulerImpl jiraScheduler;*/
+	
+	private JiraSchedulerImpl jiraScheduler=new JiraSchedulerImpl();
+	private JiraSchedulerImpl jiraScheduler1=new JiraSchedulerImpl();
 	
 	@Override
 	public void runScheduler() throws Exception {
 			try{
 				almReleasesSchedularImpl.startAlmReleasesInsert(almReleasesSchedularImpl);
-				//almSchedularImpl.startAlmInsert(almSchedularImpl);
-				//jiraScheduler.startJiraInsert(jiraScheduler1);
+				almSchedularImpl.startAlmInsert(almSchedularImpl);
+				jiraScheduler.startJiraInsert(jiraScheduler1);
 			}catch(Exception e){
 				log.error("Exception occured:");
 				e.printStackTrace();

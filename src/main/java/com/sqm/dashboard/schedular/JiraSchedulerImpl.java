@@ -61,6 +61,8 @@ public class JiraSchedulerImpl implements JiraScheduler {
 	/*@Autowired
 	private JiraSchedulerImpl jiraSchedule;*/
 	private DateFormat dateFormat;
+	
+	
 	@Autowired
 	private JiraSchedulerVO jiraScVOClass;
 	@Autowired

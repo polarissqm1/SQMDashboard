@@ -19,6 +19,7 @@ import com.sqm.dashboard.VO.JiraIdVO;
 import com.sqm.dashboard.VO.JiraSchedulerVO;
 import com.sqm.dashboard.dao.JiraSchedulerDAO;
 import  com.sqm.dashboard.schedular.JiraSchedulerImpl;
+import com.sqm.dashboard.util.Constants;
 import com.sqm.dashboard.util.DashboardUtility;
 import com.sqm.dashboard.util.TesterDBNew;
 
@@ -136,7 +137,7 @@ public void validatorInsertion(JiraSchedulerVO sourceVO, DBCollection table) thr
 			Date systemDate=testDb.getCurrentDate();
 
 			        BasicDBObject jiracollection = new BasicDBObject();
-			        jiracollection.put("project", sourceVO.getProject());
+			        jiracollection.put(Constants.DB_JIRA_PROJECT, sourceVO.getProject());
 			        jiracollection.put("release", sourceVO.getRelease());
 			        jiracollection.put("key", keyValue);
 			       /* jiracollection.put("project", "pppppppp");
