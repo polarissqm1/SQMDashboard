@@ -67,14 +67,14 @@ public class DashboardDAOImpl implements DashboardDAO {
 		
 		 DBCursor cursor = null;
 		 DashboardVO dashVO=new DashboardVO();
-		
+		 DBCollection table=DashboardDAOImpl.getDbCollection("alm");
 		 ArrayList list=new ArrayList();
 		try {
-			MongoClient clientDb;
+			/*MongoClient clientDb;
 			
 				clientDb = new MongoClient("172.23.16.28", 27017);
 			
-		  DB db = clientDb.getDB("sqmdb");
+		  DB db = clientDb.getDB("sqmdb");*/
 			 /*System.out.println("Connect to database successfully");*/
 			 
 			 log.info("Connect to database successfully");
@@ -108,7 +108,8 @@ public class DashboardDAOImpl implements DashboardDAO {
 						} 
 					 
 					 * */
-					DBCollection table = db.getCollection("alm");
+			/*		DBCollection table = db.getCollection("alm");*/
+			 
 					log.info("Connect to collection alm successfully");
 					BasicDBObject searchQuery = new BasicDBObject();
 				
@@ -277,7 +278,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 						log.debug("TestCaseExecutionStatusVO :"+ dashVO.getTestCaseExecutionStatusVO());
 						
 					}
-				}catch (UnknownHostException e) {
+				}catch (Exception e) {
 					// TODO Auto-generated catch block
 					
 					log.debug("DAO Layer");
@@ -285,6 +286,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 				}
 			 finally {
 					cursor.close();
+					table.getDB().getMongo().close();
 				}
 		 Response.ResponseBuilder response = Response.ok(dashVO);
 		return response.build();

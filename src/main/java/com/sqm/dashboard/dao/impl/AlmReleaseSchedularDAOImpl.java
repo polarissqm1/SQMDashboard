@@ -53,11 +53,13 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 		} catch(Exception e) {
 			log.info("Exception occured at Update/Insert to release collection");
 			throw e;
+		}finally{
+			table.getDB().getMongo().close();
 		}
 	}
 	
 	public void insertAlmReleasesToDb(AlmReleaseVO almReleaseVO, DBCollection table, String keyValue) throws Exception{
-		
+	
 		log.info("AlmReleaseSchedularDAOImpl insertAlmReleasesToDb");
 		
 		BasicDBObject almRelease = new BasicDBObject();
@@ -114,6 +116,7 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 	    
 		table.insert(almRelease);
 		log.info("Alm Release collection inserted successfully");
+		
 	}
 	
 	public void updateAlmReleasesToDb(AlmReleaseVO almReleaseVO, DBCollection table, String keyValue) throws Exception {

@@ -51,6 +51,8 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		} catch(Exception e) {
 			log.info("Exception occured at Update/Insert to alm collection");
 			throw e;
+		}finally{
+			table.getDB().getMongo().close();
 		}
 	}
 
