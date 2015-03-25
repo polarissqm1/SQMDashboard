@@ -113,7 +113,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 					BasicDBObject searchQuery = new BasicDBObject();
 				
 					searchQuery.put("domain", "IB_TECHNOLOGY");
-					searchQuery.put("projects", project);
+					searchQuery.put("project", project);
 					searchQuery.put("release", release);
 					//searchQuery.put("lastUpdationDate", DashboardUtility.getCurrentDate());
 					log.debug(searchQuery.toString());

@@ -118,7 +118,7 @@ public class TesterDB {
 						 int failedV=Integer.parseInt(manualVO.getFailed())+Integer.parseInt(automationVO.getFailed());
 						 int noRunV=Integer.parseInt(manualVO.getNoRun())+Integer.parseInt(automationVO.getNoRun());
 						 int blockedV=Integer.parseInt(manualVO.getBlocked())+Integer.parseInt(automationVO.getBlocked());
-						 int defferedV=Integer.parseInt(manualVO.getDefered())+Integer.parseInt(automationVO.getDefered());
+						 int defferedV=Integer.parseInt(manualVO.getDeferred())+Integer.parseInt(automationVO.getDeferred());
 						 int totalValue=passedV+failedV+noRunV+blockedV+defferedV;
 						 String totalPercent="100";
 						 String totalValueString=""+ totalValue+"";

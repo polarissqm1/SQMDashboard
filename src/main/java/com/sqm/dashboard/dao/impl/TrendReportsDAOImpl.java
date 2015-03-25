@@ -62,7 +62,7 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 					BasicDBObject searchQuery = new BasicDBObject();
 				
 					searchQuery.put("domain", "IB_TECHNOLOGY");
-					searchQuery.put("projects", project);
+					searchQuery.put("project", project);
 					searchQuery.put("release", release);
 					searchQuery.put("UpdatedOn", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("dd/MMM/yy").parse(fromDate)).add("$lte", new SimpleDateFormat("dd/MMM/yy").parse(toDate)).get());
 					log.debug(searchQuery.toString());

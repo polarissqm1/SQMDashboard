@@ -150,7 +150,7 @@ public class DailyReportsDAOImpl implements DailyReportsDAO {
 					
 					 
 					searchQuery.put("domain", "IB_TECHNOLOGY");
-					searchQuery.put("projects", "CFT_POST_TRADE");
+					searchQuery.put("project", "CFT_POST_TRADE");
 					searchQuery.put("release", release);
 					//searchQuery.put("lastUpdationDate", "Thu Mar 12 00:00:00 IST 2015");
 					/*searchQuery.put("UpdatedOn", BasicDBObjectBuilder.start("$gte",new SimpleDateFormat("dd/MMM/yy").parse(formatedDate)).add("$lt", new SimpleDateFormat("dd/MMM/yy").parse(plusOneformatedDate)).get());*/

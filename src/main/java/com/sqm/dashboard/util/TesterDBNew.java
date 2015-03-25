@@ -24,7 +24,7 @@ import com.sqm.dashboard.VO.ManualVO;
 import com.sqm.dashboard.VO.SeverityVO;
 import com.sqm.dashboard.VO.StatusAndSeverityVO;
 import com.sqm.dashboard.VO.TestCaseExecutionStatusVO;
-import com.sqm.dashboard.schedular.AlmSchedularImpl;
+import com.sqm.dashboard.schedular.impl.AlmSchedularImpl;
 import com.sqm.dashboard.schedular.JiraSchedulerImpl;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
