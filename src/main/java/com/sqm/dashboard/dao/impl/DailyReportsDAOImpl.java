@@ -43,7 +43,7 @@ public class DailyReportsDAOImpl implements DailyReportsDAO {
  
  
  
-	
+	/*
 	public static DBCollection getDbCollection(String sourceCollection) throws Exception{
 		DBCursor cursor = null;
 		DBCollection table=null;
@@ -57,7 +57,8 @@ public class DailyReportsDAOImpl implements DailyReportsDAO {
 		  DB db = clientDb.getDB("sqmdb");
 		  
 		  table = db.getCollection(sourceCollection);
-			 /*System.out.println("Connect to database successfully");*/
+			 System.out.println("Connect to database successfully");
+		  
 		}catch(Exception e){
 	
 			throw e;
@@ -66,7 +67,7 @@ public class DailyReportsDAOImpl implements DailyReportsDAO {
 		
 		return table;
 	}
-
+*/
 	@Override
 	public Response getDailyReportsInfo(String project,String release) throws Exception {
 		// TODO Auto-generated method stub
@@ -74,14 +75,14 @@ public class DailyReportsDAOImpl implements DailyReportsDAO {
 		
 		 DBCursor cursor = null;
 		 DashboardVO dashVO=new DashboardVO();
-		
+		 DBCollection table = DashboardDAOImpl.getDbCollection("alm");
 		 ArrayList list=new ArrayList();
 		try {
-			MongoClient clientDb;
+			/*MongoClient clientDb;
 			
 				clientDb = new MongoClient("172.23.16.28", 27017);
 			
-		  DB db = clientDb.getDB("sqmdb");
+		  DB db = clientDb.getDB("sqmdb");*/
 			 /*System.out.println("Connect to database successfully");*/
 			 
 			 log.info("Connect to database successfully");
@@ -115,7 +116,8 @@ public class DailyReportsDAOImpl implements DailyReportsDAO {
 						} 
 					 
 					 * */
-					DBCollection table = db.getCollection("alm");
+					/*DBCollection table = db.getCollection("alm");*/
+			
 					log.info("Connect to collection alm successfully");
 					BasicDBObject searchQuery = new BasicDBObject();
 					
@@ -311,7 +313,7 @@ public class DailyReportsDAOImpl implements DailyReportsDAO {
 						log.debug("TestCaseExecutionStatusVO :"+ dashVO.getTestCaseExecutionStatusVO());
 						
 					}
-				}catch (UnknownHostException e) {
+				}catch (Exception e) {
 					// TODO Auto-generated catch block
 					
 					log.debug("DAO Layer");
@@ -319,6 +321,8 @@ public class DailyReportsDAOImpl implements DailyReportsDAO {
 				}
 			 finally {
 					cursor.close();
+					table.getDB().getMongo().close();
+					
 				}
 		 Response.ResponseBuilder response = Response.ok(dashVO);
 		return response.build();

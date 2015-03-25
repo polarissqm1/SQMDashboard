@@ -38,26 +38,27 @@ import com.sqm.dashboard.dao.TrendReportsDAO;
 public class TrendReportsDAOImpl implements TrendReportsDAO {
 	
 	@Override
-	public ArrayList getTrendingInfo(String project,String release,String fromDate,String toDate) throws UnknownHostException {
+	public ArrayList getTrendingInfo(String project,String release,String fromDate,String toDate) throws Exception {
 		// TODO Auto-generated method stub
 		
 		final Logger log=Logger.getLogger(DashboardController.class);
        
 		 DBCursor cursor = null;
 		 DashboardVO dashVO;
+		 DBCollection table=DashboardDAOImpl.getDbCollection("alm");
 		 ArrayList list=new ArrayList();
 		try {
-			MongoClient clientDb;
+			/*MongoClient clientDb;
 			
 				clientDb = new MongoClient("172.23.16.28", 27017);
 			
-		  DB db = clientDb.getDB("sqmdb");
+		  DB db = clientDb.getDB("sqmdb");*/
 			 /*System.out.println("Connect to database successfully");*/
 			 
 			 log.info("Connect to database successfully");
 			 log.info("DAO Layer");
 				
-					DBCollection table = db.getCollection("alm");
+					/*DBCollection table = db.getCollection("alm");*/
 					log.info("Connect to collection alm successfully");
 					BasicDBObject searchQuery = new BasicDBObject();
 				
@@ -109,44 +110,41 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 						list.add(dashVO);
 						
 					}
-				}catch (UnknownHostException e) {
+				}catch (Exception e) {
 					// TODO Auto-generated catch block
 					
 					log.debug("DAO Layer");
 					throw e;
-				}catch (Exception e) {
-					// TODO Auto-generated catch block
-					
-					log.debug("DAO Layer",e);
-				
 				}
 			 finally {
 					cursor.close();
+					table.getDB().getMongo().close();
 				}
 		return list ;
 	}
 
 	@Override
 	public ArrayList getReleaseInfo(String project, String release,
-			String fromDate, String toDate) throws UnknownHostException {
+			String fromDate, String toDate) throws Exception {
 		// TODO Auto-generated method stub
 		
 		DBCursor cursor = null;
 		DashboardVO dashVO;
+		DBCollection table=DashboardDAOImpl.getDbCollection("release");
 		ArrayList list=new ArrayList();
 		final Logger log=Logger.getLogger(DashboardController.class);
 		try {
-			MongoClient clientDb;
+			/*MongoClient clientDb;
 			
 				clientDb = new MongoClient("172.23.16.28", 27017);
 			
 		  DB db = clientDb.getDB("sqmdb");
-			 /*System.out.println("Connect to database successfully");*/
+			 System.out.println("Connect to database successfully");
 			 
 			 log.info("Connect to database successfully");
 			 log.info("DAO Layer");
 			 DBCollection table = db.getCollection("release");
-			 log.info("Connect to collection alm successfully");
+			 log.info("Connect to collection alm successfully");*/
 			 BasicDBObject searchQuery = new BasicDBObject();
 			 searchQuery.put("domain", "IB_TECHNOLOGY");
 			 searchQuery.put("project", project);
@@ -163,7 +161,7 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 					dashVO.setDefectVO(defectsVO);
 					list.add(dashVO);
 			 }
-			 }catch (UnknownHostException e) {
+			 }catch (Exception e) {
 					// TODO Auto-generated catch block
 					
 					log.debug("DAO Layer");
@@ -171,6 +169,7 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 				}
 		finally {
 			cursor.close();
+			table.getDB().getMongo().close();
 		}
 		
 		

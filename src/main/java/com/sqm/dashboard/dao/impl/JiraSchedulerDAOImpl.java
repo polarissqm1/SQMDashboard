@@ -92,38 +92,9 @@ public void validatorInsertion(JiraSchedulerVO sourceVO, DBCollection table) thr
 	}catch(Exception e) {
 		log.info("Exception occured at Update/Insert to alm collection");
 		throw e;
+	}finally{
+		table.getDB().getMongo().close();
 	}
-		/*DBCursor cursor = null;
-		
-		String keyValue = sourceVO.getRelease() + "|" + DashboardUtility.getCurrentDate().toString();
-
-		try{
-			BasicDBObject searchQuery = new BasicDBObject();
-			searchQuery.put("project", sourceVO.getProject());
-			cursor = table.find(searchQuery);
-			
-			boolean isKeyValueMatching = false;
-			
-			while (cursor.hasNext()) {
-				DBObject report = cursor.next();
-				if(report.get("key").toString().equalsIgnoreCase(keyValue)){
-					isKeyValueMatching = true;
-				}
-			}
-			if(isKeyValueMatching){
-				 log.info("isKeyValueMatching : " + isKeyValueMatching);
-				 System.out.println("###########################################Updating %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-				 updateJiraData(sourceVO, table, keyValue);
-				 log.info("Updated record to alm collection");
-			 } else {
-				 log.info("isKeyValueMatching : " + isKeyValueMatching);
-				 insertJiraData(sourceVO, table, keyValue);
-				 log.info("Inserted record to alm collection");
-			 }
-		} catch(Exception e) {
-			log.info("Exception occured at Update/Insert to alm collection");
-			throw e;
-		}*/
 	}
 	
 	
