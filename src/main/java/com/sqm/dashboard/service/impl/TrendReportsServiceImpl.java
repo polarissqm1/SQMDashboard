@@ -173,7 +173,7 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 		int count_hardwareDesign=0;
 		int count_interface=0;
 		int count_JCL=0;
-		int count_manualTestScript=0;
+		int count_TestScript=0;
 		int count_requirements=0;
 		int count_Environment_root=0;
 		int count_userError=0;
@@ -181,7 +181,7 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 		int count_Performance=0;
 		int count_DataConversion=0;
 		int count_deferresItem=0;
-		int count_documentationReview=0;
+		int count_Others=0;
 		int count_Enhancement=0;
 		int count_Environment=0;
 		int count_functional=0;
@@ -284,43 +284,23 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
  	
                                      }
 							 
-                       if(rootCause.equalsIgnoreCase("Incorrect Understanding")){
-                    	   count_incorrectUnderstanding++;
-                           }                          
-                    	   else if(rootCause.equalsIgnoreCase("Implementation")){                               
+                       if(rootCause.equalsIgnoreCase("Implementation")||rootCause.equalsIgnoreCase("Design")||rootCause.equalsIgnoreCase("Coding")||rootCause.equalsIgnoreCase("Incorrect Understanding")){                               
 					                   count_implementation++;
 					        }
-                    	   else if(rootCause.equalsIgnoreCase("Coding")){
-                    		           count_coding++;   
-                    	   }
-                    	   else if(rootCause.equalsIgnoreCase("Automated Test Script")){
-                    		   count_automatedTestScript++;   
-            	            }
-                    	   else if(rootCause.equalsIgnoreCase("Data")){
+                    	   
+                    	  
+                    	   else if(rootCause.equalsIgnoreCase("Data")||rootCause.equalsIgnoreCase("Data Table")){
                     		   count_data++;   
             	               }
-                    	   else if(rootCause.equalsIgnoreCase("Data Table")){
-                    		   count_datatable++;   
-            	               }
-                    	   else if(rootCause.equalsIgnoreCase("Design")){
-                    		   count_design++;   
-            	               }
-                    	   else if(rootCause.equalsIgnoreCase("Hardware/Infrastructure")){
-                    		   count_hardwareDesign++;   
-            	               }
-                    	   else if(rootCause.equalsIgnoreCase("Interface")){
-                    		   count_interface++;   
-            	               }
-                    	   else if(rootCause.equalsIgnoreCase("JCL")){
-                    		   count_JCL++;   
-            	               }
-                    	   else if(rootCause.equalsIgnoreCase("Manual Test Script")){
-                    		   count_manualTestScript++;   
+                    	   
+                    	  
+                    	   else if(rootCause.equalsIgnoreCase("Manual Test Script")||rootCause.equalsIgnoreCase("Automated Test Script")||rootCause.equalsIgnoreCase("JCL")){
+                    		   count_TestScript++;   
             	               }
                     	   else if(rootCause.equalsIgnoreCase("Requirements")){
                     		   count_requirements++;   
             	               }
-                    	   else if(rootCause.equalsIgnoreCase("Environment")){
+                    	   else if(rootCause.equalsIgnoreCase("Environment")||rootCause.equalsIgnoreCase("Hardware/Infrastructure")||rootCause.equalsIgnoreCase("Interface")){
                     		   count_Environment_root++;
                     		   
                     	   }
@@ -337,16 +317,9 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
                            if(defectType.equalsIgnoreCase("Performance")){
                     	           count_Performance++;
                            }
-					                                 
-                    	   else if(defectType.equalsIgnoreCase("Data Conversion")){                               
-                    		   count_DataConversion++;
-					          }
-                           
-                    	   else if(defectType.equalsIgnoreCase("Deferred Item")){                               
-                    		   count_deferresItem++;
-					          }
-                    	   else if(defectType.equalsIgnoreCase("Documentation Review")){                               
-                    		   count_documentationReview++;
+					       
+                    	   else if(defectType.equalsIgnoreCase("Documentation Review")||defectType.equalsIgnoreCase("Data Conversion")||defectType.equals("ID")||defectType.equals("Unknown")||defectType.equalsIgnoreCase("Deferred Item")){                               
+                    		   count_Others++;
 					          }
                     	   else if(defectType.equals("Enhancement")){                               
                     		   count_Enhancement++;
@@ -354,25 +327,15 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
                     	   else if(defectType.equals("Environment")){                               
                     		   count_Environment++;
 					          }
-                    	   else if(defectType.equals("Functional")){                               
+                    	   else if(defectType.equals("Functional")||defectType.equals("Inquiry")||defectType.equals("UI")){                               
                     		   count_functional++;
-					          }
-                    	   else if(defectType.equals("Inquiry")){                               
-                    		   count_inquiry++;
 					          }
                     	   else if(defectType.equals("Test Execution")){                               
                     		   count_testExecution++;
 					          }
-                    	   else if(defectType.equals("Unknown")){                               
-                    		   count_unknown++;
-					          }
-                    	   else if(defectType.equals("ID")){                               
-                    		   count_ID++;
-					          }
-                    	   else if(defectType.equals("UI")){                               
-                    		   count_UI++;
-					          }
-                           
+                    	   
+                    	   
+                    	   
                            
                            
                        
@@ -380,17 +343,10 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
                       trendReportsReleaseVO.setDefectId(defectId);
                                         
 				  }
-				  rootCauseMap.put("incorrectUnderstanding",count_incorrectUnderstanding);
+				  
  				  rootCauseMap.put("implementation", count_implementation); 
- 				  rootCauseMap.put("coding", count_coding);
- 				  rootCauseMap.put("AutomatedTestScript", count_automatedTestScript);
  				  rootCauseMap.put("Data", count_data);
- 				  rootCauseMap.put("DataTable", count_datatable);
- 				  rootCauseMap.put("Design", count_design);
- 				  rootCauseMap.put("Hardware_Infrastructure", count_hardwareDesign);
- 				  rootCauseMap.put("Interface", count_interface);
- 				  rootCauseMap.put("JCL", count_JCL);
- 				  rootCauseMap.put("ManualTestScript", count_manualTestScript);
+ 				  rootCauseMap.put("TestScript", count_TestScript);
  				  rootCauseMap.put("Requirements", count_requirements);
  				  rootCauseMap.put("Environment", count_Environment_root);
  				  rootCauseMap.put("UserError_NotaDefect", count_userError);
@@ -398,17 +354,12 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
  				    
  				  
  				  defectTypeMap.put("Performance", count_Performance);
-				  defectTypeMap.put("DataConversion", count_DataConversion);
-				  defectTypeMap.put("DeferredItem", count_deferresItem);
-				  defectTypeMap.put("DocumentationReview", count_documentationReview);
+				  defectTypeMap.put("others", count_Others);
 				  defectTypeMap.put("Enhancement", count_Enhancement);
 				  defectTypeMap.put("Environment", count_Environment);
 				  defectTypeMap.put("Functional", count_functional);
-				  defectTypeMap.put("Inquiry", count_inquiry);
 				  defectTypeMap.put("TestExecution", count_testExecution);
-				  defectTypeMap.put("Unknown", count_unknown);
-				  defectTypeMap.put("ID", count_ID);
-				  defectTypeMap.put("UI", count_UI);
+				  
 				  
 				  
 				  oneDayToFour.put("Urgent", urgent_1D);
