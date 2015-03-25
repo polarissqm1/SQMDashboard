@@ -66,7 +66,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 		                  [$scope.tcstatus[2].status,   parseInt($scope.tcstatus[2].percentage)],
 		                  [$scope.tcstatus[3].status,     parseInt($scope.tcstatus[3].percentage)],
 		                  [$scope.tcstatus[4].status,   parseInt($scope.tcstatus[4].percentage)],
-		                  [$scope.tcstatus[5].status,   parseInt($scope.tcstatus[5].percentage)]
+		                 /* [$scope.tcstatus[5].status,   parseInt($scope.tcstatus[5].percentage)]*/
 		                 
 		              ];
 			
@@ -114,7 +114,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
        		                  [$scope.tcstatus[2].status,   parseInt($scope.tcstatus[2].percentage)],
        		                  [$scope.tcstatus[3].status,     parseInt($scope.tcstatus[3].percentage)],
        		                  [$scope.tcstatus[4].status,   parseInt($scope.tcstatus[4].percentage)],
-       		                  [$scope.tcstatus[5].status,   parseInt($scope.tcstatus[5].percentage)]
+       		                  /*[$scope.tcstatus[5].status,   parseInt($scope.tcstatus[5].percentage)]*/
        		                 
        		              ];
         		//$scope.check();

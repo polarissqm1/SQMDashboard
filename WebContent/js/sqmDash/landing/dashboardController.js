@@ -368,8 +368,8 @@
 			var defect = [
 			              ["Urgent",parseInt(response.Urgent)],
 			              ["High",parseInt(response.High)],
-			              ["Low",parseInt(response.Low)],
-			              ["Medium",parseInt(response.Medium)]
+			              ["Medium",parseInt(response.Medium)],
+			              ["Low",parseInt(response.Low)]
 			             
 			              ];
 			$('#opendefect-pie-chart')
