@@ -216,7 +216,7 @@
 			              ["Failed",parseInt(response.failed)],
 			              ["No Run",parseInt(response.noRun)],
 			              ["Blocked",parseInt(response.blocked)],
-			              ["Deferred",parseInt(response.defered)]
+			              ["Deferred",parseInt(response.deferred)]
 			              ];
 			
 			
@@ -294,7 +294,7 @@
 			              ["Failed",parseInt(response.failed)],
 			              ["No Run",parseInt(response.noRun)],
 			              ["Blocked",parseInt(response.blocked)],
-			              ["Deferred",parseInt(response.defered)]
+			              ["Deferred",parseInt(response.deferred)]
 			              ];
 			
 			$('#automation-pie-chart')

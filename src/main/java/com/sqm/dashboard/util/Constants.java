@@ -1,118 +1,72 @@
 package com.sqm.dashboard.util;
 
-import org.springframework.beans.factory.annotation.Value;
-
 public class Constants {
 	
-	/**
-	 * Default Constructor of class Constants
-	 */
+	public static final String DB_JIRA_PROJECT = "project";
+	/*alm Collection Fields*/
+	public static final String DB_ALM_USERID = "userId";
+	public static final String DB_ALM_DEFECT_IDS = "defectIds";
+	public static final String DB_ALM_MANUAL_TC_EXECSTATUS = "manual_TCExecutionStatus";
+	public static final String DB_ALM_PASSED = "passed";
+	public static final String DB_ALM_FAILED = "failed";
+	public static final String DB_ALM_NORUN = "noRun";
+	public static final String DB_ALM_BLOCKED = "blocked";
+	public static final String DB_ALM_DEFERRED = "deferred";
+	public static final String DB_ALM_AUTOMATION_TC_EXECSTATUS = "automation_TCExecutionStatus";
+	public static final String DB_ALM_STATUS_AND_SEVERITY = "statusAndSeverity";
+	public static final String DB_ALM_STATUS_OP_NW_REOP_ASSIGN_VAL = "Open/New/Re-Opened/Assigned";
+	public static final String DB_ALM_STATUS_FIX_READY_VAL = "Fixed/Ready for Re-test";
+	public static final String DB_ALM_STATUS_DUP_REJ_VAL = "Duplicate/Rejected";
+	public static final String DB_ALM_STATUS_DEF_VAL = "Deferred";
+	public static final String DB_ALM_STATUS_CLOSED_VAL = "Closed";
+	public static final String DB_ALM_STATUS_TOTAL_VAL = "Total";
+	public static final String DB_ALM_STATUS_PER_VAL = "Percentage(%)";
 	
-	private Constants() {
-	}
+	public static final String DB_ALM_STATUS_SEVERITY = "statusSeverity";
+	public static final String DB_ALM_URGENT = "Urgent";
+	public static final String DB_ALM_HIGH = "High";
+	public static final String DB_ALM_MEDIUM = "Medium";
+	public static final String DB_ALM_LOW = "Low";
+	public static final String DB_ALM_TOTAL = "Total";
+	public static final String DB_ALM_RAG_SYSTEM = "ragStatus_System";
+	public static final String DB_ALM_RAG_STATUS = "Status";
+	public static final String DB_ALM_RAG_USER = "user";
+	public static final String DB_ALM_RAG_DATE = "date";
+	public static final String DB_ALM_RAG_MANUAL = "ragStatus_Manual";
+	public static final String DB_ALM_JIRAID = "jiraId";
+	
+	/*release Collection Fields*/
+	public static final String DB_RELEASE_RELFOLDER = "releaseFolder";
+	public static final String DB_RELEASE_CYCLES = "cycles";
+	public static final String DB_RELEASE_CYCLENAME = "cycleName";
+	public static final String DB_RELEASE_CYCLE_SDATE = "cycle_SDate";
+	public static final String DB_RELEASE_CYCLE_EDATE = "cycle_EDate";
+	public static final String DB_RELEASE_PLANNEDTC = "plannedTestcases";
+	public static final String DB_RELEASE_DEFECT_ID = "defectId";
+	public static final String DB_RELEASE_DEFECT_TYPE = "defectType";
+	public static final String DB_RELEASE_DEFECT_ROOTCAUSE = "defectRootCause";
+	public static final String DB_RELEASE_DEFECT_RAISEDDATE = "defectRaisedDate";
+	public static final String DB_RELEASE_DEFECT_FIXEDDATE = "defectFixedDate";
+	public static final String DB_RELEASE_DEFECT_SEVERITY = "defectSeverity";
+	public static final String DB_RELEASE_DEFECT_FIXTIME = "defectFixTime";
+	public static final String DB_RELEASE_DEFECTSTATUS = "defectStatus";
+	public static final String DB_RELEASE_DEFECTS = "defects";
+	public static final String DB_RELEASE_STATUS = "status";
+	public static final String DB_RELEASE_ENVDATES = "envDates";
 
-/*	@Value("${almDefectONRA}")private String almDefectONRA;
-	@Value("${almDefectOpNewReopAssig}")private static String almDefectOpNewReopAssig;
-	@Value("${almDFixReady}")private static String almDFixReady;
-	@Value("${almDClosed}")private static String almDClosed;
-	@Value("${almDDupRej}")private static String almDDupRej;
-	@Value("${almDDef}")private static String almDDef;
-
-	@Value("${almDUrg}")private static String almDUrg;
-	@Value("${almDHig}")private static String almDHig;
-	@Value("${almDMed}")private static String almDMed;
-	@Value("${almDLow}")private static String almDLow;
-		
-	@Value("${almUIONRA}")private static String almUIONRA;
-	@Value("${almUIFR}")private static String almUIFR;
-	@Value("${almUIC}")private static String almUIC;
-	@Value("${almUIDR}")private static String almUIDR;
-	@Value("${almUID}")private static String almUID;
-		
-	@Value("${almUISS}")private static String almUISS;
-	@Value("${almUIUrg}")private static String almUIUrg;
-	@Value("${almUIHig")private static String almUIHig;
-	@Value("${almUIMed}")private static String almUIMed;
-	@Value("${almUILow}")private static String almUILow;
-	@Value("${almUITotDef}")private static String almUITotDef;
-	@Value("${almUITot}")private static String almUITot;
-	@Value("${almUIPer}")private static String almUIPer;
-		
-	@Value("${almUITS}")private static String almUITS;
-	@Value("${almUITP}")private static String almUITP;
-	@Value("${almUITF}")private static String almUITF;
-	@Value("${almUITNRNC}")private static String almUITNRNC;
-	@Value("${almUITNA}")private static String almUITNA;
-	@Value("${almUITD}")private static String almUITD;
-	@Value("${almUITB}")private static String almUITB;
-	@Value("${almUITTot}")private static String almUITTot;
-	@Value("${almUITCount}")private static String almUITCount;
-	@Value("${almUITPer}")private static String almUITPer;
-		
-	@Value("${almUITSP}")private static String almUITSP;
-	@Value("${almUITSF}")private static String almUITSF;
-	@Value("${almUITSNRNC}")private static String almUITSNRNC;
-	@Value("${almUITSNA}")private static String almUITSNA;
-	@Value("${almUITSD}")private static String almUITSD;
-	@Value("${almUITSB}")private static String almUITSB;
+	/*Common Fields*/
+	public static final String DB_DOMAIN = "domain";
+	public static final String DB_PROJECT = "project";
+	public static final String DB_RELEASE = "release";
+	public static final String DB_REL_SDATE = "release_SDate";
+	public static final String DB_REL_EDATE = "release_EDate";
+	public static final String DB_CREATED_ON = "CreatedOn";
+	public static final String DB_CREATED_BY = "CreatedBy";
+	public static final String DB_UPDATED_ON = "UpdatedOn";
+	public static final String DB_UPDATED_BY = "UpdatedBy";
+	public static final String KEY = "key";
 	
-	
-	public static final String DEFECT_STATUS_OPEN_NEW_REOPENED_ASSIGNED = almDefectOpNewReopAssig;
-	public static final String DEFECT_STATUS_FIXED_READYFORRETEST = almDFixReady;
-	public static final String DEFECT_STATUS_CLOSED = almDClosed;
-	public static final String DEFECT_STATUS_DUPLICATE_REJECTED = almDDupRej;
-	public static final String DEFECT_STATUS_DEFERRED = almDDef;
-
-	public static final String DEFECT_PRIORITY_1_URGENT = almDUrg;
-	public static final String DEFECT_PRIORITY_2_HIGH = almDHig;
-	public static final String DEFECT_PRIORITY_3_MEDIUM = almDMed;
-	public static final String DEFECT_PRIORITY_4_LOW = almDLow;
-	
-	// Defects - UI constants
-	public static final String UI_OPEN_NEW_REOPENED_ASSIGNED = almUIONRA;
-	public static final String UI_FIXED_READYFORRETEST = almUIFR;
-	public static final String UI_CLOSED = almUIC;
-	public static final String UI_DUPLICATE_REJECTED = almUIDR;
-	public static final String UI_DEFERRED = almUID;
-	
-	public static final String UI_STATUS_SEVERITY = almUISS;
-	public static final String UI_1_URGENT = almUIUrg;
-	public static final String UI_2_HIGH = almUIHig;
-	public static final String UI_3_MEDIUM = almUIMed;
-	public static final String UI_4_LOW = almUILow;
-	public static final String UI_TOTAL_DEFECTS = almUITotDef;
-	public static final String UI_TOTAL = almUITot;
-	public static final String UI_PERCENTAGE = almUIPer;
-	
-	//Test cases
-	public static final String UI_TESTCASES_STATUS = almUITS;
-	public static final String UI_TESTCASES_PASSED = almUITP;
-	public static final String UI_TESTCASES_FAILED = almUITF;
-	public static final String UI_TESTCASES_NRNC = almUITNRNC;
-	public static final String UI_TESTCASES_NA = almUITNA;
-	public static final String UI_TESTCASES_DEFERRED = almUITD;
-	public static final String UI_TESTCASES_BLOCKED = almUITB;
-	public static final String UI_TESTCASES_TOTAL = almUITTot;
-	public static final String UI_TESTCASES_COUNT = almUITCount;
-	public static final String UI_TESTCASES_PERCENTAGE = almUITPer;
-	
-	public static final String TESTCASES_STATUS_PASSED = almUITSP;
-	public static final String TESTCASES_STATUS_FAILED = almUITSF;
-	public static final String TESTCASES_STATUS_NORUNANDNOTCOMPLETED = almUITSNRNC;
-	public static final String TESTCASES_STATUS_NOTAPPLICABLE = almUITSNA;
-	public static final String TESTCASES_STATUS_DEFERRED = almUITSD;
-	public static final String TESTCASES_STATUS_BLOCKED = almUITSB;
-	
-	// ALM login details
-	/*public static final String HOST = "ealm11.jpmchase.net";
-	public static final String PORT = "80";
-	public static final String USERNAME = "ramu.suntaramoni";
-	public static final String PASSWORD = "Polaris11";
-	public static final String DOMAIN = "AWM";
-	public static final String PROJECT = "ALT_INVEST";
-	public static final boolean VERSIONED = true;
-*/
-	//Defect Status
+	/*Defect Constants*/
 	public static final String DEFECT_STATUS_OPEN_NEW_REOPENED_ASSIGNED = "Open or New or Re-Opened or Assigned";
 	public static final String DEFECT_STATUS_FIXED_READYFORRETEST = "Fixed or \"Ready for Re-test\"";
 	public static final String DEFECT_STATUS_CLOSED = "Closed";
@@ -126,6 +80,7 @@ public class Constants {
 	public static final String DEFECT_SEVERITY_3_MEDIUM = "3 - Medium";
 	public static final String DEFECT_SEVERITY_4_LOW = "4 - Low";
 	
+	/*Testcases Constants*/
 	public static final String TESTCASES_STATUS_PASSED = "Passed";
 	public static final String TESTCASES_STATUS_FAILED = "Failed";
 	public static final String TESTCASES_STATUS_NORUNANDNOTCOMPLETED = "\"No Run\" or \"Not Completed\"";

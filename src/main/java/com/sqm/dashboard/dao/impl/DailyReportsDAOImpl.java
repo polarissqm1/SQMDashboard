@@ -183,7 +183,7 @@ public class DailyReportsDAOImpl implements DailyReportsDAO {
 						 int failedV=Integer.parseInt(manualVO.getFailed())+Integer.parseInt(automationVO.getFailed());
 						 int noRunV=Integer.parseInt(manualVO.getNoRun())+Integer.parseInt(automationVO.getNoRun());
 						 int blockedV=Integer.parseInt(manualVO.getBlocked())+Integer.parseInt(automationVO.getBlocked());
-						 int defferedV=Integer.parseInt(manualVO.getDefered())+Integer.parseInt(automationVO.getDefered());
+						 int defferedV=Integer.parseInt(manualVO.getDeferred())+Integer.parseInt(automationVO.getDeferred());
 						 int totalValue=passedV+failedV+noRunV+blockedV+defferedV;
 						 String totalPercent="100";
 						 String totalValueString=""+ totalValue+"";
@@ -278,7 +278,7 @@ public class DailyReportsDAOImpl implements DailyReportsDAO {
 					for(TestCaseExecutionStatusVO tr:testCaseVO){
 						System.out.println(tr.toString());
 					}
-						dashVO.setRdate(report.get("lastUpdationDate").toString());
+						dashVO.setRdate(report.get("UpdatedOn").toString());
 						//dashVO.setPlan(report.get("plan").toString());
 						list.add(dashVO);
 						System.out.println(dashVO.toString()+list);

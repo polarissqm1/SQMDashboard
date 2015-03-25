@@ -108,7 +108,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 						} 
 					 
 					 * */
-					DBCollection table = db.getCollection("alm_1");
+					DBCollection table = db.getCollection("alm");
 					log.info("Connect to collection alm successfully");
 					BasicDBObject searchQuery = new BasicDBObject();
 				
@@ -143,7 +143,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 						 int failedV=Integer.parseInt(manualVO.getFailed())+Integer.parseInt(automationVO.getFailed());
 						 int noRunV=Integer.parseInt(manualVO.getNoRun())+Integer.parseInt(automationVO.getNoRun());
 						 int blockedV=Integer.parseInt(manualVO.getBlocked())+Integer.parseInt(automationVO.getBlocked());
-						 int defferedV=Integer.parseInt(manualVO.getDefered())+Integer.parseInt(automationVO.getDefered());
+						 int defferedV=Integer.parseInt(manualVO.getDeferred())+Integer.parseInt(automationVO.getDeferred());
 						 int totalValue=passedV+failedV+noRunV+blockedV+defferedV;
 						 String totalPercent="100";
 						 String totalValueString=""+ totalValue+"";
@@ -153,12 +153,42 @@ public class DashboardDAOImpl implements DashboardDAO {
 						 String blockedValue=""+blockedV+"";
 						 String defferedValue=""+defferedV+"";
 						 
+						 BigDecimal passedP=null;
+						 BigDecimal failedP=null;
+						 BigDecimal noRunP=null;
+						 BigDecimal blockedP=null;
+						 BigDecimal defferedP=null;
+						 if(Double.valueOf(totalValue)*100==0){
+						passedP=new BigDecimal(0); 
+						 }else{
+						 passedP=new BigDecimal((Double.valueOf(passedValue)/Double.valueOf(totalValue))*100);
+						 }
+						 if(Double.valueOf(totalValue)*100==0){
+							 failedP=new BigDecimal(0); 
+								 }else{
+					failedP=new BigDecimal((Double.valueOf(failedValue)/Double.valueOf(totalValue))*100);
+								 }
+						 if(Double.valueOf(totalValue)*100==0){
+							 noRunP=new BigDecimal(0); 
+								 }else{
+						 noRunP=new BigDecimal((Double.valueOf(noRunValue)/Double.valueOf(totalValue))*100);
+								 }
+						 if(Double.valueOf(totalValue)*100==0){
+							 blockedP=new BigDecimal(0); 
+								 }else{
+				blockedP=new BigDecimal((Double.valueOf(blockedValue)/Double.valueOf(totalValue))*100);
+								 }if(Double.valueOf(totalValue)*100==0){
+									 defferedP=new BigDecimal(0); 
+								 }else{
+						defferedP=new BigDecimal((Double.valueOf(defferedValue)/Double.valueOf(totalValue))*100);
+								 }
 						 
-						 BigDecimal passedP=new BigDecimal((Double.valueOf(passedValue)/Double.valueOf(totalValue))*100);
+						 
+						/* BigDecimal passedP=new BigDecimal((Double.valueOf(passedValue)/Double.valueOf(totalValue))*100);
 						 BigDecimal failedP=new BigDecimal((Double.valueOf(failedValue)/Double.valueOf(totalValue))*100);
 						 BigDecimal noRunP=new BigDecimal((Double.valueOf(noRunValue)/Double.valueOf(totalValue))*100);
 						 BigDecimal blockedP=new BigDecimal((Double.valueOf(blockedValue)/Double.valueOf(totalValue))*100);
-						 BigDecimal defferedP=new BigDecimal((Double.valueOf(defferedValue)/Double.valueOf(totalValue))*100);
+						 BigDecimal defferedP=new BigDecimal((Double.valueOf(defferedValue)/Double.valueOf(totalValue))*100);*/
 						 
 						 
 						
@@ -214,7 +244,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 					for(TestCaseExecutionStatusVO tr:testCaseVO){
 						System.out.println(tr.toString());
 					}
-						dashVO.setRdate(report.get("lastUpdationDate").toString());
+						dashVO.setRdate(report.get("UpdatedOn").toString());
 						//dashVO.setPlan(report.get("plan").toString());
 						list.add(dashVO);
 						System.out.println(dashVO.toString()+list);

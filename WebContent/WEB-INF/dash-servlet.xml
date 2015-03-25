@@ -17,7 +17,11 @@
         http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/mvc  http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
-        
+     
+    <!-- <context:annotation-config /> -->
+     
+     <mvc:annotation-driven />
+     	   
 	<context:component-scan base-package="com.sqm.dashboard.controller,
 											com.sqm.dashboard.dao,
 											com.sqm.dashboard.dao.impl,
@@ -28,9 +32,6 @@
 											com.sqm.dashboard.VO,
 											com.sqm.dashboard.schedular.impl" />
 	
-	<mvc:annotation-driven/>
+
 
 </beans>
-
-
-

@@ -71,8 +71,8 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 					    Float failed=Float.parseFloat(dashVO.getManualVO().getFailed())+Float.parseFloat(dashVO.getAutomationVO().getFailed());
 						Float noRun=Float.parseFloat(dashVO.getManualVO().getNoRun())+Float.parseFloat(dashVO.getAutomationVO().getNoRun());
 						Float blocked=Float.parseFloat(dashVO.getManualVO().getBlocked())+Float.parseFloat(dashVO.getAutomationVO().getBlocked());
-						/*Float deffered=Float.parseFloat(dashVO.getManualVO().getDefered())+Float.parseFloat(dashVO.getAutomationVO().getDefered());*/
-						Float deffered=Float.parseFloat(dashVO.getManualVO().getDefered());
+						Float deffered=Float.parseFloat(dashVO.getManualVO().getDeferred())+Float.parseFloat(dashVO.getAutomationVO().getDeferred());
+						/*Float deffered=Float.parseFloat(dashVO.getManualVO().getDeferred());*/
 						Float totalTC=passed+failed+noRun+blocked+deffered;
 					    Float actual=passed+failed+blocked+deffered;
 					    Float totalDefect=Float.parseFloat(dashVO.getStatusAndSeverityVO().get(5).getTotal());
@@ -378,73 +378,74 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
                        
                       String defectId=defectVO.getDefectId();
                       trendReportsReleaseVO.setDefectId(defectId);
-                      rootCauseMap.put("incorrectUnderstanding",count_incorrectUnderstanding);
-     				  rootCauseMap.put("implementation", count_implementation); 
-     				  rootCauseMap.put("coding", count_coding);
-     				  rootCauseMap.put("AutomatedTestScript", count_automatedTestScript);
-     				  rootCauseMap.put("Data", count_data);
-     				  rootCauseMap.put("DataTable", count_datatable);
-     				  rootCauseMap.put("Design", count_design);
-     				  rootCauseMap.put("Hardware_Infrastructure", count_hardwareDesign);
-     				  rootCauseMap.put("Interface", count_interface);
-     				  rootCauseMap.put("JCL", count_JCL);
-     				  rootCauseMap.put("ManualTestScript", count_manualTestScript);
-     				  rootCauseMap.put("Requirements", count_requirements);
-     				  rootCauseMap.put("Environment", count_Environment_root);
-     				  rootCauseMap.put("UserError_NotaDefect", count_userError);
-     				
-     				    
-     				  
-     				  defectTypeMap.put("Performance", count_Performance);
-					  defectTypeMap.put("DataConversion", count_DataConversion);
-					  defectTypeMap.put("DeferredItem", count_deferresItem);
-					  defectTypeMap.put("DocumentationReview", count_documentationReview);
-					  defectTypeMap.put("Enhancement", count_Enhancement);
-					  defectTypeMap.put("Environment", count_Environment);
-					  defectTypeMap.put("Functional", count_functional);
-					  defectTypeMap.put("Inquiry", count_inquiry);
-					  defectTypeMap.put("TestExecution", count_testExecution);
-					  defectTypeMap.put("Unknown", count_unknown);
-					  defectTypeMap.put("ID", count_ID);
-					  defectTypeMap.put("UI", count_UI);
-					  
-					  
-					  oneDayToFour.put("Urgent", urgent_1D);
-					  oneDayToFour.put("High", high_1D);
-					  oneDayToFour.put("Medium", medium_1D);
-					  oneDayToFour.put("Low", low_1D);
-					  
-					  
-					  fourToEight.put("Urgent", urgent_4D);
-					  fourToEight.put("High", high_4D);
-					  fourToEight.put("Medium", medium_4D);
-					  fourToEight.put("Low", low_4D);
-					  
-					  greaterEight.put("Urgent", urgent_final);
-					  greaterEight.put("Medium", medium_final);
-					  greaterEight.put("High", high_final);
-					  greaterEight.put("Low", low_final);
-					  
-					
-					  /*String defectRaisedDate=defectVO.getDefectFixedDate();
-					  String defectFixedDate=defectVO.getDefectFixedDate();
-					  
-					  Date d1 = new SimpleDateFormat("yyyy-M-dd").parse(defectRaisedDate);
-					  Date d2 = new SimpleDateFormat("yyyy-M-dd").parse(defectFixedDate);
-					  
-					  long diff = Math.abs(d1.getTime() - d2.getTime());
-					  long diffDays = diff / (24 * 60 * 60 * 1000);*/
-					
-					  
-					  trendReportsReleaseVO.setOneDayToFour(oneDayToFour);
-					  trendReportsReleaseVO.setFourToEight(fourToEight);
-					  trendReportsReleaseVO.setGreaterEight(greaterEight);
-     				  trendReportsReleaseVO.setDefectRootCause(rootCauseMap);
-     				  trendReportsReleaseVO.setDefectType(defectTypeMap);
-     				 trendReportsReleaseVO.setPlanned("1200");
-     				  originalList.add(trendReportsReleaseVO);
-                      
+                                        
 				  }
+				  rootCauseMap.put("incorrectUnderstanding",count_incorrectUnderstanding);
+ 				  rootCauseMap.put("implementation", count_implementation); 
+ 				  rootCauseMap.put("coding", count_coding);
+ 				  rootCauseMap.put("AutomatedTestScript", count_automatedTestScript);
+ 				  rootCauseMap.put("Data", count_data);
+ 				  rootCauseMap.put("DataTable", count_datatable);
+ 				  rootCauseMap.put("Design", count_design);
+ 				  rootCauseMap.put("Hardware_Infrastructure", count_hardwareDesign);
+ 				  rootCauseMap.put("Interface", count_interface);
+ 				  rootCauseMap.put("JCL", count_JCL);
+ 				  rootCauseMap.put("ManualTestScript", count_manualTestScript);
+ 				  rootCauseMap.put("Requirements", count_requirements);
+ 				  rootCauseMap.put("Environment", count_Environment_root);
+ 				  rootCauseMap.put("UserError_NotaDefect", count_userError);
+ 				
+ 				    
+ 				  
+ 				  defectTypeMap.put("Performance", count_Performance);
+				  defectTypeMap.put("DataConversion", count_DataConversion);
+				  defectTypeMap.put("DeferredItem", count_deferresItem);
+				  defectTypeMap.put("DocumentationReview", count_documentationReview);
+				  defectTypeMap.put("Enhancement", count_Enhancement);
+				  defectTypeMap.put("Environment", count_Environment);
+				  defectTypeMap.put("Functional", count_functional);
+				  defectTypeMap.put("Inquiry", count_inquiry);
+				  defectTypeMap.put("TestExecution", count_testExecution);
+				  defectTypeMap.put("Unknown", count_unknown);
+				  defectTypeMap.put("ID", count_ID);
+				  defectTypeMap.put("UI", count_UI);
+				  
+				  
+				  oneDayToFour.put("Urgent", urgent_1D);
+				  oneDayToFour.put("High", high_1D);
+				  oneDayToFour.put("Medium", medium_1D);
+				  oneDayToFour.put("Low", low_1D);
+				  
+				  
+				  fourToEight.put("Urgent", urgent_4D);
+				  fourToEight.put("High", high_4D);
+				  fourToEight.put("Medium", medium_4D);
+				  fourToEight.put("Low", low_4D);
+				  
+				  greaterEight.put("Urgent", urgent_final);
+				  greaterEight.put("Medium", medium_final);
+				  greaterEight.put("High", high_final);
+				  greaterEight.put("Low", low_final);
+				  
+				
+				  /*String defectRaisedDate=defectVO.getDefectFixedDate();
+				  String defectFixedDate=defectVO.getDefectFixedDate();
+				  
+				  Date d1 = new SimpleDateFormat("yyyy-M-dd").parse(defectRaisedDate);
+				  Date d2 = new SimpleDateFormat("yyyy-M-dd").parse(defectFixedDate);
+				  
+				  long diff = Math.abs(d1.getTime() - d2.getTime());
+				  long diffDays = diff / (24 * 60 * 60 * 1000);*/
+				
+				  
+				  trendReportsReleaseVO.setOneDayToFour(oneDayToFour);
+				  trendReportsReleaseVO.setFourToEight(fourToEight);
+				  trendReportsReleaseVO.setGreaterEight(greaterEight);
+ 				  trendReportsReleaseVO.setDefectRootCause(rootCauseMap);
+ 				  trendReportsReleaseVO.setDefectType(defectTypeMap);
+ 				 trendReportsReleaseVO.setPlanned("1200");
+ 				  originalList.add(trendReportsReleaseVO);
+
 				  
 				  
 				

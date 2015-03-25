@@ -30,7 +30,6 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 	
 	final Logger log = Logger.getLogger(AlmSchedReleaseServiceImpl.class);
 	
-	@Override
 	public ArrayList<AlmReleaseDetails> getAlmReleasesDetails(RestConnectorUtility conn, String releasesUrl, Map<String, String> requestHeaders) throws Exception {
 		
   		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -42,7 +41,6 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 	    return releaseDetails;
 	}
 	
-	@Override
 	public ArrayList<AlmReleaseCycleDetails> getAlmReleaseCyclesDetails(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseCyclesUrl, String releaseId) throws Exception {
 
   		ArrayList<AlmReleaseCycleDetails> releaseCycleDetails = getAlmReleasesCycleDetails(conn, requestHeaders, releaseCyclesUrl, releaseId);
@@ -50,7 +48,6 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 
 	}
 	
-	@Override
 	public SchedularReleaseCyclesVO getAlmReleaseCyclesData(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseCyclesUrl, String releaseId) throws Exception {
 
 		SchedularReleaseCyclesVO releaseCyclesData = getAlmReleaseCycleData(conn, requestHeaders, releaseCyclesUrl, releaseId);
@@ -58,46 +55,13 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 
 	}
 	
-  	@Override
-	public List<String> getAlmReleasesIds(RestConnectorUtility conn, String releasesUrl, Map<String, String> requestHeaders) throws Exception {
-		
-  		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-  		Date date = new Date();
-	    String currentDate = dateFormat.format(date);
-
-	    List<String> releaseIds = getAlmReleaseIds(conn, requestHeaders, releasesUrl, currentDate);
-	    
-	    return releaseIds;
-	}
-	
-  	@Override
-	public List<String> getAlmReleasesNames(RestConnectorUtility conn, String releasesUrl, Map<String, String> requestHeaders) throws Exception {
-		
-  		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-  		Date date = new Date();
-	    String currentDate = dateFormat.format(date);
-
-	    List<String> releaseNames = getAlmReleaseNames(conn, requestHeaders, releasesUrl, currentDate);
-	    
-	    return releaseNames;
-	}
-  	
-  	@Override
-  	public ArrayList<String> getAlmReleaseCycleNames(RestConnectorUtility conn, String releaseCyclesUrl, Map<String, String> requestHeaders, String releaseId) throws Exception {
-		
-  		ArrayList<String> releaseCycleNames = getAlmReleasesCycleNames(conn, requestHeaders, releaseCyclesUrl, releaseId);
-	    return releaseCycleNames;
-	}
-
-  	@Override
-  	public SchedularReleaseDefectsVO getAlmReleaseDefectsData(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseDefectsUrl, String releaseId) throws Exception {
+	public SchedularReleaseDefectsVO getAlmReleaseDefectsData(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseDefectsUrl, String releaseId) throws Exception {
 		
   		SchedularReleaseDefectsVO schedReleaseDefectsVO = getAlmReleasesDefectsData(conn, requestHeaders, releaseDefectsUrl, releaseId);
 	    return schedReleaseDefectsVO;
 	    
 	}
   	
-  	@Override
   	public ArrayList<String> getAlmReleaseDefectIds(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseDefectsUrl, String releaseId) throws Exception {
 		
   		ArrayList<String> relDefectIds = getAlmReleasesDefectIds(conn, requestHeaders, releaseDefectsUrl, releaseId);
@@ -131,15 +95,7 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 			String listFromReleaseDetailsCollectionAsXml = conn.httpGet(releasesUrl, queryAlmReleasesDetails.toString(), requestHeaders).toString();
 			log.info("listFromReleasesCollectionAsXml : " + listFromReleaseDetailsCollectionAsXml);
 		
-			DocumentBuilder db1 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			InputSource is1 = new InputSource();
-			is1.setCharacterStream(new StringReader(listFromReleaseDetailsCollectionAsXml));
-
-			Document doc1 = db1.parse(is1);
-			
-			doc1.getDocumentElement().normalize();
-			
-			NodeList nList = doc1.getElementsByTagName("Field");
+			NodeList nList = getNodeList(listFromReleaseDetailsCollectionAsXml);
 			
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 				nNode = nList.item(temp);
@@ -176,108 +132,6 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 		}
 	}
 
-	public List<String> getAlmReleaseIds(RestConnectorUtility conn, Map<String, String> requestHeaders,  String releasesUrl, String currentDate) throws Exception {
-		
-		StringBuilder queryAlmReleases = new StringBuilder();
-		List<String> releaseIds = new ArrayList<String>();
-		
-		Node nNode = null;
-		Element eElement = null;
-		
-		try{
-			queryAlmReleases.append("query={end-date[");
-			queryAlmReleases.append(">=");
-			queryAlmReleases.append(currentDate);
-			queryAlmReleases.append("]");
-			queryAlmReleases.append("}");
-			queryAlmReleases.append("&fields=id,name,start-date,end-date");
-
-			log.info("AlmReleases Query : " + queryAlmReleases);
-
-			String listFromReleasesCollectionAsXml = conn.httpGet(releasesUrl, queryAlmReleases.toString(), requestHeaders).toString();
-			log.info("listFromReleasesCollectionAsXml : " + listFromReleasesCollectionAsXml);
-			
-			DocumentBuilder db2 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			InputSource is2 = new InputSource();
-			is2.setCharacterStream(new StringReader(listFromReleasesCollectionAsXml));
-
-			Document doc2 = db2.parse(is2);
-			
-			doc2.getDocumentElement().normalize();
-			System.out.println("Root element :" + doc2.getDocumentElement().getNodeName());
-		 
-			NodeList nList = doc2.getElementsByTagName("Field");
-			System.out.println("----------------------------");
-		 
-			for (int temp = 0; temp < nList.getLength(); temp++) {
-				nNode = nList.item(temp);
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					eElement = (Element) nNode;
-					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("id")) {
-						releaseIds.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
-					} 
-				}
-			}
-			
-			return releaseIds;
-			
-		} catch (Exception e) {
-				log.error("Error in getting Alm active releases : " + e.getMessage());
-				throw e;
-		}
-	}
-
-	public List<String> getAlmReleaseNames(RestConnectorUtility conn, Map<String, String> requestHeaders,  String releasesUrl, String currentDate) throws Exception {
-		
-		StringBuilder queryAlmReleases = new StringBuilder();
-		List<String> releaseNames = new ArrayList<String>();
-		
-		Node nNode = null;
-		Element eElement = null;
-		
-		try{
-			queryAlmReleases.append("query={end-date[");
-			queryAlmReleases.append(">=");
-			queryAlmReleases.append(currentDate);
-			queryAlmReleases.append("]");
-			queryAlmReleases.append("}");
-			queryAlmReleases.append("&fields=id,name,start-date,end-date");
-
-			log.info("AlmReleases Query : " + queryAlmReleases);
-
-			String listFromReleasesCollectionAsXml = conn.httpGet(releasesUrl, queryAlmReleases.toString(), requestHeaders).toString();
-			log.info("listFromReleasesCollectionAsXml : " + listFromReleasesCollectionAsXml);
-			
-			DocumentBuilder db3 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			InputSource is3 = new InputSource();
-			is3.setCharacterStream(new StringReader(listFromReleasesCollectionAsXml));
-
-			Document doc3 = db3.parse(is3);
-			
-			doc3.getDocumentElement().normalize();
-			System.out.println("Root element :" + doc3.getDocumentElement().getNodeName());
-		 
-			NodeList nList = doc3.getElementsByTagName("Field");
-			System.out.println("----------------------------");
-		 
-			for (int temp = 0; temp < nList.getLength(); temp++) {
-				nNode = nList.item(temp);
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					eElement = (Element) nNode;
-					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("name")) {
-						releaseNames.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
-					}
-				}
-			}
-			
-			return releaseNames;
-			
-		} catch (Exception e) {
-				log.error("Error in getting Alm active releases : " + e.getMessage());
-				throw e;
-		}
-	}
-	
 	public ArrayList<AlmReleaseCycleDetails> getAlmReleasesCycleDetails(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseCyclesUrl, String releaseId) throws Exception {
 		
 		StringBuilder queryAlmRelCycleDetails = new StringBuilder();
@@ -301,18 +155,9 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 
 			String listFromReleaseCycleDetailsCollectionAsXml = conn.httpGet(releaseCyclesUrl, queryAlmRelCycleDetails.toString(), requestHeaders).toString();
 			log.info("listFromReleaseCycleDetailsCollectionAsXml : " + listFromReleaseCycleDetailsCollectionAsXml);
-			
-			DocumentBuilder db4 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			InputSource is4 = new InputSource();
-			is4.setCharacterStream(new StringReader(listFromReleaseCycleDetailsCollectionAsXml));
 
-			Document doc4 = db4.parse(is4);
+			NodeList nList = getNodeList(listFromReleaseCycleDetailsCollectionAsXml);
 			
-			doc4.getDocumentElement().normalize();
-			log.info("Root element :" + doc4.getDocumentElement().getNodeName());
-		 
-			NodeList nList = doc4.getElementsByTagName("Field");
-
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 				nNode = nList.item(temp);
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -346,7 +191,7 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 				throw e;
 		}
 	}
-
+	
 	public SchedularReleaseCyclesVO getAlmReleaseCycleData(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseCyclesUrl, String releaseId) throws Exception {
 		
 		StringBuilder queryAlmRelCycleDetails = new StringBuilder();
@@ -372,17 +217,8 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 			String listFromReleaseCycleDetailsCollectionAsXml = conn.httpGet(releaseCyclesUrl, queryAlmRelCycleDetails.toString(), requestHeaders).toString();
 			log.info("listFromReleaseCycleDetailsCollectionAsXml : " + listFromReleaseCycleDetailsCollectionAsXml);
 			
-			DocumentBuilder db4 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			InputSource is4 = new InputSource();
-			is4.setCharacterStream(new StringReader(listFromReleaseCycleDetailsCollectionAsXml));
-
-			Document doc4 = db4.parse(is4);
-			
-			doc4.getDocumentElement().normalize();
-			log.info("Root element :" + doc4.getDocumentElement().getNodeName());
-		 
-			NodeList nList = doc4.getElementsByTagName("Field");
-
+			NodeList nList = getNodeList(listFromReleaseCycleDetailsCollectionAsXml);
+					
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 				nNode = nList.item(temp);
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -420,8 +256,6 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 
 	public ArrayList<String> getAlmReleasesCycleNames(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseCyclesUrl, String releaseId) throws Exception {
 		
-		//http://ealm11.jpmchase.net/qcbin/rest/domains/IB_TECHNOLOGY/projects/CFT_POST_TRADE/release-cycles?query={parent-id[1326]}&fields=name,start-date,end-date
-		
 		StringBuilder queryAlmReleaseCycleNames = new StringBuilder();
 		ArrayList<String> releaseCycleNames = new ArrayList<String>();
 		
@@ -439,17 +273,8 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 			String listFromReleaseCyclesCollectionAsXml = conn.httpGet(releaseCyclesUrl, queryAlmReleaseCycleNames.toString(), requestHeaders).toString();
 			log.info("listFromReleaseCyclesCollectionAsXml : " + listFromReleaseCyclesCollectionAsXml);
 			
-			DocumentBuilder db4 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			InputSource is4 = new InputSource();
-			is4.setCharacterStream(new StringReader(listFromReleaseCyclesCollectionAsXml));
-
-			Document doc4 = db4.parse(is4);
-			
-			doc4.getDocumentElement().normalize();
-			log.info("Root element :" + doc4.getDocumentElement().getNodeName());
-		 
-			NodeList nList = doc4.getElementsByTagName("Field");
-
+			NodeList nList = getNodeList(listFromReleaseCyclesCollectionAsXml);
+					
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 				nNode = nList.item(temp);
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -469,8 +294,6 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 	}
 	
 	public SchedularReleaseDefectsVO getAlmReleasesDefectsData(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseDefectsUrl, String releaseId) throws Exception {
-		
-		//http://ealm11.jpmchase.net/qcbin/rest/domains/IB_TECHNOLOGY/projects/CFT_POST_TRADE/defects?query={detected-in-rel[1330]}&fields=id,user-06,user-08,creation-time,closing-date,severity
 		
 		StringBuilder queryAlmReleaseDefects = new StringBuilder();
 		List<String> defectId = new ArrayList<String>();
@@ -498,17 +321,8 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 			String listFromReleaseDefectsCollectionAsXml = conn.httpGet(releaseDefectsUrl, queryAlmReleaseDefects.toString(), requestHeaders).toString();
 			log.info("listFromReleaseDefectsCollectionAsXml : " + listFromReleaseDefectsCollectionAsXml);
 			
-			DocumentBuilder db5 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			InputSource is5 = new InputSource();
-			is5.setCharacterStream(new StringReader(listFromReleaseDefectsCollectionAsXml));
-
-			Document doc5 = db5.parse(is5);
-			
-			doc5.getDocumentElement().normalize();
-			log.info("Root element :" + doc5.getDocumentElement().getNodeName());
-		 
-			NodeList nList = doc5.getElementsByTagName("Field");
-
+			NodeList nList = getNodeList(listFromReleaseDefectsCollectionAsXml);
+					
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 				nNode = nList.item(temp);
 				
@@ -595,18 +409,9 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 
 			String listFromReleaseDefectIdsCollectionAsXml = conn.httpGet(releaseDefectsUrl, queryAlmReleaseDefectIds.toString(), requestHeaders).toString();
 			log.info("listFromReleaseDefectIdsCollectionAsXml : " + listFromReleaseDefectIdsCollectionAsXml);
-			
-			DocumentBuilder db6 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			InputSource is6 = new InputSource();
-			is6.setCharacterStream(new StringReader(listFromReleaseDefectIdsCollectionAsXml));
 
-			Document doc6 = db6.parse(is6);
-			
-			doc6.getDocumentElement().normalize();
-			log.info("Root element :" + doc6.getDocumentElement().getNodeName());
-		 
-			NodeList nList = doc6.getElementsByTagName("Field");
-
+			NodeList nList = getNodeList(listFromReleaseDefectIdsCollectionAsXml);
+					
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 				nNode = nList.item(temp);
 				
@@ -625,5 +430,20 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 				log.error("Error in getting Alm Release Defects Ids : " + e.getMessage());
 				throw e;
 		}
+	}
+	
+	public NodeList getNodeList(String inputXml) throws Exception {
+	
+		DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		
+		InputSource is = new InputSource();
+		is.setCharacterStream(new StringReader(inputXml));
+
+		Document doc = db.parse(is);
+		doc.getDocumentElement().normalize();
+	
+		NodeList nList = doc.getElementsByTagName("Field");
+		
+		return nList;
 	}
 }

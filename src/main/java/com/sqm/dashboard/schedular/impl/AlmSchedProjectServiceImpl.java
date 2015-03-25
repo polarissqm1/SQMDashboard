@@ -2,14 +2,13 @@ package com.sqm.dashboard.schedular.impl;
 
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -25,21 +24,18 @@ public class AlmSchedProjectServiceImpl implements AlmSchedProjectService {
 
 	final Logger log = Logger.getLogger(AlmSchedProjectServiceImpl.class);
 	
-	/*@Value("$almBasicUrl")private String almBasicUrl;
-	@Value("$almDomains")private String almDomains;*/
+	@Value("${almBasicUrl}")
+	private String almBasicUrl;
 	
-	/*private String almBasicUrl = "http://ealm11.jpmchase.net/qcbin/rest/";
-	private String almDomains = "domains";*/
+	@Value("${almDomains}")
+	private String almDomains;
 	
-	@SuppressWarnings("unused")
-	@Override
-	public HashMap<String,String> getAlmProjects(RestConnectorUtility connection, Map<String, String> requestHeaders, String domainName) throws Exception {
+	@Value("${almProjects}")
+	private String almProjects;
+	
+	public ArrayList<String> getAlmProjects(RestConnectorUtility connection, Map<String, String> requestHeaders, String domainName) throws Exception {
 
-		HashMap<String,String> jsonProjects=new HashMap<String, String>();
-		//HashMap<String,String> dummy=new HashMap<String, String>();
-		
-		String projectsUrl = "http://ealm11.jpmchase.net/qcbin/rest/" + "domains" + "/" + domainName + "/" + "projects";
-		//String projectsUrl = almBasicUrl + almDomains + "/" + domainName + "/" + almProjects;
+		String projectsUrl = almBasicUrl + almDomains + "/" + domainName + "/" + almProjects;
 		log.info("projectsUrl : " + projectsUrl);
 		
 		String listOfProjects;
@@ -66,25 +62,10 @@ public class AlmSchedProjectServiceImpl implements AlmSchedProjectService {
 					log.info("Project name : " + eElement.getAttribute("Name"));
 				}
 			}
-			log.info("List of Projects : " + projectsList);
 			
-			if(projectsList != null){
-				jsonProjects = new HashMap<String,String>();
-
-				int i = 1;
-				for (@SuppressWarnings("rawtypes")
-				Iterator itr = projectsList.iterator(); itr.hasNext();) {
-					String projectName = (String) itr.next();
-					log.info("Project name : " + projectName);
-					jsonProjects.put("project" + i, projectName);
-					i++;
-				}
-				log.info("jsonProjects : " + jsonProjects.toString());
-				return jsonProjects;
-			} else {
-				jsonProjects.put("project", "No Projects");
-				return jsonProjects;
-			} 
+			log.info("List of Projects : " + projectsList);
+			return projectsList;
+			
 		}catch (Exception e) {
 			log.error("Error in getting listOfProjects ", e);
 			throw e;

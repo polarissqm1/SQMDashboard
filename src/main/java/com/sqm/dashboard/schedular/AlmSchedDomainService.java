@@ -1,12 +1,12 @@
 package com.sqm.dashboard.schedular;
 
-import com.sqm.dashboard.util.RestConnectorUtility;
-
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
+
+import com.sqm.dashboard.util.RestConnectorUtility;
 
 public interface AlmSchedDomainService {
 	
-	public HashMap<String,String> getAlmDomains(RestConnectorUtility connection, Map<String, String> requestHeaders) throws Exception;
+	public ArrayList<String> getAlmDomains(RestConnectorUtility connection, Map<String, String> requestHeaders) throws Exception;
 
 }

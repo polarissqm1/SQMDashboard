@@ -11,13 +11,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-
-
+import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
 
 public class RestConnectorUtility {
+	
+	final Logger log = Logger.getLogger(RestConnectorUtility.class);
+	
 	protected Map<String, String> cookies;
 	protected String host;
 	protected String port;
@@ -159,6 +161,7 @@ public class RestConnectorUtility {
 		if ((queryString != null) && !queryString.isEmpty()) {
 			url += "?" + queryString;
 			System.out.println("URL : " + url);
+			log.info("URL : " + url);
 		}
 		HttpURLConnection con = (HttpURLConnection) new URL(url)
 				.openConnection();
