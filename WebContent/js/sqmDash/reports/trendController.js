@@ -855,7 +855,7 @@ dashboardApp
 					//************************ Defect Type Breakup  ***************************//
 					$scope.plotDefectTypeBreakUp = function(response) {
 						Highcharts.setOptions({
-							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
+							colors : [ '#8B8989','#BC8F8F','#FF7F50','#CD6839','#CDC5BF','#CDBA96','#D5B77A','#E8C782','#CDBE70','#AEBB51','#BEE554','#E8F1D4','#DFFFA5','#E55451']
 						});
 
 						$('#defecttypebreak')
@@ -914,7 +914,7 @@ dashboardApp
 					//************************ Defect Rootcause Breakup ***************************//
 					$scope.plotDefectRootBreakUp = function(response) {
 						Highcharts.setOptions({
-							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69', '#7CFC00', '#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
+							colors : [ '#8B8989','#BC8F8F','#FF7F50','#CD6839','#CDC5BF','#CDBA96','#D5B77A','#E8C782','#CDBE70','#AEBB51','#BEE554','#E8F1D4','#DFFFA5','#E55451' ]
 						});
 
 						$('#defectRootbreak')
