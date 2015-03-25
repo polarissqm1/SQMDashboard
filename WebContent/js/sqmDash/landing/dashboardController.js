@@ -10,6 +10,9 @@
 		/**
 		 * Dashboard Controller
 		 */
+		if($rootScope.selectedReleaseName){
+			plotCharts();
+		}
 		
 		$scope.onLpLoad = function() {
 			$('#pagers').hide();
