@@ -54,7 +54,7 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 			log.info("Exception occured at Update/Insert to release collection");
 			throw e;
 		}finally{
-			table.getDB().getMongo().close();
+			//table.getDB().getMongo().close();
 		}
 	}
 	

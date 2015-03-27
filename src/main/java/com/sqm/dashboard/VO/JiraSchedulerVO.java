@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+
+@SuppressWarnings("serial")
 @Component
 public class JiraSchedulerVO implements Serializable {
 	
 	private String project;
 	private String release;
+	
 	public String getProject() {
 		return project;
 	}

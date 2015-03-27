@@ -30,6 +30,7 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 	
 	final Logger log = Logger.getLogger(AlmSchedReleaseServiceImpl.class);
 	
+	@Override
 	public ArrayList<AlmReleaseDetails> getAlmReleasesDetails(RestConnectorUtility conn, String releasesUrl, Map<String, String> requestHeaders) throws Exception {
 		
   		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -41,6 +42,7 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 	    return releaseDetails;
 	}
 	
+	@Override
 	public ArrayList<AlmReleaseCycleDetails> getAlmReleaseCyclesDetails(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseCyclesUrl, String releaseId) throws Exception {
 
   		ArrayList<AlmReleaseCycleDetails> releaseCycleDetails = getAlmReleasesCycleDetails(conn, requestHeaders, releaseCyclesUrl, releaseId);
@@ -48,6 +50,7 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 
 	}
 	
+	@Override
 	public SchedularReleaseCyclesVO getAlmReleaseCyclesData(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseCyclesUrl, String releaseId) throws Exception {
 
 		SchedularReleaseCyclesVO releaseCyclesData = getAlmReleaseCycleData(conn, requestHeaders, releaseCyclesUrl, releaseId);
@@ -55,6 +58,7 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 
 	}
 	
+	@Override
 	public SchedularReleaseDefectsVO getAlmReleaseDefectsData(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseDefectsUrl, String releaseId) throws Exception {
 		
   		SchedularReleaseDefectsVO schedReleaseDefectsVO = getAlmReleasesDefectsData(conn, requestHeaders, releaseDefectsUrl, releaseId);
@@ -62,6 +66,7 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 	    
 	}
   	
+	@Override
   	public ArrayList<String> getAlmReleaseDefectIds(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseDefectsUrl, String releaseId) throws Exception {
 		
   		ArrayList<String> relDefectIds = getAlmReleasesDefectIds(conn, requestHeaders, releaseDefectsUrl, releaseId);
@@ -69,6 +74,14 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 
   	}
   	
+	@Override
+  	public ArrayList<String> getAlmReleaseJiraIds(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseDefectsUrl, String releaseId) throws Exception {
+		
+  		ArrayList<String> relJiraIds = getAlmReleasesJiraIds(conn, requestHeaders, releaseDefectsUrl, releaseId);
+	    return relJiraIds;
+
+  	}
+
   	public ArrayList<AlmReleaseDetails> getAlmReleaseDetails(RestConnectorUtility conn, Map<String, String> requestHeaders,  String releasesUrl, String currentDate) throws Exception {
 		
 		StringBuilder queryAlmReleasesDetails = new StringBuilder();
@@ -432,6 +445,47 @@ public class AlmSchedReleaseServiceImpl implements AlmSchedReleaseService {
 		}
 	}
 	
+	public ArrayList<String> getAlmReleasesJiraIds(RestConnectorUtility conn, Map<String, String> requestHeaders, String releaseDefectsUrl, String releaseId) throws Exception {
+		
+		StringBuilder queryAlmReleaseJiraIds = new StringBuilder();
+		ArrayList<String> jiraIds = new ArrayList<String>();
+
+		Node nNode = null;
+		Element eElement = null;
+		
+		try{
+			queryAlmReleaseJiraIds.append("query={detected-in-rel[");
+			queryAlmReleaseJiraIds.append(releaseId);
+			queryAlmReleaseJiraIds.append("]}");
+			queryAlmReleaseJiraIds.append("&fields=user-20");
+
+			log.info("AlmReleaseJiraIds Query : " + queryAlmReleaseJiraIds);
+
+			String listFromReleaseJiraIdsCollectionAsXml = conn.httpGet(releaseDefectsUrl, queryAlmReleaseJiraIds.toString(), requestHeaders).toString();
+			log.info("listFromReleaseJiraIdsCollectionAsXml : " + listFromReleaseJiraIdsCollectionAsXml);
+
+			NodeList nList = getNodeList(listFromReleaseJiraIdsCollectionAsXml);
+					
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+				nNode = nList.item(temp);
+				
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					eElement = (Element) nNode;
+					
+					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("user-20")) {
+						if(eElement.hasChildNodes() && (eElement.getElementsByTagName("Value").item(0).getTextContent()) != "") {
+							jiraIds.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
+						}
+					}
+				}
+			}
+			return jiraIds;
+		} catch (Exception e) {
+				log.error("Error in getting Alm Release Jira Ids : " + e.getMessage());
+				throw e;
+		}
+	}
+
 	public NodeList getNodeList(String inputXml) throws Exception {
 	
 		DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();

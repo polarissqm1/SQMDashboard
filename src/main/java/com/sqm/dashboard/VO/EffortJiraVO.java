@@ -1,8 +1,11 @@
 package com.sqm.dashboard.VO;
 
 import java.io.Serializable;
-import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+@SuppressWarnings("serial")
+@Component
 public class EffortJiraVO implements Serializable {
 
 	private int sqm;

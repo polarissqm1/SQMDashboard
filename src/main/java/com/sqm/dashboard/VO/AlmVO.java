@@ -15,6 +15,7 @@ public class AlmVO implements Serializable {
 	private String relStartDate;
 	private String relEndDate;
 	private ArrayList<String> defectIds;
+	private ArrayList<String> jiraIds;
 	private SchedularDefectsVO defectsVO;
 	private AlmTestcaseVO almTCVO;
 	
@@ -54,6 +55,12 @@ public class AlmVO implements Serializable {
 	public void setDefectIds(ArrayList<String> defectIds) {
 		this.defectIds = defectIds;
 	}
+	public ArrayList<String> getJiraIds() {
+		return jiraIds;
+	}
+	public void setJiraIds(ArrayList<String> jiraIds) {
+		this.jiraIds = jiraIds;
+	}
 	public SchedularDefectsVO getDefectsVO() {
 		return defectsVO;
 	}
@@ -71,6 +78,7 @@ public class AlmVO implements Serializable {
 		return "AlmVO [domain=" + domain + ", project=" + project
 				+ ", release=" + release + ", relStartDate=" + relStartDate
 				+ ", relEndDate=" + relEndDate + ", defectIds=" + defectIds
-				+ ", defectsVO=" + defectsVO + ", almTCVO=" + almTCVO + "]";
+				+ ", jiraIds=" + jiraIds + ", defectsVO=" + defectsVO
+				+ ", almTCVO=" + almTCVO + "]";
 	}
 }

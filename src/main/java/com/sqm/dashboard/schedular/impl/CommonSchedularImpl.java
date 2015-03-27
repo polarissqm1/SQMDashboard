@@ -16,18 +16,15 @@ public class CommonSchedularImpl implements CommonSchedular {
 	@Autowired
 	private AlmSchedularImpl almSchedularImpl;
 	
-	/*@Autowired
-	private JiraSchedulerImpl jiraScheduler;*/
-	
-	private JiraSchedulerImpl jiraScheduler=new JiraSchedulerImpl();
-	private JiraSchedulerImpl jiraScheduler1=new JiraSchedulerImpl();
+	@Autowired
+	private JiraSchedulerImpl jiraSchedulerImpl;
 	
 	@Override
 	public void runScheduler() throws Exception {
 			try{
 				almReleasesSchedularImpl.startAlmReleasesInsert(almReleasesSchedularImpl);
 				almSchedularImpl.startAlmInsert(almSchedularImpl);
-				jiraScheduler.startJiraInsert(jiraScheduler1);
+				jiraSchedulerImpl.startJiraInsert(jiraSchedulerImpl);
 			}catch(Exception e){
 				log.error("Exception occured:");
 				e.printStackTrace();

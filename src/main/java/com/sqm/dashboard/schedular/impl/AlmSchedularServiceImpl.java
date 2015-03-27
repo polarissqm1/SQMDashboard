@@ -140,12 +140,15 @@ public class AlmSchedularServiceImpl implements AlmSchedularService {
 						
 						ArrayList<String> defectIds = almSchedReleaseServiceImpl.getAlmReleaseDefectIds(conn, requestHeaders, releaseDefectsUrl, almDomainProjReleaseArrayList.get(k).getReleaseDetails().getReleaseId());
 						
+						ArrayList<String> jiraIds = almSchedReleaseServiceImpl.getAlmReleaseJiraIds(conn, requestHeaders, releaseDefectsUrl, almDomainProjReleaseArrayList.get(k).getReleaseDetails().getReleaseId());
+						
 						almVO.setDomain(almDomainProjReleaseArrayList.get(k).getDomain());
 						almVO.setProject(almDomainProjReleaseArrayList.get(k).getProject());
 						almVO.setRelease(almDomainProjReleaseArrayList.get(k).getReleaseDetails().getReleaseName());
 						almVO.setRelStartDate(almDomainProjReleaseArrayList.get(k).getReleaseDetails().getRelStartDate());
 						almVO.setRelEndDate(almDomainProjReleaseArrayList.get(k).getReleaseDetails().getRelEndDate());
 						almVO.setDefectIds(defectIds);
+						almVO.setJiraIds(jiraIds);
 						almVO.setDefectsVO(schedDefectsVO);
 						almVO.setAlmTCVO(almTCVO);
 						
@@ -155,6 +158,7 @@ public class AlmSchedularServiceImpl implements AlmSchedularService {
 											almVO.getRelStartDate() + "|" + 
 											almVO.getRelEndDate() + "|" + 
 											almVO.getDefectIds() + "|" +
+											almVO.getJiraIds() + "|" +
 											almVO.getDefectsVO() + "|" + 
 											almVO.getAlmTCVO());
 						

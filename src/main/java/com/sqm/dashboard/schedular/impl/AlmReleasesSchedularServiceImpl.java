@@ -119,12 +119,12 @@ public class AlmReleasesSchedularServiceImpl implements AlmReleasesSchedularServ
 				    
 				    for(int k=0; k<almDomainProjReleaseArrayList.size(); k++) {
 						
-				    	log.info("Domain#" + k + "##" + almDomainProjReleaseArrayList.get(k).getDomain());
-						log.info("Project#" + k + "##" + almDomainProjReleaseArrayList.get(k).getProject());
-						log.info("Release Id#" + k + "##" + almDomainProjReleaseArrayList.get(k).getReleaseDetails().getReleaseId());
-						log.info("Release Name#" + k + "##" + almDomainProjReleaseArrayList.get(k).getReleaseDetails().getReleaseName());
-						log.info("Release Start Date#" + k + "##" + almDomainProjReleaseArrayList.get(k).getReleaseDetails().getRelStartDate());
-						log.info("Release End Date#" + k + "##" + almDomainProjReleaseArrayList.get(k).getReleaseDetails().getRelEndDate());
+				    	log.info("Domain #" + k + " ## " + almDomainProjReleaseArrayList.get(k).getDomain());
+						log.info("Project #" + k + " ## " + almDomainProjReleaseArrayList.get(k).getProject());
+						log.info("Release Id #" + k + " ## " + almDomainProjReleaseArrayList.get(k).getReleaseDetails().getReleaseId());
+						log.info("Release Name #" + k + " ## " + almDomainProjReleaseArrayList.get(k).getReleaseDetails().getReleaseName());
+						log.info("Release Start Date #" + k + " ## " + almDomainProjReleaseArrayList.get(k).getReleaseDetails().getRelStartDate());
+						log.info("Release End Date #" + k + " ## " + almDomainProjReleaseArrayList.get(k).getReleaseDetails().getRelEndDate());
 						
 						almReleaseVO.setDomain(almDomainProjReleaseArrayList.get(k).getDomain());
 						almReleaseVO.setProject(almDomainProjReleaseArrayList.get(k).getProject());

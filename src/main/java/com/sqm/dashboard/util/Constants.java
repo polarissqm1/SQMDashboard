@@ -2,7 +2,14 @@ package com.sqm.dashboard.util;
 
 public class Constants {
 	
-	public static final String DB_JIRA_PROJECT = "project";
+	/*jira Collection Fields*/
+	public static final String DB_JIRA_SQM = "sqm";
+	public static final String DB_JIRA_NONSQM = "nonSqm";
+	public static final String DB_JIRA_JIRA = "jira";
+	public static final String DB_JIRA_EFFORT = "effort";
+	public static final String DB_JIRA_JIRAID = "jiraId";
+	public static final String DB_JIRA_ENV = "env";
+	
 	/*alm Collection Fields*/
 	public static final String DB_ALM_USERID = "userId";
 	public static final String DB_ALM_DEFECT_IDS = "defectIds";
@@ -33,7 +40,7 @@ public class Constants {
 	public static final String DB_ALM_RAG_USER = "user";
 	public static final String DB_ALM_RAG_DATE = "date";
 	public static final String DB_ALM_RAG_MANUAL = "ragStatus_Manual";
-	public static final String DB_ALM_JIRAID = "jiraId";
+	public static final String DB_ALM_JIRAIDS = "jiraIds";
 	
 	/*release Collection Fields*/
 	public static final String DB_RELEASE_RELFOLDER = "releaseFolder";
