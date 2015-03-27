@@ -104,7 +104,22 @@ public class AlmSchedTestcaseServiceImpl implements AlmSchedTestcaseService {
 				String percentageNotApplicable = percentNotApplicable.setScale(2, RoundingMode.CEILING).toString();
 				String percentageBlocked = percentBlocked.setScale(2, RoundingMode.CEILING).toString();
 				String percentageDeferred = percentDeferred.setScale(2, RoundingMode.CEILING).toString();
-				String percentageTotal = "100.00";
+				
+				String percentageTotal = null;
+				
+				if(Double.valueOf(percentagePassed) > 0.0 || Double.valueOf(percentageFailed) > 0 ||
+						Double.valueOf(percentageNotRunAndNotApplicable) > 0 || Double.valueOf(percentageNotApplicable) > 0 ||
+						Double.valueOf(percentageBlocked) > 0 || Double.valueOf(percentageDeferred) > 0) {
+					
+					BigDecimal percentTotal = new BigDecimal((Double.valueOf(percentagePassed) + Double.valueOf(percentageFailed)
+																+ Double.valueOf(percentageNotRunAndNotApplicable) + Double.valueOf(percentageNotApplicable)
+																+ Double.valueOf(percentageBlocked) + Double.valueOf(percentageDeferred)));
+					
+					percentageTotal = percentTotal.setScale(2, RoundingMode.CEILING).toString();
+					
+				} else {
+					percentageTotal = "100.00";
+				}
           
 				percentage.add(0, percentagePassed);
 				percentage.add(1, percentageFailed);

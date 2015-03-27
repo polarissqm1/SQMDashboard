@@ -52,7 +52,7 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 			log.info("Exception occured at Update/Insert to alm collection");
 			throw e;
 		}finally{
-			table.getDB().getMongo().close();
+			//table.getDB().getMongo().close();
 		}
 	}
 
@@ -174,9 +174,12 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		alm.put(Constants.DB_UPDATED_ON, DashboardUtility.getCurrentDate());
 		alm.put(Constants.DB_UPDATED_BY, "System");
 		    
-	    ArrayList<String> jiraId = new ArrayList<String>();
-	    alm.put(Constants.DB_ALM_JIRAID, jiraId);
-	     
+	  ArrayList<String> jiraId = new ArrayList<String>();
+		for(int j=0; j<almVO.getJiraIds().size(); j++) {
+			jiraId.add(almVO.getJiraIds().get(j));
+		}
+		alm.put(Constants.DB_ALM_JIRAIDS, jiraId);
+		
 	    alm.put(Constants.KEY, keyValue);
 	    
 	    table.insert(alm);
@@ -199,6 +202,13 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 			defectId.add(almVO.getDefectIds().get(i));
 		}
 		defectIds.append("$set", new BasicDBObject().append(Constants.DB_ALM_DEFECT_IDS, defectId));
+		
+		BasicDBObject jiraIds = new BasicDBObject();
+		ArrayList<String> jiraId = new ArrayList<String>();
+		for(int j=0; j<almVO.getJiraIds().size(); j++) {
+			jiraId.add(almVO.getJiraIds().get(j));
+		}
+		jiraIds.append("$set", new BasicDBObject().append(Constants.DB_ALM_JIRAIDS, jiraId));
 		
 		BasicDBObject manual = new BasicDBObject();
 		DBObject manual_TCExecutionStatus = new BasicDBObject();
@@ -303,6 +313,7 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		table.update(searchQuery, relStartDate);
 		table.update(searchQuery, relEndDate);
 		table.update(searchQuery, defectIds);
+		table.update(searchQuery, jiraIds);
 		table.update(searchQuery, manual);
 		table.update(searchQuery, automation);
 		table.update(searchQuery, statusSeverity);

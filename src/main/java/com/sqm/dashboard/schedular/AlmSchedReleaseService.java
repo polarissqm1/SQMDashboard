@@ -25,6 +25,11 @@ public interface AlmSchedReleaseService {
 														String releaseDefectsUrl, 
 														String releaseId) throws Exception;
 
+	public ArrayList<String> getAlmReleaseJiraIds(RestConnectorUtility conn, 
+														Map<String, String> requestHeaders, 
+														String releaseDefectsUrl, 
+														String releaseId) throws Exception;
+	
 	public ArrayList<AlmReleaseCycleDetails> getAlmReleaseCyclesDetails(RestConnectorUtility conn, 
 																			Map<String, String> requestHeaders, 
 																			String releaseCyclesUrl, 

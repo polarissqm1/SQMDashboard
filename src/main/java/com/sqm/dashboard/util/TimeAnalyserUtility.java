@@ -11,7 +11,7 @@ public class TimeAnalyserUtility {
 	{
 		long endTime=System.currentTimeMillis();
 		double duration=(endTime-startTime)/1000;
-		log.debug(method +"  Execution duration is: "+duration+"  seconds");
+		log.info(method +"  Execution duration is: "+duration+"  seconds");
 		return duration;
 		
 	}
