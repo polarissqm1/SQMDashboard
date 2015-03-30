@@ -104,7 +104,8 @@
 			}else{
 				elem1=null;
 			}*/
-			
+	/*	}
+	});*/
 		}
 
 		function plotCharts(){
