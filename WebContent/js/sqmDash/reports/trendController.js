@@ -294,7 +294,8 @@ dashboardApp
 											plotOptions : {
 												line : {
 													dataLabels : {
-														enabled : true
+														enabled : true,
+														padding :0
 													},
 
 												}
@@ -367,7 +368,8 @@ dashboardApp
 											plotOptions : {
 												line : {
 													dataLabels : {
-														enabled : true
+														enabled : true,
+														padding:0
 													},
 
 												}
@@ -438,7 +440,8 @@ dashboardApp
 											plotOptions : {
 												line : {
 													dataLabels : {
-														enabled : true
+														enabled : true,
+														padding:0
 													},
 
 												}
@@ -496,7 +499,8 @@ dashboardApp
 									plotOptions : {
 										line : {
 											dataLabels : {
-												enabled : true
+												enabled : true,
+												padding:0
 											},
 
 										}
@@ -550,7 +554,8 @@ dashboardApp
 									plotOptions : {
 										line : {
 											dataLabels : {
-												enabled : true
+												enabled : true,
+												padding:0
 											},
 
 										}
@@ -615,7 +620,8 @@ dashboardApp
 									plotOptions : {
 										line : {
 											dataLabels : {
-												enabled : true
+												enabled : true,
+												padding:0
 											},
 
 										}
@@ -672,7 +678,8 @@ dashboardApp
 									plotOptions : {
 										line : {
 											dataLabels : {
-												enabled : true
+												enabled : true,
+												padding:0
 											},
 
 										}
@@ -729,10 +736,10 @@ dashboardApp
 										                }
 										            }
 										        },
-										        legend: {
+										        /*legend: {
 										            align: 'center',
 										            x: -30,
-										            verticalAlign: 'top',
+										            verticalAlign: 'bottom',
 										            y: 25,
 										            floating: true,
 										            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
@@ -740,12 +747,14 @@ dashboardApp
 										            borderWidth: 1,
 										            shadow: false
 										        },
-										        tooltip: {
-										            formatter: function () {
-										                return '<b>' + this.x + '</b><br/>' +
-										                    this.series.name + ': ' + this.y + '<br/>' +
+										        */tooltip: {
+										        	borderRadius: 10,
+										            borderWidth: 3,
+										        	formatter: function () {
+										                return this.series.name + ': ' + this.y + '<br/>' +
 										                    'Total: ' + this.point.stackTotal;
-										            }
+										            },
+										            followPointer:true
 										        },
 										        plotOptions: {
 										            column: {
@@ -755,9 +764,14 @@ dashboardApp
 										                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
 										                    style: {
 										                        textShadow: '0 0 3px black'
-										                    }
+										                    },
+										                    padding:0
+										                    
 										                }
-										            }
+										            },
+										            series: {
+									                    cursor: 'pointer'
+									                },
 										        },
 										        series: [{
 										            name : 'Urgent',

@@ -20,6 +20,12 @@
 		
 		//Flot Pie Chart
 		$(document).ready(function() {
+			
+			/*$http.get("dash/dashboard/getApplicationsList").success(function(response){
+				$rootScope.applicationList=response.entity;
+				alert("Application List is"+$rootScope.applicationList);
+				alert(JSON.stringify(response));
+			});*/
 
 			$("#applicationCombo").on("change", "#application", function(event) {
 				$rootScope.selectedProjectName = $("#application").val();
@@ -62,6 +68,12 @@
 			var appValue=$("#application").val();
 						
 			var elem1 = document.getElementById('release');
+			/*$http.get("dash/dashboard/getReleaseList?projectName=" + $rootScope.selectedProjectName)
+			 .success(function(response){
+			    //  alert("Release List is"+JSON.stringify(response));
+				 for(var i=0;i<response.entity.length;i++){
+					 elem1.options[i]=new Option(response.entity[i]);
+			*/
 			//elem1.options[1]=new Option("CFP Reporting: Sprint 2");
 			//elem1.options[2]=new Option("CFP Reporting: Sprint 3");
 			//elem1.options[1]=new Option("Cleint On Boarding Dashboard March 27 2015 release");
@@ -72,7 +84,8 @@
 			/*elem1.options[8]=new Option("iWatch: March release");*/
 			elem1.options[2]=new Option("iManage Mar 20 Rel");
 			//elem1.options[7]=new Option("OTCC - Mar 27 release");
-			
+				 
+			 
 			/*if(appValue=="PMP"){
 				
 		    	elem1.options[1]=new Option("pmpRelease1");
