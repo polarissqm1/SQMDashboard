@@ -58,5 +58,45 @@ public class DashboardServiceImpl implements DashboardService{
 		
 		
 	}
+	
+	@Override
+	public Response getApplicationsList() throws Exception {
+		try{
+			/*
+			int a[] = new int[2];
+	         System.out.println("Access element three :" + a[3]);*/
+			
+			
+			return dashboardDAO.getApplicationsList();
+		
+		}
+		
+		catch (Exception e) {
+			log.debug("Service layer in project data Layer");
+			throw e;
+			
+		}
+	}
+	
+	@Override
+	public Response getReleaseList(String project) throws Exception {
+		try{
+			/*
+			int a[] = new int[2];
+	         System.out.println("Access element three :" + a[3]);*/
+			
+			
+			return dashboardDAO.getReleaseList(project);
+		
+		}
+		
+		catch (Exception e) {
+			log.debug("Service layer in project data Layer");
+			throw e;
+			
+		}
+	}
+
+
 
 }

@@ -66,5 +66,53 @@ public class DashboardController {
 		
 		
 	}
+	
+	
+
+	@RequestMapping(value = "/getApplicationsList", method = RequestMethod.GET )
+	public @ResponseBody Response  getApplicationsList(){
+		
+		try{
+		
+		
+		
+		
+		
+		//log.debug(dashboardService);
+		return dashboardService.getApplicationsList();
+           } 
+		
+		catch (Exception e) {
+			
+			log.error("Exception ocurred : ",e);
+			return null;
+		}
+		
+		
+	}
+	
+	
+	@RequestMapping(value = "/getReleaseList", method = RequestMethod.GET )
+	public @ResponseBody Response  getReleaseList(@RequestParam(value="projectName") String project ){
+		
+		try{
+		
+		
+		
+		
+		
+		//log.debug(dashboardService);
+		return dashboardService.getReleaseList(project);
+           } 
+		
+		catch (Exception e) {
+			
+			log.error("Exception ocurred : ",e);
+			return null;
+		}
+		
+		
+	}
+
 
 }

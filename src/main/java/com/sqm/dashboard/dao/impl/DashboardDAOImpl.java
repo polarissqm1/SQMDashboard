@@ -286,10 +286,90 @@ public class DashboardDAOImpl implements DashboardDAO {
 				}
 			 finally {
 					cursor.close();
-					table.getDB().getMongo().close();
+					//table.getDB().getMongo().close();
 				}
 		 Response.ResponseBuilder response = Response.ok(dashVO);
 		return response.build();
 	}
+	
+	
+	@Override
+	public Response getApplicationsList() throws Exception {
+		// TODO Auto-generated method stub
+		
+		
+		 DBCursor cursor = null;
+		 
+		
+		 ArrayList projectName=new ArrayList();
+		try {
+			MongoClient clientDb;
+			
+				clientDb = new MongoClient("172.23.16.28", 27017);
+			
+		  DB db = clientDb.getDB("sqmdb");
+			 /*System.out.println("Connect to database successfully");*/
+		 
+				DBCollection table = db.getCollection("release");
+				BasicDBObject searchQuery = new BasicDBObject();
+				System.out.println("Search Query is "+searchQuery);
+				cursor=table.find();
+				projectName= (ArrayList) table.distinct("project");
+				System.out.println("The list is"+ projectName);
+				
+				
+			}catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				
+				log.debug("DAO Layer");
+				throw e;
+			}
+			 
+		 Response.ResponseBuilder response = Response.ok(projectName);
+			return response.build();
+	}
+	
+	
+	@Override
+	public Response getReleaseList(String project) throws Exception {
+		// TODO Auto-generated method stub
+		
+		
+		 DBCursor cursor = null;
+		 
+		
+		 ArrayList releaseList=new ArrayList();
+		try {
+			MongoClient clientDb;
+			
+				clientDb = new MongoClient("172.23.16.28", 27017);
+			
+		  DB db = clientDb.getDB("sqmdb");
+			 /*System.out.println("Connect to database successfully");*/
+		 
+		  DBCollection table = db.getCollection("release");
+			BasicDBObject searchQuery = new BasicDBObject();
+			System.out.println("Search Query is "+searchQuery);
+			searchQuery.put("project", project);
+			cursor=table.find(searchQuery);
+			
+			while (cursor.hasNext()) {
+				DBObject report =cursor.next();
+				System.out.println("The "+report.get("release"));
+				releaseList.add(report.get("release"));
+			}
+				
+				
+			}catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				
+				log.debug("DAO Layer");
+				throw e;
+			}
+			 
+		 Response.ResponseBuilder response = Response.ok(releaseList);
+			return response.build();
+	}
+
 
 }
