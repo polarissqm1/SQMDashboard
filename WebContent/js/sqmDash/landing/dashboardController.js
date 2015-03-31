@@ -54,13 +54,45 @@
 					$scope.enableChart=false;
 				}
 				
-			 plotRagChart(response.entity.ragVO);
+			 /*plotRagChart(response.entity.ragVO);
 			 plotManualChart(response.entity.manualVO);
 			 
 			 plotAutomatedChart(response.entity.automationVO);
 			 plotDefectStatusChart(response.entity.severityVO);
 			 plotDistributionChart(response.entity.effortsVO);
+				*/
+			 if(response.entity.automationVO.passed == 0 && response.entity.automationVO.failed == 0 && response.entity.automationVO.noRun == 0 && response.entity.automationVO.blocked == 0 && response.entity.automationVO.deferred == 0
+					 ||response.entity.manaulVO.passed == 0 || response.entity.manualVO.failed == 0 || response.entity.manaulVO.noRun == 0 || response.entity.manaulVO.blocked == 0 || response.entity.manaulVO.defered == 0){
+				 				
+				 
+				 
+				 noAutomationData();
+				 
+				 noManualData();
+				 
+				 plotRagChart();
 				
+				 /*plotDefectStatusChart(response.entity.severityVO);*/
+				 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
+				 plotDistributionChart(response.entity.effortsVO);
+				 noData();
+				
+			 }
+			 
+			 else {
+				 
+		 
+			 plotRagChart();
+			 plotManualChart(JSON.stringify(response.entity.manualVO));
+			 
+			 plotAutomatedChart(response.entity.automationVO);
+			 /*plotDefectStatusChart(response.entity.severityVO);*/
+			 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
+			 plotDistributionChart(response.entity.effortsVO);
+			 }
+				
+			
+			
 		 });
 		
 		function validateVersions(){
@@ -125,14 +157,46 @@
 			 $http.get("dash/dashboard/getLandingInfo?projectName=" + $rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName)
 			 .success(function(response){
 				
+				/* plotRagChart();
+				 plotManualChart(JSON.stringify(response.entity.manualVO));
+				 plotAutomatedChart(response.entity.automationVO);
+				 plotDefectStatusChart(response.entity.severityVO);
+				 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
+				 plotDistributionChart(response.entity.effortsVO);*/
+				 
+				 
+				 if(response.entity.automationVO.passed == 0 && response.entity.automationVO.failed == 0 && response.entity.automationVO.noRun == 0 && response.entity.automationVO.blocked == 0 && response.entity.automationVO.deferred == 0
+						 ||response.entity.manaulVO.passed == 0 || response.entity.manualVO.failed == 0 || response.entity.manaulVO.noRun == 0 || response.entity.manaulVO.blocked == 0 || response.entity.manaulVO.defered == 0){
+					 				
+					 
+					 
+					 noAutomationData();
+					 
+					 noManualData();
+					 
+					 plotRagChart();
+					
+					 /*plotDefectStatusChart(response.entity.severityVO);*/
+					 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
+					 plotDistributionChart(response.entity.effortsVO);
+					 noData();
+					
+				 }
+				 
+				 else {
+					 
+			 
 				 plotRagChart();
 				 plotManualChart(JSON.stringify(response.entity.manualVO));
+				 
 				 plotAutomatedChart(response.entity.automationVO);
 				 /*plotDefectStatusChart(response.entity.severityVO);*/
 				 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
 				 plotDistributionChart(response.entity.effortsVO);
+				 }
 					
-			 });
+			 });		
+			 
 			
 			
 		}
@@ -527,6 +591,24 @@
 						} ]
 					});
 			
+		}
+
+function noAutomationData(){
+			
+			
+			$("#automation-pie-chart").html("<text x='278' text-anchor='middle' class='highcharts-title' zIndex='4' style='color:#428bca;font-size:medium;font-weight:bold;fill:#428bca;width:491px;' y='22'><tspan>Automated Execution Status</tspan></text>" +
+					"<img src='images/nodata.png' align='middle'/>");
+
+			
+           
+		}
+		
+		function noManualData(){
+			
+			
+			$("#manual-pie-chart").html("<text x='278' text-anchor='middle' class='highcharts-title' zIndex='4' style='color:#428bca;font-size:medium;font-weight:bold;fill:#428bca;width:491px;' y='22'><tspan>Manual Execution Status</tspan></text>" +
+			"<img src='images/nodata.png' align='middle'/>");
+			 
 		}
 
 
