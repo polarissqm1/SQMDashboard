@@ -21,77 +21,118 @@
 
 			<div class="row" >
 				<div class="col-lg-12" >
-								<!-- <div class="col-sm-3 form-group">
-									<p class="input-group">
-										<input type="text" class="form-control"
-											datepicker-popup="{{format}}" ng-model="dt" is-open="openedFromDate"
-											min-date="minDate" max-date="'2015-06-22'"
-											datepicker-options="dateOptions"
-											date-disabled="disabled(date, mode)" ng-required="true"
-											close-text="Close" /> <span class="input-group-btn">
-											<button type="button" class="btn btn-default"
-												ng-click="openFromDate($event,'openedFromDate')">
-												<i class="glyphicon glyphicon-calendar"></i>
-											</button>
-										</span>
-									</p>
-								</div>	
 								
-								 <div class="col-sm-3 form-group">
-									<p class="input-group">
-										<input type="text" class="form-control"
-											datepicker-popup="{{format}}" ng-model="dt" is-open="openedToDate"
-											min-date="minDate" max-date="'2015-06-22'"
-											datepicker-options="dateOptions"
-											date-disabled="disabled(date, mode)" ng-required="true"
-											close-text="Close" /> <span class="input-group-btn">
-											<button type="button" class="btn btn-default"
-												ng-click="openToDate($event,'openedToDate')">
-												<i class="glyphicon glyphicon-calendar"></i>
-											</button>
-										</span>
-									</p>
-									</div> 
-	
-									<div class="col-sm-3 form-group">
-										<button type="button" class="btn btn-primary" ng-click="generateCharts()">Generate Reports</button> 
-									</div> -->
-							<div class="col-sm-3 form-group">
-								<p class="input-group">
-								 <div class="radio">
+			<div class="col-sm-3 form-group">
+					<p class="input-group">
+					<div class="radio" ng-init="onInit()">
+					<label for="weekly">
+    					<input id="weekly" type="radio" name="weekly" value="weekly"
+    					  ng-model="range" ng-change=weekly()/> Weekly
+					</label>
+    
+    				<label for="monthly">
+        				<input id="monthly" type="radio" checked="checked" name="weekly" value="monthly" 
+        				ng-model="range" ng-change=monthly()/>Monthly 
+                    </label>
+								 <!-- <div class="radio">
                                  <label for="weekly">
-                                   <input id="weekly" type="radio" name="weekly" value="weekly" ng-model="range" ng-change=weekly()/>
+                                   <input id="weekly" type="radio" name="weekly" value="weekly" checked="checked" ng-model="range" ng-change=weekly()/>
                                  Weekly
                                  </label>
                                  <label for="monthly">
                                    <input id="monthly" type="radio" name="weekly" value="monthly" ng-model="range" ng-change=monthly()/>
                                  Monthly
                                  </label>
-                               </div>
+                               </div> -->
                                </p>
-                               </div>
-                              
-								
-								<!-- <div>{{dt | date:'fullDate' }}</div> -->	
-								
-								
-								 <!-- <div class="col-sm-3 form-group" >
+                     </div>
+           </div>
+           
+           
+           <!-- Weekly Datepicker -->
+           
+           <div id="weeklyweekly" class="desc" style="display: none;" ng-init="weeklyDatepicker()">
+           		<div class="col-sm-3 form-group">
+            	<p class="input-group">
+					<input type="text" id="fromdate" class="form-control"
+						datepicker-popup="{{format}}" ng-model="minDate" is-open="startOpened"			
+						min-date="minStartDate" 
+           				max-date="maxStartDate"
+											datepicker-options="dateOptions"
+											date-disabled="disabled(date, mode)" 
+											close-text="Close" /> <span class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="openFromDate()">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</span>
+				</div>			</p>
+									
+				<div class="col-sm-3 form-group">
 									<p class="input-group">
 										<input type="text" id="todate" class="form-control"
-											datepicker-popup="{{format}}" ng-model="maxDate" is-open="openedToDate"
-											min-date="minDate" max-date="maxDate"
+											datepicker-popup="{{format}}" ng-model="maxDate" is-open="endOpened"
+											
+											min-date="minEndDate" 
+           									max-date="maxEndDate"
 											datepicker-options="dateOptions"
 											date-disabled="disabled(date, mode)" ng-required="true"
 											close-text="Close" /> <span class="input-group-btn">
 											<button type="button" class="btn btn-default"
-												ng-click="openToDate($event,'openedToDate')">
+												ng-click="openToDate()">
 												<i class="glyphicon glyphicon-calendar"></i>
 											</button>
 										</span>
 									</p>
-									</div>  -->
+				</div>
+        	</div>	
+    		
+    		
+    		<!-- Monthly Datepicker -->
+    			
+    	 	<div id="weeklymonthly" class="desc"  ng-init="monthlyDatepicker()">
+    	 		<div class="col-sm-3 form-group">
+            	<p class="input-group">
+					<input type="text" id="fromdate1" class="form-control"
+						datepicker-popup="{{format}}" ng-model="minDate1" is-open="startOpened1"			
+						min-date="minStartDate1" 
+           				max-date="maxStartDate1"
+											datepicker-options="dateOptions1"
+											date-disabled="disabled(date, mode)" 
+											close-text="Close" /> <span class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="openFromDate1()">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</span>
+				</div>			</p>
 									
-									<div class="col-sm-3 form-group" >
+				<div class="col-sm-3 form-group">
+									<p class="input-group">
+										<input type="text" id="todate1" class="form-control"
+											datepicker-popup="{{format}}" ng-model="maxDate1" is-open="endOpened1"
+											
+											min-date="minEndDate1" 
+           									max-date="maxEndDate1"
+											datepicker-options="dateOptions1"
+											date-disabled="disabled(date, mode)" ng-required="true"
+											close-text="Close" /> <span class="input-group-btn">
+											<button type="button" class="btn btn-default"
+												ng-click="openToDate1()">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</span>
+									</p>
+				</div>
+        		
+    		</div>
+    	 	
+    	   
+                              
+								
+								
+									
+									<!-- <div class="col-sm-3 form-group" style="display: none;">
 								 	<p class="input-group">
 										<input type="text" id="fromdate" class="form-control"
 											datepicker-popup="{{format}}" ng-model="minDate" is-open="startOpened"
@@ -107,9 +148,9 @@
 											</button>
 										</span>
 									</p>
-									</div>
+									</div> -->
 									
-									<div class="col-sm-3 form-group" >
+									<!-- <div class="col-sm-3 form-group" style="display: none;">
 									<p class="input-group">
 										<input type="text" id="todate" class="form-control"
 											datepicker-popup="{{format}}" ng-model="maxDate" is-open="endOpened"
@@ -127,25 +168,14 @@
 									</p>
 									
 									
-									</div> 
+									</div>  -->
 	
 	
 									<div class="col-sm-3 form-group">
 										<button type="button" class="btn btn-primary" ng-click="generateCharts()">Generate Reports</button> 
 									</div>
 									
-									<!-- <div class="col-lg-12" id="pagers" style="display: none;">
-		<div class="col-sm-6 form-group pager" style="margin: 0 0; ">    
-            <li>
-                  <span> Selected From Date: {{minDate | date}} </span> 
-           </li>
-            </div>
-            <div class="col-sm-6 form-group pager" style="margin: 0 0;">    
-            <li>
-                  <span> Selected To Date: {{maxDate | date}} </span> 
-           </li>
-            </div>
-            </div><br> <br> <br> <br><br> <br> -->
+									
 			<!-- Trend Charts -->
 	
 				<!-- Row 1 -->
