@@ -10,18 +10,15 @@ dashboardApp.controller('navigationController', function($scope, $location, $rou
 	]},
 */
 	{displayLabel : 'Dashboard', href : '/dashboard', tabIndex : '1', hasSubMenu : false},
-	{displayLabel : 'Reports', href : '/dailystatus', tabIndex : '2', hasSubMenu :   true, subMenuItems : [
-   		{displayLabel : 'Release', href : '/producerList', tabIndex : '', type : 'submenu'},
-   		{displayLabel : 'JIRA', href : '/producerList', tabIndex : '', type : 'submenu'},
-   		{displayLabel : 'Defects', href : '/producerList', tabIndex : '', type : 'submenu'},
-   		{displayLabel : 'Daily Status Report', href : '/producerList', tabIndex : '', type : 'submenu'},
-   		{displayLabel : 'Reporting & Metrics', href : '/producerList', tabIndex : '', type : 'submenu'}
+	{displayLabel : 'Reports', href : '#', tabIndex : '2', hasSubMenu :   true, subMenuItems : [
+   	   	{displayLabel : 'Daily Status Report', href : '/dailystatus', tabIndex : '', type : 'submenu'},
+   	   	{displayLabel : 'Trend Reports', href : '/trendreports', tabIndex : '', type : 'submenu'}
 	]},
 	/*{displayLabel : 'Reports', href : '/reportsMonitoring', tabIndex : '3', hasSubMenu :   true, subMenuItems : [
 			{displayLabel : 'Admin List', href : '/producerList', tabIndex : '', type : 'submenu'},
 			{displayLabel : 'User List', href : '/producerList', tabIndex : '', type : 'submenu'}
 	]},*/
-	{displayLabel : 'Trend Reports', href : '/trendreports', tabIndex : '3', hasSubMenu : false}
+	/*{displayLabel : 'Trend Reports', href : '/trendreports', tabIndex : '3', hasSubMenu : false}*/
 /*	{displayLabel : 'Logout', href : '/generalView', tabIndex : '4', hasSubMenu : false}*/
 
 
@@ -60,12 +57,12 @@ dashboardApp.controller('navigationController', function($scope, $location, $rou
 
 	initApp();
 	
-	$scope.toggle = true;
+	/*$scope.toggle = true;
 	$scope.$watch('toggle', function(){
         $scope.buttonText = $scope.toggle ? '-' : '+';
         $('#toggles').css();
     
 	 })
-
+*/
 
 });

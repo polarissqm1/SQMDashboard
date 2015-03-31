@@ -32,95 +32,93 @@
 	rel="stylesheet" type="text/css">
 	
     
-    <style>
+<!--     <style>
 .col-xs-2 {min-width: 125px}
 .navbar-default .navbar-brand {color: #fff;font-size: 1.5em;font-weight:inherit;font-family: sans-serif;}
 .navbar-default {background-color: steelblue;border-color: black;}
-body {background-color: #fff; overflow-x:hidden}
+body {background-color: #fff; overflow:hidden}
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus{ color:#fff;}
-    </style>
+    </style> -->
 </head>
 
 <body>
 
+  <div id="wrapper" ng-controller="navigationController">
 
-	<nav class="navbar navbar-default navbar-static-top" role="navigation"
-		style="margin-bottom: 0">
-		<div class="navbar-header">
-
-			<a class="navbar-brand" href="index.html">SQM - Dashboard</a>
-		</div>
-
-	</nav>
-	<div ng-controller="navigationController">
-   
-    <div class="row" style="height:100%; padding-left:15px">
-        <div class="col-xs-2 table-bordered" style="height: 800px;padding-left: 1px;
-padding-right: 1px;">
-            <tabset vertical="true" type="pills">
-                <tab ng-repeat="tab in tabList" heading="{{tab.displayLabel}}" 
-                ng-click="loadView(tab.href)" >
-				<ul class="nav nav-stacked" ng-if="tab.hasSubMenu">
-					<li ng-class="{dropdown: subMenuItems}"
-						ng-repeat="submenu in subMenuItems"><a
-						href="{{submenu.href}}" data-toggle="dropdown"
-						ng-class="{'dropdown-toggle': submenu.displayLabel}"><i
-							class="glyphicon glyphicon-chevron-right"></i> {{submenu.displayLabel}}</a>
-
-					</li>
-				</ul>
-				</tab>
-            </tabset>
-        </div>
-      
-        <div class="col-xs-9">
-            <div class="slide-animation">
-          
-            <button id="toggles" style="float: right;" class="btn btn-default" ng-click="toggle = !toggle">{{buttonText}}</button>
-            
-            
-              <div class="row" ng-show="toggle"  collapse="isCollapsed">
-				<div class="col-lg-12 " class="well well-lg">
-					<div class="container-fluid " style=" padding-top: 17px; padding-left: 11px; ">
-						
-							<div class="col-xs-3 form-group " id="applicationCombo">
-								<select id="application" ng-change="validateVersions" ng-model="application" class="form-control form-group">
-									<option value="" selected=selected>Select Application</option>
-									<option>CFT_POST_TRADE</option>
-								</select>
-							</div>
-							<div class="col-xs-3 form-group " id="releaseCombo">
-							<select
-								class="form-control form-group" id="release">
-								<option value="" >Select Release</option>
-								
-							</select>
-						</div>
-						
-						<div id="pagers" class="pager" style="margin: 0 0; display: none;">
-						 <div class="col-xs-3 form-group">
-           				 <li>
-                  			<span>From Date : {{fromdate}} </span> 
-           				</li>
-           				</div> 
-           				
-           				<div class="col-xs-3 form-group">
-           				 <li>
-                  			<span>To Date: {{todate}}</span>
-           				</li>
-           				</div> 
-           				</div>
-					
-					</div>
-				</div>
-				<!-- /.col-lg-12 -->
+        <!-- Navigation -->
+		<nav class="navbar navbar-default navbar-static-top" role="navigation"
+			style="margin-bottom: 0">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand">SQM - Dashboard</a>
 			</div>
-        
-                <ng-view autoscroll=true></ng-view>
-            </div>
-        </div>
-    </div>
+
+			<ul class="nav navbar-top-links navbar-right" id="pagers">
+
+
+				<!-- /.dropdown -->
+				<li><a><i class="fa fa-sign-out fa-fw"></i> From Date :
+						{{fromdate}}</a></li>
+				<li><a><i class="fa fa-sign-out fa-fw"></i> To Date:
+						{{todate}}</a></li>
+
+			</ul>
+
+			<div class="navbar-default sidebar" role="navigation">
+				<div class="sidebar-nav navbar-collapse">
+					<ul class="nav" id="side-menu">
+						<li class="sidebar-search">
+							<div class="input-group custom-search-form">
+
+								<div class="form-group " id="applicationCombo">
+									<select id="application" ng-change="validateVersions"
+										ng-model="application" class="form-control form-group">
+										<option value="" selected=selected>Select Application</option>
+										<option>CFT_POST_TRADE</option>
+									</select>
+								</div>
+								<div class="form-group " id="releaseCombo"
+									style="padding-top: 28px;">
+									<select class="form-control form-group" id="release">
+										<option value="">Select Release</option>
+
+									</select>
+								</div>
+
+
+							</div> <!-- /input-group -->
+						</li>
+						<li ng-repeat="tab in tabList"><a
+							ng-click="loadView(tab.href)"><i class="fa fa-files-o fa-fw"></i>{{tab.displayLabel}}
+								<span ng-if="tab.hasSubMenu" class="fa arrow"></span></a>
+							<ul class="nav nav-second-level" ng-if="tab.hasSubMenu">
+								<li ng-repeat="submenu in tab.subMenuItems"><a
+									ng-click="loadView(submenu.href)">{{submenu.displayLabel}}</a>
+
+								</li>
+
+							</ul></li>
+
+					</ul>
+				</div>
+				<!-- /.sidebar-collapse -->
+			</div>
+			<!-- /.navbar-static-side -->
+		</nav>
+
+		<div id="page-wrapper">
+  <ng-view autoscroll=true></ng-view>
+ </div>
 </div>
+	
+   
+ 
+
 
 
 <!-- Bootstrap core JavaScript
@@ -151,7 +149,6 @@ padding-right: 1px;">
 	<script src="js/components/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
 	<script src="js/components/highcharts.js"></script>
 	<script src="js/components/exporting.js"></script>
-	<script src="js/components/date.js"></script>
 	
 	
 	
