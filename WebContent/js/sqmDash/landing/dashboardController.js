@@ -271,7 +271,7 @@
 						colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ],
 						
 						title : {
-							text : 'Manual Execution status',
+							text : 'Manual Execution Status',
 								style: {
 						            fontSize: 'medium',
 						            fontWeight: 'bold',
@@ -348,7 +348,7 @@
 						colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ],
 						
 						title : {
-							text : 'Automated Execution status',
+							text : 'Automated Execution Status',
 								style: {
 						            fontSize: 'medium',
 						            fontWeight: 'bold',
@@ -423,7 +423,7 @@
 						colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000' ]
 						,
 						title : {
-							text : 'Open Defect status',
+							text : 'Open Defect Status',
 							style: {
 					            fontSize: 'medium',
 					            fontWeight: 'bold',
