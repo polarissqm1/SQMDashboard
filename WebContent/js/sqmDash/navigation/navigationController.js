@@ -10,7 +10,7 @@ dashboardApp.controller('navigationController', function($scope, $location, $rou
 	]},
 */
 	{displayLabel : 'Dashboard', href : '/dashboard', tabIndex : '1', hasSubMenu : false},
-	{displayLabel : 'Reports', href : '#', tabIndex : '2', hasSubMenu :   true, subMenuItems : [
+	{displayLabel : 'Reports', href : '', tabIndex : '2', hasSubMenu :   true, subMenuItems : [
    	   	{displayLabel : 'Daily Status Report', href : '/dailystatus', tabIndex : '', type : 'submenu'},
    	   	{displayLabel : 'Trend Reports', href : '/trendreports', tabIndex : '', type : 'submenu'}
 	]},
@@ -44,9 +44,14 @@ dashboardApp.controller('navigationController', function($scope, $location, $rou
 		$location.path(view);
 	}
 
-	$scope.loadView = function(href){
-		$log.log('load view is invoked:'+href);
-		$location.path(href);
+	$scope.loadView = function(tab){
+		if(!tab.hasSubMenu){
+			
+		
+	
+		$log.log('load view is invoked:'+tab.href);
+		$location.path(tab.href);
+		}
 	}
 
 

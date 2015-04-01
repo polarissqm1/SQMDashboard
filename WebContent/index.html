@@ -94,11 +94,11 @@ body {background-color: #fff; overflow:hidden}
 							</div> <!-- /input-group -->
 						</li>
 						<li ng-repeat="tab in tabList"><a
-							ng-click="loadView(tab.href)"><i class="fa fa-files-o fa-fw"></i>{{tab.displayLabel}}
+							ng-click="loadView(tab)"><i class="fa fa-files-o fa-fw"></i>{{tab.displayLabel}}
 								<span ng-if="tab.hasSubMenu" class="fa arrow"></span></a>
 							<ul class="nav nav-second-level" ng-if="tab.hasSubMenu">
 								<li ng-repeat="submenu in tab.subMenuItems"><a
-									ng-click="loadView(submenu.href)">{{submenu.displayLabel}}</a>
+									ng-click="loadView(submenu)">{{submenu.displayLabel}}</a>
 
 								</li>
 
