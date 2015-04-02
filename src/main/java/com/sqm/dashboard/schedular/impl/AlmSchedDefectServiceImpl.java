@@ -275,12 +275,23 @@ public class AlmSchedDefectServiceImpl implements AlmSchedDefectService {
 					BigDecimal percentMedium = new BigDecimal((totDefectsMedium/totDefects) * 100);
 					BigDecimal percentLow = new BigDecimal((totDefectsLow/totDefects) * 100);
 		
-					String percentageUrgent = percentUrgent.setScale(2, RoundingMode.CEILING).toString();
+					
+					
+					
+					String percentageUrgent = percentUrgent.setScale(2, RoundingMode.CEILING).toString()+"%";
+					String percentageHigh = percentHigh.setScale(2, RoundingMode.CEILING).toString()+"%";
+					String percentageMedium = percentMedium.setScale(2, RoundingMode.CEILING).toString()+"%";
+					String percentageLow = percentLow.setScale(2, RoundingMode.CEILING).toString()+"%";
+					
+					
+					/*String percentageUrgent = percentUrgent.setScale(2, RoundingMode.CEILING).toString();
 					String percentageHigh = percentHigh.setScale(2, RoundingMode.CEILING).toString();
 					String percentageMedium = percentMedium.setScale(2, RoundingMode.CEILING).toString();
 					String percentageLow = percentLow.setScale(2, RoundingMode.CEILING).toString();
+					*/
+					log.info("PERCENTAGE IS "+percentageHigh);
 
-					log.info("percentageUrgent : " + percentageUrgent +
+					log.info("percentageUrgent : " + percentageUrgent + 
 						"#percentageHigh : " + percentageHigh +
 						"#percentageMedium : " + percentageMedium + 
 						"#percentageLow : " + percentageLow);
@@ -291,7 +302,7 @@ public class AlmSchedDefectServiceImpl implements AlmSchedDefectService {
 					medium.add(6, percentageMedium);
 					low.add(6, percentageLow);
 			
-					totalDefects.add(6, "100.00");
+					totalDefects.add(6, "100.00%");
 					
 				} else {
 					statusSeverity.add(6, Constants.DEFECT_STATUS_PERCENTAGE);

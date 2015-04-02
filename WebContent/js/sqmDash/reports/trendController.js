@@ -1031,6 +1031,9 @@ dashboardApp
 										            color : '#428bca'
 										        }
 											},
+											tooltip : {
+												pointFormat : '<b>{point.percentage:.1f}%</b>'
+											},
 											plotOptions : {
 												pie : {
 
@@ -1048,7 +1051,7 @@ dashboardApp
 											},
 											series : [ {
 												type : 'pie',
-												
+												name:' ',
 												data : [[ 'Test Execution', response.entity[0].defectType.TestExecution ],
 														[ 'Performance', response.entity[0].defectType.Performance ],
 														[ 'Environment', response.entity[0].defectType.Environment ],
@@ -1085,6 +1088,9 @@ dashboardApp
 										            color : '#428bca'
 										        }
 											},
+											tooltip : {
+												pointFormat : '<b>{point.percentage:.1f}%</b>'
+											},
 											plotOptions : {
 												pie : {
 
@@ -1102,6 +1108,7 @@ dashboardApp
 											},
 											series : [ {
 												type : 'pie',
+												name:' ',
 												data : [ [ "Implementation", response.entity[0].defectRootCause.implementation ],
 												         [ "Environment", response.entity[0].defectRootCause.Environment ],
 												         [ "Test Script", response.entity[0].defectRootCause.TestScript ],
