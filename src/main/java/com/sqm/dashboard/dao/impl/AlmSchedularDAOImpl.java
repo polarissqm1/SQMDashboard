@@ -174,7 +174,7 @@ public class AlmSchedularDAOImpl implements AlmSchedularDAO {
 		alm.put(Constants.DB_UPDATED_ON, DashboardUtility.getCurrentDate());
 		alm.put(Constants.DB_UPDATED_BY, "System");
 		    
-	  ArrayList<String> jiraId = new ArrayList<String>();
+		ArrayList<String> jiraId = new ArrayList<String>();
 		for(int j=0; j<almVO.getJiraIds().size(); j++) {
 			jiraId.add(almVO.getJiraIds().get(j));
 		}

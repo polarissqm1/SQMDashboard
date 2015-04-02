@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class AlmTestcaseVO implements Serializable {
 
 	SchedularManualVO schedManualVO;
-	SchedularTestcaseExecVO schedTestcaseExecVO;
+	/*SchedularTestcaseExecVO schedTestcaseExecVO;*/
 	
 	public SchedularManualVO getSchedManualVO() {
 		return schedManualVO;
@@ -17,7 +17,7 @@ public class AlmTestcaseVO implements Serializable {
 	public void setSchedManualVO(SchedularManualVO schedManualVO) {
 		this.schedManualVO = schedManualVO;
 	}
-	public SchedularTestcaseExecVO getSchedTestcaseExecVO() {
+	/*public SchedularTestcaseExecVO getSchedTestcaseExecVO() {
 		return schedTestcaseExecVO;
 	}
 	public void setSchedTestcaseExecVO(SchedularTestcaseExecVO schedTestcaseExecVO) {
@@ -28,7 +28,9 @@ public class AlmTestcaseVO implements Serializable {
 	public String toString() {
 		return "AlmTestcaseVO [schedManualVO=" + schedManualVO
 				+ ", schedTestcaseExecVO=" + schedTestcaseExecVO + "]";
+	}*/
+	@Override
+	public String toString() {
+		return "AlmTestcaseVO [schedManualVO=" + schedManualVO + "]";
 	}
-	
-	
 }

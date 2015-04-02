@@ -85,7 +85,7 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 		
 		almRelease.put(Constants.DB_RELEASE_CYCLES, cycles);
 		
-		almRelease.put(Constants.DB_RELEASE_PLANNEDTC, "0");
+		almRelease.put(Constants.DB_RELEASE_PLANNEDTC, almReleaseVO.getPlannedTestcases());
 		
 		List<DBObject> defects = new ArrayList<DBObject>();
 		DBObject defectData = null;
@@ -144,7 +144,7 @@ public class AlmReleaseSchedularDAOImpl implements AlmReleaseSchedularDAO {
 		updateCycles.append("$set", new BasicDBObject().append(Constants.DB_RELEASE_CYCLES, cycles));
 		
 		BasicDBObject plannedTC = new BasicDBObject();
-		plannedTC.append("$set", new BasicDBObject().append(Constants.DB_RELEASE_PLANNEDTC, "0"));
+		plannedTC.append("$set", new BasicDBObject().append(Constants.DB_RELEASE_PLANNEDTC, almReleaseVO.getPlannedTestcases()));
 		
 		BasicDBObject updateDefects = new BasicDBObject();
 		List<DBObject> defects = new ArrayList<DBObject>();
