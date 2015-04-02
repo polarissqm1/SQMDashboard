@@ -80,15 +80,15 @@ dashboardApp
 						    $scope.maxStartDate = v;
 						  });*/
 					
-					$scope.minDate = new Date('2015/03/03');
-					var date = new Date();
-					$scope.maxEndDate = new Date('2015/05/31');
+					$scope.minDate = new Date();
+					//var date = new Date();
+					$scope.maxEndDate = $scope.minDate;
 					$scope.maxDate = $scope.maxEndDate;
 					
 					//$scope.selectedDate = $("#fromdate").val() ? $scope.newFromDate : $scope.minDate;
 					
 					$scope.minStartDate = 0; //fixed date
-					  $scope.maxStartDate = $scope.lastDate; //init value
+					  $scope.maxStartDate = new Date(); //init value
 					  $scope.minEndDate = $scope.selectedDate; //init value
 					  $scope.maxEndDate = $scope.maxDate; //fixed date same as $scope.maxStartDate init value
 					  
@@ -172,9 +172,9 @@ dashboardApp
 						
 						$scope.toggleMin1();
 						
-						$scope.minDate1 = new Date('2015/03/03');
+						$scope.minDate1 = new Date();
 						var date1 = new Date();
-						$scope.maxEndDate1 = new Date('2015/05/31');
+						$scope.maxEndDate1 = new Date();
 						$scope.maxDate1 = $scope.maxEndDate1;
 						
 						//$scope.selectedDate = $("#fromdate").val() ? $scope.newFromDate : $scope.minDate;
