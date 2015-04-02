@@ -69,9 +69,16 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 		                 /* [$scope.tcstatus[5].status,   parseInt($scope.tcstatus[5].percentage)]*/
 		                 
 		              ];
+		if(parseInt($scope.tcstatus[0].percentage) == 0 && parseInt($scope.tcstatus[1].percentage) == 0 && parseInt($scope.tcstatus[2].percentage) == 0 && parseInt($scope.tcstatus[3].percentage) == 0 && parseInt($scope.tcstatus[4].percentage) == 0){
 			
+			$scope.noData("#tcsChart","Overall Testcase Excecution");
+		}	
 		//$scope.check();
-		 $scope.plottcsChart(); 
+		else{
+			
+			 $scope.plottcsChart(); 
+		}
+		
 		 $scope.plotstatusWiseChart();
 		 $scope.plotseverityWiseChart();
 		}	
@@ -118,12 +125,18 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
        		                 
        		              ];
         		//$scope.check();
-        		 $scope.plottcsChart(); 
+        		if(parseInt($scope.tcstatus[0].percentage) == 0 && parseInt($scope.tcstatus[1].percentage) == 0 && parseInt($scope.tcstatus[2].percentage) == 0 && parseInt($scope.tcstatus[3].percentage) == 0 && parseInt($scope.tcstatus[4].percentage) == 0){
+        			$scope.noData("#tcsChart","Overall Testcase Excecution");
+        		}	
+        		//$scope.check();
+        		else{
+        			 $scope.plottcsChart(); 
+        		} 
         		 $scope.plotstatusWiseChart();
         		 $scope.plotseverityWiseChart();
         		}
         	});
-	}
+	};
             
             $scope.plottcsChart = function(){
             	Highcharts.setOptions({
@@ -177,7 +190,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                     }]
                 });
             	
-        }
+        };
             
             $scope.getDatetime = new Date;
             
@@ -212,7 +225,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                             	enabled: true,
                                 //format: '{point.percentage:.1f} %',
                             	formatter: function() {
-                            		$scope.percent = this.y + ' %'
+                            		$scope.percent = this.y + ' %';
 			                        return $scope.percent;
 			                    },
 			                    distance: -30
@@ -240,7 +253,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                     }]
                 });
             	
-        }
+        };
             
             $scope.plotseverityWiseChart = function(){
             	Highcharts.setOptions({
@@ -300,6 +313,13 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
                     }]
                 });
             	
-        }
+        };
+            $scope.noData = function(id,title){
+            	
+            	$(id).html("<div class='row text-center'><text x='278' text-anchor='middle' class='highcharts-title' style='color:#428bca;font-size:medium;font-weight:bold;fill:#428bca;width:491px;' y='22'><tspan>"+title+"</tspan></text></div><img class='img-responsive center-block' src='images/nodata3.jpg' width='168' height='168' align='middle'/>");
+
+            	
+            };
+            
             
         });

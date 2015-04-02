@@ -61,14 +61,21 @@
 			 plotDefectStatusChart(response.entity.severityVO);
 			 plotDistributionChart(response.entity.effortsVO);
 				*/
-			 if(response.entity.automationVO.passed == 0 && response.entity.automationVO.failed == 0 && response.entity.automationVO.noRun == 0 && response.entity.automationVO.blocked == 0 && response.entity.automationVO.deferred == 0
-					 ||response.entity.manaulVO.passed == 0 || response.entity.manualVO.failed == 0 || response.entity.manaulVO.noRun == 0 || response.entity.manaulVO.blocked == 0 || response.entity.manaulVO.defered == 0){
-				 				
+			if(response.entity.automationVO.passed == 0 && response.entity.automationVO.failed == 0 && response.entity.automationVO.noRun == 0 && response.entity.automationVO.blocked == 0 && response.entity.automationVO.deferred == 0){
+ 				
 				 
 				 
-				 noAutomationData();
+				 noData("#automation-pie-chart","Automated Execution Status");
 				 
-				 noManualData();
+				 
+				 if(response.entity.manualVO.passed == 0 && response.entity.manualVO.failed == 0 && response.entity.manualVO.noRun == 0 && response.entity.manualVO.blocked == 0 && response.entity.manualVO.deferred == 0){
+		 				
+						
+					 noData("#manual-pie-chart","Manual Execution Status");
+				 }
+				 else{
+					 plotManualChart(response.entity.manualVO);
+				 }
 				 
 				 plotRagChart();
 				
@@ -83,7 +90,7 @@
 				 
 		 
 			 plotRagChart();
-			 plotManualChart(JSON.stringify(response.entity.manualVO));
+			 plotManualChart(response.entity.manualVO);
 			 
 			 plotAutomatedChart(response.entity.automationVO);
 			 /*plotDefectStatusChart(response.entity.severityVO);*/
@@ -164,15 +171,23 @@
 				 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
 				 plotDistributionChart(response.entity.effortsVO);*/
 				 
+				
 				 
-				 if(response.entity.automationVO.passed == 0 && response.entity.automationVO.failed == 0 && response.entity.automationVO.noRun == 0 && response.entity.automationVO.blocked == 0 && response.entity.automationVO.deferred == 0
-						 ||response.entity.manaulVO.passed == 0 || response.entity.manualVO.failed == 0 || response.entity.manaulVO.noRun == 0 || response.entity.manaulVO.blocked == 0 || response.entity.manaulVO.defered == 0){
+				 if(response.entity.automationVO.passed == 0 && response.entity.automationVO.failed == 0 && response.entity.automationVO.noRun == 0 && response.entity.automationVO.blocked == 0 && response.entity.automationVO.deferred == 0){
 					 				
 					 
 					 
-					 noAutomationData();
+					 noData("#automation-pie-chart","Automated Execution Status");
 					 
-					 noManualData();
+					 
+					 if(response.entity.manualVO.passed == 0 && response.entity.manualVO.failed == 0 && response.entity.manualVO.noRun == 0 && response.entity.manualVO.blocked == 0 && response.entity.manualVO.deferred == 0){
+			 				
+							
+						 noData("#manual-pie-chart","Manual Execution Status");
+					 }
+					 else{
+						 plotManualChart(response.entity.manualVO);
+					 }
 					 
 					 plotRagChart();
 					
@@ -187,14 +202,14 @@
 					 
 			 
 				 plotRagChart();
-				 plotManualChart(JSON.stringify(response.entity.manualVO));
+				 plotManualChart(response.entity.manualVO);
 				 
 				 plotAutomatedChart(response.entity.automationVO);
 				 /*plotDefectStatusChart(response.entity.severityVO);*/
 				 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
 				 plotDistributionChart(response.entity.effortsVO);
 				 }
-					
+				
 			 });		
 			 
 			
@@ -593,23 +608,15 @@
 			
 		}
 
-function noAutomationData(){
+function noData(id,title){
 			
 			
-			$("#automation-pie-chart").html("<text x='278' text-anchor='middle' class='highcharts-title' zIndex='4' style='color:#428bca;font-size:medium;font-weight:bold;fill:#428bca;width:491px;' y='22'><tspan>Automated Execution Status</tspan></text>" +
-					"<img src='images/nodata.png' align='middle'/>");
+			$(id).html("<div class='flot-chart-content'><div><text x='278' text-anchor='middle' class='highcharts-title' style='color:#428bca;font-size:medium;font-weight:bold;fill:#428bca;width:491px;' y='22'><tspan>"+title+"</tspan></text></div><img class='img-responsive' src='images/nodata3.jpg' width='650' height='400' align='middle'/></div>");
 
 			
            
 		}
 		
-		function noManualData(){
-			
-			
-			$("#manual-pie-chart").html("<text x='278' text-anchor='middle' class='highcharts-title' zIndex='4' style='color:#428bca;font-size:medium;font-weight:bold;fill:#428bca;width:491px;' y='22'><tspan>Manual Execution Status</tspan></text>" +
-			"<img src='images/nodata.png' align='middle'/>");
-			 
-		}
 
 
 		});
