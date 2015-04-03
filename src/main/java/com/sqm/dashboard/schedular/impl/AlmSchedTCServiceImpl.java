@@ -82,28 +82,56 @@ public class AlmSchedTCServiceImpl implements AlmSchedTCService {
 			String runsUrl = conn.buildEntityCollectionUrl(almEntityRun, domain, project);
 			log.info("testcases runsUrl : " + runsUrl);
 			
+			HashMap<String, Integer> statusCountHashMap = new HashMap<String, Integer>(); 
+			statusCountHashMap.put("passed", 0);
+			statusCountHashMap.put("failed", 0);
+			statusCountHashMap.put("notRunNotCompleted", 0);
+			statusCountHashMap.put("nA", 0);
+			statusCountHashMap.put("deferred", 0);
+			statusCountHashMap.put("blocked", 0);
+			
 			/** Get TestSetFolder Parent Id **/
 			String testSetFolderId = almSchedTestcaseServiceImpl.getAlmTestSetFolderId(conn, requestHeaders, testSetFolderUrl, releaseName, releaseId, testLabFolderName);
 			
-			/** Get TestSets Id **/
-			LinkedHashMap<String, String> testSetsIdName = almSchedTestcaseServiceImpl.getAlmTestSetsIdName(conn, requestHeaders, testSetsUrl, testSetFolderId);
+			Integer testSetsCount = almSchedTestcaseServiceImpl.getAlmTestSetsCount(conn, requestHeaders, testSetsUrl, testSetFolderId);
+			Integer subFoldersTestSetsCount = almSchedTestcaseServiceImpl.getAlmTestExecSubFoldersCount(conn, requestHeaders, testSetFolderUrl, testSetFolderId);
+			log.info("testSetsCount : " + testSetsCount);
+			log.info("subFoldersTestSetsCount : " + subFoldersTestSetsCount);
 			
-			HashMap<String, Integer> statusCountZeroHashMap = new HashMap<String, Integer>(); 
-			statusCountZeroHashMap.put("passed", 0);
-			statusCountZeroHashMap.put("failed", 0);
-			statusCountZeroHashMap.put("notRunNotCompleted", 0);
-			statusCountZeroHashMap.put("nA", 0);
-			statusCountZeroHashMap.put("deferred", 0);
-			statusCountZeroHashMap.put("blocked", 0);
+			if((testSetsCount > 0) && (subFoldersTestSetsCount == 0)) {
+				LinkedHashMap<String, String> testSetsIdName = almSchedTestcaseServiceImpl.getAlmTestSetsIdName(conn, requestHeaders, testSetsUrl, testSetFolderId);
+				
+				HashMap<String, Integer> statusCounts = getTCExecCountsOfTestSets(conn, requestHeaders, testSetFolderUrl, testSetsUrl, runsUrl, testSetsIdName, statusCountHashMap);
+				log.info("statusCounts in getTCExecCountsOfTestSetsSubFolders IF : " + statusCounts.toString());
+				
+				statusCountHashMap = statusCounts;
+				log.info("statusCountHashMap in getTCExecCountsOfTestSetsSubFolders IF : " + statusCountHashMap.toString());
+				
+			} else if((testSetsCount > 0) && (subFoldersTestSetsCount > 0)) {
+				LinkedHashMap<String, String> testSetsIdName = almSchedTestcaseServiceImpl.getAlmTestSetsIdName(conn, requestHeaders, testSetsUrl, testSetFolderId);
+				HashMap<String, Integer> statusCountsTestSets = getTCExecCountsOfTestSets(conn, requestHeaders, testSetFolderUrl, testSetsUrl, runsUrl, testSetsIdName, statusCountHashMap);
+				log.info("statusCountsTestSets in getTCExecCountsOfTestSetsSubFolders IF : " + statusCountsTestSets.toString());
+				
+				HashMap<String, Integer> statusCounts = getTCExecCountsOfTestSetsSubFolders(conn, requestHeaders, testSetFolderUrl, testSetsUrl, 
+																							runsUrl, testSetFolderId, statusCountsTestSets);
+				statusCountHashMap = statusCounts;
+				log.info("statusCountHashMap in getTCExecCountsOfTestSetsSubFolders IF : " + statusCountHashMap.toString());
+				
+			} else if((testSetsCount == 0) && (subFoldersTestSetsCount > 0)) {
+				HashMap<String, Integer> statusCounts = getTCExecCountsOfTestSetsSubFolders(conn, requestHeaders, testSetFolderUrl, testSetsUrl, 
+																								runsUrl, testSetFolderId, statusCountHashMap);
+				log.info("statusCounts in getTCExecCountsOfTestSetsSubFolders ELSE IF 2 : " + statusCounts.toString());
+
+				statusCountHashMap = statusCounts;
+				log.info("statusCountHashMap in getTCExecCountsOfTestSetsSubFolders ELSE IF 2 : " + statusCountHashMap.toString());
+			}
 			
-			HashMap<String, Integer> statusCounts = getTCExecCountsOfSubFolders(conn, requestHeaders, testSetFolderUrl, testSetsUrl, runsUrl, testSetsIdName, statusCountZeroHashMap);
-			
-			tcPassed = statusCounts.get("passed") + "";
-			tcFailed = statusCounts.get("failed") + "";
-			tcNotRunAndNotCompleted = statusCounts.get("notRunNotCompleted") + "";
-			tcNA = statusCounts.get("nA") + "";
-			tcDeferred = statusCounts.get("deferred") + "";
-			tcBlocked = statusCounts.get("blocked") + "";
+			tcPassed = statusCountHashMap.get("passed") + "";
+			tcFailed = statusCountHashMap.get("failed") + "";
+			tcNotRunAndNotCompleted = statusCountHashMap.get("notRunNotCompleted") + "";
+			tcNA = statusCountHashMap.get("nA") + "";
+			tcDeferred = statusCountHashMap.get("deferred") + "";
+			tcBlocked = statusCountHashMap.get("blocked") + "";
 			
 			schedManualVO.setPassed(tcPassed);
 			schedManualVO.setFailed(tcFailed);
@@ -145,6 +173,15 @@ public class AlmSchedTCServiceImpl implements AlmSchedTCService {
 			/** Get Parent TestFolder Id **/
 			String testParentFolderId = almSchedTestcaseServiceImpl.getAlmTestFolderId(conn, requestHeaders, testFolderUrl, releaseName, releaseId, testPlanFolderName);
 			
+			Integer testsParentFolderCount = almSchedTestcaseServiceImpl.getAlmTestsCount(conn, requestHeaders, testUrl, testParentFolderId);
+			log.info("testsParentFolderCount : " + testsParentFolderCount);
+			
+			if(testsParentFolderCount > 0) {
+				log.info("testParentFolder | testsCountParentFolder : " + testsParentFolderCount);
+				plannedTestcases += testsParentFolderCount;
+				log.info("testParentFolder | plannedTestcases : " + plannedTestcases);
+			}
+			
 			/** Get Test Folders Id **/
 			LinkedHashMap<String, String> testFoldersIdName = almSchedTestcaseServiceImpl.getAlmTestFoldersIdName(conn, requestHeaders, testFolderUrl, testParentFolderId);
 			
@@ -162,7 +199,6 @@ public class AlmSchedTCServiceImpl implements AlmSchedTCService {
 											String testFolderUrl, String testUrl, LinkedHashMap<String, String> testFoldersHashMap, Integer plannedTC) throws Exception {
 		
 		log.info("plannedTC in getPlannedTCOfSubFolders : " + plannedTC);
-		/*LinkedHashMap<String, String> tests = new LinkedHashMap<String, String>();*/
 		LinkedHashMap<String, String> testSubFoldersIdName = new LinkedHashMap<String, String>();
 		
 		try {
@@ -170,25 +206,28 @@ public class AlmSchedTCServiceImpl implements AlmSchedTCService {
 				String testFolderId = testFoldersEntry.getKey();
 				String testFolderName = testFoldersEntry.getValue();
 				log.info("TestFolderId : " + testFolderId + " # TestFolderName : " + testFolderName);
-		    
-				Integer subFoldersCount = 	almSchedTestcaseServiceImpl.getAlmTestSubFoldersCount(conn, requestHeaders, testFolderUrl, testFolderId);
+				
+				Integer testsCount = almSchedTestcaseServiceImpl.getAlmTestsCount(conn, requestHeaders, testUrl, testFolderId);
+				log.info("testsCount : " + testsCount);
+				
+				Integer subFoldersCount = almSchedTestcaseServiceImpl.getAlmTestSubFoldersCount(conn, requestHeaders, testFolderUrl, testFolderId);
 				log.info("SubFoldersCount : " + subFoldersCount);
-
-				if(subFoldersCount == 0){
-					log.info("subFoldersCount : " + subFoldersCount);
-		    	
-					/*tests = almSchedTestcaseServiceImpl.getAlmTestsIdName(conn, requestHeaders, testUrl, testFolderId);
-			    	plannedTC += tests.size();
-			    	log.info("plannedTC tests.size() : " + tests.size());*/
-			    
-			    	plannedTC += almSchedTestcaseServiceImpl.getAlmTestsCount(conn, requestHeaders, testUrl, testFolderId);
-			    	log.info("plannedTC IF : " + plannedTC);
-			    } else {
+				
+				if((testsCount > 0) && (subFoldersCount == 0)) {
+					plannedTC += testsCount;
+				} else if((testsCount > 0) && (subFoldersCount > 0)) {
+					plannedTC += testsCount;
 					testSubFoldersIdName = almSchedTestcaseServiceImpl.getAlmTestFoldersIdName(conn, requestHeaders, testFolderUrl, testFolderId);
 					Integer plannedTCSubFolers = getPlannedTCOfSubFolders(conn, requestHeaders, testFolderUrl, testUrl, testSubFoldersIdName, plannedTC);
 					log.info("plannedTCSubFolers : " + plannedTCSubFolers);
 					plannedTC = plannedTCSubFolers;
-					log.info("plannedTC ELSE : " + plannedTC);
+					log.info("plannedTC ELSE IF (testsCount > 0) && (subFoldersCount == 0) : " + plannedTC);
+				} else if((testsCount == 0) && (subFoldersCount > 0)) {
+					testSubFoldersIdName = almSchedTestcaseServiceImpl.getAlmTestFoldersIdName(conn, requestHeaders, testFolderUrl, testFolderId);
+					Integer plannedTCSubFolers = getPlannedTCOfSubFolders(conn, requestHeaders, testFolderUrl, testUrl, testSubFoldersIdName, plannedTC);
+					log.info("plannedTCSubFolers : " + plannedTCSubFolers);
+					plannedTC = plannedTCSubFolers;
+					log.info("plannedTC ELSE IF (testsCount == 0) && (subFoldersCount > 0) : " + plannedTC);
 				}
 			}
 			return plannedTC;
@@ -198,63 +237,98 @@ public class AlmSchedTCServiceImpl implements AlmSchedTCService {
 		}
 	}
 	
-	private HashMap<String, Integer> getTCExecCountsOfSubFolders(RestConnectorUtility conn, Map<String, String> requestHeaders, 
+	private HashMap<String, Integer> getTCExecCountsOfTestSetsSubFolders(RestConnectorUtility conn, Map<String, String> requestHeaders, 
+																	String testSetFolderUrl, String testSetsUrl, 
+																	String runsUrl, String testSetFolderId,
+																	HashMap<String, Integer> statusCountHashMap) throws Exception {
+		
+		log.info("statusCountHashMap in getTCExecCountsOfTestSetsSubFolders : " + statusCountHashMap.toString());
+		
+		LinkedHashMap<String, String> testSetsSubFoldersIdName = almSchedTestcaseServiceImpl.getAlmTestExecSubFoldersIdName(conn, requestHeaders, testSetFolderUrl, testSetFolderId);
+		try {
+			for (Map.Entry<String, String> testSetsFoldersEntry : testSetsSubFoldersIdName.entrySet()) {
+				String testSetsFolderId = testSetsFoldersEntry.getKey();
+				String testSetsFolderName = testSetsFoldersEntry.getValue();
+				log.info("TestSetFolderId : " + testSetsFolderId + " # TestSetFolderName : " + testSetsFolderName);
+
+				Integer testSetsCount = almSchedTestcaseServiceImpl.getAlmTestSetsCount(conn, requestHeaders, testSetsUrl, testSetsFolderId);
+				Integer subFoldersTestSetsCount = almSchedTestcaseServiceImpl.getAlmTestExecSubFoldersCount(conn, requestHeaders, testSetFolderUrl, testSetsFolderId);
+				log.info("testSetsCount : " + testSetsCount);
+				log.info("subFoldersTestSetsCount : " + subFoldersTestSetsCount);
+
+				if((testSetsCount > 0) && (subFoldersTestSetsCount == 0)) {
+					LinkedHashMap<String, String> testSetsIdName = almSchedTestcaseServiceImpl.getAlmTestSetsIdName(conn, requestHeaders, testSetsUrl, testSetFolderId);
+					HashMap<String, Integer> statusCounts = getTCExecCountsOfTestSets(conn, requestHeaders, testSetFolderUrl, testSetsUrl, runsUrl, testSetsIdName, statusCountHashMap);
+					log.info("statusCounts in getTCExecCountsOfTestSetsSubFolders IF : " + statusCounts.toString());
+					statusCountHashMap = statusCounts;
+					log.info("statusCountHashMap in getTCExecCountsOfTestSetsSubFolders IF : " + statusCountHashMap.toString());
+				} else if((testSetsCount > 0) && (subFoldersTestSetsCount > 0)) {
+					LinkedHashMap<String, String> testSetsIdName = almSchedTestcaseServiceImpl.getAlmTestSetsIdName(conn, requestHeaders, testSetsUrl, testSetFolderId);
+					HashMap<String, Integer> statusCountsTestSets = getTCExecCountsOfTestSets(conn, requestHeaders, testSetFolderUrl, testSetsUrl, runsUrl, testSetsIdName, statusCountHashMap);
+					log.info("statusCountsTestSets in getTCExecCountsOfTestSetsSubFolders ELSE IF 1 : " + statusCountsTestSets.toString());
+					
+					HashMap<String, Integer> statusCounts = getTCExecCountsOfTestSetsSubFolders(conn, requestHeaders, testSetFolderUrl, testSetsUrl, 
+																								runsUrl, testSetsFolderId, statusCountsTestSets);
+					log.info("statusCounts in getTCExecCountsOfTestSetsSubFolders ELSE IF 1 : " + statusCounts.toString());
+					statusCountHashMap = statusCounts;
+					log.info("statusCountHashMap in getTCExecCountsOfTestSetsSubFolders ELSE IF 1 : " + statusCountHashMap.toString());
+				} else if((testSetsCount == 0) && (subFoldersTestSetsCount > 0)) {
+					HashMap<String, Integer> statusCounts = getTCExecCountsOfTestSetsSubFolders(conn, requestHeaders, testSetFolderUrl, testSetsUrl, 
+																						runsUrl, testSetsFolderId, statusCountHashMap);
+					log.info("statusCounts in getTCExecCountsOfTestSetsSubFolders ELSE IF 2 : " + statusCounts.toString());
+					
+					statusCountHashMap = statusCounts;
+					log.info("statusCountHashMap in getTCExecCountsOfTestSetsSubFolders ELSE IF 2 : " + statusCountHashMap.toString());
+				}
+			}
+				return statusCountHashMap;
+		} catch (Exception e) {
+			log.error("Error in getting Alm exec testcases for testsets sub folders : " + e.getMessage());
+			throw e;
+		}
+	}
+	
+	private HashMap<String, Integer> getTCExecCountsOfTestSets(RestConnectorUtility conn, Map<String, String> requestHeaders, 
 							String testSetFolderUrl, String testSetsUrl, String runsUrl, LinkedHashMap<String, String> testSetsHashMap, 
 							HashMap<String, Integer> statusCountHashMap) throws Exception {
 
-		log.info("statusCountHashMap in getTCExecCountsOfSubFolders : " + statusCountHashMap.toString());
-		
-		LinkedHashMap<String, String> testSetsSubFoldersIdName = new LinkedHashMap<String, String>();
-		
+		log.info("statusCountHashMap in getTCExecCountsOfTestSets : " + statusCountHashMap.toString());
 		try {
-			for (Map.Entry<String, String> testSetsEntry : testSetsHashMap.entrySet()) {
+		for (Map.Entry<String, String> testSetsEntry : testSetsHashMap.entrySet()) {
 				String testSetId = testSetsEntry.getKey();
 				String testSetName = testSetsEntry.getValue();
 				log.info("TestSetId : " + testSetId + "#TestSetName : " + testSetName);
 		    
-				Integer subFoldersCount = 	almSchedTestcaseServiceImpl.getAlmTestExecSubFoldersCount(conn, requestHeaders, testSetFolderUrl, testSetId);
-				log.info("SubFoldersCount : " + subFoldersCount);
-				
-				if(subFoldersCount == 0){
-					log.info("subFoldersCount : " + subFoldersCount);
+				Integer passed = statusCountHashMap.get("passed");
+				Integer failed = statusCountHashMap.get("failed");
+				Integer notRunNotCompleted = statusCountHashMap.get("notRunNotCompleted");
+				Integer nA = statusCountHashMap.get("nA");
+				Integer deferred = statusCountHashMap.get("deferred");
+				Integer blocked = statusCountHashMap.get("blocked");
 					
-					Integer passed = statusCountHashMap.get("passed");
-					Integer failed = statusCountHashMap.get("failed");
-					Integer notRunNotCompleted = statusCountHashMap.get("notRunNotCompleted");
-					Integer nA = statusCountHashMap.get("nA");
-					Integer deferred = statusCountHashMap.get("deferred");
-					Integer blocked = statusCountHashMap.get("blocked");
-					
-					/*ArrayList<String> testInstanceIds = almSchedTestcaseServiceImpl.getAlmTestInstanceIds(conn, requestHeaders, testInstancesUrl, testSetId);*/
+				/*ArrayList<String> testInstanceIds = almSchedTestcaseServiceImpl.getAlmTestInstanceIds(conn, requestHeaders, testInstancesUrl, testSetId);*/
 		   
-					passed += Integer.parseInt(almSchedTestcaseServiceImpl.getAlmTCExecCount(conn, requestHeaders, runsUrl, testSetId, Constants.TESTCASES_STATUS_PASSED));
-					failed += Integer.parseInt(almSchedTestcaseServiceImpl.getAlmTCExecCount(conn, requestHeaders, runsUrl, testSetId, Constants.TESTCASES_STATUS_FAILED));
-					notRunNotCompleted += Integer.parseInt(almSchedTestcaseServiceImpl.getAlmTCExecCount(conn, requestHeaders, runsUrl, testSetId, Constants.TESTCASES_STATUS_NORUNANDNOTCOMPLETED));
-					nA += Integer.parseInt(almSchedTestcaseServiceImpl.getAlmTCExecCount(conn, requestHeaders, runsUrl, testSetId, Constants.TESTCASES_STATUS_NOTAPPLICABLE));
-					deferred += Integer.parseInt(almSchedTestcaseServiceImpl.getAlmTCExecCount(conn, requestHeaders, runsUrl, testSetId, Constants.TESTCASES_STATUS_DEFERRED));
-					blocked += Integer.parseInt(almSchedTestcaseServiceImpl.getAlmTCExecCount(conn, requestHeaders, runsUrl, testSetId, Constants.TESTCASES_STATUS_BLOCKED));
+				passed += Integer.parseInt(almSchedTestcaseServiceImpl.getAlmTCExecCount(conn, requestHeaders, runsUrl, testSetId, Constants.TESTCASES_STATUS_PASSED));
+				failed += Integer.parseInt(almSchedTestcaseServiceImpl.getAlmTCExecCount(conn, requestHeaders, runsUrl, testSetId, Constants.TESTCASES_STATUS_FAILED));
+				notRunNotCompleted += Integer.parseInt(almSchedTestcaseServiceImpl.getAlmTCExecCount(conn, requestHeaders, runsUrl, testSetId, Constants.TESTCASES_STATUS_NORUNANDNOTCOMPLETED));
+				nA += Integer.parseInt(almSchedTestcaseServiceImpl.getAlmTCExecCount(conn, requestHeaders, runsUrl, testSetId, Constants.TESTCASES_STATUS_NOTAPPLICABLE));
+				deferred += Integer.parseInt(almSchedTestcaseServiceImpl.getAlmTCExecCount(conn, requestHeaders, runsUrl, testSetId, Constants.TESTCASES_STATUS_DEFERRED));
+				blocked += Integer.parseInt(almSchedTestcaseServiceImpl.getAlmTCExecCount(conn, requestHeaders, runsUrl, testSetId, Constants.TESTCASES_STATUS_BLOCKED));
 					
-					statusCountHashMap.put("passed", passed);
-					statusCountHashMap.put("failed", failed);
-					statusCountHashMap.put("notRunNotCompleted", notRunNotCompleted);
-					statusCountHashMap.put("nA", nA);
-					statusCountHashMap.put("deferred", deferred);
-					statusCountHashMap.put("blocked", blocked);
+				statusCountHashMap.put("passed", passed);
+				statusCountHashMap.put("failed", failed);
+				statusCountHashMap.put("notRunNotCompleted", notRunNotCompleted);
+				statusCountHashMap.put("nA", nA);
+				statusCountHashMap.put("deferred", deferred);
+				statusCountHashMap.put("blocked", blocked);
 					
-					log.info("statusCountHashMap IF : " + statusCountHashMap.toString());
-				} else {
-					testSetsSubFoldersIdName = almSchedTestcaseServiceImpl.getAlmTestSetsIdName(conn, requestHeaders, testSetsUrl, testSetId);
-					HashMap<String, Integer> statusCountsSubFolder = getTCExecCountsOfSubFolders(conn, requestHeaders, testSetFolderUrl, testSetsUrl, runsUrl, testSetsSubFoldersIdName, statusCountHashMap);
-					log.info("statusCountsSubFolder HashMap : " + statusCountsSubFolder.toString());
-					
-					statusCountHashMap = statusCountsSubFolder;
-					log.info("statusCountHashMap ELSE : " + statusCountHashMap.toString());
-				}
-			}
+				log.info("statusCountHashMap : " + statusCountHashMap.toString());
+		} 
 			return statusCountHashMap;
 		}  catch (Exception e) {
-			log.error("Error in getting Alm executed testcases for sub folders : " + e.getMessage());
+			log.error("Error in getting Alm executed testsets : " + e.getMessage());
 			throw e;
 		} 
 	}
+
 }

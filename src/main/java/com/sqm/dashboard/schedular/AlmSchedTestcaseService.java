@@ -14,6 +14,9 @@ public interface AlmSchedTestcaseService {
 	public LinkedHashMap<String, String> getAlmTestSetsIdName(RestConnectorUtility conn, Map<String, String> requestHeaders, 
 									String testSetsUrl, String testSetFolderId) throws Exception;
 	
+	public Integer getAlmTestSetsCount(RestConnectorUtility conn, Map<String, String> requestHeaders, 
+									String testSetsUrl, String testSetFolderId) throws Exception;
+	
 	public ArrayList<String> getAlmTestInstanceIds(RestConnectorUtility conn, Map<String, String> requestHeaders, String testInstancesUrl,
 									String testSetId) throws Exception;
 	
@@ -36,5 +39,8 @@ public interface AlmSchedTestcaseService {
 									String testFolderId) throws Exception;
 	
 	public Integer getAlmTestExecSubFoldersCount(RestConnectorUtility conn, Map<String, String> requestHeaders, String testFolderUrl,
+									String testFolderId) throws Exception;
+	
+	public LinkedHashMap<String, String> getAlmTestExecSubFoldersIdName(RestConnectorUtility conn, Map<String, String> requestHeaders, String testFolderUrl,
 									String testFolderId) throws Exception;
 }

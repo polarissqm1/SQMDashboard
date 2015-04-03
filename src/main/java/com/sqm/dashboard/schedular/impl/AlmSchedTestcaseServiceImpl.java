@@ -69,7 +69,7 @@ public class AlmSchedTestcaseServiceImpl implements AlmSchedTestcaseService {
 	
 	@Override
 	public LinkedHashMap<String, String> getAlmTestSetsIdName(RestConnectorUtility conn, Map<String, String> requestHeaders, String testSetsUrl,
-										String testSetFolderId) throws Exception {
+																String testSetFolderId) throws Exception {
 		
 		StringBuilder queryAlmTestSetsIdName = new StringBuilder();
 		ArrayList<String> testSetsIds = new ArrayList<String>();
@@ -118,6 +118,37 @@ public class AlmSchedTestcaseServiceImpl implements AlmSchedTestcaseService {
 		}
 
 	}
+	
+	@Override
+	public Integer getAlmTestSetsCount(RestConnectorUtility conn, Map<String, String> requestHeaders, 
+											String testSetsUrl, String testSetFolderId) throws Exception {
+		
+		StringBuilder queryAlmTestSetsCount = new StringBuilder();
+		
+		try{
+			queryAlmTestSetsCount.append("query={parent-id[");
+			queryAlmTestSetsCount.append(testSetFolderId);
+			queryAlmTestSetsCount.append("]}");
+			queryAlmTestSetsCount.append("&fields=id,name");
+
+			log.info("AlmTestSetsCount Query : " + queryAlmTestSetsCount);
+
+			String listFromAlmTestSetsCountCollectionAsXml = conn.httpGet(testSetsUrl, queryAlmTestSetsCount.toString(), requestHeaders).toString();
+			log.info("listFromAlmTestSetsCountCollectionAsXml : " + listFromAlmTestSetsCountCollectionAsXml);
+
+			EntitiesUtility entitiesTestsSetsCount = MarshallingUtility.marshal(EntitiesUtility.class, listFromAlmTestSetsCountCollectionAsXml);
+			log.info("Tests Sets Entities : " + entitiesTestsSetsCount);
+			log.info("Tests Sets Count : " + entitiesTestsSetsCount.getTotalResults());
+
+			return Integer.parseInt(entitiesTestsSetsCount.getTotalResults());
+			
+		} catch (Exception e) {
+				log.error("Error in getting Alm test sets count : " + e.getMessage());
+				throw e;
+		}
+
+	}
+	
 	
 	@Override
 	public ArrayList<String> getAlmTestInstanceIds(RestConnectorUtility conn, Map<String, String> requestHeaders, String testInstancesUrl,
@@ -415,6 +446,58 @@ public class AlmSchedTestcaseServiceImpl implements AlmSchedTestcaseService {
 		} catch (Exception e) {
 				log.error("Error in getting Alm test sets sub folders count : " + e.getMessage());
 				throw e;
+		}
+	}
+	
+	@Override
+	public LinkedHashMap<String, String> getAlmTestExecSubFoldersIdName(RestConnectorUtility conn, Map<String, String> requestHeaders, String testSetFolderUrl,
+																String testSetId) throws Exception {
+		
+		StringBuilder queryAlmTestSetsSubFoldersIdName = new StringBuilder();
+		
+		ArrayList<String> testsSetsSubFolderIds = new ArrayList<String>();
+		ArrayList<String> testsSetsSubFolderNames = new ArrayList<String>();
+		LinkedHashMap<String ,String> testSetsSubFolders = new LinkedHashMap<String, String>();
+		
+		Node nNode = null;
+		Element eElement = null;
+		
+		try{
+			queryAlmTestSetsSubFoldersIdName.append("query={parent-id[");
+			queryAlmTestSetsSubFoldersIdName.append(testSetId);
+			queryAlmTestSetsSubFoldersIdName.append("]}");
+			queryAlmTestSetsSubFoldersIdName.append("&fields=id,name");
+
+			log.info("AlmTestSetsSubFoldersIdName Query : " + queryAlmTestSetsSubFoldersIdName);
+
+			String listFromAlmTestSetsSubFolderIdNameCollectionAsXml = conn.httpGet(testSetFolderUrl, queryAlmTestSetsSubFoldersIdName.toString(), requestHeaders).toString();
+			log.info("listFromAlmTestSetsSubFolderIdNameCollectionAsXml : " + listFromAlmTestSetsSubFolderIdNameCollectionAsXml);
+
+			NodeList nList = getNodeList(listFromAlmTestSetsSubFolderIdNameCollectionAsXml);
+			
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+				nNode = nList.item(temp);
+				
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					eElement = (Element) nNode;
+					
+					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("id")) {
+						testsSetsSubFolderIds.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
+					}
+					if(eElement.getAttributeNode("Name").getTextContent().equalsIgnoreCase("name")) {
+						testsSetsSubFolderNames.add(eElement.getElementsByTagName("Value").item(0).getTextContent());
+					}
+				}
+			}
+			
+			for(int j=0; j<testsSetsSubFolderIds.size(); j++) {
+				testSetsSubFolders.put(testsSetsSubFolderIds.get(j), testsSetsSubFolderNames.get(j));
+			}
+			
+			return testSetsSubFolders;
+		} catch (Exception e) {
+			log.error("Error in getting Alm test sets sub folders id names : " + e.getMessage());
+			throw e;
 		}
 	}
 	
