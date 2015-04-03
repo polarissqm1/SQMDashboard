@@ -85,6 +85,7 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 						dashVO.setAutomationVO(automationVO);
 						dashVO.setStatusAndSeverityVO(statusVO);
 						String lastUpDate=report.get("UpdatedOn").toString();
+						
 						DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
 						Date date = (Date)formatter.parse(lastUpDate);
 						System.out.println(date);        
@@ -95,6 +96,7 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 						String rdate = cal.get(Calendar.DATE) + "/" + new SimpleDateFormat("MMM").format(cal.getTime());
 						System.out.println("formatedDate : " + rdate);
 						dashVO.setRdate(rdate);
+						
 						//dashVO.setPlan(report.get("plan").toString());
 						log.debug(dashVO.toString());
 						log.debug("************************************************ :");
@@ -159,6 +161,8 @@ public class TrendReportsDAOImpl implements TrendReportsDAO {
 					List<DefectIdsVO> defectsVO=new Gson().fromJson(report.get("defects").toString(), listTypeTest);
 					dashVO=new DashboardVO();
 					dashVO.setDefectVO(defectsVO);
+					String plan=report.get("plannedTestcases").toString();
+					dashVO.setPlan(plan);
 					list.add(dashVO);
 			 }
 			 }catch (Exception e) {

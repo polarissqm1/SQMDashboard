@@ -325,6 +325,8 @@ dashboardApp
 									$scope.plotDefectRootBreakUp(response2);
 									$scope.plotDefectTypeBreakUp(response2);
 									$scope.plotDefectAgeing(response2);
+									$scope.plotDefectAgeingOpen(response2);
+									
 								if(!response1.entity[0]){
 									/*$scope.showDiv('row1Charts');
 									$scope.showDiv('pagers');*/
@@ -860,7 +862,7 @@ dashboardApp
 										            }
 										        },
 										        xAxis: {
-										            categories: ['<5D','6D-10D','>10D']
+										            categories: ['1D-5D','6D-10D','>10D']
 										        },
 										        yAxis: {
 										            min: 0,
@@ -932,6 +934,102 @@ dashboardApp
 										        ]
 										});
 					};
+					
+					/*******************************Defect ageing Open****************************************/
+					
+					$scope.plotDefectAgeingOpen = function(response) {
+						Highcharts.setOptions({
+							colors : [ '#8085e9','#8d4654', '#fdb462', '#b3de69','#fb8072','#CC3333', '#CC6600', '#003366', '#130000', '#097054', '#FF8000', '#FE59C2', '#FFF200' ]
+						});
+
+						$('#defectageingopen')
+								.highcharts(
+										{
+											 chart: {
+										            type: 'column'
+										        },
+										        title: {
+										            text: 'Defect Ageing (Open)',
+										            style: {
+													fontSize: 'medium',
+													fontWeight: 'bold',
+													color : '#428bca'
+										            }
+										        },
+										        xAxis: {
+										            categories: ['1D-5D','6D-10D','>10D']
+										        },
+										        yAxis: {
+										            min: 0,
+										            title: {
+										                text: 'Defects',
+										                style: {
+														fontSize: 'small',
+														color : '#428bca'
+														}
+										            },
+										            stackLabels: {
+										                enabled: true,
+										                style: {
+										                    fontWeight: 'bold',
+										                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+										                }
+										            }
+										        },
+										        /*legend: {
+										            align: 'center',
+										            x: -30,
+										            verticalAlign: 'bottom',
+										            y: 25,
+										            floating: true,
+										            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+										            borderColor: '#CCC',
+										            borderWidth: 1,
+										            shadow: false
+										        },
+										        */tooltip: {
+										        	borderRadius: 10,
+										            borderWidth: 3,
+										        	formatter: function () {
+										                return this.series.name + ': ' + this.y + '<br/>' +
+										                    'Total: ' + this.point.stackTotal;
+										            },
+										            followPointer:true
+										        },
+										        plotOptions: {
+										            column: {
+										                stacking: 'normal',
+										                dataLabels: {
+										                    enabled: true,
+										                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+										                    style: {
+										                        textShadow: '0 0 3px black'
+										                    },
+										                    padding:0
+										                    
+										                }
+										            },
+										            series: {
+									                    cursor: 'pointer'
+									                },
+										        },
+										        series: [{
+										            name : 'Urgent',
+										            data : [response.entity[0].lessThanFive_Open.Urgent,response.entity[0].fiveToTen_Open.Urgent,response.entity[0].greaterTen_Open.Urgent ]
+										        }, {
+										            name : 'High',
+										            data: [response.entity[0].lessThanFive_Open.High,response.entity[0].fiveToTen_Open.High,response.entity[0].greaterTen_Open.High]
+										        },{
+										            name : 'Medium',
+										            data: [response.entity[0].lessThanFive_Open.Medium,response.entity[0].fiveToTen_Open.Medium,response.entity[0].greaterTen_Open.Medium]
+										        },{
+										            name : 'Low',
+										            data: [response.entity[0].lessThanFive_Open.Low,response.entity[0].fiveToTen_Open.Low,response.entity[0].greaterTen_Open.Low]
+										        }
+										        ]
+										});
+					};
+
 					
 					//************************ Defects Severity Breakup  ***************************//
 					$scope.plotDefectSeverityBreakUp = function(total_urgent,total_high,total_medium,total_low) {

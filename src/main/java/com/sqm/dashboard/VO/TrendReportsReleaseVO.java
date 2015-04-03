@@ -14,6 +14,9 @@ public class TrendReportsReleaseVO {
 	private HashMap oneDayToFour;
 	private HashMap FourToEight;
 	private HashMap greaterEight;
+	private HashMap lessThanFive_Open;
+	private HashMap fiveToTen_Open;
+	private HashMap greaterTen_Open;
 	private String planned;
 	public String getDefectId() {
 		return defectId;
@@ -69,6 +72,26 @@ public class TrendReportsReleaseVO {
 	public void setPlanned(String planned) {
 		this.planned = planned;
 	}
+	public HashMap getLessThanFive_Open() {
+		return lessThanFive_Open;
+	}
+	public void setLessThanFive_Open(HashMap lessThanFive_Open) {
+		this.lessThanFive_Open = lessThanFive_Open;
+	}
+	public HashMap getFiveToTen_Open() {
+		return fiveToTen_Open;
+	}
+	public void setFiveToTen_Open(HashMap fiveToTen_Open) {
+		this.fiveToTen_Open = fiveToTen_Open;
+	}
+	public HashMap getGreaterTen_Open() {
+		return greaterTen_Open;
+	}
+	public void setGreaterTen_Open(HashMap greaterTen_Open) {
+		this.greaterTen_Open = greaterTen_Open;
+	}
+	
+	
 	
 
 	
