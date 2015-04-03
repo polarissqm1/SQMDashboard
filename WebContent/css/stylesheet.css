@@ -125,3 +125,48 @@ table td:last-child{
 .navcontainer {
   float:left
 }
+
+
+/********************************* Jquery UI Dialog box styles **********************************/
+.ui-widget {
+    font-family: Verdana,Arial,sans-serif !important;
+    font-size: .8em !important;
+}
+
+.ui-widget-content {
+    background: #F9F9F9 !important;
+    border: 1px solid #325d88 !important;
+    color: #222222 !important;
+}
+
+.ui-dialog {
+    left: 0;
+    outline: 0 none;
+    padding: 0 !important;
+    position: absolute;
+    top: 0;
+}
+
+.ui-dialog .ui-dialog-content {
+    background: none repeat scroll 0 0 transparent !important;
+    border: 0 none;
+    overflow: auto;
+    position: relative;
+    padding: 0 !important;
+}
+
+.ui-widget-header {
+    background: #325d88 !important;
+    border: 0 !important;
+    color: #fff !important;
+    font-weight: normal;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    padding: 0.1em .5em;
+    position: relative;
+        font-size: 1em;
+}
+.ui-state-default .ui-icon{
+background-image: url("images/ui-icons_222222_256x240.png") !important;
+}

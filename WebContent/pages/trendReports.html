@@ -4,37 +4,35 @@
 
 <meta charset="ISO-8859-1">
 <title>Daily Status Report</title>
-	
+
 </head>
 <body>
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Trend Reports</h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            
-          
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">Trend Reports</h1>
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
 
 
-<div ng-controller="trendController">
 
-			<div class="row" >
-				<div class="col-lg-12" >
-								
-			<div class="col-sm-3 form-group">
+
+	<div ng-controller="trendController">
+
+		<div class="row">
+			<div class="col-lg-12">
+
+				<div class="col-sm-3 form-group">
 					<p class="input-group">
 					<div class="radio" ng-init="onInit()">
-					<label for="weekly">
-    					<input id="weekly" type="radio" name="weekly" value="weekly"
-    					  ng-model="range" ng-change=weekly()/> Weekly
-					</label>
-    
-    				<label for="monthly">
-        				<input id="monthly" type="radio" checked="checked" name="weekly" value="monthly" 
-        				ng-model="range" ng-change=monthly()/>Monthly 
-                    </label>
-								 <!-- <div class="radio">
+						<label for="weekly"> <input id="weekly" type="radio"
+							name="weekly" value="weekly" ng-model="range" ng-change=weekly() />
+							Weekly
+						</label> <label for="monthly"> <input id="monthly" type="radio"
+							checked="checked" name="weekly" value="monthly" ng-model="range"
+							ng-change=monthly() />Monthly
+						</label>
+						<!-- <div class="radio">
                                  <label for="weekly">
                                    <input id="weekly" type="radio" name="weekly" value="weekly" checked="checked" ng-model="range" ng-change=weekly()/>
                                  Weekly
@@ -44,95 +42,92 @@
                                  Monthly
                                  </label>
                                </div> -->
-                               </p>
-                     </div>
-           </div>
-           
-           
-           <!-- Weekly Datepicker -->
-           
-           <div id="weeklyweekly" class="desc" style="display: none;" ng-init="weeklyDatepicker()">
-           		<div class="col-sm-3 form-group">
-            	<p class="input-group">
-					<input type="text" id="fromdate" class="form-control"
-						datepicker-popup="{{format}}" ng-model="minDate" is-open="startOpened"			
-						min-date="minStartDate" 
-           				max-date="maxStartDate"
-											datepicker-options="dateOptions"
-											date-disabled="disabled(date, mode)" 
-											close-text="Close" /> <span class="input-group-btn">
-											<button type="button" class="btn btn-default"
-												ng-click="openFromDate()">
-												<i class="glyphicon glyphicon-calendar"></i>
-											</button>
-										</span>
-				</div>			</p>
-									
-				<div class="col-sm-3 form-group">
-									<p class="input-group">
-										<input type="text" id="todate" class="form-control"
-											datepicker-popup="{{format}}" ng-model="maxDate" is-open="endOpened"
-											
-											min-date="minEndDate" 
-           									max-date="maxEndDate"
-											datepicker-options="dateOptions"
-											date-disabled="disabled(date, mode)" ng-required="true"
-											close-text="Close" /> <span class="input-group-btn">
-											<button type="button" class="btn btn-default"
-												ng-click="openToDate()">
-												<i class="glyphicon glyphicon-calendar"></i>
-											</button>
-										</span>
-									</p>
+						</p>
+					</div>
 				</div>
-        	</div>	
-    		
-    		
-    		<!-- Monthly Datepicker -->
-    			
-    	 	<div id="weeklymonthly" class="desc"  ng-init="monthlyDatepicker()">
-    	 		<div class="col-sm-3 form-group">
-            	<p class="input-group">
-					<input type="text" id="fromdate1" class="form-control"
-						datepicker-popup="{{format}}" ng-model="minDate1" is-open="startOpened1"			
-						min-date="minStartDate1" 
-           				max-date="maxStartDate1"
-											datepicker-options="dateOptions1"
-											date-disabled="disabled(date, mode)" 
-											close-text="Close" /> <span class="input-group-btn">
-											<button type="button" class="btn btn-default"
-												ng-click="openFromDate1()">
-												<i class="glyphicon glyphicon-calendar"></i>
-											</button>
-										</span>
-				</div>			</p>
-									
-				<div class="col-sm-3 form-group">
-									<p class="input-group">
-										<input type="text" id="todate1" class="form-control"
-											datepicker-popup="{{format}}" ng-model="maxDate1" is-open="endOpened1"
-											
-											min-date="minEndDate1" 
-           									max-date="maxEndDate1"
-											datepicker-options="dateOptions1"
-											date-disabled="disabled(date, mode)" ng-required="true"
-											close-text="Close" /> <span class="input-group-btn">
-											<button type="button" class="btn btn-default"
-												ng-click="openToDate1()">
-												<i class="glyphicon glyphicon-calendar"></i>
-											</button>
-										</span>
-									</p>
+
+
+				<!-- Weekly Datepicker -->
+
+				<div id="weeklyweekly" class="desc" style="display: none;"
+					ng-init="weeklyDatepicker()">
+					<div class="col-sm-3 form-group">
+						<p class="input-group">
+							<input type="text" id="fromdate" class="form-control"
+								datepicker-popup="{{format}}" ng-model="minDate"
+								is-open="startOpened" min-date="minStartDate"
+								max-date="maxStartDate" datepicker-options="dateOptions"
+								date-disabled="disabled(date, mode)" close-text="Close" /> <span
+								class="input-group-btn">
+								<button type="button" class="btn btn-default"
+									ng-click="openFromDate()">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button>
+							</span>
+					</div>
+					</p>
+
+					<div class="col-sm-3 form-group">
+						<p class="input-group">
+							<input type="text" id="todate" class="form-control"
+								datepicker-popup="{{format}}" ng-model="maxDate"
+								is-open="endOpened" min-date="minEndDate" max-date="maxEndDate"
+								datepicker-options="dateOptions"
+								date-disabled="disabled(date, mode)" ng-required="true"
+								close-text="Close" /> <span class="input-group-btn">
+								<button type="button" class="btn btn-default"
+									ng-click="openToDate()">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button>
+							</span>
+						</p>
+					</div>
 				</div>
-        		
-    		</div>
-    	 	
-    	   
-                              
-								
-								
-									
-									<!-- <div class="col-sm-3 form-group" style="display: none;">
+
+
+				<!-- Monthly Datepicker -->
+
+				<div id="weeklymonthly" class="desc" ng-init="monthlyDatepicker()">
+					<div class="col-sm-3 form-group">
+						<p class="input-group">
+							<input type="text" id="fromdate1" class="form-control"
+								datepicker-popup="{{format}}" ng-model="minDate1"
+								is-open="startOpened1" min-date="minStartDate1"
+								max-date="maxStartDate1" datepicker-options="dateOptions1"
+								date-disabled="disabled(date, mode)" close-text="Close" /> <span
+								class="input-group-btn">
+								<button type="button" class="btn btn-default"
+									ng-click="openFromDate1()">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button>
+							</span>
+					</div>
+					</p>
+
+					<div class="col-sm-3 form-group">
+						<p class="input-group">
+							<input type="text" id="todate1" class="form-control"
+								datepicker-popup="{{format}}" ng-model="maxDate1"
+								is-open="endOpened1" min-date="minEndDate1"
+								max-date="maxEndDate1" datepicker-options="dateOptions1"
+								date-disabled="disabled(date, mode)" ng-required="true"
+								close-text="Close" /> <span class="input-group-btn">
+								<button type="button" class="btn btn-default"
+									ng-click="openToDate1()">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button>
+							</span>
+						</p>
+					</div>
+
+				</div>
+
+
+
+
+
+
+				<!-- <div class="col-sm-3 form-group" style="display: none;">
 								 	<p class="input-group">
 										<input type="text" id="fromdate" class="form-control"
 											datepicker-popup="{{format}}" ng-model="minDate" is-open="startOpened"
@@ -149,8 +144,8 @@
 										</span>
 									</p>
 									</div> -->
-									
-									<!-- <div class="col-sm-3 form-group" style="display: none;">
+
+				<!-- <div class="col-sm-3 form-group" style="display: none;">
 									<p class="input-group">
 										<input type="text" id="todate" class="form-control"
 											datepicker-popup="{{format}}" ng-model="maxDate" is-open="endOpened"
@@ -169,102 +164,108 @@
 									
 									
 									</div>  -->
-	
-	
-									<div class="col-sm-3 form-group">
-										<button type="button" class="btn btn-primary" ng-click="generateCharts()">Generate Reports</button> 
-									</div>
-									
-									
-			<!-- Trend Charts -->
-	
+
+
+				<div class="col-sm-3 form-group">
+					<button type="button" class="btn btn-primary"
+						ng-click="generateCharts()">Generate Reports</button>
+				</div>
+
+<div class="col-sm-12 form-group">
+	<div id="dialog" title="Trend Reports Chart">
+		<div id="char">
+		</div>
+	</div>
+</div>
+				<!-- Trend Charts -->
+
 				<!-- Row 1 -->
-				<div id="row1Charts" style="display: none;" >
-			<div class="col-lg-12 trendCharts" >
-  
-				<div class="col-sm-4 form-group">
-						<div id="testcaseexec" style="border: 1px grey; border-style: dotted;">
-      					</div>
-				</div>
-				
-				<div class="col-sm-4 form-group">
-						<div id="testcasestat" style="border: 1px gray; border-style: dotted;">
-       </div>
-				</div>
-				
-				<div class="col-sm-4 form-group">
-							<div id="defectsopen" style="border: 1px gray; border-style: dotted;">
-       </div>	
-				</div>
-			</div>
-			
-			
-			<!-- Row 2 -->
-			
-			
-			<div class="col-lg-12 trendCharts">
-				<div class="col-sm-4 form-group">
-								<div id="defectdensity" style="border: 1px gray; border-style: dotted;">
-       </div>
-				</div>
-				
-				<div class="col-sm-4 form-group">
-								<div id="defectdensityindex" style="border: 1px gray; border-style: dotted;">
-       </div>
-				</div>
-				
-				<div class="col-sm-4 form-group">
-						<div id="badfix" style="border: 1px gray; border-style: dotted;">
-       </div>		
-				</div>
-			</div>
-			
-			
-			<!-- Row 3 -->
-			<div class="col-lg-12 trendCharts">
-				<div class="col-sm-4 form-group">
-								 <div id="defectaccept" style="border: 1px gray; border-style: dotted;">
-       </div>
-				</div>
-				
-				<div class="col-sm-4 form-group">
-								<div id="defectageing" style="border: 1px gray; border-style: dotted;">
-       </div>
-				</div>
-				
-				<div class="col-sm-4 form-group">
-								<div id="defectageingopen" style="border: 1px gray; border-style: dotted;">
-       </div>
-				</div>
-				
-			</div>
-			
-			
-			<!-- Row 4 -->
-			<div class="col-lg-12 trendCharts">
-			<div class="col-sm-4 form-group">
-							<div id="defectseveritybreak" style="border: 1px gray; border-style: dotted;">
-       </div>	
-				</div>
-				<div class="col-sm-4 form-group">
-							<div id="defecttypebreak" style="border: 1px gray; border-style: dotted;">
-       </div>	
-				</div>
-				
-				<div class="col-sm-4 form-group">
-							<div id="defectRootbreak" style="border: 1px gray; border-style: dotted;">
-       </div>		
-				</div>
-				
-				
-			</div>
-				</div>
+				<div id="row1Charts" style="display: none; height: 200px;">
+					<div class="col-lg-12 trendCharts">
+
+						<div class="col-sm-3 form-group">
+							<div id="testcaseexec"  
+								style="border: 1px grey; border-style: dotted;" ng-click="zoom()"></div>
+						</div>
+
+						<div class="col-sm-3 form-group">
+							<div id="testcasestat"
+								style="border: 1px gray; border-style: dotted;"></div>
+						</div>
+
+						<div class="col-sm-3 form-group">
+							<div id="defectsopen"
+								style="border: 1px gray; border-style: dotted;"></div>
+						</div>
+						<div class="col-sm-3 form-group">
+							<div id="defectdensity"
+								style="border: 1px gray; border-style: dotted;"></div>
+						</div>
+
+
+					</div>
+
+
+					<!-- Row 2 -->
+
+
+					<div class="col-lg-12 trendCharts">
+						<div class="col-sm-3 form-group">
+							<div id="defectdensityindex"
+								style="border: 1px gray; border-style: dotted;"></div>
+						</div>
+
+						<div class="col-sm-3 form-group">
+							<div id="badfix" style="border: 1px gray; border-style: dotted;">
+							</div>
+						</div>
 						
-							
-				</div>			
-		<!-- /.col-lg-12 -->
+						<div class="col-sm-3 form-group">
+							<div id="defectaccept"
+								style="border: 1px gray; border-style: dotted;"></div>
+						</div>
+
+						<div class="col-sm-3 form-group">
+							<div id="defectageing"
+								style="border: 1px gray; border-style: dotted;"></div>
+						</div>
+
+		
+					</div>
+
+
+					<!-- Row 3 -->
+					<div class="col-lg-12 trendCharts">
+
+						<div class="col-sm-3 form-group">
+							<div id="defectageingopen"
+								style="border: 1px gray; border-style: dotted;"></div>
+						</div>
+
+						<div class="col-sm-3 form-group">
+							<div id="defectseveritybreak"
+								style="border: 1px gray; border-style: dotted;"></div>
+						</div>
+						<div class="col-sm-3 form-group">
+							<div id="defecttypebreak"
+								style="border: 1px gray; border-style: dotted;"></div>
+						</div>
+
+						<div class="col-sm-3 form-group">
+							<div id="defectRootbreak"
+								style="border: 1px gray; border-style: dotted;"></div>
+						</div>
+
+
+					</div>
+				</div>
+				
+
+
 			</div>
-			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+	</div>
 
 </body>
 </html>
