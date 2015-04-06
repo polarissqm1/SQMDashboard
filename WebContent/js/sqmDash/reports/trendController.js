@@ -1217,7 +1217,7 @@ dashboardApp
 											            }
 											        },
 											        xAxis: {
-											            categories: ['<5D','6D-10D','>10D'],
+											            categories: ['1D-5D','6D-10D','>10D'],
 											            labels: {
 															style : {
 																fontSize : '10px'
@@ -2110,7 +2110,7 @@ dashboardApp
 											            }
 											        },
 											        xAxis: {
-											            categories: ['<5D','6D-10D','>10D'],
+											            categories: ['1D-5D','6D-10D','>10D'],
 											            fontSize: 'small'
 											        },
 											        yAxis: {
