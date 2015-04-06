@@ -112,8 +112,13 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
         			$("#statusWise").show();
         			$("#severityWise").show();
         		$scope.tcstatus =response.entity.testCaseExecutionStatusVO;
-        		$scope.names =response.entity.statusAndSeverityVO;   
-        		$scope.dd=Math.round((parseInt($scope.names[5].Total)/parseInt($scope.tcstatus[5].count)*1000))/1000;
+        		$scope.names =response.entity.statusAndSeverityVO;
+        		if(parseInt($scope.tcstatus[5].count)==0){
+        			$scope.dd= '--';
+        		}
+        		else{
+        			$scope.dd=Math.round((parseInt($scope.names[5].Total)/parseInt($scope.tcstatus[5].count)*1000))/1000;	
+        		}
         		$scope.dsi=Math.round(((4*parseInt($scope.names[5].Urgent)+3*parseInt($scope.names[5].High)+2*parseInt($scope.names[5].Medium)+parseInt($scope.names[5].Low))/parseInt($scope.names[5].Total)*100))/100;
         		$scope.tcsData= [
        		                  [$scope.tcstatus[0].status,   parseInt($scope.tcstatus[0].percentage)],

@@ -27,11 +27,7 @@ dashboardApp
 						$scope.response_z=null;
 					};
 					
-					$scope.zoom = function(){
-						alert("In Zoom function");
-					}
-					
-						$(function($){
+					$(function($){
 							
 						    $( "#dialog" ).dialog({
 						        autoOpen: false,
@@ -121,6 +117,7 @@ dashboardApp
 													enabled: true
 												},
 												yAxis : {
+													min: 0,
 													title : {
 														text : 'Number of Testcases',
 														style: {
@@ -464,7 +461,7 @@ dashboardApp
 												//alert(JSON.stringify(response));
 									
 									//alert("response1 is ------------------"+JSON.stringify(response1));
-									alert("response2 is ------------------"+JSON.stringify(response2));
+									
 									response_z = response2;
 									$scope.plotDefectRootBreakUp(response2);
 									$scope.plotDefectTypeBreakUp(response2);
@@ -600,6 +597,7 @@ dashboardApp
 													enabled: false
 												},
 												yAxis : {
+													min: 0,
 													title : {
 														text : 'Number of Testcases',
 														style: {
@@ -696,6 +694,7 @@ dashboardApp
 												},
 
 												yAxis : {
+													min: 0,
 													title : {
 														text : 'Number of Testcases',
 														style: {
@@ -887,6 +886,7 @@ dashboardApp
 											}
 										},
 										yAxis : {
+											min: 0,
 											title : {
 												text : 'Defect Density',
 												style: {
@@ -968,6 +968,7 @@ dashboardApp
 											}
 										},
 										yAxis : {
+											min: 0,
 											title : {
 												text : 'Defect Severity Index',
 												style: {
@@ -1063,6 +1064,7 @@ dashboardApp
 											}
 										},
 										yAxis : {
+											min: 0,
 											title : {
 												text : 'Re-opened Defects (%)',
 												style: {
@@ -1147,6 +1149,7 @@ dashboardApp
 											}
 										},
 										yAxis : {
+											min: 0,
 											title : {
 												text : 'Defect Acceptance Rate   ',
 												style: {
@@ -1205,7 +1208,7 @@ dashboardApp
 														/*width : 150*/
 														},
 											        title: {
-											            text: 'Defect Ageing',
+											            text: 'Defect Ageing (Closed)',
 											            align: 'left',
 											            style: {
 											            fontSize: 'small',
@@ -1239,7 +1242,7 @@ dashboardApp
 											                }
 											            }
 											        },
-											        legend: {
+											       legend: {
 											            align: 'center',
 											            x: -30,
 											            verticalAlign: 'top',
@@ -1252,9 +1255,11 @@ dashboardApp
 											            enabled: false
 											        },
 											        tooltip: {
-											            formatter: function () {
-											                return '<b>' + this.x + '</b><br/>' +
-											                    this.series.name + ': ' + this.y + '<br/>' +
+											        	borderRadius: 10,
+											            borderWidth: 3,
+											            followPointer:true,
+											        	formatter: function () {
+											                return this.series.name + ': ' + this.y + '<br/>' +
 											                    'Total: ' + this.point.stackTotal;
 											            }
 											        },
@@ -1707,6 +1712,7 @@ dashboardApp
 												},
 
 												yAxis : {
+													min: 0,
 													title : {
 														text : 'Number of Testcases',
 														style: {
@@ -1854,6 +1860,7 @@ dashboardApp
 											categories : rdate
 										},
 										yAxis : {
+											min: 0,
 											title : {
 												text : 'Defect Density',
 												style: {
@@ -1914,6 +1921,7 @@ dashboardApp
 											categories :rdate
 										},
 										yAxis : {
+											min: 0,
 											title : {
 												text : 'Defect Severity Index',
 												style: {
@@ -1986,6 +1994,7 @@ dashboardApp
 											categories :rdate
 										},
 										yAxis : {
+											min: 0,
 											title : {
 												text : 'Re-opened Defects (%)',
 												style: {
@@ -2049,6 +2058,7 @@ dashboardApp
 											categories : rdate
 										},
 										yAxis : {
+											min: 0,
 											title : {
 												text : 'Defect Acceptance Rate',
 												style: {
@@ -2092,7 +2102,7 @@ dashboardApp
 														/*width : 150*/
 														},
 											        title: {
-											            text: 'Defect Ageing',
+											            text: 'Defect Ageing (Closed)',
 											            style: {
 											            fontSize: 'medium',
 														fontWeight: 'bold',
@@ -2120,22 +2130,24 @@ dashboardApp
 											                }
 											            }
 											        },
-											        legend: {
+											        /*legend: {
 											            align: 'center',
 											            x: -30,
-											            verticalAlign: 'top',
 											            y: 25,
+											            verticalAlign: 'bottom',
 											            floating: true,
 											            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
 											            borderColor: '#CCC',
 											            borderWidth: 1,
 											            shadow: false,
 											            enabled: true
-											        },
+											        },*/
 											        tooltip: {
+											        	borderRadius: 10,
+											            borderWidth: 3,
+											            followPointer:true,
 											            formatter: function () {
-											                return '<b>' + this.x + '</b><br/>' +
-											                    this.series.name + ': ' + this.y + '<br/>' +
+											                return this.series.name + ': ' + this.y + '<br/>' +
 											                    'Total: ' + this.point.stackTotal;
 											            }
 											        },
