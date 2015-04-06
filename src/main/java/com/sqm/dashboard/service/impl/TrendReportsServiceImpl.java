@@ -1,42 +1,25 @@
 package com.sqm.dashboard.service.impl;
 
-import java.net.UnknownHostException;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 import javax.ws.rs.core.Response;
-
 import com.sqm.dashboard.VO.DashboardVO;
 import com.sqm.dashboard.VO.DefectIdsVO;
-import com.sqm.dashboard.VO.StatusAndSeverityVO;
-import com.sqm.dashboard.VO.TestCaseExecutionStatusVO;
 import com.sqm.dashboard.VO.TrendReportsReleaseVO;
 import com.sqm.dashboard.VO.TrendReportsVO;
 import com.sqm.dashboard.controller.DashboardController;
-import com.sqm.dashboard.dao.DashboardDAO;
 import com.sqm.dashboard.dao.TrendReportsDAO;
-import com.sqm.dashboard.service.DashboardService;
 import com.sqm.dashboard.service.TrendReportsService;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
-
-import com.google.gson.Gson;
-
-
 
 @Service("trendReportsService")
 public class TrendReportsServiceImpl implements TrendReportsService{
-	
-	
 	final Logger log=Logger.getLogger(DashboardController.class);
 	public static final int urgent_4=4;
 	public static final int high_3=3;
@@ -45,10 +28,8 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 
 	@Autowired
 	TrendReportsDAO trendReportsDAO;
-	
-	
-			@Override
-		public Response getTrendingInfo(String project,String release,String fromDate,String toDate) throws Exception {
+	@Override
+	public Response getTrendingInfo(String project,String release,String fromDate,String toDate) throws Exception {
 				
 				TrendReportsVO trendReportsVO=null;
 				Response.ResponseBuilder response =null;
@@ -57,12 +38,9 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 				ArrayList dashVOList=trendReportsDAO.getTrendingInfo(project, release,fromDate,toDate);
 				log.info("DashVOList size "+dashVOList.size());
 				log.info("DashVOList  "+dashVOList);
-				ArrayList originalList=new ArrayList();
-				
-				
+				ArrayList<TrendReportsVO> trendReportsList=new ArrayList<TrendReportsVO>();
 				DashboardVO dashVO=null;
-				
-				  for (int i=0;i<dashVOList.size();i++)
+				for (int i=0;i<dashVOList.size();i++)
 				  {
 					  Float defectDensity;
 					  Float badFix;
@@ -87,11 +65,9 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 					    	trendReportsVO.setDefectAcceptance(accept);
 					    	dsi=(float) 0;
 					    	trendReportsVO.setDefectSeverityIndex(dsi);
-					    	
-					    }
+					    	}
 					    else{
-						
-						/************************Reopened Defects*******************************/
+					    	/************************Reopened Defects*******************************/
 						String reopened=(String) dashVO.getStatusAndSeverityVO().get(0).getTotal();
 						badFix=Float.parseFloat(reopened)*100/totalDefect;
 						log.info("Inside bad Fix "+ badFix);
@@ -112,22 +88,16 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 					    if(totalTC==0){
 					    	defectDensity=(float) 0;
 					    	trendReportsVO.setDefectDensity(defectDensity);
-					    	
-					    }
+					    	}
 					    else{
 					    	defectDensity=(float) (totalDefect/totalTC);
 							trendReportsVO.setDefectDensity(defectDensity);
 					    }
-						
-						
-						/*****************************Status Severity*******************************/
+					    /*****************************Status Severity*******************************/
 						String opened=(String) dashVO.getStatusAndSeverityVO().get(0).getTotal();
 						String closed=(String) dashVO.getStatusAndSeverityVO().get(4).getTotal();
 						trendReportsVO.setClosed(closed);
 						trendReportsVO.setOpen(opened);
-						
-						
-						
 						/*************************Passed VS Failed**************************/
 						trendReportsVO.setPass(passed);
 						trendReportsVO.setFailed(failed);
@@ -143,57 +113,39 @@ public class TrendReportsServiceImpl implements TrendReportsService{
 						/*String plan=dashVO.getPlan();
 						trendReportsVO.setPlan(plan);*/
 						trendReportsVO.setActual(Float.toString(actual));
-						originalList.add(trendReportsVO);
-				     
-				  }
+						trendReportsList.add(trendReportsVO);
+				     }
 				
-				  log.info("******************************"+originalList);
-				 response = Response.ok(originalList);
+				  log.info("******************************"+trendReportsList);
+				 response = Response.ok(trendReportsList);
 				//log.info(response);
 				
-			}
-			
-			catch (Exception e) {
+			}catch (Exception e) {
 				log.debug("Service layer in project data Layer");
 				throw e;
-				
-			}
+				}
 			return response.build();
 		}
+	
 	@Override		
 public Response getReleaseInfo(String project,String release,String fromDate,String toDate) throws Exception {
-		
 		
 		Response.ResponseBuilder response =null;
 		TrendReportsReleaseVO trendReportsReleaseVO=null;
 		/***************************Defect RootCause******************************/
-		int count_incorrectUnderstanding=0;
 		int count_implementation=0;
-		int count_automatedTestScript=0;
-		int count_coding=0;
 		int count_data=0;
-		int count_datatable=0;
-		int count_design=0;
-		int count_hardwareDesign=0;
-		int count_interface=0;
-		int count_JCL=0;
 		int count_TestScript=0;
 		int count_requirements=0;
 		int count_Environment_root=0;
 		int count_userError=0;
 		/***************************Defect Type******************************/
 		int count_Performance=0;
-		int count_DataConversion=0;
-		int count_deferresItem=0;
 		int count_Others=0;
 		int count_Enhancement=0;
 		int count_Environment=0;
 		int count_functional=0;
 		int count_testExecution=0;
-		int count_inquiry=0;
-		int count_unknown=0;
-		int count_ID=0;
-		int count_UI=0;
 		/**********************************Defect Ageing*************************/
 		int urgent_1D=0;
 		int high_1D=0;
@@ -227,19 +179,19 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 		int low_final_Open=0;
 		
 		Date date=new Date();
-		HashMap rootCauseMap=new HashMap();
-		HashMap defectTypeMap=new HashMap();
-		HashMap oneDayToFour=new HashMap();
-		HashMap fourToEight=new HashMap();
-		HashMap greaterEight=new HashMap();
-		HashMap lessThanFive_Open=new HashMap();
-		HashMap fiveToTen_Open=new HashMap();
-		HashMap greaterTen_Open=new HashMap();
+		HashMap<String,Integer> rootCauseMap=new HashMap<String,Integer>();
+		HashMap<String,Integer> defectTypeMap=new HashMap<String,Integer>();
+		HashMap<String,Integer> oneDayToFour=new HashMap<String,Integer>();
+		HashMap<String,Integer> fourToEight=new HashMap<String,Integer>();
+		HashMap<String,Integer> greaterEight=new HashMap<String,Integer>();
+		HashMap<String,Integer> lessThanFive_Open=new HashMap<String,Integer>();
+		HashMap<String,Integer> fiveToTen_Open=new HashMap<String,Integer>();
+		HashMap<String,Integer> greaterTen_Open=new HashMap<String,Integer>();
 		try{
 			ArrayList dashVOList=trendReportsDAO.getReleaseInfo(project, release,fromDate,toDate);
 			log.info("DashVO List size "+dashVOList.size());
 			log.info("DashVO list  "+dashVOList);
-			ArrayList originalList=new ArrayList();
+			ArrayList<TrendReportsReleaseVO> trendReportsReleaseList=new ArrayList<TrendReportsReleaseVO>();
 			
 			DashboardVO dashVO=null;
 			for (int i=0;i<dashVOList.size();i++)
@@ -252,6 +204,7 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 					  DefectIdsVO defectVO=dashVO.getDefectVO().get(j);
 					  String rootCause=defectVO.getDefectRootCause();
 					  log.info("rootCause is"+rootCause);
+					  
 					  if(defectVO.getDefectStatus().equalsIgnoreCase("Closed")){
 						  
 						  int fixTime=Integer.parseInt(defectVO.getDefectFixTime());
@@ -262,46 +215,32 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 							  high_1D++;
 						  }
 						  else if(((1<=fixTime)&&(fixTime<=5))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("3 - Medium")){
-							  
 							  medium_1D++;
 						  }
                               else if(((1<=fixTime)&&(fixTime<=5))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("4 - Low")){
-							  
-                            	  low_1D++;
+							  low_1D++;
 						  }
                               else if(((6<=fixTime)&&(fixTime<=10))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("1 - Urgent")){
-    							  
-                            	  urgent_4D++;
+    						  urgent_4D++;
 						  }
                                 else if(((6<=fixTime)&&(fixTime<=10))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("2 - High")){
-    							  
-                                	high_4D++;
+    						    high_4D++;
 						  }
                                 else if(((6<=fixTime)&&(fixTime<=10))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("3 - Medium")){
-      							  
-                                	medium_4D++;
+      							medium_4D++;
   						  }
                                 else if(((6<=fixTime)&&(fixTime<=10))&& (defectVO.getDefectSeverity()).equalsIgnoreCase("4 - Low")){
-        							  
-                                	low_4D++;
+        						low_4D++;
   						  }
-						  
                                 else if(defectVO.getDefectSeverity().equalsIgnoreCase("4 - Low")){
-                                	
-                                	low_final++;
-                                	
+                                low_final++;
                                 }
-						  
-                                else if(defectVO.getDefectSeverity().equalsIgnoreCase("3 - Medium")){
-                                	
+						            else if(defectVO.getDefectSeverity().equalsIgnoreCase("3 - Medium")){
                                 	medium_final++;
-                                	
-                                }
+                                	}
                                else if(defectVO.getDefectSeverity().equalsIgnoreCase("2 - High")){
-                                	
-                            	   high_final++;
-                                	
-                                }
+                                   high_final++;
+                                   }
                                else if(defectVO.getDefectSeverity().equalsIgnoreCase("1 - Urgent")){
  	
                             	   urgent_final++;
@@ -335,8 +274,6 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
                     	   }
                     	   		
 					  }
-					  
-					  
 					  /**************************************Open Defects**********************************************/
 					  else if(defectVO.getDefectStatus().equals("New")||(defectVO.getDefectStatus()).equals("Re-Opened")||defectVO.getDefectStatus().equals("Open")){
 						    String raisedDate = defectVO.getDefectRaisedDate();
@@ -401,8 +338,7 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
 	                                     }
                        
 					  }
-					  
-					  /**************************************Defect Type*******************************************/
+					 /**************************************Defect Type*******************************************/
                        String defectType=defectVO.getDefectType();
                       if(defectType.equalsIgnoreCase("Performance")){
                     	           count_Performance++;
@@ -426,8 +362,7 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
                     String defectId=defectVO.getDefectId();
                       trendReportsReleaseVO.setDefectId(defectId);
                     }
-				  
- 				  rootCauseMap.put("implementation", count_implementation); 
+				  rootCauseMap.put("implementation", count_implementation); 
  				  rootCauseMap.put("Data", count_data);
  				  rootCauseMap.put("TestScript", count_TestScript);
  				  rootCauseMap.put("Requirements", count_requirements);
@@ -481,9 +416,9 @@ public Response getReleaseInfo(String project,String release,String fromDate,Str
  				  trendReportsReleaseVO.setLessThanFive_Open(lessThanFive_Open);
  				  trendReportsReleaseVO.setFiveToTen_Open(fiveToTen_Open);
  				  trendReportsReleaseVO.setGreaterTen_Open(greaterTen_Open);
- 				  originalList.add(trendReportsReleaseVO);
+ 				 trendReportsReleaseList.add(trendReportsReleaseVO);
   			}
-			response=Response.ok(originalList);
+			response=Response.ok(trendReportsReleaseList);
 	
       	}	catch (Exception e) {
 	       log.debug("Service layer in project data Layer");
