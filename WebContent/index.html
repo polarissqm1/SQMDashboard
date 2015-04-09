@@ -34,6 +34,7 @@
 <link href="js/components/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 	
+<link rel="stylesheet" type="text/css" media="all" href="css/fonts.css" />
     
 <!--     <style>
 .col-xs-2 {min-width: 125px}
@@ -50,7 +51,7 @@ body {background-color: #fff; overflow:hidden}
 
         <!-- Navigation -->
 		<nav class="navbar navbar-default navbar-static-top" role="navigation"
-			style="margin-bottom: 0">
+			style="margin-bottom: 0;">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
 					data-target=".navbar-collapse">
@@ -80,9 +81,9 @@ body {background-color: #fff; overflow:hidden}
 
 								<div class="form-group " id="applicationCombo">
 									<select id="application" ng-change="validateVersions"
-										ng-model="application" class="form-control form-group">
-										<option value="" selected=selected>Select Application</option>
-										<option>CFT_POST_TRADE</option>
+										ng-model="application" class="form-control form-group" style="min-width: 220px;">
+										<option value="">Select Application</option>
+										<option selected="selected">CFT_POST_TRADE</option>
 									</select>
 								</div>
 								<div class="form-group " id="releaseCombo"
