@@ -8,137 +8,150 @@
 </head>
 <body>
 
-<style>
-table, td {
-	border: 1px solid grey;
+	<style>
+table,td {
 	border-collapse: collapse;
+	border: 1px solid #38678f;
+	background: white;
 	padding: 5px;
+	transition: all 0.2s;
 }
 
- th {
-	background: #6F4242 !important;
-	border: 1px solid black !important;
+th {
+	background: steelblue;
+	font-weight: lighter;
+	text-shadow: 0 1px 0 #38678f;
 	color: white;
+	border: 1px solid #38678f;
+	box-shadow: inset 0px 1px 2px #568ebd;
+	transition: all 0.2s;
 }
 
- table tr:nth-child(odd) {
+table tr:nth-child(odd) {
 	background-color: #ffffff;
 }
 
 table tr:nth-child(even) {
 	background-color: #ffffff;
-} 
-
-.page-header{
-
-padding: 0;
-margin: 5px!important;
 }
-
 </style>
 
-<div class="row">
-    <div class="col-lg-12">
-         <h3 class="page-header">Daily Status Report <small>{{getDatetime | date:'dd-MMM-yyyy'}} </small></h3>
-         
-    </div>
-</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<h3 class="page-header">
+				Daily Status Report <small>{{getDatetime |
+					date:'dd-MMM-yyyy'}} </small>
+			</h3>
 
-<div id="pager" class="pager form-group" style="margin: 0 0;">
-			<div class="col-sm-3"><h5 ><b class="text-primary"> Application: </b> {{selectedProjectName}}</h5>
-			</div>
-			
-			<div class="col-sm-3"><h5 ><b class="text-primary"> Release:</b> {{selectedReleaseName}}</h5>
-			</div>
-			<div class="col-sm-3">
-			<h5 ><b class="text-primary"> Defect Density: </b> {{dd}}</h5>
-				 <!-- <li>
+		</div>
+	</div>
+
+	<div id="pager" class="pager form-group" style="margin: 0 0;">
+		<div class="col-sm-3">
+			<h5>
+				<b class="text-primary"> Application: </b> {{selectedProjectName}}
+			</h5>
+		</div>
+
+		<div class="col-sm-3">
+			<h5>
+				<b class="text-primary"> Release:</b> {{selectedReleaseName}}
+			</h5>
+		</div>
+		<div class="col-sm-3">
+			<h5>
+				<b class="text-primary"> Defect Density: </b> {{dd}}
+			</h5>
+			<!-- <li>
 				 	<span style="float: left; font-weight: bold; color: olive;">Defect Density: <b> {{dd}}</b> </span> 
            		 </li> -->
-			</div>
-			
-			<div class="col-sm-3">
-			<h5 ><b class="text-primary"> Defect Severity Index: </b> {{dsi}}</h5>
-				<!-- <li>
+		</div>
+
+		<div class="col-sm-3">
+			<h5>
+				<b class="text-primary"> Defect Severity Index: </b> {{dsi}}
+			</h5>
+			<!-- <li>
                   	<span style="float: right; font-weight: bold; color: olive;">Severity Index: <b>{{ dsi}}</b></span>
            		</li> -->
-			</div>
-</div>
-<hr>
+		</div>
+	</div>
+	<hr>
 
 
-<div ng-controller="dailystatuscontroller" ng-init="onDsrLoad()">
-<div class="row" >
-	<div class="col-lg-12">
-	
-	<!--TOP start -->
-		<div id="top">
-		<div class="col-lg-12">
-		<!-- <div class="headers" style="border: 1px solid grey; font-weight: bold;">Testcase Execution Status</div>  -->
-		<div class="pager form-group" style="margin: 0 0;">
-				<div class="col-lg-12 form-group">
-           				 <li>
-                  			<span id="headers" align="right" style=" font-weight: bold; color: black; min-width: 100%;
-text-align: center;">Testcase Execution Status</b> </span> 
-           				</li>
-           				</div>
-		</div> 
-		
-		
-		<div class="col-lg-6">
-		
-			<div id="topGrid" class="table-responsive" style="width: 100%; height: 100%; float: left;">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Status</th>
-							<th>Count</th>
-							<th>Percentage (%)</th>
-						</tr>
-					</thead>
+	<div ng-controller="dailystatuscontroller" ng-init="onDsrLoad()">
+		<div class="row">
+			<div class="col-lg-12">
 
-					<tbody>
-						<tr ng-repeat="user in tcstatus">
-							<td>{{user.status}}</td>
-							<td>{{user.count}}</td>
-							<td style="font-weight: bold;">{{user.percentage}}</td>
-						</tr>
+				<!--TOP start -->
+				<div id="top">
+					<div class="col-lg-12">
+						<!-- <div class="headers" style="border: 1px solid grey; font-weight: bold;">Testcase Execution Status</div>  -->
+						<div class="pager form-group" style="margin: 0 0;">
+							<div class="col-lg-12 form-group">
+								<li><span id="headers" align="right"
+									style="font-weight: bold; color: black; min-width: 100%; text-align: center;">Testcase
+										Execution Status
+								</span></li>
+							</div>
+						</div>
 
-					</tbody>
-				</table>
-			</div>
-			
-		</div>
-		
-		<div class="col-sm-6 form-group">
-		
-		<div id="topchart" style="float: left; width: 95%;">
-			<div id="tcsChart" 
-					style="width: 95%; height: 20%; border: 1px gray; border-style: dotted;">
-			</div>
-		</div> 
-		
-		</div>
-		</div>
-		</div>
-		
-		<!--TOP end -->
-		
-		<!--Middle start -->
-		<div id="middle">
-		
-		<div class="col-lg-12">
-		<!-- <div class="headers" style="border: 1px solid grey; font-weight: bold; background-color: #659D32;">Defect Status</div> -->
-		<div  class="pager form-group" style="margin: 0 0;">
-				<div class="col-sm-12 form-group">
-           				 <li>
-                  			<span id="headers" style="font-weight: bold; color: black; min-width: 100%;
-text-align: center;">Defect Status</b> </span> 
-           				</li>
-           				</div>
-		</div>
-		
-		<!-- <div id="pager" class="pager form-group" style="margin: 0 0;">
+
+						<div class="col-lg-6">
+
+							<div id="topGrid" class="table-responsive"
+								style="width: 100%; height: 100%; float: left;">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>Status</th>
+											<th>Count</th>
+											<th>Percentage (%)</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr ng-repeat="user in tcstatus">
+											<td>{{user.status}}</td>
+											<td>{{user.count}}</td>
+											<td style="font-weight: bold;">{{user.percentage}}</td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+
+						<div class="col-sm-6 form-group">
+
+							<div id="topchart" style="float: left; width: 95%;">
+								<div id="tcsChart"
+									style="width: 95%; height: 20%; border: 1px gray; border-style: dotted;">
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<!--TOP end -->
+
+				<!--Middle start -->
+				<div id="middle">
+
+					<div class="col-lg-12">
+						<!-- <div class="headers" style="border: 1px solid grey; font-weight: bold; background-color: #659D32;">Defect Status</div> -->
+						<div class="pager form-group" style="margin: 0 0;">
+							<div class="col-sm-12 form-group">
+								<li><span id="headers"
+									style="font-weight: bold; color: black; min-width: 100%; text-align: center;">Defect
+										Status</b>
+								</span></li>
+							</div>
+						</div>
+
+						<!-- <div id="pager" class="pager form-group" style="margin: 0 0;">
 			<div class="col-sm-6">
 				 <li>
 				 	<span style="float: left; ; font-weight: bold; color: olive;">Defect Density: <b> {{dd}}</b> </span> 
@@ -151,64 +164,65 @@ text-align: center;">Defect Status</b> </span>
            		</li>
 			</div>
 		</div> -->
-		
-		
-		<div class="col-sm-12">
-			<div id="bottomGrid" class="table-responsive" style="width: 100%;">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Status/Severity</th>
-							<th>1-Urgent</th>
-							<th>2-High</th>
-							<th>3-Medium</th>
-							<th>4-Low</th>
-							<th>Total Defects</th>
-						</tr>
-					</thead>
 
-					<tbody>
-						<tr ng-repeat="user in names">
-							<td>{{user.statusSeverity}}</td>
-							<td>{{user.Urgent}}</td>
-							<td>{{user.High}}</td>
-							<td>{{user.Medium}}</td>
-							<td>{{user.Low}}</td>
-							<td>{{user.Total}}</td>
-						</tr>
 
-					</tbody>
-				</table>
-			</div>
-		
-		</div>
-		</div>
-		</div>
-		<!--Middle End -->
-		
-		<!--Bottom start -->
-		<div id="bottom">
-		<div class="col-lg-12">
-		<div class="col-sm-6 form-group">
-			<div id="statusWise" ng-init="plotstatusWiseChart()"
-				style="float: left; height: 30%; width: 100%; border: 1px gray; border-style: dotted;"></div>
-		</div>
-		
-		<div class="col-sm-6 form-group">
-			<div id="severityWise" ng-init="plotseverityWiseChart()"
-				style="float: right; width: 100%; border: 1px gray; border-style: dotted;"></div>
-		</div>
-		
-		<div class="col-sm-6 form-group">
-			<!-- <div id="tcsChart" ng-init="plottcsChart()"
+						<div class="col-sm-12">
+							<div id="bottomGrid" class="table-responsive"
+								style="width: 100%;">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>Status/Severity</th>
+											<th>1-Urgent</th>
+											<th>2-High</th>
+											<th>3-Medium</th>
+											<th>4-Low</th>
+											<th>Total Defects</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr ng-repeat="user in names">
+											<td>{{user.statusSeverity}}</td>
+											<td>{{user.Urgent}}</td>
+											<td>{{user.High}}</td>
+											<td>{{user.Medium}}</td>
+											<td>{{user.Low}}</td>
+											<td>{{user.Total}}</td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<!--Middle End -->
+
+				<!--Bottom start -->
+				<div id="bottom">
+					<div class="col-lg-12">
+						<div class="col-sm-6 form-group">
+							<div id="statusWise" ng-init="plotstatusWiseChart()"
+								style="float: left; height: 30%; width: 100%; border: 1px gray; border-style: dotted;"></div>
+						</div>
+
+						<div class="col-sm-6 form-group">
+							<div id="severityWise" ng-init="plotseverityWiseChart()"
+								style="float: right; width: 100%; border: 1px gray; border-style: dotted;"></div>
+						</div>
+
+						<div class="col-sm-6 form-group">
+							<!-- <div id="tcsChart" ng-init="plottcsChart()"
 					style="width: 100%; border: 1px gray; border-style: dotted;">
 			</div> -->
+						</div>
+					</div>
+				</div>
+				<!--Bottom end -->
+			</div>
 		</div>
-		</div>
-		</div>
-		<!--Bottom end -->
 	</div>
-</div>
-</div>
 </body>
 </html>

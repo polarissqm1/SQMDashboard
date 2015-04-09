@@ -244,6 +244,7 @@
 			.highcharts(
 					{
 						chart : {
+							height : 300,
 							plotBackgroundColor : null,
 							plotBorderWidth : null,
 							plotShadow : false
@@ -320,6 +321,7 @@
 			.highcharts(
 					{
 						chart : {
+							height : 300,
 							plotBackgroundColor : null,
 							plotBorderWidth : null,
 							plotShadow : false
@@ -397,6 +399,7 @@
 			.highcharts(
 					{
 						chart : {
+							height : 300,
 							plotBackgroundColor : null,
 							plotBorderWidth : null,
 							plotShadow : false
@@ -472,6 +475,7 @@
 			.highcharts(
 					{
 						chart : {
+							height : 300,
 							plotBackgroundColor : null,
 							plotBorderWidth : null,
 							plotShadow : false
@@ -545,6 +549,7 @@
 			.highcharts(
 					{
 						chart : {
+							height : 300,
 							plotBackgroundColor : null,
 							plotBorderWidth : null,
 							plotShadow : false

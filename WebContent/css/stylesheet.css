@@ -1,178 +1,233 @@
-.head-container
-{
-    padding: 40px 15px;
-    text-align: center;
+.head-container {
+	padding: 40px 15px;
+	text-align: center;
 }
+
 .copyright {
-    
-    padding-bottom: 30px;
-    font-size: 11px;
-    color: #666666;
+	padding-bottom: 30px;
+	font-size: 11px;
+	color: #666666;
+}
+
+@font-face {
+  font-family: MyCustomFont;
+  src: url('js/bootstrap/fonts/glyphicons-halflings-regular.ttf') format('opentype'); /* Edit this line */
+} 
+ 
+* {
+	font-family: 'MyCustomFont',Segoe UI, Arial, Helvetica, sans-serif;
 }
 
 #footer {
-    width: 100%;
-    height: 80px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
+	width: 100%;
+	height: 80px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
 }
 
 .actionButtons {
-    
-    height: 23px;
-    font-family: Arial;
-    size: 11px;
-    font-weight: bold;
-    color: #325d88;
-    border-color: #d2d2d2;
-    border-width: 1px;
-    background: -webkit-linear-gradient(#fbfbfb, #dddddd);
-    background: -o-linear-gradient(#fbfbfb, #dddddd);
-    background: -moz-linear-gradient(#fbfbfb, #dddddd);
-    background: linear-gradient(#fbfbfb, #dddddd);
-    text-align: center;
-    vertical-align: middle;
-
+	height: 23px;
+	font-family: Arial;
+	size: 11px;
+	font-weight: bold;
+	color: #325d88;
+	border-color: #d2d2d2;
+	border-width: 1px;
+	background: -webkit-linear-gradient(#fbfbfb, #dddddd);
+	background: -o-linear-gradient(#fbfbfb, #dddddd);
+	background: -moz-linear-gradient(#fbfbfb, #dddddd);
+	background: linear-gradient(#fbfbfb, #dddddd);
+	text-align: center;
+	vertical-align: middle;
 }
 
-table, td {
-    padding: 1px 1px 1px 4px !important
+table,td {
+	padding: 1px 1px 1px 4px !important
 }
-table, th {
-    border: 1px solid grey;
-    border-collapse: collapse;
-    padding: 5px;
-    
-    background: -webkit-linear-gradient(#f6f6f6, #ededed);
-    background: -o-linear-gradient(#f6f6f6, #ededed);
-    background: -moz-linear-gradient(#f6f6f6, #ededed);
-    background: linear-gradient(#f6f6f6, #ededed);
 
+table,th {
+	border: 1px solid grey;
+	border-collapse: collapse;
+	padding: 5px;
+	background: -webkit-linear-gradient(#f6f6f6, #ededed);
+	background: -o-linear-gradient(#f6f6f6, #ededed);
+	background: -moz-linear-gradient(#f6f6f6, #ededed);
+	background: linear-gradient(#f6f6f6, #ededed);
 }
+td {
+  border-right: 1px solid #cccccc;
+  padding: 10px;
+  transition: all 0.2s;
+}
+td:last-child {
+  border-right: 0px;
+}
+td.selected {
+  background: #d7e4ef;
+  z-index: ;
+}
+
 table tr:nth-child(even) {
-    background-color: #eeeeee;
-    height : 21px;
-
+	background-color: #eeeeee;
+	height: 21px;
 }
+
 table tr:nth-child(odd) {
-    background-color: #FFFFFF;
-    height : 21px;
+	background-color: #FFFFFF;
+	height: 21px;
 }
 
 /* Highlight Total Start*/
-
 #topGrid table tr:last-child {
-background:#FFFFFF;
-font-weight: bold;
+	background: #FFFFFF;
+	font-weight: bold;
 }
 
 #topGrid table tr:last-child td {
 	font-weight: bold;
-	background:#FFFFFF; 
-  border-bottom-right-radius: 5px;
+	background: #FFFFFF;
+	border-bottom-right-radius: 5px;
 }
 
-#bottomGrid tr:nth-last-child(2){
-
-   background:#FFFFFF; 
-  border-bottom-right-radius: 5px;
-  font-weight: bold;
-
-}
-
-#bottomGrid tr:last-child{
-
-   background:#FFFFFF; 
-  border-bottom-right-radius: 5px;
-  font-weight: bold;
-
-}
-
-#bottomGrid tr:nth-last-child(2) td{
-
-
-  background:#FFFFFF; 
-  border-bottom-right-radius: 5px;
-
-}
-
-
-table td:last-child{
+#bottomGrid tr:nth-last-child(2) {
+	background: #FFFFFF;
+	border-bottom-right-radius: 5px;
 	font-weight: bold;
-	
-	
+}
+
+#bottomGrid tr:last-child {
+	background: #FFFFFF;
+	border-bottom-right-radius: 5px;
+	font-weight: bold;
+}
+
+#bottomGrid tr:nth-last-child(2) td {
+	background: #FFFFFF;
+	border-bottom-right-radius: 5px;
+}
+
+table td:last-child {
+	font-weight: bold;
 }
 
 /* Highlight Total End*/
-
-.nav-pills > li.active > a,
-.nav-pills > li.active > a:hover,
-.nav-pills > li.active > a:focus {
-  color: #fff;
-  background-color: lightsteelblue;
+.nav-pills>li.active>a,.nav-pills>li.active>a:hover,.nav-pills>li.active>a:focus
+	{
+	color: #fff;
+	background-color: lightsteelblue;
 }
 
 /* Daily status screen headers */
- #headers{
- background: -webkit-linear-gradient(lightsteelblue, white); 
-    background: -o-linear-gradient(lightsteelblue, white); 
-    background: -moz-linear-gradient(lightsteelblue, white);
-    background: linear-gradient(lightsteelblue, white);
-     
+ #headers {
+/* 	font-weight: lighter;
+	color: white;
+	 border: 1px solid #38678f; 
+	 box-shadow: inset 0px 0px 2px #568ebd; 
+	transition: all 0.2s; */
+	 display: inline-block;
+  text-decoration: none;
+  color: white !important;
+   height: 30px;
+  line-height: 30px;
+  padding: 0 20px;
+  border-radius: 24px;
+  border: 1px solid #38678f;
+  background: steelblue;
+  /* background:  -webkit-linear-gradient(#f6f6f6, #ededed); */
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 1px 3px rgba(255, 255, 255, 0.2);
+  transition: all 0.1s;
 } 
-    
-.navcontainer {
-  float:left
-}
 
+.navcontainer {
+	float: left
+}
 
 /********************************* Jquery UI Dialog box styles **********************************/
 .ui-widget {
-    font-family: Verdana,Arial,sans-serif !important;
-    font-size: .8em !important;
+	font-family: Verdana, Arial, sans-serif !important;
+	font-size: .8em !important;
 }
 
 .ui-widget-content {
-    background: #F9F9F9 !important;
-    border: 1px solid #325d88 !important;
-    color: #222222 !important;
+	background: #F9F9F9 !important;
+	border: 1px solid #325d88 !important;
+	color: #222222 !important;
 }
 
 .ui-dialog {
-    left: 0;
-    outline: 0 none;
-    padding: 0 !important;
-    position: absolute;
-    top: 0;
+	left: 0;
+	outline: 0 none;
+	padding: 0 !important;
+	position: absolute;
+	top: 0;
 }
 
 .ui-dialog .ui-dialog-content {
-    background: none repeat scroll 0 0 transparent !important;
-    border: 0 none;
-    overflow: auto;
-    position: relative;
-    padding: 0 !important;
+	background: none repeat scroll 0 0 transparent !important;
+	border: 0 none;
+	overflow: auto;
+	position: relative;
+	padding: 0 !important;
 }
 
 .ui-widget-header {
-    background: #325d88 !important;
-    border: 0 !important;
-    color: #fff !important;
-    font-weight: normal;
+	background: #325d88 !important;
+	border: 0 !important;
+	color: #fff !important;
+	font-weight: normal;
 }
 
 .ui-dialog .ui-dialog-titlebar {
-    padding: 0.1em .5em;
-    position: relative;
-        font-size: 1em;
+	padding: 0.1em .5em;
+	position: relative;
+	font-size: 1em;
 }
-.ui-state-default .ui-icon{
-background-image: url("images/ui-icons_222222_256x240.png") !important;
+
+.ui-state-default .ui-icon {
+	background-image: url("images/ui-icons_222222_256x240.png") !important;
 }
+
 .nav > li > a {
 position: relative;
 display: block;
 padding: 10px 15px;
 cursor: pointer; 
 } 
+
+.page-header{
+padding: 0;
+margin: 5px!important;
+}
+/********************************************************************/
+input[type=radio].css-checkbox {
+							position:absolute; z-index:-1000; left:-1000px; overflow: hidden; clip: rect(0 0 0 0); height:1px; width:1px; margin:-1px; padding:0; border:0;
+						}
+
+						input[type=radio].css-checkbox + label.css-label {
+							padding-left:22px;
+							padding-right:22px;
+							height:20px; 
+							display:inline-block;
+							line-height:20px;
+							background-repeat:no-repeat;
+							background-position: 0 0;
+							font-size:17px; 
+							vertical-align:middle;
+							cursor:pointer;
+
+						}
+
+						input[type=radio].css-checkbox:checked + label.css-label {
+							background-position: 0 -20px;
+						}
+						label.css-label {
+				/*  background-image:url(http://csscheckbox.com/checkboxes/u/csscheckbox_e36817a8d5b61bb2c664871b98f6544c.png); */ 
+				 background-image:url('../images/rad.png'); 
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-khtml-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}

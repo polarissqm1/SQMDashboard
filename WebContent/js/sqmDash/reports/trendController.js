@@ -227,11 +227,14 @@ dashboardApp
 					$scope.maxDate = $scope.maxEndDate;
 					
 					//$scope.selectedDate = $("#fromdate").val() ? $scope.newFromDate : $scope.minDate;
-					
-					$scope.minStartDate = 0; //fixed date
+					$scope.resetWeeklyDates = function() {
+						
+					$scope.minStartDate = new Date('2015/03/01'); //fixed date
 					  $scope.maxStartDate = new Date(); //init value
 					  $scope.minEndDate = $scope.selectedDate; //init value
 					  $scope.maxEndDate = $scope.maxDate; //fixed date same as $scope.maxStartDate init value
+					}
+					$scope.resetWeeklyDates();
 					  
 					  $scope.$watch('minDate', function(v){
 						    //$scope.minEndDate = v;
@@ -253,6 +256,7 @@ dashboardApp
 						 // $scope.maxEndDate = date.setDate(future.getDate());
 						    //$scope.maxEndDate = date.setDate((new Date('2015/03/13')).getDate()+6);
 						  });
+					 // $scope.resetWeeklyDates();
 						  $scope.$watch('maxDate', function(v){
 						    $scope.maxStartDate = v;
 						  });
@@ -320,11 +324,14 @@ dashboardApp
 						
 						//$scope.selectedDate = $("#fromdate").val() ? $scope.newFromDate : $scope.minDate;
 						
-						$scope.minStartDate1 = 0; //fixed date
+						$scope.resetMonthlyDates = function() {
+						$scope.minStartDate1 = new Date('2015/02/14'); //fixed date
 						  $scope.maxStartDate1 = $scope.lastDate1; //init value
 						  $scope.minEndDate1 = $scope.selectedDate1; //init value
 						  $scope.maxEndDate1 = $scope.maxDate1; //fixed date same as $scope.maxStartDate init value
-						  
+						}
+						$scope.resetMonthlyDates();
+						
 						  $scope.$watch('minDate1', function(v){
 							    //$scope.minEndDate = v;
 							  $scope.newFromDate1 = $("#fromdate1").val();
@@ -396,6 +403,8 @@ dashboardApp
 					//******************* Date Picker END ***********************//
 					
 						$scope.generateCharts = function() {
+							 $scope.resetWeeklyDates();
+							 $scope.resetMonthlyDates();
 							$rootScope.fromdate = $("#fromdate").val();
 							$rootScope.todate = $("#todate").val();
 							var fdate = $("#fromdate").val();
@@ -434,7 +443,8 @@ dashboardApp
 								}
 								else if($scope.range == 'monthly') {
 									//alert("monthly selected");
-									
+									$rootScope.fromdate = $("#fromdate1").val();
+									$rootScope.todate = $("#todate1").val();
 									fd1 = fdate1.slice(0,2);
 									fm1 = fdate1.slice(3,6);
 									fy1 = fdate1.slice(9,11);
