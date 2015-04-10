@@ -5,10 +5,29 @@
 <meta charset="ISO-8859-1">
 <title>Daily Status Report</title>
 
-</head>
-<body>
+<style>
 
-	<style>
+.page-header{
+padding-bottom: 10px;
+margin: 5px!important;
+border-bottom:0px;
+}
+.page-fs{
+align:left;
+padding:5px;
+margin:5px;
+border:2px solid steelblue;
+display:block;
+box-sizing:border-box;
+}
+.page-legend{
+width:auto;
+border-bottom:0px;
+margin-bottom:0px;
+padding:2px;
+}
+
+
 table,td {
 	border-collapse: collapse;
 	border: 1px solid #38678f;
@@ -35,16 +54,16 @@ table tr:nth-child(even) {
 	background-color: #ffffff;
 }
 </style>
-
+</head>
+<body>
 	<div class="row">
-		<div class="col-lg-12">
+		<fieldset class="page-fs">
+		<legend class="page-legend">
 			<h3 class="page-header">
 				Daily Status Report <small>{{getDatetime |
 					date:'dd-MMM-yyyy'}} </small>
 			</h3>
-
-		</div>
-	</div>
+        </legend>
 
 	<div id="pager" class="pager form-group" style="margin: 0 0;">
 		<div class="col-sm-3">
@@ -223,6 +242,8 @@ table tr:nth-child(even) {
 				<!--Bottom end -->
 			</div>
 		</div>
+	</div>
+	</fieldset>
 	</div>
 </body>
 </html>

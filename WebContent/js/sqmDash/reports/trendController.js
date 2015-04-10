@@ -424,7 +424,9 @@ dashboardApp
 									ty = tdate.slice(9,11);
 									
 									$scope.selectedStart = fd+'/'+fm+'/'+fy;
+									$rootScope.fromDate = fd+'/'+fm+'/'+fy;
 									$scope.selectedEnd = td+'/'+tm+'/'+ty;
+									$rootScope.toDate = td+'/'+tm+'/'+ty;
 									
 									//alert("start date is "+$scope.selectedStart);
 									//alert("end date is "+$scope.selectedEnd);
@@ -454,7 +456,9 @@ dashboardApp
 									ty1 = tdate1.slice(9,11);
 									
 									$scope.selectedStart = fd1+'/'+fm1+'/'+fy1;
+									$rootScope.fromDate = fd1+'/'+fm1+'/'+fy1;
 									$scope.selectedEnd = td1+'/'+tm1+'/'+ty1;
+									$rootScope.toDate = td1+'/'+tm1+'/'+ty1;
 									
 									//alert("start date is "+$scope.selectedStart);
 									//alert("end date is "+$scope.selectedEnd);

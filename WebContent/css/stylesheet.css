@@ -195,10 +195,6 @@ padding: 10px 15px;
 cursor: pointer; 
 } 
 
-.page-header{
-padding: 0;
-margin: 5px!important;
-}
 /********************************************************************/
 input[type=radio].css-checkbox {
 							position:absolute; z-index:-1000; left:-1000px; overflow: hidden; clip: rect(0 0 0 0); height:1px; width:1px; margin:-1px; padding:0; border:0;
