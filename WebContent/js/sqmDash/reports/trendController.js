@@ -7,6 +7,11 @@ dashboardApp
 					$scope.selectedStart=null;
 					$scope.selectedEnd=null;
 					$scope.renderChart = null;
+					
+					$scope.onTRload = function() {
+						//alert("in load function");
+						$('#pagers').hide();
+					}
 					$scope.onInit = function() {
 						//alert("in init function");
 						$scope.act = [];
@@ -26,6 +31,7 @@ dashboardApp
 						$scope.total_low_z=0;
 						$scope.response_z=null;
 					};
+					
 					
 					$(function($){
 							

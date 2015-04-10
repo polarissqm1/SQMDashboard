@@ -33,7 +33,9 @@ padding:2px;
 	<div class="row">
 		<fieldset class="page-fs">
 		<legend class="page-legend">
-			<h3 class="page-header">Trend Reports </h3>
+			<h3 class="page-header">Trend Reports 
+			<small id="pagers" ng-init="onTRload()">{{fromdate}} to {{todate}}</small>
+			</h3>
 	    </legend>
 
 
@@ -47,34 +49,21 @@ padding:2px;
 				<div class="col-sm-3 form-group">
 					<p class="input-group">
 					<div class="radio" ng-init="onInit()">
-						<!-- <label for="weekly"> <input id="weekly" type="radio"
+						 <input class="css-checkbox" id="weekly" type="radio"
 							name="weekly" value="weekly" ng-model="range" ng-change=weekly() />
-							Weekly
-						</label> <label for="monthly"> <input id="monthly" type="radio"
-							checked="checked" name="weekly" value="monthly" ng-model="range"
-							ng-change=monthly() />Monthly
-						</label> -->
-
-						<input type="radio" name="radiog_lite" id="weekly"
-							class="css-checkbox" checked="checked" name="weekly" value="weekly" ng-model="range" ng-change=weekly() /> <label for="weekly"
-							class="css-label radGroup1">Weekly</label> 
-						<input type="radio"
-						name="radiog_lite" id="monthly" class="css-checkbox"  name="weekly" value="monthly" ng-model="range"
-							ng-change=monthly() />
-						<label for="monthly" class="css-label radGroup1">Monthly</label>
+							<label for="weekly" class="css-label radGroup1">Weekly
+						</label>
 						
-						<!-- <div class="radio">
-                                 <label for="weekly">
-                                   <input id="weekly" type="radio" name="weekly" value="weekly" checked="checked" ng-model="range" ng-change=weekly()/>
-                                 Weekly
-                                 </label>
-                                 <label for="monthly">
-                                   <input id="monthly" type="radio" name="weekly" value="monthly" ng-model="range" ng-change=monthly()/>
-                                 Monthly
-                                 </label>
-                               </div> -->
+						
+						<input class="css-checkbox" id="monthly" type="radio"
+							checked="checked" name="weekly" value="monthly" ng-model="range"
+							ng-change=monthly() /> <label for="monthly" class="css-label radGroup1"> Monthly
+						</label>
+						
 						</p>
-					</div>
+					</div> 
+					
+					
 				</div>
 
 
