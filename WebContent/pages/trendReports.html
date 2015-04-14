@@ -146,49 +146,9 @@ padding:2px;
 
 
 
-
-				<!-- <div class="col-sm-3 form-group" style="display: none;">
-								 	<p class="input-group">
-										<input type="text" id="fromdate" class="form-control"
-											datepicker-popup="{{format}}" ng-model="minDate" is-open="startOpened"
-											
-											min-date="minStartDate" 
-           									max-date="maxStartDate"
-											datepicker-options="dateOptions"
-											date-disabled="disabled(date, mode)" 
-											close-text="Close" /> <span class="input-group-btn">
-											<button type="button" class="btn btn-default"
-												ng-click="openFromDate()">
-												<i class="glyphicon glyphicon-calendar"></i>
-											</button>
-										</span>
-									</p>
-									</div> -->
-
-				<!-- <div class="col-sm-3 form-group" style="display: none;">
-									<p class="input-group">
-										<input type="text" id="todate" class="form-control"
-											datepicker-popup="{{format}}" ng-model="maxDate" is-open="endOpened"
-											
-											min-date="minEndDate" 
-           									max-date="maxEndDate"
-											datepicker-options="dateOptions"
-											date-disabled="disabled(date, mode)" ng-required="true"
-											close-text="Close" /> <span class="input-group-btn">
-											<button type="button" class="btn btn-default"
-												ng-click="openToDate()">
-												<i class="glyphicon glyphicon-calendar"></i>
-											</button>
-										</span>
-									</p>
-									
-									
-									</div>  -->
-
-
 				<div class="col-sm-3 form-group">
-					<button type="button" class="btn btn-primary"
-						ng-click="generateCharts()">Generate Reports</button>
+					<button type="button" class="btn btn-primary glyphicon glyphicon-stats" ng-disabled="false"
+						ng-click="generateCharts()"></button>
 				</div>
 
 <div class="col-sm-12 form-group">

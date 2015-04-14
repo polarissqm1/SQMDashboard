@@ -21,16 +21,28 @@
 		//Flot Pie Chart
 		$(document).ready(function() {
 			
-			/*$http.get("dash/dashboard/getApplicationsList").success(function(response){
-				$rootScope.applicationList=response.entity;
-				alert("Application List is"+$rootScope.applicationList);
-				alert(JSON.stringify(response));
-			});*/
-
+			$http.get("dash/dashboard/getApplicationsList").success(function(response){
+				 $rootScope.applicationList =[];
+				for(var i=0; i<response.entity.length; i++){
+					$rootScope.applicationList=response.entity[i];
+				}
+				//alert("Application List is"+$rootScope.applicationList);
+				//alert(JSON.stringify(response));
+			});
+			
+			
 			$("#applicationCombo").on("change", "#application", function(event) {
 				$rootScope.selectedProjectName = $("#application").val();
+				//alert($rootScope.selectedProjectName);
+				
+				if($rootScope.selectedProjectName == '') {
+					//alert("no application selected");
+					window.location.href='index.html'
+				}
+				else if($rootScope.selectedProjectName) {
 				validateVersions();
 				
+				}
 				
 				
 			});
@@ -44,107 +56,80 @@
 
 		});
 		
-		$scope.init =$http.get("dash/dashboard/getLandingInfo?projectName=" + $rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName)
-		 .success(function(response){
-			 //alert(JSON.stringify(response));
-			if($("#application").val() && $("#release").val() ){
-					$scope.enableChart=true;
-				}
-				else{
-					$scope.enableChart=false;
-				}
-				
-			 /*plotRagChart(response.entity.ragVO);
-			 plotManualChart(response.entity.manualVO);
-			 
-			 plotAutomatedChart(response.entity.automationVO);
-			 plotDefectStatusChart(response.entity.severityVO);
-			 plotDistributionChart(response.entity.effortsVO);
-				*/
-			if(response.entity.automationVO.passed == 0 && response.entity.automationVO.failed == 0 && response.entity.automationVO.noRun == 0 && response.entity.automationVO.blocked == 0 && response.entity.automationVO.deferred == 0){
- 				
-				 
-				 
-				 noData("#automation-pie-chart","Automated Execution Status");
-				 
-				 
-				 if(response.entity.manualVO.passed == 0 && response.entity.manualVO.failed == 0 && response.entity.manualVO.noRun == 0 && response.entity.manualVO.blocked == 0 && response.entity.manualVO.deferred == 0){
-		 				
-						
-					 noData("#manual-pie-chart","Manual Execution Status");
-				 }
-				 else{
-					 plotManualChart(response.entity.manualVO);
-				 }
-				 
-				 plotRagChart();
-				
-				 /*plotDefectStatusChart(response.entity.severityVO);*/
-				 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
-				 plotDistributionChart(response.entity.effortsVO);
-				 noData();
-				
-			 }
-			 
-			 else {
-				 
-		 
-			 plotRagChart();
-			 plotManualChart(response.entity.manualVO);
-			 
-			 plotAutomatedChart(response.entity.automationVO);
-			 /*plotDefectStatusChart(response.entity.severityVO);*/
-			 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
-			 plotDistributionChart(response.entity.effortsVO);
-			 }
-				
-			
-			
-		 });
+		
 		
 		function validateVersions(){
 
 			var appValue=$("#application").val();
 						
 			var elem1 = document.getElementById('release');
-			/*$http.get("dash/dashboard/getReleaseList?projectName=" + $rootScope.selectedProjectName)
+			$http.get("dash/dashboard/getReleaseList?projectName=" + $rootScope.selectedProjectName)
 			 .success(function(response){
-			    //  alert("Release List is"+JSON.stringify(response));
+			   // alert("Release List is"+JSON.stringify(response));
 				 for(var i=0;i<response.entity.length;i++){
 					 elem1.options[i]=new Option(response.entity[i]);
-			*/
-			//elem1.options[1]=new Option("CFP Reporting: Sprint 2");
-			//elem1.options[2]=new Option("CFP Reporting: Sprint 3");
-			//elem1.options[1]=new Option("Cleint On Boarding Dashboard March 27 2015 release");
-			elem1.options[1]=new Option("Plexus 5.2 upgrade April release");
-			/*elem1.options[3]=new Option("Cleint On Boarding Doc Mgmt March 27 2015 release");
-			elem1.options[4]=new Option("CFP Reporting: March Release");
-			elem1.options[5]=new Option("ReMit Mar 20th release");*/
-			/*elem1.options[8]=new Option("iWatch: March release");*/
-			elem1.options[2]=new Option("iManage Mar 20 Rel");
-			//elem1.options[7]=new Option("OTCC - Mar 27 release");
+				 }
 				 
-			 
-			/*if(appValue=="PMP"){
-				
-		    	elem1.options[1]=new Option("pmpRelease1");
-		    	elem1.options[2]=new Option("pmpRelease2");
-				
-			}else if(appValue=="iwatch"){
-				elem1.options[1]=new Option("iwatchRelease1");
-		    	elem1.options[2]=new Option("iwatchRelease2");
-		    	
-			}else if(appValue=="CFPR"){
-				elem1.options[1]=new Option("cfprRelease1");
-		    	elem1.options[2]=new Option("cfprRelease2");
-			}else if(appValue=="CFT_POST_TRADE"){
-				elem1.options[1]=new Option("CFPReportingSprint2");
-
-			}else{
-				elem1=null;
-			}*/
-	/*	}
-	});*/
+				 $scope.init =$http.get("dash/dashboard/getLandingInfo?projectName=" + $rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName)
+				 .success(function(response){
+					 //alert(JSON.stringify(response));
+					if($("#application").val() && $("#release").val() ){
+							$scope.enableChart=true;
+						}
+						else{
+							$scope.enableChart=false;
+						}
+						
+					 /*plotRagChart(response.entity.ragVO);
+					 plotManualChart(response.entity.manualVO);
+					 
+					 plotAutomatedChart(response.entity.automationVO);
+					 plotDefectStatusChart(response.entity.severityVO);
+					 plotDistributionChart(response.entity.effortsVO);
+						*/
+					if(response.entity.automationVO.passed == 0 && response.entity.automationVO.failed == 0 && response.entity.automationVO.noRun == 0 && response.entity.automationVO.blocked == 0 && response.entity.automationVO.deferred == 0){
+		 				
+						 
+						 
+						 noData("#automation-pie-chart","Automated Execution Status");
+						 
+						 
+						 if(response.entity.manualVO.passed == 0 && response.entity.manualVO.failed == 0 && response.entity.manualVO.noRun == 0 && response.entity.manualVO.blocked == 0 && response.entity.manualVO.deferred == 0){
+				 				
+								
+							 noData("#manual-pie-chart","Manual Execution Status");
+						 }
+						 else{
+							 plotManualChart(response.entity.manualVO);
+						 }
+						 
+						 plotRagChart();
+						
+						 /*plotDefectStatusChart(response.entity.severityVO);*/
+						 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
+						 plotDistributionChart(response.entity.effortsVO);
+						 noData();
+						
+					 }
+					 
+					 else {
+						 
+				 
+					 plotRagChart();
+					 plotManualChart(response.entity.manualVO);
+					 
+					 plotAutomatedChart(response.entity.automationVO);
+					 /*plotDefectStatusChart(response.entity.severityVO);*/
+					 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
+					 plotDistributionChart(response.entity.effortsVO);
+					 }
+						
+					
+					
+				 });
+				 plotCharts();
+			
+			 });
 		}
 
 		function plotCharts(){

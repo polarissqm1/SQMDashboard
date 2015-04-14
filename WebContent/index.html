@@ -59,7 +59,7 @@ body {background-color: #fff; overflow:hidden}
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand"><font color="white">SQM - Dashboard </font></a>
+				<a class="navbar-brand" href="index.html" style="cursor: pointer;"><font color="white">SQM - Dashboard </font></a>
 			</div>
 
 			<!-- <ul class="nav navbar-top-links navbar-right" id="pagers">
@@ -80,16 +80,17 @@ body {background-color: #fff; overflow:hidden}
 							<div class="input-group custom-search-form">
 
 								<div class="form-group " id="applicationCombo">
-									<select id="application" ng-change="validateVersions"
+									<select id="application" ng-change="validateVersions" 
 										ng-model="application" class="form-control form-group" style="min-width: 220px;">
-										<option value="">Select Application</option>
-										<option >CFT_POST_TRADE</option>
+										<option value="">Select Application</option> 
+										<option selected="selected">{{applicationList}}</option>
 									</select>
 								</div>
-								<div class="form-group " id="releaseCombo"
+								<div class="form-group " id="releaseCombo" 
 									style="padding-top: 28px;">
-									<select class="form-control form-group" id="release">
+									<select class="form-control form-group" id="release" ng-disabled="!application" ng-model="release">
 										<option value="">Select Release</option>
+										
 
 									</select>
 								</div>
@@ -97,7 +98,8 @@ body {background-color: #fff; overflow:hidden}
 
 							</div> <!-- /input-group -->
 						</li>
-						<li ng-repeat="tab in tabList"><a
+						
+						<li ng-repeat="tab in tabList" ng-if="release; application;" ng-init="isDisabled = true"><a
 							ng-click="loadView(tab)"><i class="glyphicon glyphicon-stats" style="margin-right:5px"></i>{{tab.displayLabel}}
 								<span ng-if="tab.hasSubMenu" class="fa arrow"></span></a>
 							<ul class="nav nav-second-level" ng-if="tab.hasSubMenu">
@@ -106,7 +108,9 @@ body {background-color: #fff; overflow:hidden}
 
 								</li>
 
-							</ul></li>
+							</ul>
+						</li>
+							
 
 					</ul>
 				</div>
