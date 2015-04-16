@@ -81,32 +81,32 @@
 						}
 						
 					 /*plotRagChart(response.entity.ragVO);
-					 plotManualChart(response.entity.manualVO);
+					 plotManualChart(response.entity.manual);
 					 
-					 plotAutomatedChart(response.entity.automationVO);
+					 plotAutomatedChart(response.entity.automation);
 					 plotDefectStatusChart(response.entity.severityVO);
 					 plotDistributionChart(response.entity.effortsVO);
 						*/
-					if(response.entity.automationVO.passed == 0 && response.entity.automationVO.failed == 0 && response.entity.automationVO.noRun == 0 && response.entity.automationVO.blocked == 0 && response.entity.automationVO.deferred == 0){
+					if(response.entity.automation.Passed == 0 && response.entity.automation.Failed == 0 && response.entity.automation.noRun == 0 && response.entity.automation.Blocked == 0 && response.entity.automation.Deferred == 0){
 		 				
 						 
 						 
 						 noData("#automation-pie-chart","Automated Execution Status");
 						 
 						 
-						 if(response.entity.manualVO.passed == 0 && response.entity.manualVO.failed == 0 && response.entity.manualVO.noRun == 0 && response.entity.manualVO.blocked == 0 && response.entity.manualVO.deferred == 0){
+						 if(response.entity.manual.Passed == 0 && response.entity.manual.Failed == 0 && response.entity.manual.noRun == 0 && response.entity.manual.Blocked == 0 && response.entity.manual.Deferred == 0){
 				 				
 								
 							 noData("#manual-pie-chart","Manual Execution Status");
 						 }
 						 else{
-							 plotManualChart(response.entity.manualVO);
+							 plotManualChart(response.entity.manual);
 						 }
 						 
 						 plotRagChart();
 						
 						 /*plotDefectStatusChart(response.entity.severityVO);*/
-						 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
+						 plotDefectStatusChart(response.entity.statusAndSeverity);
 						 plotDistributionChart(response.entity.effortsVO);
 						 noData();
 						
@@ -116,11 +116,11 @@
 						 
 				 
 					 plotRagChart();
-					 plotManualChart(response.entity.manualVO);
+					 plotManualChart(response.entity.manual);
 					 
-					 plotAutomatedChart(response.entity.automationVO);
+					 plotAutomatedChart(response.entity.automation);
 					 /*plotDefectStatusChart(response.entity.severityVO);*/
-					 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
+					 plotDefectStatusChart(response.entity.statusAndSeverity);
 					 plotDistributionChart(response.entity.effortsVO);
 					 }
 						
@@ -150,34 +150,34 @@
 			 .success(function(response){
 				
 				/* plotRagChart();
-				 plotManualChart(JSON.stringify(response.entity.manualVO));
-				 plotAutomatedChart(response.entity.automationVO);
+				 plotManualChart(JSON.stringify(response.entity.manual));
+				 plotAutomatedChart(response.entity.automation);
 				 plotDefectStatusChart(response.entity.severityVO);
-				 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
+				 plotDefectStatusChart(response.entity.statusAndSeverity[6]);
 				 plotDistributionChart(response.entity.effortsVO);*/
 				 
 				
 				 
-				 if(response.entity.automationVO.passed == 0 && response.entity.automationVO.failed == 0 && response.entity.automationVO.noRun == 0 && response.entity.automationVO.blocked == 0 && response.entity.automationVO.deferred == 0){
+				 if(response.entity.automation.Passed == 0 && response.entity.automation.Failed == 0 && response.entity.automation.noRun == 0 && response.entity.automation.Blocked == 0 && response.entity.automation.Deferred == 0){
 					 				
 					 
 					 
 					 noData("#automation-pie-chart","Automated Execution Status");
 					 
 					 
-					 if(response.entity.manualVO.passed == 0 && response.entity.manualVO.failed == 0 && response.entity.manualVO.noRun == 0 && response.entity.manualVO.blocked == 0 && response.entity.manualVO.deferred == 0){
+					 if(response.entity.manual.Passed == 0 && response.entity.manual.Failed == 0 && response.entity.manual.noRun == 0 && response.entity.manual.Blocked == 0 && response.entity.manual.Deferred == 0){
 			 				
 							
 						 noData("#manual-pie-chart","Manual Execution Status");
 					 }
 					 else{
-						 plotManualChart(response.entity.manualVO);
+						 plotManualChart(response.entity.manual);
 					 }
 					 
 					 plotRagChart();
 					
 					 /*plotDefectStatusChart(response.entity.severityVO);*/
-					 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
+					 plotDefectStatusChart(response.entity.statusAndSeverity);
 					 plotDistributionChart(response.entity.effortsVO);
 					 noData();
 					
@@ -187,11 +187,11 @@
 					 
 			 
 				 plotRagChart();
-				 plotManualChart(response.entity.manualVO);
+				 plotManualChart(response.entity.manual);
 				 
-				 plotAutomatedChart(response.entity.automationVO);
+				 plotAutomatedChart(response.entity.automation);
 				 /*plotDefectStatusChart(response.entity.severityVO);*/
-				 plotDefectStatusChart(response.entity.statusAndSeverityVO[6]);
+				 plotDefectStatusChart(response.entity.statusAndSeverity);
 				 plotDistributionChart(response.entity.effortsVO);
 				 }
 				
@@ -294,11 +294,11 @@
 
 			
 			var manual = [
-			              ["Passed",parseInt(response.passed)],
-			              ["Failed",parseInt(response.failed)],
+			              ["Passed",parseInt(response.Passed)],
+			              ["Failed",parseInt(response.Failed)],
 			              ["No Run",parseInt(response.noRun)],
-			              ["Blocked",parseInt(response.blocked)],
-			              ["Deferred",parseInt(response.deferred)]
+			              ["Blocked",parseInt(response.Blocked)],
+			              ["Deferred",parseInt(response.Deferred)]
 			              ];
 			
 			
@@ -373,11 +373,11 @@
 		function plotAutomatedChart(response){
 
 			var auto = [
-			              ["Passed",parseInt(response.passed)],
-			              ["Failed",parseInt(response.failed)],
+			              ["Passed",parseInt(response.Passed)],
+			              ["Failed",parseInt(response.Failed)],
 			              ["No Run",parseInt(response.noRun)],
-			              ["Blocked",parseInt(response.blocked)],
-			              ["Deferred",parseInt(response.deferred)]
+			              ["Blocked",parseInt(response.Blocked)],
+			              ["Deferred",parseInt(response.Deferred)]
 			              ];
 			
 			$('#automation-pie-chart')

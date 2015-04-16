@@ -68,7 +68,7 @@ padding:2px;
 
 
 				<!-- Weekly Datepicker -->
-
+<ng-form name="myForm">
 				<div id="weeklyweekly" class="desc" style="display: none;"
 					ng-init="weeklyDatepicker()">
 					<div class="col-sm-3 form-group">
@@ -142,19 +142,20 @@ padding:2px;
 
 				</div>
 
-
+</ng-form>
 
 
 
 				<div class="col-sm-3 form-group">
-					<button type="button" class="btn btn-primary glyphicon glyphicon-stats" ng-disabled="false"
-						ng-click="generateCharts()"></button>
+					<button type="button" class="btn btn-primary glyphicon glyphicon-stats" 
+						ng-click="generateCharts()" ng-disabled="myForm.$pristine"></button>
 				</div>
 
 <div class="col-sm-12 form-group">
 	<div id="dialog" title="Trend Reports Chart">
 		<div id="char">
-		</div>
+		</div><div id="info">
+	</div>
 	</div>
 </div>
 				<!-- Trend Charts -->

@@ -61,7 +61,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 	}
 
 	@Override
-	public Response getLandingInfo(String project,String release) throws Exception {
+	public ArrayList getLandingInfo(String project,String release) throws Exception {
 		// TODO Auto-generated method stub
 		
 		
@@ -130,7 +130,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 
 						 java.lang.reflect.Type listTypestatus = new TypeToken<ArrayList<StatusAndSeverityVO>>() {}.getType();
 						 /*List<StatusAndSeverityVO> statusVO=new Gson().fromJson(report.get("statusAndSeverity").toString(), listTypestatus);*/
-						 List<StatusAndSeverityVO> statusVO=(List<StatusAndSeverityVO>)new Gson().fromJson(report.get("statusAndSeverity").toString(), Object.class);
+						 List<StatusAndSeverityVO> statusVO=(List<StatusAndSeverityVO>)new Gson().fromJson(report.get("statusAndSeverity").toString(), listTypestatus);
 						 java.lang.reflect.Type listTypeTest = new TypeToken<ArrayList<TestCaseExecutionStatusVO>>() {}.getType();
 						// List<TestCaseExecutionStatusVO> testCaseVO=new Gson().fromJson(report.get("manual_TCExecutionStatus").toString(), listTypeTest);
 						 List<TestCaseExecutionStatusVO> testCaseVO=new ArrayList<TestCaseExecutionStatusVO>();
@@ -244,7 +244,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 					dashVO.setTestCaseExecutionStatusVO(testCaseVO);
 					for(TestCaseExecutionStatusVO tr:testCaseVO){
 						System.out.println(tr.toString());
-					}
+					  }
 						dashVO.setRdate(report.get("UpdatedOn").toString());
 						//dashVO.setPlan(report.get("plan").toString());
 						list.add(dashVO);
@@ -288,8 +288,7 @@ public class DashboardDAOImpl implements DashboardDAO {
 					cursor.close();
 					//table.getDB().getMongo().close();
 				}
-		 Response.ResponseBuilder response = Response.ok(dashVO);
-		return response.build();
+		return list;
 	}
 	
 	

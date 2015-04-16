@@ -53,6 +53,26 @@ dashboardApp
 						        }
 						      });
 						    
+						    $( "#info" ).dialog({
+						        autoOpen: false,
+						        width: 250,
+						        height: 'auto',
+						        modal: false,
+						        fluid: true, //new option
+						        resizable: false,
+						       
+						       
+						        //width : 'auto',
+						        show: {
+						          effect: "fadein",
+						          duration: 300
+						        },
+						        hide: {
+						          effect: "fadeout",
+						          duration: 100
+						        }
+						      });
+						    
 					
 						}); // JQuery onReady END
 						
@@ -554,7 +574,78 @@ dashboardApp
 								    total_medium_z = total_medium;
 								    total_low_z = total_low;
 							        
-							        $scope.plotDefectsOpenClosed(rdate,open,closed);
+if(rdate == 0 && open == 0 && closed == 0){
+								    	
+								    	noData("#defectsopen","Defects");
+								    	
+								    }
+								    
+								    else{
+								    	$scope.plotDefectsOpenClosed(rdate,open,closed);
+								    }
+								    
+								    if(rdate == 0 && defectDensity == 0){
+								    	noData("#defectdensity","Defect Density");
+								    }
+								    
+								    else{
+							        
+									$scope.plotDefectDensity(rdate,defectDensity);
+									
+								    }
+								    
+								    if(rdate == 0 && defectAccept == 0){
+								    	noData("#defectaccept","Defect Acceptance Rate");
+								    }
+								    
+								    else{
+							        
+								    	$scope.plotDefectAccept(rdate,defectAccept);
+									
+								    }
+								    if(rdate == 0 && badFix == 0){
+								    	noData("#badfix","Bad Fixes");
+								    }
+								    
+								    else{
+							        
+								    	$scope.plotBadFix(rdate,badFix);
+									
+								    }
+								    if(rdate == 0 && defectSeverityIndex == 0){
+								    	noData("#defectdensityindex","Defect Severity Index");
+								    }
+								    
+								    else{
+							        
+								    	$scope.plotDefectSeverityIndex(rdate,defectSeverityIndex);
+									
+								    }
+								    if(rdate == 0 && passed == 0 && failed == 0){
+								    	noData("#testcasestat","Test Case Status");
+								    }
+								    
+								    else{
+							        
+								    	$scope.plotTestCaseStatChart(rdate,passed,failed);
+									
+								    }
+								    if(total_urgent == 0 && total_high == 0 && total_medium == 0 && total_low == 0){
+								    	noData("#defectseveritybreak","Defect Severity Breakup");
+								    }
+								    
+								    else{
+							        
+								    	$scope.plotDefectSeverityBreakUp(total_urgent,total_high,total_medium,total_low);
+									
+								    }
+								    var plan=parseInt(response2.entity[0].planned);
+								    $scope.plotChart(actual,rdate,plan);
+								    
+								   
+								  
+								    
+							     /*   $scope.plotDefectsOpenClosed(rdate,open,closed);
 									$scope.plotDefectDensity(rdate,defectDensity);
 									$scope.plotBadFix(rdate,badFix);
 									$scope.plotDefectAccept(rdate,defectAccept);
@@ -562,7 +653,7 @@ dashboardApp
 									$scope.plotTestCaseStatChart(rdate,passed,failed);
 									$scope.plotDefectSeverityBreakUp(total_urgent,total_high,total_medium,total_low);
 									var plan=parseInt(response2.entity[0].planned);
-									$scope.plotChart(actual,rdate,plan);
+									$scope.plotChart(actual,rdate,plan);*/
 								}
 						        					
 								});		
@@ -944,6 +1035,19 @@ dashboardApp
 									                	$( "#dialog" ).dialog( "open" );
 														$scope.defectDensity(rda,defectDensity_z);
 									                }
+									            },
+									            infoButton: {
+									                /*text: 'zoomz',*/
+									            	
+									            	symbol: 'url(images/info_button.gif)',
+									            	
+									            	onclick:function(e){
+									            		 //alert("hELLO"); 
+									            		 $("#info").dialog('option', 'title', 'Defect Density');
+									            		 $( "#info" ).dialog( "open" );
+									            		 $( "#info" ).html("<h5>Defect Density=Total defects/Total testcases</h5>");
+									            	 }
+									            	
 									            }
 									        }
 									    } //export button end
@@ -1026,6 +1130,18 @@ dashboardApp
 									                	$( "#dialog" ).dialog( "open" );
 														$scope.defectSeverityIndex(rda,defectSeverityIndex_z);
 									                }
+									            },
+									            infoButton: {
+									                /*text: 'zoomz',*/
+									            	x:-49,
+									            	symbol: 'url(images/info_button.gif)',
+									            	 onclick:function(){
+									            		 //alert("hELLO");
+									            		 $("#info").dialog('option', 'title', 'Defect Severity Index');
+									            		 $( "#info" ).dialog( "open" );
+									            		 $( "#info" ).html("<h5>DSI=sum of(defect severity level*severity count)/total defects</h5>");
+									            	 }
+									            	
 									            }
 									        }
 									    } //export button end
@@ -1122,6 +1238,18 @@ dashboardApp
 									                	$( "#dialog" ).dialog( "open" );
 														$scope.badFix(rda,badFix_z);
 									                }
+									            },
+									            infoButton: {
+									                /*text: 'zoomz',*/
+									            	
+									            	symbol: 'url(images/info_button.gif)',
+									            	 onclick:function(){
+									            		 //alert("hELLO");
+									            		 $("#info").dialog('option', 'title', 'Bad Fix');
+									            		 $( "#info" ).dialog( "open" );
+									            		 $( "#info" ).html("<h5>Bad Fix=(Re-opened Defects/total defects)*100</h5>");
+									            	 }
+									            	
 									            }
 									        }
 									    } //export button end
@@ -1207,6 +1335,18 @@ dashboardApp
 									                	$( "#dialog" ).dialog( "open" );
 														$scope.defectAccept(rda,defectAccept_z);
 									                }
+									            },
+									            infoButton: {
+									                /*text: 'zoomz',*/
+									            	x:-52,
+									            	symbol: 'url(images/info_button.gif)',
+									            	 onclick:function(){
+									            		 //alert("hELLO"); 
+									            		 $("#info").dialog('option', 'title', 'Defect Accept');
+									            		 $( "#info" ).dialog( "open" );
+									            		 $( "#info" ).html("<h5>Defects Accept=1-(defects rejected/total defects)</h5>");
+									            	 }
+									            	
 									            }
 									        }
 									    } //export button end
@@ -1320,6 +1460,18 @@ dashboardApp
 												                	$( "#dialog" ).dialog( "open" );
 																	$scope.defectAgeing(response_z);
 												                }
+												            },
+												            infoButton: {
+												                /*text: 'zoomz',*/
+												            	
+												            	symbol: 'url(images/info_button.gif)',
+												            	 onclick:function(){
+												            		 //alert("hELLO");
+												            		 $("#info").dialog('option', 'title', 'Defect Ageing');
+												            		 $( "#info" ).dialog( "open" );
+												            		 $( "#info" ).html("<h5>Defect ageing=(defect fixed date-defect detected date)</h5>");
+												            	 }
+												            	
 												            }
 												        }
 												    } //export button end
@@ -1681,6 +1833,18 @@ dashboardApp
 												                	$( "#dialog" ).dialog( "open" );
 																	$scope.defectAgeingOpen(response_z);
 												                }
+												            },
+												            infoButton: {
+												                /*text: 'zoomz',*/
+												            	
+												            	symbol: 'url(images/info_button.gif)',
+												            	 onclick:function(){
+												            		 //alert("hELLO");
+												            		 $("#info").dialog('option', 'title', 'Defect Ageing');
+												            		 $( "#info" ).dialog( "open" );
+												            		 $( "#info" ).html("<h5>Defect ageing=(defect fixed date-defect detected date)</h5>");
+												            	 }
+												            	
 												            }
 												        }
 												    } //export button end
@@ -2484,5 +2648,17 @@ dashboardApp
 											        ]
 											});
 						};
+						
+function noData(id,title){
+							
+							
+							$(id).html("<div class='flot-chart-content'><div><text x='278' text-anchor='middle' class='highcharts-title' style='color:#428bca;font-size:medium;font-weight:bold;fill:#428bca;width:491px;' y='22'><tspan>"+title+"</tspan></text></div><img class='img-responsive' src='images/nodata3.jpg' width='650' height='400' align='middle'/></div>");
+
+							
+				           
+						}						
+						
+
+						
 });
 				
