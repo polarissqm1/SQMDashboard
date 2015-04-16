@@ -84,8 +84,26 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 			 $scope.plottcsChart(); 
 		}
 		
-		 $scope.plotstatusWiseChart();
-		 $scope.plotseverityWiseChart();
+        if(parseInt($scope.names[0].Total) == 0 && parseInt($scope.names[1].Total) == 0 && parseInt($scope.names[2].Total) == 0 && parseInt($scope.names[3].Total) == 0 && parseInt($scope.names[4].Total) == 0){
+			
+			$scope.noData("#statusWise","Overall Defects - Status Wise");
+		}	
+		//$scope.check();
+		else{
+			
+			$scope.plotstatusWiseChart();
+		}
+        if(parseInt($scope.names[6].Urgent) == 0 && parseInt($scope.names[6].High) == 0 && parseInt($scope.names[6].Medium) == 0 && parseInt($scope.names[6].Low) == 0){
+			
+			$scope.noData("#severityWise","Overall Defects - Severity Wise");
+		}	
+		//$scope.check();
+		else{
+			
+			$scope.plotseverityWiseChart();
+		}
+		 
+		 
 		}	
 	});
 	
@@ -136,15 +154,34 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
        		              ];
         		//$scope.check();
         		if(parseInt($scope.tcstatus[0].percentage) == 0 && parseInt($scope.tcstatus[1].percentage) == 0 && parseInt($scope.tcstatus[2].percentage) == 0 && parseInt($scope.tcstatus[3].percentage) == 0 && parseInt($scope.tcstatus[4].percentage) == 0){
+        			
         			$scope.noData("#tcsChart","Overall Testcase Excecution");
         		}	
         		//$scope.check();
         		else{
+        			
         			 $scope.plottcsChart(); 
-        		} 
-        		 $scope.plotstatusWiseChart();
-        		 $scope.plotseverityWiseChart();
         		}
+        		
+                if(parseInt($scope.names[0].Total) == 0 && parseInt($scope.names[1].Total) == 0 && parseInt($scope.names[2].Total) == 0 && parseInt($scope.names[3].Total) == 0 && parseInt($scope.names[4].Total) == 0){
+        			
+        			$scope.noData("#statusWise","Overall Defects - Status Wise");
+        		}	
+        		//$scope.check();
+        		else{
+        			
+        			$scope.plotstatusWiseChart();
+        		}
+                if(parseInt($scope.names[6].Urgent) == 0 && parseInt($scope.names[6].High) == 0 && parseInt($scope.names[6].Medium) == 0 && parseInt($scope.names[6].Low) == 0){
+        			
+        			$scope.noData("#severityWise","Overall Defects - Severity Wise");
+        		}	
+        		//$scope.check();
+        		else{
+        			
+        			$scope.plotseverityWiseChart();
+        		}
+        	} 
         	});
 	};
             

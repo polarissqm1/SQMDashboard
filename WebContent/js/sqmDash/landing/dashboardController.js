@@ -92,6 +92,10 @@
 						 
 						 
 						 noData("#automation-pie-chart","Automated Execution Status");
+					}
+					else{
+						plotAutomatedChart(response.entity.automation);
+					}
 						 
 						 
 						 if(response.entity.manual.Passed == 0 && response.entity.manual.Failed == 0 && response.entity.manual.noRun == 0 && response.entity.manual.Blocked == 0 && response.entity.manual.Deferred == 0){
@@ -103,27 +107,19 @@
 							 plotManualChart(response.entity.manual);
 						 }
 						 
-						 plotRagChart();
+					if(response.entity.statusAndSeverity.Urgent == 0 && response.entity.statusAndSeverity.High == 0 && response.entity.statusAndSeverity.Low == 0 && response.entity.statusAndSeverity.Medium == 0){
 						
-						 /*plotDefectStatusChart(response.entity.severityVO);*/
-						 plotDefectStatusChart(response.entity.statusAndSeverity);
-						 plotDistributionChart(response.entity.effortsVO);
-						 noData();
+						noData("#opendefect-pie-chart","Open Defect Status");
 						
+					}
+					else{
+							plotDefectStatusChart(response.entity.statusAndSeverity);
 					 }
-					 
-					 else {
 						 
-				 
-					 plotRagChart();
-					 plotManualChart(response.entity.manual);
-					 
-					 plotAutomatedChart(response.entity.automation);
-					 /*plotDefectStatusChart(response.entity.severityVO);*/
-					 plotDefectStatusChart(response.entity.statusAndSeverity);
-					 plotDistributionChart(response.entity.effortsVO);
-					 }
-						
+						 plotRagChart();
+						 plotDistributionChart(response.entity.effortsVO);
+					
+				
 					
 					
 				 });
@@ -159,10 +155,14 @@
 				
 				 
 				 if(response.entity.automation.Passed == 0 && response.entity.automation.Failed == 0 && response.entity.automation.noRun == 0 && response.entity.automation.Blocked == 0 && response.entity.automation.Deferred == 0){
-					 				
+		 				
 					 
 					 
 					 noData("#automation-pie-chart","Automated Execution Status");
+				}
+				else{
+					plotAutomatedChart(response.entity.automation);
+				}
 					 
 					 
 					 if(response.entity.manual.Passed == 0 && response.entity.manual.Failed == 0 && response.entity.manual.noRun == 0 && response.entity.manual.Blocked == 0 && response.entity.manual.Deferred == 0){
@@ -174,29 +174,19 @@
 						 plotManualChart(response.entity.manual);
 					 }
 					 
-					 plotRagChart();
+				if(response.entity.statusAndSeverity.Urgent == 0 && response.entity.statusAndSeverity.High == 0 && response.entity.statusAndSeverity.Low == 0 && response.entity.statusAndSeverity.Medium == 0){
 					
-					 /*plotDefectStatusChart(response.entity.severityVO);*/
-					 plotDefectStatusChart(response.entity.statusAndSeverity);
-					 plotDistributionChart(response.entity.effortsVO);
-					 noData();
+					noData("#opendefect-pie-chart","Open Defect Status");
 					
+				}
+				else{
+						plotDefectStatusChart(response.entity.statusAndSeverity);
 				 }
-				 
-				 else {
 					 
-			 
-				 plotRagChart();
-				 plotManualChart(response.entity.manual);
-				 
-				 plotAutomatedChart(response.entity.automation);
-				 /*plotDefectStatusChart(response.entity.severityVO);*/
-				 plotDefectStatusChart(response.entity.statusAndSeverity);
-				 plotDistributionChart(response.entity.effortsVO);
-				 }
+					 plotRagChart();
+					 plotDistributionChart(response.entity.effortsVO);
 				
-			 });		
-			 
+			 });
 			
 			
 		}
