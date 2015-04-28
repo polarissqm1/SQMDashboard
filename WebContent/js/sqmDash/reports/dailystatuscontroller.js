@@ -40,6 +40,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 			$("#topGrid").hide();
 			$("#bottomGrid").hide();
 			$("#middle2").hide();
+			$scope.dd='--';
 		}
 		else if(!response.entity.statusAndSeverityVO){
 			$("#tcsChart").hide();
@@ -48,6 +49,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 			$("#topGrid").hide();
 			$("#bottomGrid").hide();
 			$("#middle2").hide();
+			$scope.dsi='--';
 		}else {
 			$("#topGrid").show();
 			$("#middle2").show();
@@ -64,7 +66,12 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
 			$scope.dd=Math.round((parseInt($scope.names[5].Total)/parseInt($scope.tcstatus[5].count)*1000))/1000;	
 		}
 		
+		if(parseInt($scope.names[5].Total)==0){
+			$scope.dsi='--';
+		}
+		else{
 		$scope.dsi=Math.round(((4*parseInt($scope.names[5].Urgent)+3*parseInt($scope.names[5].High)+2*parseInt($scope.names[5].Medium)+parseInt($scope.names[5].Low))/parseInt($scope.names[5].Total)*100))/100;
+		}
 		$scope.tcsData= [
 		                  [$scope.tcstatus[0].status,   parseInt($scope.tcstatus[0].percentage)],
 		                  [$scope.tcstatus[1].status,       parseInt($scope.tcstatus[1].percentage)],
@@ -119,6 +126,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
         			$("#topGrid").hide();
         			$("#bottomGrid").hide();
         			$("#middle2").hide();
+        			$scope.dd='--';
         		}
         		else if(!response.entity.statusAndSeverityVO){
         			$("#tcsChart").hide();
@@ -127,6 +135,7 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
         			$("#topGrid").hide();
         			$("#bottomGrid").hide();
         			$("#middle2").hide();
+        			$scope.dsi='--';
         		}else{
         			$("#topGrid").show();
         			$("#middle2").show();
@@ -142,7 +151,12 @@ dashboardApp.controller('dailystatuscontroller', function($scope,$http,$rootScop
         		else{
         			$scope.dd=Math.round((parseInt($scope.names[5].Total)/parseInt($scope.tcstatus[5].count)*1000))/1000;	
         		}
+        		if(parseInt($scope.names[5].Total)==0){
+        			$scope.dsi='--';
+        		}
+        		else{
         		$scope.dsi=Math.round(((4*parseInt($scope.names[5].Urgent)+3*parseInt($scope.names[5].High)+2*parseInt($scope.names[5].Medium)+parseInt($scope.names[5].Low))/parseInt($scope.names[5].Total)*100))/100;
+        		}
         		$scope.tcsData= [
        		                  [$scope.tcstatus[0].status,   parseInt($scope.tcstatus[0].percentage)],
        		                  [$scope.tcstatus[1].status,       parseInt($scope.tcstatus[1].percentage)],

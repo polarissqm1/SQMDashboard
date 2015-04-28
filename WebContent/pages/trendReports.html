@@ -37,7 +37,9 @@ padding:2px;
 			<small id="pagers" ng-init="onTRload()">{{fromdate}} to {{todate}}</small>
 			</h3>
 	    </legend>
-
+<div>
+<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+</div>
 
 
 
@@ -68,12 +70,13 @@ padding:2px;
 
 
 				<!-- Weekly Datepicker -->
-<ng-form name="myForm">
+	<ng-form name="myForm">
+
 				<div id="weeklyweekly" class="desc" style="display: none;"
-					ng-init="weeklyDatepicker()">
+					ng-init="weeklyDatepicker()" >
 					<div class="col-sm-3 form-group">
 						<p class="input-group">
-							<input type="text" id="fromdate" class="form-control"
+							<input type="text" id="fromdate" name="minDate" class="form-control" ng-readonly="true"
 								datepicker-popup="{{format}}" ng-model="minDate"
 								is-open="startOpened" min-date="minStartDate"
 								max-date="maxStartDate" datepicker-options="dateOptions"
@@ -87,9 +90,11 @@ padding:2px;
 					</div>
 					</p>
 
+
+
 					<div class="col-sm-3 form-group">
 						<p class="input-group">
-							<input type="text" id="todate" class="form-control"
+							<input type="text" id="todate"  class="form-control" ng-readonly="true"
 								datepicker-popup="{{format}}" ng-model="maxDate"
 								is-open="endOpened" min-date="minEndDate" max-date="maxEndDate"
 								datepicker-options="dateOptions"
@@ -102,15 +107,16 @@ padding:2px;
 							</span>
 						</p>
 					</div>
-				</div>
-
+				
+</div>
 
 				<!-- Monthly Datepicker -->
+
 
 				<div id="weeklymonthly" class="desc" ng-init="monthlyDatepicker()">
 					<div class="col-sm-3 form-group">
 						<p class="input-group">
-							<input type="text" id="fromdate1" class="form-control"
+							<input type="text" id="fromdate1" name="minDate1" class="form-control" ng-readonly="true"
 								datepicker-popup="{{format}}" ng-model="minDate1"
 								is-open="startOpened1" min-date="minStartDate1"
 								max-date="maxStartDate1" datepicker-options="dateOptions1"
@@ -126,7 +132,7 @@ padding:2px;
 
 					<div class="col-sm-3 form-group">
 						<p class="input-group">
-							<input type="text" id="todate1" class="form-control"
+							<input type="text" id="todate1" class="form-control" ng-readonly="true"
 								datepicker-popup="{{format}}" ng-model="maxDate1"
 								is-open="endOpened1" min-date="minEndDate1"
 								max-date="maxEndDate1" datepicker-options="dateOptions1"
@@ -139,16 +145,19 @@ padding:2px;
 							</span>
 						</p>
 					</div>
+					
+					
 
 				</div>
+
 
 </ng-form>
 
 
 
 				<div class="col-sm-3 form-group">
-					<button type="button" class="btn btn-primary glyphicon glyphicon-stats" 
-						ng-click="generateCharts()" ng-disabled="myForm.$pristine"></button>
+				  <button type="button" class="btn btn-primary glyphicon glyphicon-stats" ng-click="generateCharts()" ng-disabled="(((range != 'weekly') || (myForm.minDate.$pristine)) && ((range != 'monthly') || (myForm.minDate1.$pristine)))"></button> 
+			
 				</div>
 
 <div class="col-sm-12 form-group">

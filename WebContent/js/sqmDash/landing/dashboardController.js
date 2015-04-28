@@ -53,6 +53,66 @@
 				
 			});
 			
+			$( "#refresh" ).click(function() {
+				 $scope.init =$http.get("dash/dashboard/getLandingInfo?projectName=" + $rootScope.selectedProjectName+"&releaseName="+$rootScope.selectedReleaseName)
+				 .success(function(response){
+					 //alert(JSON.stringify(response));
+					 
+					 if(!response){
+						 alert('Database is down');
+					 }
+					if($("#application").val() && $("#release").val() ){
+							$scope.enableChart=true;
+						}
+						else{
+							$scope.enableChart=false;
+						}
+						
+					 /*plotRagChart(response.entity.ragVO);
+					 plotManualChart(response.entity.manual);
+					 
+					 plotAutomatedChart(response.entity.automation);
+					 plotDefectStatusChart(response.entity.severityVO);
+					 plotDistributionChart(response.entity.effortsVO);
+						*/
+					if(response.entity.automation.Passed == 0 && response.entity.automation.Failed == 0 && response.entity.automation.noRun == 0 && response.entity.automation.Blocked == 0 && response.entity.automation.Deferred == 0){
+		 				
+						 
+						 
+						 noData("#automation-pie-chart","Automated Execution Status");
+					}
+					else{
+						plotAutomatedChart(response.entity.automation);
+					}
+						 
+						 
+						 if(response.entity.manual.Passed == 0 && response.entity.manual.Failed == 0 && response.entity.manual.noRun == 0 && response.entity.manual.Blocked == 0 && response.entity.manual.Deferred == 0){
+				 				
+								
+							 noData("#manual-pie-chart","Manual Execution Status");
+						 }
+						 else{
+							 plotManualChart(response.entity.manual);
+						 }
+						 
+					if(response.entity.statusAndSeverity.Urgent == 0 && response.entity.statusAndSeverity.High == 0 && response.entity.statusAndSeverity.Low == 0 && response.entity.statusAndSeverity.Medium == 0){
+						
+						noData("#opendefect-pie-chart","Open Defect Status");
+						
+					}
+					else{
+							plotDefectStatusChart(response.entity.statusAndSeverity);
+					 }
+						 
+						 plotRagChart();
+						 plotDistributionChart(response.entity.effortsVO);
+					
+				
+					
+					
+				 });
+				});
+			
 
 		});
 		

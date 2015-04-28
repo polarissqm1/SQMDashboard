@@ -7,7 +7,11 @@ dashboardApp
 					$scope.selectedStart=null;
 					$scope.selectedEnd=null;
 					$scope.renderChart = null;
+					$scope.alerts = [];
 					
+					$scope.closeAlert = function(index) {
+						   $scope.alerts.splice(index, 1);
+						};
 					$scope.onTRload = function() {
 						//alert("in load function");
 						$('#pagers').hide();
@@ -431,12 +435,19 @@ dashboardApp
 						$scope.generateCharts = function() {
 							 $scope.resetWeeklyDates();
 							 $scope.resetMonthlyDates();
-							$rootScope.fromdate = $("#fromdate").val();
-							$rootScope.todate = $("#todate").val();
+							 $rootScope.fromdate = $("#fromdate").val();
+								$rootScope.todate = $("#todate").val();
+								$rootScope.fromdate1 = $("#fromdate1").val();
+								$rootScope.todate1 = $("#todate1").val();
 							var fdate = $("#fromdate").val();
 							var tdate = $("#todate").val();
 							var fdate1 = $("#fromdate1").val();
 							var tdate1 = $("#todate1").val();
+							
+							var selFromDate = new Date($rootScope.fromdate);
+							var selToDate = new Date($rootScope.todate);
+							var selFromDate1 = new Date($rootScope.fromdate1);
+							var selToDate1 = new Date($rootScope.todate1);
 							
 							if ($scope.range) {
 								if ($scope.range == 'weekly') {
@@ -453,6 +464,11 @@ dashboardApp
 									$rootScope.fromDate = fd+'/'+fm+'/'+fy;
 									$scope.selectedEnd = td+'/'+tm+'/'+ty;
 									$rootScope.toDate = td+'/'+tm+'/'+ty;
+									
+									if(selFromDate > selToDate) {
+										alert("danger");
+										$scope.alerts.push({type: 'danger', msg: 'Please select appropriate Start and End dates!'});
+									}
 									
 									//alert("start date is "+$scope.selectedStart);
 									//alert("end date is "+$scope.selectedEnd);
@@ -485,7 +501,11 @@ dashboardApp
 									$rootScope.fromDate = fd1+'/'+fm1+'/'+fy1;
 									$scope.selectedEnd = td1+'/'+tm1+'/'+ty1;
 									$rootScope.toDate = td1+'/'+tm1+'/'+ty1;
-									
+									if(selFromDate1 > selToDate1) {
+										
+										$scope.alerts.push({type: 'danger',msg: 'Please select appropriate Start and End dates!'});
+
+									}
 									//alert("start date is "+$scope.selectedStart);
 									//alert("end date is "+$scope.selectedEnd);
 									}
@@ -1041,11 +1061,12 @@ if(rdate == 0 && open == 0 && closed == 0){
 									            	
 									            	symbol: 'url(images/info_button.gif)',
 									            	
-									            	onclick:function(e){
-									            		 //alert("hELLO"); 
-									            		 $("#info").dialog('option', 'title', 'Defect Density');
+									            	onclick:function(event){
+									            		 //alert("hELLO");
+									            		
+									            		$("#info").dialog('option', 'title', 'Trend Reports');
 									            		 $( "#info" ).dialog( "open" );
-									            		 $( "#info" ).html("<h5>Defect Density=Total defects/Total testcases</h5>");
+									            		 $( "#info" ).html("<center><h5><font color='#428bca'>Defect Density</font></h5></center><br/><center><h5>Defect Density=Total defects/Total testcases</h5></center>");
 									            	 }
 									            	
 									            }
@@ -1135,11 +1156,11 @@ if(rdate == 0 && open == 0 && closed == 0){
 									                /*text: 'zoomz',*/
 									            	x:-49,
 									            	symbol: 'url(images/info_button.gif)',
-									            	 onclick:function(){
+									            	onclick:function(){
 									            		 //alert("hELLO");
-									            		 $("#info").dialog('option', 'title', 'Defect Severity Index');
+									            		 $("#info").dialog('option', 'title', 'Trend Reports');
 									            		 $( "#info" ).dialog( "open" );
-									            		 $( "#info" ).html("<h5>DSI=sum of(defect severity level*severity count)/total defects</h5>");
+									            		 $( "#info" ).html("<center><h5><font color='#428bca'>Defect Severity Index</font></h5></center><br/><center><h5>DSI=sum of(defect severity level*severity count)/total defects</h5></center>");
 									            	 }
 									            	
 									            }
@@ -1243,11 +1264,11 @@ if(rdate == 0 && open == 0 && closed == 0){
 									                /*text: 'zoomz',*/
 									            	
 									            	symbol: 'url(images/info_button.gif)',
-									            	 onclick:function(){
+									            	onclick:function(){
 									            		 //alert("hELLO");
-									            		 $("#info").dialog('option', 'title', 'Bad Fix');
+									            		 $("#info").dialog('option', 'title', 'Trend Reports');
 									            		 $( "#info" ).dialog( "open" );
-									            		 $( "#info" ).html("<h5>Bad Fix=(Re-opened Defects/total defects)*100</h5>");
+									            		 $( "#info" ).html("<center><h5><font color='#428bca'>Bad Fix</font></h5></center><br/><center><h5>Bad Fix=(Re-opened Defects/total defects)*100</h5></center>");
 									            	 }
 									            	
 									            }
@@ -1340,11 +1361,11 @@ if(rdate == 0 && open == 0 && closed == 0){
 									                /*text: 'zoomz',*/
 									            	x:-52,
 									            	symbol: 'url(images/info_button.gif)',
-									            	 onclick:function(){
+									            	onclick:function(){
 									            		 //alert("hELLO"); 
-									            		 $("#info").dialog('option', 'title', 'Defect Accept');
+									            		 $("#info").dialog('option', 'title', 'Trend Reports');
 									            		 $( "#info" ).dialog( "open" );
-									            		 $( "#info" ).html("<h5>Defects Accept=1-(defects rejected/total defects)</h5>");
+									            		 $( "#info" ).html("<center><h5><font color='#428bca'>Defects Accept</font></h5></center><br/><center><h5>Defects Accept=1-(defects rejected/total defects)</h5></center>");
 									            	 }
 									            	
 									            }
@@ -1465,11 +1486,11 @@ if(rdate == 0 && open == 0 && closed == 0){
 												                /*text: 'zoomz',*/
 												            	
 												            	symbol: 'url(images/info_button.gif)',
-												            	 onclick:function(){
+												            	onclick:function(){
 												            		 //alert("hELLO");
-												            		 $("#info").dialog('option', 'title', 'Defect Ageing');
+												            		 $("#info").dialog('option', 'title', 'Trend Reports');
 												            		 $( "#info" ).dialog( "open" );
-												            		 $( "#info" ).html("<h5>Defect ageing=(defect fixed date-defect detected date)</h5>");
+												            		 $( "#info" ).html("<center><h5><font color='#428bca'>Defects Ageing</font></h5></center><br/><center><h5>Defect ageing=(defect fixed date-defect detected date)</h5></center>");
 												            	 }
 												            	
 												            }
@@ -1838,11 +1859,11 @@ if(rdate == 0 && open == 0 && closed == 0){
 												                /*text: 'zoomz',*/
 												            	
 												            	symbol: 'url(images/info_button.gif)',
-												            	 onclick:function(){
+												            	onclick:function(){
 												            		 //alert("hELLO");
-												            		 $("#info").dialog('option', 'title', 'Defect Ageing');
+												            		 $("#info").dialog('option', 'title', 'Trend Reports');
 												            		 $( "#info" ).dialog( "open" );
-												            		 $( "#info" ).html("<h5>Defect ageing=(defect fixed date-defect detected date)</h5>");
+												            		 $( "#info" ).html("<center><h5><font color='#428bca'>Defects Ageing</font></h5></center><br/><center><h5>Defect ageing=(defect fixed date-defect detected date)</h5></center>");
 												            	 }
 												            	
 												            }
